@@ -1,0 +1,2120 @@
+﻿/*********************************************************************************
+ 	NomeFile : StandCommonSrc/ReceiptAndCopiesCommons.cs
+    Data	 : 04.02.2026
+ 	Autore	 : Mauro Artuso
+
+	Classi di uso comune a DataManager.Receipt(), ViewOrdersDlg.ReceiptRebuild()<br/>
+    consente una più agevole manutenzione evitando duplicazioni
+
+    SF_Data si può utilizzare di sicuro all'interno di WriteLocalCopy
+ *********************************************************************************/
+
+using System;
+using System.IO;
+using System.Drawing;
+using static StandCommonFiles.ComDef;
+using static StandCommonFiles.CommonCl;
+
+using StandFacile;
+using static StandFacile.glb;
+using static StandFacile.Define;
+
+namespace StandCommonFiles
+{
+#pragma warning disable IDE0044
+
+    /// <summary>
+    /// definizione dei codici di errore e di warning
+    /// </summary>
+    public static class ReceiptAndCopies
+    {
+#pragma warning disable CS0649
+
+        static TErrMsg _ErrMsg;
+
+        static bool _bCtrlS_UnitQtyItems = false;
+        static bool _bPlaceSettingsOnCopies = false;
+
+#if STANDFACILE
+        static bool[] _bSelectedGroups = new bool[NUM_COPIES_GRPS];
+        static bool _bLocalPricesRequested, _bPrintSelectedOnly, _bAvoidPrintOtherGroups;
+#endif
+
+        static bool _bLogoNelleCopie, _bCassaInline, _bStarsOnUnderGroup;
+
+        static String _sNomeFileReceiptPrt;
+        static StreamWriter _fPrint;
+
+        /// <summary>
+        /// ottiene _bCtrlS_UnitQtyItems per impedire stampa del Logo,<br/>
+        /// impostato solo nel DataManager non da VisOrdini
+        /// </summary>
+        public static bool GetCtrlS_UnitQtyItems() { return _bCtrlS_UnitQtyItems; }
+
+        /// <summary>
+        /// verifica nell'ordine caricato se c'è qualcosa da stampare in ogni gruppo di stampa, imposta _bSomethingToPrintGrpParam<br/>
+        /// verifica nell'ordine caricato se c'è qualcosa da stampare per ogni colore di stampa,imposta _bSomethingToPrintClrParam<br/>
+        /// se bIgnorePrinted == false, tiene conto solo degli Articoli non ancora stampati
+        /// deve stare dopo l'acquisizione dei Coperti
+        /// </summary>
+        public static void CheckSomethingToPrint(bool[] bSomethingToPrintGrpParam, bool[] bSomethingToPrintClrParam, TData dataIdParam, bool bIgnorePrinted = true)
+        {
+            // deve stare fuori dal loop
+            for (int i = 0; i < NUM_COPIES_GRPS; i++)
+            {
+                bSomethingToPrintGrpParam[i] = false;
+                bSomethingToPrintClrParam[i] = false;
+            }
+
+            for (int i = 0; i < NUM_COPIES_GRPS; i++)
+            {
+                for (int j = 0; j < MAX_ITEMS_NUM; j++)
+                {
+                    if (!dataIdParam.Articolo[j].bLocalAlreadyPrinted || bIgnorePrinted)
+                    {
+                        if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == i))
+                        {
+                            // il gruppo i-esimo ha qualcosa da stampare
+                            bSomethingToPrintGrpParam[i] = true;
+
+                            // questo colore va stampato ma potrebbe essere anche grigio
+                            bSomethingToPrintClrParam[i] = true;
+                            break;
+                        }
+                    }
+                }
+
+                // devo estendere a tutti i gruppi dello stesso colore > 0 che tanto verrà stampato una sola volta
+                if ((i < NUM_EDIT_GROUPS) && bSomethingToPrintClrParam[i] && (dataIdParam.iGroupsColor[i] > 0))
+                {
+                    for (int k = 0; k < NUM_EDIT_GROUPS; k++)
+                    {
+                        if (dataIdParam.iGroupsColor[k] == dataIdParam.iGroupsColor[i])
+                            bSomethingToPrintClrParam[k] = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// funzione che resetta la stampa delle copie accorpate in base al colore
+        /// </summary>
+        public static void ResetCopies_ToBePrintedOnce(bool[] bGroupsColorPrintedParam)
+        {
+            for (int i = 0; i < NUM_EDIT_GROUPS; i++)
+                bGroupsColorPrintedParam[i] = false;
+        }
+
+        /// <summary>
+        /// funzione per verificare se la copia è da stampare: in particolare verifica <br/>
+        /// che le copie con uno stesso colore > 0 associato vengano stampate solo una volta
+        /// </summary>
+        public static bool CheckCopy_ToBePrintedOnce(int iColorParam, bool[] bGroupsColorPrintedParam, TData dataIdParam)
+        {
+            if ((iColorParam >= 0) && (iColorParam < NUM_EDIT_GROUPS))
+            {
+                // il colore trasparente consente sempre la stampa
+                if (dataIdParam.iGroupsColor[iColorParam] == 0)
+                    return true;
+
+                // il colore > 0 non è ancora stato stampato ritorna true ma
+                // contrassegna true i gruppi dello stesso colore
+                if (!bGroupsColorPrintedParam[iColorParam])
+                {
+                    for (int k = 0; k < NUM_EDIT_GROUPS; k++)
+                    {
+                        // devo saltare anche tutte le copie dello stesso colore
+                        if (dataIdParam.iGroupsColor[k] == dataIdParam.iGroupsColor[iColorParam])
+                            bGroupsColorPrintedParam[k] = true;
+                    }
+
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// verifica se è l'ultimo gruppo da stampare, i contatori vanno esclusi
+        /// </summary>
+        public static bool CheckLastGroup(bool[] bSomethingToPrintParam, int iParam)
+        {
+            bool bLast = true;
+
+            for (int i = iParam + 1; i < NUM_SEP_PRINT_GROUPS; i++)
+            {
+                if (bSomethingToPrintParam[i] == true)
+                {
+                    bLast = false;
+                    break;
+                }
+            }
+
+            return bLast;
+        }
+
+#if STANDFACILE
+
+        /// <summary>
+        /// verifica se è l'ultimo Articolo significativo da stampare utilizzando<br/>
+        /// dataIdParam.Articolo[j].bLocalAlreadyPrinted = true per gli Articoli già stampati
+        /// </summary>
+        public static bool CheckLastItemAndGroupToCut(TData dataIdParam, bool[] bSomethingToPrintParam)
+        {
+            bool bLast;
+            int i, j, iTotaleQuantity = 0;
+
+            // evita DEST_BUONI
+            for (i = 0; i < (NUM_COPIES_GRPS - 1); i++)
+            {
+                if (bSomethingToPrintParam[i] && (!_bPrintSelectedOnly || _bPrintSelectedOnly && (!_bAvoidPrintOtherGroups || _bSelectedGroups[i])))
+                {
+                    for (j = 0; j < MAX_ITEMS_NUM; j++)
+                    {
+                        if (!dataIdParam.Articolo[j].bLocalAlreadyPrinted && (dataIdParam.Articolo[j].iGruppoStampa == i))
+                            iTotaleQuantity += dataIdParam.Articolo[j].iQuantitaOrdine;
+
+                        if (iTotaleQuantity > 0)
+                            break;
+                    }
+                }
+
+                if (iTotaleQuantity > 0)
+                    break;
+            }
+
+            bLast = (iTotaleQuantity == 0);
+
+            return bLast;
+        }
+#endif
+
+        /// <summary>verifica se è l'ultimo Articolo significativo da stampare per unita nello stesso gruppo</summary>
+        public static bool CheckLastItemToPrint_OnSameGroup(TData dataIdParam, int iGroupParam, int iArtParam)
+        {
+            bool bLast;
+            int j, iTotaleQuantity = 0;
+
+            for (j = iArtParam + 1; j < MAX_ITEMS_NUM; j++)
+            {
+                if (!dataIdParam.Articolo[j].bLocalAlreadyPrinted)
+                {
+                    if (!dataIdParam.Articolo[j].bLocalAlreadyPrinted && (dataIdParam.Articolo[j].iGruppoStampa == iGroupParam))
+                        iTotaleQuantity += dataIdParam.Articolo[j].iQuantitaOrdine * 100;
+                }
+
+                if (iTotaleQuantity > 0)
+                    break;
+            }
+
+            bLast = (iTotaleQuantity == 0);
+
+            return bLast;
+        }
+
+
+        /// <summary>
+        /// da utilizzare solo per le verifiche di scontrino scontato significativo, <br/>
+        /// utilizzato da DataManager per inserire nota nello Scontrino
+        /// </summary>
+        public static bool TicketScontatoStdIsGood(TData dataIdParam, bool[] bScontoGruppoParam)
+        {
+            int i;
+            int iTotaleScontatoCurrTicket = 0;
+
+            double fPerc = (double)((dataIdParam.iStatusSconto & 0x00FF0000) >> 16) / 100.0f;
+
+            // totale scontrino corrente
+            for (i = 0; i < MAX_ITEMS_NUM; i++)
+            {
+                if ((dataIdParam.Articolo[i].iGruppoStampa < NUM_SEP_PRINT_GROUPS) && bScontoGruppoParam[dataIdParam.Articolo[i].iGruppoStampa])
+                    iTotaleScontatoCurrTicket += (int)Math.Round(dataIdParam.Articolo[i].iQuantitaOrdine * dataIdParam.Articolo[i].iPrezzoUnitario * fPerc);
+            }
+            return (iTotaleScontatoCurrTicket > 0);
+        }
+
+        /// <summary>
+        /// funzione preparazione stringhe Header<br/>
+        /// prelevando i dati dalla struct dataIdParam
+        /// </summary>
+        public static TOrdineStrings SetupHeaderStrings(TData dataIdParam, int iNumOfReceiptsParam, Graphics pgParam = null)
+        {
+            int i;
+            string sFmt_QM;
+
+            TOrdineStrings sOrdineStringsTmp = new TOrdineStrings();
+
+            if (string.IsNullOrEmpty(dataIdParam.sWebDateTime))
+                dataIdParam.sWebDateTime = GetDateTimeString();
+
+            if (string.IsNullOrEmpty(dataIdParam.sPrevDateTime))
+                dataIdParam.sPrevDateTime = GetDateTimeString();
+
+            if (iNumOfReceiptsParam == 0)
+                iNumOfReceiptsParam = dataIdParam.iNumOfLastReceipt;
+
+            // *** inizio preparazione stringhe ***
+
+            if (pgParam == null) // generazione files
+            {
+                i = iNumOfReceiptsParam;
+
+                sFmt_QM = "{0} {1}";
+            }
+            else // solo per finestra Anteprima
+            {
+                i = iNumOfReceiptsParam + 1;
+
+                if (dBaseIntf.bUSA_NDB())
+                    sFmt_QM = "{0}  {1}"; // stringa più spaziata per allineamento con '?'
+                else
+                    sFmt_QM = "{0} {1}";
+            }
+
+            _bCassaInline = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CASSA_INLINE);
+            _bStarsOnUnderGroup = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_STARS_ON_UNDER_GROUP);
+            _bLogoNelleCopie = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_LOGO_PRINT_ON_COPIES_REQUIRED);
+
+            if (_bCassaInline)
+                sOrdineStringsTmp.sOrdineNum = String.Format("{0} {1}, ", _TICK_CASSA, dataIdParam.iNumCassa);
+            else
+                sOrdineStringsTmp.sOrdineNum = "";
+
+            if ((pgParam != null) && dBaseIntf.bUSA_NDB())
+                sOrdineStringsTmp.sOrdineNum += String.Format("{0} ?{1}", _TICK_NUM, i); // Anteprima con ndb
+            else
+                sOrdineStringsTmp.sOrdineNum += String.Format(sFmt_QM, _TICK_NUM, i);
+
+            if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
+                sOrdineStringsTmp.sOrdNumWeb = String.Format("* {0} {1}, {2} *", _WEB_NUM, dataIdParam.iNumOrdineWeb, dataIdParam.sWebDateTime.Substring(4, 8));
+            else
+                sOrdineStringsTmp.sOrdNumWeb = "";
+
+            if (!String.IsNullOrEmpty(dataIdParam.sPrevDateTime))
+                sOrdineStringsTmp.sOrdNumPrev = String.Format("* {0} {1}, {2} *", _PREV_NUM, dataIdParam.iNumOrdinePrev, dataIdParam.sPrevDateTime.Substring(4, 8));
+            else
+                sOrdineStringsTmp.sOrdNumPrev = "";
+
+            if (String.IsNullOrEmpty(dataIdParam.sTavolo))
+                sOrdineStringsTmp.sTavolo = String.Format("");
+            else
+                sOrdineStringsTmp.sTavolo = String.Format("Tavolo = {0}", dataIdParam.sTavolo);
+
+            if (String.IsNullOrEmpty(dataIdParam.sNome))
+                sOrdineStringsTmp.sNome = String.Format("");
+            else
+                sOrdineStringsTmp.sNome = String.Format("Nome = {0}", dataIdParam.sNome);
+
+            sOrdineStringsTmp.sOrdineNum = CenterJustify(sOrdineStringsTmp.sOrdineNum, _bCassaInline ? iMAX_RECEIPT_CHARS : iCenterOrderNum);
+            sOrdineStringsTmp.sOrdNumWeb = CenterJustify(sOrdineStringsTmp.sOrdNumWeb, iMAX_RECEIPT_CHARS);
+            sOrdineStringsTmp.sOrdNumPrev = CenterJustify(sOrdineStringsTmp.sOrdNumPrev, iMAX_RECEIPT_CHARS);
+
+            if (IsBitSet(dataIdParam.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CENTER_TABLE_AND_NAME))
+            {
+                sOrdineStringsTmp.sNome = CenterJustify(sOrdineStringsTmp.sNome, iMAX_RECEIPT_CHARS);
+                sOrdineStringsTmp.sTavolo = CenterJustify(sOrdineStringsTmp.sTavolo, iMAX_RECEIPT_CHARS);
+            }
+
+            return sOrdineStringsTmp;
+        }
+
+        /// <summary>
+        /// funzione che scrive lo scontrino nel file _fPrint,<br/>
+        /// prelevando i dati dalla struct dataIdParam
+        /// </summary>
+        public static void WriteReceipt(ref TData dataIdParam, int iNumOfReceiptsParam, String sDirParam, TOrdineStrings sOrdineStringsParam)
+        {
+            bool bBuoniApplicatiParz = false;
+            int i, j, iIncassoParz, iBuoniApplicatiParz;
+            int k, iRcpCopyLoop;
+
+#if STANDFACILE
+            ulong ulStart, ulStop, ulPingTime;
+#endif
+            String sTmp, sIncassoParz;
+
+            bool[] bSomethingInto_GrpToPrint = new bool[NUM_COPIES_GRPS];
+            bool[] bSomethingInto_ClrToPrint = new bool[NUM_COPIES_GRPS]; // OK
+            bool[] bScontoGruppo = new bool[NUM_SEP_PRINT_GROUPS];
+
+            if (iNumOfReceiptsParam == 0)
+                iNumOfReceiptsParam = dataIdParam.iNumOfLastReceipt;
+
+            CheckSomethingToPrint(bSomethingInto_GrpToPrint, bSomethingInto_ClrToPrint, dataIdParam);
+
+            double fPerc = ((dataIdParam.iStatusSconto & 0x00FF0000) >> 16) / 100.0f;
+
+            for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+                bScontoGruppo[i] = IsBitSet(dataIdParam.iStatusSconto, 4 + i);
+
+            _sNomeFileReceiptPrt = String.Format(NOME_FILE_RECEIPT, dataIdParam.iNumCassa, iNumOfReceiptsParam);
+            _ErrMsg.sNomeFile = _sNomeFileReceiptPrt;
+
+            _fPrint = File.CreateText(sDirParam + _sNomeFileReceiptPrt);
+            if (_fPrint == null)
+            {
+                _ErrMsg.iErrID = ERR_FNO;
+                ErrorManager(_ErrMsg);
+            }
+            else
+            {
+                iRcpCopyLoop = sConfig.bRcpCopyRequired ? 2 : 1;
+
+                for (k = 0; k < iRcpCopyLoop; k++)
+                {
+
+                    dataIdParam.iTotaleReceipt = 0;         // richiede calcolo
+                    dataIdParam.iScontoStdReceipt = 0;      //      "
+                    dataIdParam.iScontoGratisReceipt = 0;   //      "
+                    dataIdParam.iBuoniApplicatiReceipt = 0; //      "
+
+                    // se non c'è il logo stampa sHeaders[0]
+                    if ((((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                        ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) &&
+                        (_bLogoNelleCopie || (k == 0)))
+                    {
+                        sTmp = CenterJustify(_LOGO_T, iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+                    else
+                    {
+                        if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[0]))
+                        {
+                            sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], iMAX_RECEIPT_CHARS);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                        }
+                        else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[0]))
+                        {
+                            sTmp = CenterJustify(dataIdParam.sHeaders[0], iMAX_RECEIPT_CHARS);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                        }
+                    }
+
+                    // richiesta copia Receipt e secondo ciclo for(;;)
+                    if (sConfig.bRcpCopyRequired && (k == 1))
+                    {
+                        if (!String.IsNullOrEmpty(sConfig.sRcpCopyHeader))
+                        {
+                            // header per copia Receipt
+                            sTmp = CenterJustify(sConfig.sRcpCopyHeader, iMAX_RECEIPT_CHARS);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                        }
+                    }
+                    else if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[1]))
+                    {
+                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+                    else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[1]))
+                    {
+                        sTmp = CenterJustify(dataIdParam.sHeaders[1], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+
+                    if (_bCassaInline)
+                        sTmp = dataIdParam.sDateTime;
+                    else
+                        sTmp = String.Format("{0,-22}C.{1}", dataIdParam.sDateTime, dataIdParam.iNumCassa);
+
+                    sTmp = CenterJustify(sTmp, iMAX_RECEIPT_CHARS);
+                    _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+
+                    if (dataIdParam.bAnnullato) // ha senso solo nelle ricostruzioni, quindi con DB_Data
+                    {
+                        sTmp = CenterJustify(sConst_Annullo[0], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+
+                        sTmp = CenterJustify(sConst_Annullo[1], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+
+                        sTmp = CenterJustify(sConst_Annullo[2], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+
+                    // Stampa sempre il numero dell'ordine
+                    _fPrint.WriteLine("{0}", sOrdineStringsParam.sOrdineNum);
+                    _fPrint.WriteLine();
+
+                    // Stampa il tavolo e il nome se presenti
+                    if (!String.IsNullOrEmpty(sOrdineStringsParam.sTavolo))
+                        _fPrint.WriteLine(" {0}", sOrdineStringsParam.sTavolo);
+
+                    if (!String.IsNullOrEmpty(sOrdineStringsParam.sNome))
+                        _fPrint.WriteLine(" {0}", sOrdineStringsParam.sNome);
+
+                    if (!String.IsNullOrEmpty(sOrdineStringsParam.sTavolo) || !String.IsNullOrEmpty(sOrdineStringsParam.sNome))
+                        _fPrint.WriteLine();
+
+
+                    // Stampa il numero web e prevendita se presenti
+                    if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
+                    {
+                        _fPrint.WriteLine("{0}", sOrdineStringsParam.sOrdNumWeb); _fPrint.WriteLine();
+                    }
+
+                    if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA))
+                    {
+                        _fPrint.WriteLine("{0}", sOrdineStringsParam.sOrdNumPrev); _fPrint.WriteLine();
+                    }
+
+                    // stampa CONTATORI
+                    if (bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_COUNTER])
+                    {
+                        for (j = 0; j < MAX_ITEMS_NUM; j++)
+                        {
+                            if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == (int)DEST_TYPE.DEST_COUNTER))
+                            {
+                                if (dataIdParam.Articolo[j].sTipo == _COPERTO)
+                                {
+                                    iIncassoParz = dataIdParam.Articolo[j].iQuantitaOrdine * dataIdParam.Articolo[j].iPrezzoUnitario;
+                                    dataIdParam.iTotaleReceipt += iIncassoParz;
+                                    sIncassoParz = IntToEuro(iIncassoParz);
+                                }
+                                else
+                                    sIncassoParz = "";
+
+                                sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo, sIncassoParz);
+                                _fPrint.WriteLine("{0}", sTmp);
+
+                                if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
+                                {
+                                    sTmp = String.Format(sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                    _fPrint.WriteLine("{0}", sTmp);
+                                }
+                            }
+                        }
+
+                        _fPrint.WriteLine();
+                    } // end if
+
+                    // stampa CONTATORI esclusi
+                    for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+                    {
+                        if (bSomethingInto_GrpToPrint[i])
+                        {
+                            for (j = 0; j < MAX_ITEMS_NUM; j++)
+                            {
+                                if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == i))
+                                {
+                                    if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_STD) && bScontoGruppo[i])
+                                        dataIdParam.iScontoStdReceipt += (int)Math.Round(dataIdParam.Articolo[j].iQuantitaOrdine * dataIdParam.Articolo[j].iPrezzoUnitario * fPerc);
+
+                                    iIncassoParz = dataIdParam.Articolo[j].iQuantitaOrdine * dataIdParam.Articolo[j].iPrezzoUnitario;
+                                    dataIdParam.iTotaleReceipt += iIncassoParz;
+                                    sIncassoParz = IntToEuro(iIncassoParz);
+
+                                    // 89 123456789012345678 9876.00  width=28
+                                    sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo, sIncassoParz);
+                                    _fPrint.WriteLine("{0}", sTmp);
+
+                                    if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
+                                    {
+                                        sTmp = String.Format(sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                        _fPrint.WriteLine("{0}", sTmp);
+                                    }
+                                }
+                            }
+
+                            if (!CheckLastGroup(bSomethingInto_GrpToPrint, i))
+                                _fPrint.WriteLine();
+                        } // end if
+                    }
+
+                    // stampa BUONI
+                    if (bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_BUONI])
+                    {
+                        _fPrint.WriteLine();
+
+                        for (j = 0; j < MAX_ITEMS_NUM; j++)
+                        {
+                            if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == (int)DEST_TYPE.DEST_BUONI))
+                            {
+                                iBuoniApplicatiParz = dataIdParam.Articolo[j].iQuantitaOrdine * dataIdParam.Articolo[j].iPrezzoUnitario;
+
+                                dataIdParam.iBuoniApplicatiReceipt += iBuoniApplicatiParz;
+                                dataIdParam.iTotaleReceipt -= iBuoniApplicatiParz; // ---------------- ****************
+
+                                // causa presenza buoni è sempre possibile !
+                                if (dataIdParam.iTotaleReceipt < 0)
+                                {
+                                    // iBuoniApplicatiReceipt dimuisce dato che dataIdParam.iTotaleReceipt < 0
+                                    iBuoniApplicatiParz += dataIdParam.iTotaleReceipt;
+                                    dataIdParam.iBuoniApplicatiReceipt += dataIdParam.iTotaleReceipt;
+
+                                    dataIdParam.iTotaleReceipt = 0;
+
+                                    bBuoniApplicatiParz = true;
+                                }
+
+                                sIncassoParz = "-" + IntToEuro(iBuoniApplicatiParz);
+
+                                // 89 123456789012345678 9876.00  width=28
+                                sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo, sIncassoParz);
+                                _fPrint.WriteLine("{0}", sTmp);
+
+                                if (bBuoniApplicatiParz)
+                                {
+                                    sTmp = String.Format(sRCP_FMT_NOTE + "\r\n", "applicato valore ridotto");
+                                    _fPrint.WriteLine("{0}", sTmp);
+                                }
+
+                                if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
+                                {
+                                    sTmp = String.Format(sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                    _fPrint.WriteLine("{0}", sTmp);
+                                }
+                            }
+                        }
+                    }
+
+                    _fPrint.WriteLine(sRCP_FMT_DSH, "------");
+
+                    // punto doppio
+                    dataIdParam.iScontoStdReceipt = Arrotonda(dataIdParam.iScontoStdReceipt);
+
+                    //// causa presenza buoni è sempre possibile !
+                    //if (dataIdParam.iTotaleReceipt < 0)
+                    //{
+                    //    // iBuoniApplicatiReceipt dimuisce dato che dataIdParam.iTotaleReceipt < 0
+                    //    dataIdParam.iBuoniApplicatiReceipt += dataIdParam.iTotaleReceipt;
+                    //    dataIdParam.iTotaleReceipt = 0;
+                    //}
+
+                    if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_STD) && TicketScontatoStdIsGood(dataIdParam, bScontoGruppo))
+                    {
+                        dataIdParam.iTotaleReceiptDovuto = dataIdParam.iTotaleReceipt - dataIdParam.iScontoStdReceipt;
+
+                        if (dataIdParam.iTotaleReceiptDovuto < 0)
+                        {
+                            dataIdParam.iTotaleReceiptDovuto = 0;
+                            dataIdParam.iScontoStdReceipt = dataIdParam.iTotaleReceipt;
+                        }
+
+                        _fPrint.WriteLine(sRCP_FMT_DSC, "SCONTO", IntToEuro(dataIdParam.iScontoStdReceipt), "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
+
+                        _fPrint.WriteLine(sRCP_FMT_DIF + "\r\n", "DIFF. DOVUTA", IntToEuro(dataIdParam.iTotaleReceiptDovuto));
+
+                        if (k == 0)
+                        {
+                            dataIdParam.iTotaleScontatoStd += dataIdParam.iScontoStdReceipt;
+
+                            if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD))
+                                dataIdParam.iTotaleIncassoCard += dataIdParam.iTotaleReceipt - dataIdParam.iScontoStdReceipt;
+
+                            if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY))
+                                dataIdParam.iTotaleIncassoSatispay += dataIdParam.iTotaleReceipt - dataIdParam.iScontoStdReceipt;
+                        }
+                    }
+                    else if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_FISSO))
+                    {
+                        dataIdParam.iTotaleReceiptDovuto = dataIdParam.iTotaleReceipt - dataIdParam.iScontoFissoReceipt;
+
+                        if (dataIdParam.iTotaleReceiptDovuto < 0)
+                        {
+                            dataIdParam.iTotaleReceiptDovuto = 0;
+                            dataIdParam.iScontoFissoReceipt = dataIdParam.iTotaleReceipt;
+                        }
+
+                        _fPrint.WriteLine(sRCP_FMT_DSC, "SCONTO", IntToEuro(dataIdParam.iScontoFissoReceipt),
+                                                "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
+
+                        _fPrint.WriteLine(sRCP_FMT_DIF + "\r\n", "DIFF. DOVUTA", IntToEuro(dataIdParam.iTotaleReceiptDovuto));
+
+                        if (k == 0)
+                        {
+                            dataIdParam.iTotaleScontatoFisso += dataIdParam.iScontoFissoReceipt;
+
+                            if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD))
+                                dataIdParam.iTotaleIncassoCard += dataIdParam.iTotaleReceipt - dataIdParam.iScontoFissoReceipt;
+
+                            if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY))
+                                dataIdParam.iTotaleIncassoSatispay += dataIdParam.iTotaleReceipt - dataIdParam.iScontoFissoReceipt;
+                        }
+                    }
+                    else if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_GRATIS))
+                    {
+                        _fPrint.WriteLine(sRCP_FMT_TOT, "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
+
+                        _fPrint.WriteLine(sRCP_FMT_TOT + "\r\n", "DOVUTO", IntToEuro(0));
+
+                        dataIdParam.iTotaleReceiptDovuto = 0;
+                        dataIdParam.iScontoGratisReceipt = dataIdParam.iTotaleReceipt;
+
+                        if (k == 0)
+                            dataIdParam.iTotaleScontatoGratis += dataIdParam.iTotaleReceipt;
+                    }
+                    else
+                    {
+                        dataIdParam.iTotaleReceiptDovuto = dataIdParam.iTotaleReceipt;
+
+                        _fPrint.WriteLine(sRCP_FMT_TOT + "\r\n", "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
+
+                        if (k == 0)
+                        {
+                            if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD))
+                                dataIdParam.iTotaleIncassoCard += dataIdParam.iTotaleReceipt;
+
+                            if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY))
+                                dataIdParam.iTotaleIncassoSatispay += dataIdParam.iTotaleReceipt;
+                        }
+                    }
+
+                    if (k == 0)
+                        dataIdParam.iTotaleIncasso += dataIdParam.iTotaleReceipt;
+
+                    // inserimento indicazione di sconto
+                    if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_STD) && TicketScontatoStdIsGood(dataIdParam, bScontoGruppo))
+                    {
+                        sTmp = CenterJustify(sConst_Sconti[0], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+
+                        sTmp = CenterJustify(dataIdParam.sScontoText, iMAX_RECEIPT_CHARS);
+                        if (!String.IsNullOrEmpty(sTmp))
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                        sTmp = CenterJustify(sConst_Sconti[3], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+                    else if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_FISSO))
+                    {
+                        sTmp = CenterJustify(sConst_Sconti[1], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        sTmp = CenterJustify(dataIdParam.sScontoText, iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        sTmp = CenterJustify(sConst_Sconti[3], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        _fPrint.WriteLine();
+                    }
+                    else if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_GRATIS))
+                    {
+                        sTmp = CenterJustify(sConst_Sconti[2], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        sTmp = CenterJustify(dataIdParam.sScontoText, iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        sTmp = CenterJustify(sConst_Sconti[3], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        _fPrint.WriteLine();
+                    }
+
+                    if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CASH))
+                    {
+                        // non scrivere nulla
+                    }
+                    else if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD))
+                    {
+                        sTmp = CenterJustify(sConst_Pagamento_CARD, iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        _fPrint.WriteLine();
+                    }
+                    else if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY))
+                    {
+                        sTmp = CenterJustify(sConst_Pagamento_Satispay, iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        _fPrint.WriteLine();
+                    }
+                    else
+                    {
+                        sTmp = CenterJustify(sConst_Pagamento_da_EFFETTUARE, iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        _fPrint.WriteLine();
+                    }
+
+                    if (!String.IsNullOrEmpty(dataIdParam.sNota))
+                    {
+                        sTmp = CenterJustify(sConst_Note[0], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+
+                        sTmp = CenterJustify(dataIdParam.sNota, iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+
+                        sTmp = CenterJustify(sConst_Note[1], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+
+                    if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_ASPORTO))
+                    {
+                        sTmp = CenterJustify(sConst_TakeAway[0], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        sTmp = CenterJustify(sConst_TakeAway[1], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        sTmp = CenterJustify(sConst_TakeAway[2], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}\n", sTmp);
+                    }
+
+                    if (dataIdParam.bPrevendita)
+                    {
+                        sTmp = CenterJustify(sConst_Presale[0], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        sTmp = CenterJustify(sConst_Presale[1], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp);
+                        sTmp = CenterJustify(sConst_Presale[2], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}\n", sTmp);
+                    }
+
+                    if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[2]))
+                    {
+                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[2], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+                    else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[2]))
+                    {
+                        sTmp = CenterJustify(dataIdParam.sHeaders[2], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+
+                    if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[3]))
+                    {
+                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[3], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+                    else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[3]))
+                    {
+                        sTmp = CenterJustify(dataIdParam.sHeaders[3], iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+
+                    if (!String.IsNullOrEmpty(sConfig.sExtraFooter))
+                    {
+                        String[] sExtraFooterLines = sConfig.sExtraFooter.Split(new[] { @"\n" }, StringSplitOptions.None);
+
+                        for (i = 0; i < sExtraFooterLines.Length; i++)
+                        {
+                            sTmp = CenterJustify(sExtraFooterLines[i], iMAX_RECEIPT_CHARS);
+                            _fPrint.WriteLine("{0}", sTmp);
+                        }
+                    }
+
+                    // richiesta copia Receipt e primo ciclo for(;;)
+                    if (sConfig.bRcpCopyRequired && (k == 0))
+                        _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+
+                    if (((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
+                        (_bLogoNelleCopie || (k == 0)))
+                    {
+                        sTmp = CenterJustify(_LOGO_B, iMAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+                }   //  for (k
+
+                _fPrint.Close();
+            }
+
+#if STANDFACILE
+            /*****************************************************************************
+             *	salvataggio nel Database Ordini
+             *  in caso di VisOrdini si stampa solo successivamente con click pulsante
+             *****************************************************************************/
+
+            if (dataIdParam.iDataStruct_ID == DataID.SF_DATA)
+            {
+                ulStart = (ulong)Environment.TickCount;
+
+                dBaseIntf._rdBaseIntf.dbSalvaOrdine();
+
+                // misura del tempo in ms per eseguire dbSalvaOrdine
+                ulStop = (ulong)Environment.TickCount;
+                ulPingTime = ulStop - ulStart;
+                sTmp = String.Format("{0} ms", ulPingTime);
+
+                Logger.Info("DataManager dbSalvaOrdine : dbSaveTime = " + sTmp);
+
+                if (!sGlbWinPrinterParams.bA4Paper) // bisogna aspettare il completamento del file
+                {
+                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+                        Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    else
+                        Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                }
+            }
+#endif
+        }
+
+#if STANDFACILE
+        /// <summary>
+        /// funzione che esegue la stampa A4, utilizzata solo da DataManager
+        /// </summary>
+        public static void Print_A4_Receipt(String sDirParam)
+        {
+            // completamento del file A4 completato
+            if (sGlbWinPrinterParams.bA4Paper)
+            {
+                if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+                    Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                else
+                    Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+
+                Logger.Info("DataManager Print_A4_Receipt");
+            }
+        }
+#endif
+
+#if STANDFACILE
+        /// <summary>
+        /// funzione che scrive la copie locali dello scontrino nel file _fPrint,<br/>
+        /// prelevando i dati dalla struct dataIdParam
+        /// </summary>
+        public static void WriteLocalCopy(TData dataIdParam, int iNumOfReceiptsParam, String sDirParam, TOrdineStrings sOrdineStringsParam)
+        {
+            bool bLocalCopyRequested, bSingleRowItems, bUnitQtyItems;
+            bool bHeaderToBePrinted, bGroupsTextToPrint, bReceiptGroups_CutRequired;
+
+            int i, j, k;
+            int iNumCoperti = 0;
+            int iDebug = 0;
+
+            String sTmp, sGroup, sNomeFileTicketNpPrt;
+            String sHeader1_ToPrintBeforeCut, sHeader2_ToPrintBeforeCut;
+
+            bool[] bSomethingInto_GrpToPrint = new bool[NUM_COPIES_GRPS];
+            bool[] bSomethingInto_ClrToPrint = new bool[NUM_COPIES_GRPS]; // OK
+
+            int[] iGrpReorderPtr = new int[NUM_COPIES_GRPS];
+
+            bHeaderToBePrinted = true;
+
+            _bCtrlS_UnitQtyItems = false;
+
+            sHeader1_ToPrintBeforeCut = "";
+            sHeader2_ToPrintBeforeCut = "";
+
+            if (iNumOfReceiptsParam == 0)
+                iNumOfReceiptsParam = dataIdParam.iNumOfLastReceipt;
+
+            // utile per le funzioni CheckSomethingToPrint(), CheckLastItemAndGroupToCut(), CheckLastItemToPrint_OnSameGroup()
+            for (i = 0; i < MAX_ITEMS_NUM + EXTRA_ITEMS_NUM; i++) // azzeramento
+                dataIdParam.Articolo[i].bLocalAlreadyPrinted = false;
+
+            CheckSomethingToPrint(bSomethingInto_GrpToPrint, bSomethingInto_ClrToPrint, dataIdParam);
+
+            if (sGlbWinPrinterParams.bA4Paper)
+                sNomeFileTicketNpPrt = _sNomeFileReceiptPrt;
+            else
+                sNomeFileTicketNpPrt = String.Format(NOME_FILE_RECEIPT_NP, dataIdParam.iNumCassa, iNumOfReceiptsParam);
+
+            _ErrMsg.sNomeFile = sNomeFileTicketNpPrt;
+
+            _bLocalPricesRequested = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_PRICE_PRINT_ON_COPIES_REQUIRED);
+
+            _bAvoidPrintOtherGroups = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_AVOIDPRINTGROUPS_PRINT_REQUIRED);
+
+            bLocalCopyRequested = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_RECEIPT_LOCAL_COPY_REQUIRED);
+
+            _bPrintSelectedOnly = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_SELECTEDONLY_PRINT_REQUIRED);
+
+            bSingleRowItems = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_SINGLEROWITEMS_PRINT_REQUIRED);
+
+            bUnitQtyItems = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_QUANTITYONE_PRINT_REQUIRED);
+
+            bReceiptGroups_CutRequired = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_PRINT_GROUPS_CUT_REQUIRED);
+
+            // GEN_PRINTER_OPTS
+            _bPlaceSettingsOnCopies = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_PLACESETTS_PRINT_ON_COPIES_REQUIRED);
+
+            // conferma dalle altre dipendenze
+            _bAvoidPrintOtherGroups |= !(_bPrintSelectedOnly && (bSingleRowItems || bUnitQtyItems));
+
+            for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+                _bSelectedGroups[i] = IsBitSet(SF_Data.iLocalCopyOptions, i);
+
+            // CONTATORI, BUONI mai selezionati
+            _bSelectedGroups[(int)DEST_TYPE.DEST_COUNTER] = true;
+            _bSelectedGroups[(int)DEST_TYPE.DEST_BUONI] = false;
+
+            // puntatore di riordino per consentire per primi DEST_TYPE.DEST_COUNTER
+            iGrpReorderPtr[0] = (int)DEST_TYPE.DEST_COUNTER;
+            iGrpReorderPtr[(int)DEST_TYPE.DEST_BUONI] = (int)DEST_TYPE.DEST_BUONI;
+
+            for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+                iGrpReorderPtr[i + 1] = i;
+
+
+            if (bLocalCopyRequested && !(dataIdParam.bPrevendita || IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA)))
+            {
+
+                if (sGlbWinPrinterParams.bA4Paper)
+                {
+                    _fPrint = File.AppendText(sDirParam + sNomeFileTicketNpPrt);
+                    _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+                }
+                else
+                    _fPrint = File.CreateText(sDirParam + sNomeFileTicketNpPrt);
+
+                if (_fPrint == null)
+                {
+                    _ErrMsg.iErrID = ERR_FNO;
+                    ErrorManager(_ErrMsg);
+                }
+                else
+                {
+                    // se non c'è il logo stampa sHeaders[0]
+                    if ((((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                        ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
+                    {
+                        sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS_CPY);
+                        sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
+                    }
+                    else
+                    {
+                        if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[0]))
+                        {
+                            sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], iMAX_RECEIPT_CHARS);
+                            sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
+                        }
+                        else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[0]))
+                        {
+                            sTmp = CenterJustify(dataIdParam.sHeaders[0], MAX_RECEIPT_CHARS_CPY);
+                            sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
+                        }
+                    }
+
+                    if (!(bUnitQtyItems || bSingleRowItems) && !String.IsNullOrEmpty(sConfig.sRcp_CS_Header[1]))
+                    {
+                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], iMAX_RECEIPT_CHARS);
+                        sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
+                    }
+                    else if (!(bUnitQtyItems || bSingleRowItems) && !String.IsNullOrEmpty(dataIdParam.sHeaders[1]))
+                    {
+                        sTmp = CenterJustify(dataIdParam.sHeaders[1], MAX_RECEIPT_CHARS_CPY);
+                        sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
+                    }
+
+                    if (_bCassaInline)
+                        sTmp = dataIdParam.sDateTime;
+                    else
+                        sTmp = String.Format("{0,-22}C.{1}", dataIdParam.sDateTime, dataIdParam.iNumCassa);
+
+                    sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS_CPY);
+                    sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n", sTmp);
+
+                    if (dataIdParam.bAnnullato) // ha senso solo nelle ricostruzioni, quindi con DB_Data
+                    {
+                        sTmp = CenterJustify(sConst_Annullo[0], MAX_RECEIPT_CHARS_CPY);
+                        sHeader1_ToPrintBeforeCut += "\r\n" + sTmp + "\r\n";
+
+                        sTmp = CenterJustify(sConst_Annullo[1], MAX_RECEIPT_CHARS_CPY);
+                        sHeader1_ToPrintBeforeCut += sTmp + "\r\n";
+
+                        sTmp = CenterJustify(sConst_Annullo[2], MAX_RECEIPT_CHARS_CPY);
+                        sHeader1_ToPrintBeforeCut += sTmp + "\r\n";
+                    }
+
+                    if (!String.IsNullOrEmpty(sOrdineStringsParam.sTavolo) && !String.IsNullOrEmpty(sOrdineStringsParam.sNome))
+                    {
+                        sHeader2_ToPrintBeforeCut += String.Format("  {0}\r\n  {1}\r\n", sOrdineStringsParam.sTavolo, sOrdineStringsParam.sNome);
+                    }
+                    else if (!String.IsNullOrEmpty(sOrdineStringsParam.sTavolo))
+                    {
+                        sHeader2_ToPrintBeforeCut += String.Format("  {0}\r\n", sOrdineStringsParam.sTavolo);
+                    }
+                    else if (!String.IsNullOrEmpty(sOrdineStringsParam.sNome))
+                    {
+                        sHeader2_ToPrintBeforeCut += String.Format("  {0}\r\n", sOrdineStringsParam.sNome);
+                    }
+                    else
+                    {
+                        sHeader2_ToPrintBeforeCut += ""; //  String.Format("{0}", sNum);
+                    }
+
+                    if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
+                    {
+                        sHeader2_ToPrintBeforeCut += String.Format("{0}\r\n", sOrdineStringsParam.sOrdNumWeb);
+                    }
+
+                    if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA))
+                    {
+                        sHeader2_ToPrintBeforeCut += String.Format("{0}\r\n", sOrdineStringsParam.sOrdNumPrev);
+                    }
+
+                    // stampa #1: quantità UNO mediante Crtl+S, evita DEST_BUONI
+                    for (i = 0; i < (NUM_COPIES_GRPS - 1); i++)
+                    {
+                        for (j = 0; (j < MAX_ITEMS_NUM) && bSomethingInto_GrpToPrint[iGrpReorderPtr[i]]; j++)
+                        {
+                            if (IsBitSet(dataIdParam.Articolo[j].iOptionsFlags, BIT_STAMPA_SINGOLA_NELLA_COPIA_RECEIPT) && (dataIdParam.Articolo[j].iGruppoStampa == iGrpReorderPtr[i]))
+                            {
+                                _bCtrlS_UnitQtyItems = true;
+
+                                for (k = 0; k < dataIdParam.Articolo[j].iQuantitaOrdine; k++)
+                                {
+                                    if (!String.IsNullOrEmpty(sHeader1_ToPrintBeforeCut))
+                                        _fPrint.WriteLine("{0}", sHeader1_ToPrintBeforeCut);
+
+                                    sTmp = String.Format("  $ {0} {1}, {2} di {3}", _TICK_NUM_NZ, iNumOfReceiptsParam, k + 1, dataIdParam.Articolo[j].iQuantitaOrdine);
+                                    sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS_CPY);
+
+                                    _fPrint.WriteLine("{0}\r\n", sTmp);
+
+                                    if (!String.IsNullOrEmpty(sHeader2_ToPrintBeforeCut))
+                                        _fPrint.WriteLine("{0}", sHeader2_ToPrintBeforeCut);
+
+                                    // larghezza 28 "{0,2} {1,-18}{2,7}" :89 123456789012345678 9876.00
+                                    if (_bLocalPricesRequested)
+                                        sTmp = String.Format(sRCP_FMT_RCPT, 1, dataIdParam.Articolo[j].sTipo, IntToEuro(dataIdParam.Articolo[j].iPrezzoUnitario));
+                                    else
+                                        sTmp = String.Format(sRCP_FMT_CPY, 1, dataIdParam.Articolo[j].sTipo);
+
+                                    _fPrint.WriteLine("{0}\r\n", sTmp);
+
+                                    if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
+                                    {
+                                        sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                        _fPrint.WriteLine("{0}", sTmp);
+                                    }
+
+                                    if (k < dataIdParam.Articolo[j].iQuantitaOrdine - 1)
+                                        _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+                                }
+
+                                dataIdParam.Articolo[j].bLocalAlreadyPrinted = true;
+
+                                // un solo footer
+                                WriteFooter(dataIdParam, _fPrint);
+
+                                if (!CheckLastItemAndGroupToCut(dataIdParam, bSomethingInto_GrpToPrint))
+                                    _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+                            }
+                        }
+                    }
+
+                    // stampa #2: quantità UNO, evita DEST_BUONI
+                    for (i = 0; i < (NUM_COPIES_GRPS - 1); i++)
+                    {
+                        for (j = 0; (j < MAX_ITEMS_NUM) && bSomethingInto_GrpToPrint[iGrpReorderPtr[i]]; j++)
+                        {
+                            if (dataIdParam.Articolo[j].bLocalAlreadyPrinted == true)
+                                continue;
+
+                            if ((!_bPrintSelectedOnly || _bSelectedGroups[iGrpReorderPtr[i]]) && bUnitQtyItems && (dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == iGrpReorderPtr[i]))
+                            {
+                                for (k = 0; k < dataIdParam.Articolo[j].iQuantitaOrdine; k++)
+                                {
+                                    if (!String.IsNullOrEmpty(sHeader1_ToPrintBeforeCut))
+                                        _fPrint.WriteLine("{0}", sHeader1_ToPrintBeforeCut);
+
+                                    sTmp = String.Format("  {0} {1}, {2} di {3}", _TICK_NUM_NZ, iNumOfReceiptsParam, k + 1, dataIdParam.Articolo[j].iQuantitaOrdine);
+                                    sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS_CPY);
+
+                                    _fPrint.WriteLine("{0}\r\n", sTmp);
+
+                                    if (!String.IsNullOrEmpty(sHeader2_ToPrintBeforeCut))
+                                        _fPrint.WriteLine("{0}", sHeader2_ToPrintBeforeCut);
+
+                                    // larghezza 28 "{0,2} {1,-18}{2,7}" :89 123456789012345678 9876.00
+                                    if (_bLocalPricesRequested)
+                                        sTmp = String.Format(sRCP_FMT_RCPT, 1, dataIdParam.Articolo[j].sTipo, IntToEuro(dataIdParam.Articolo[j].iPrezzoUnitario));
+                                    else
+                                        sTmp = String.Format(sRCP_FMT_CPY, 1, dataIdParam.Articolo[j].sTipo);
+
+                                    _fPrint.WriteLine("{0}\r\n", sTmp);
+
+                                    if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
+                                    {
+                                        sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                        _fPrint.WriteLine("{0}", sTmp);
+                                    }
+
+                                    if (k < dataIdParam.Articolo[j].iQuantitaOrdine - 1)
+                                        _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+                                }
+
+                                dataIdParam.Articolo[j].bLocalAlreadyPrinted = true;
+
+                                // un solo footer
+                                WriteFooter(dataIdParam, _fPrint);
+
+                                if (!CheckLastItemAndGroupToCut(dataIdParam, bSomethingInto_GrpToPrint))
+                                    _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+                            }
+                        }
+                    }
+
+                    // stampa #3: bSingleRowItems, evita DEST_BUONI
+                    for (i = 0; i < (NUM_COPIES_GRPS - 1); i++)
+                    {
+                        for (j = 0; (j < MAX_ITEMS_NUM) && bSomethingInto_GrpToPrint[iGrpReorderPtr[i]]; j++)
+                        {
+                            if (dataIdParam.Articolo[j].bLocalAlreadyPrinted == true)
+                                continue;
+
+                            if ((!_bPrintSelectedOnly || _bSelectedGroups[iGrpReorderPtr[i]]) && (bSingleRowItems || dataIdParam.Articolo[j].iGruppoStampa == (int)DEST_TYPE.DEST_SINGLE) &&
+                                (dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == iGrpReorderPtr[i]))
+                            {
+                                if (!String.IsNullOrEmpty(sHeader1_ToPrintBeforeCut))
+                                    _fPrint.WriteLine("{0}", sHeader1_ToPrintBeforeCut);
+
+                                sTmp = String.Format("    {0} {1}", _TICK_NUM_NZ, iNumOfReceiptsParam);
+                                _fPrint.WriteLine("{0}\r\n", sTmp);
+
+                                if (!String.IsNullOrEmpty(sHeader2_ToPrintBeforeCut))
+                                    _fPrint.WriteLine("{0}", sHeader2_ToPrintBeforeCut);
+
+                                if (_bStarsOnUnderGroup)
+                                {
+                                    WriteStarsFrame(dataIdParam.sCopiesGroupsText[iGrpReorderPtr[i]]);
+                                }
+                                else
+                                {
+                                    sGroup = String.Format("    {0}", dataIdParam.sCopiesGroupsText[iGrpReorderPtr[i]]);
+                                    _fPrint.WriteLine(sGroup);
+                                }
+
+                                _fPrint.WriteLine();
+
+                                // larghezza 28 "{0,2} {1,-18}{2,7}" :89 123456789012345678 9876.00
+                                if (_bLocalPricesRequested)
+                                    sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo,
+                                        IntToEuro(dataIdParam.Articolo[j].iQuantitaOrdine * dataIdParam.Articolo[j].iPrezzoUnitario));
+                                else
+                                    sTmp = String.Format(sRCP_FMT_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
+
+                                _fPrint.WriteLine("{0}\r\n", sTmp);
+
+                                if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
+                                {
+                                    sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                    _fPrint.WriteLine("{0}", sTmp);
+                                }
+
+                                dataIdParam.Articolo[j].bLocalAlreadyPrinted = true;
+
+                                WriteFooter(dataIdParam, _fPrint);
+
+                                if (!CheckLastItemAndGroupToCut(dataIdParam, bSomethingInto_GrpToPrint))
+                                    _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+                            }
+                        }
+                    }
+
+                    // aggiornamento che tiene conto delle stampe effettuate
+                    CheckSomethingToPrint(bSomethingInto_GrpToPrint, bSomethingInto_ClrToPrint, dataIdParam, false);
+
+                    // identificazione dei coperti
+                    iNumCoperti = GetNumeroCoperti(dataIdParam);
+
+                    // stampa #4: raggruppamento per iGruppoStampa, evita DEST_BUONI
+                    for (i = 0; i < (NUM_COPIES_GRPS - 1); i++)
+                    {
+                        // per ogni Gruppo
+                        bGroupsTextToPrint = true;
+
+                        // evita il taglio con CONTATORI e DEST_TIPO1
+                        if (bReceiptGroups_CutRequired && !((iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_TIPO1) && bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_COUNTER]))
+                            bHeaderToBePrinted = true; // consente più Headers
+
+                        for (j = 0; (j < MAX_ITEMS_NUM) && bSomethingInto_GrpToPrint[iGrpReorderPtr[i]]; j++)
+                        {
+                            if (dataIdParam.Articolo[j].bLocalAlreadyPrinted == true)
+                                continue;
+
+                            if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0))
+                                iDebug++;
+
+                            if ((!_bPrintSelectedOnly || _bPrintSelectedOnly && (!_bAvoidPrintOtherGroups || _bSelectedGroups[iGrpReorderPtr[i]])) &&
+                                (dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == iGrpReorderPtr[i]))
+                            {
+                                // raggruppamento per iGruppoStampa
+                                if (bHeaderToBePrinted)
+                                {
+                                    if (!String.IsNullOrEmpty(sHeader1_ToPrintBeforeCut))
+                                        _fPrint.WriteLine("{0}", sHeader1_ToPrintBeforeCut);
+
+                                    sTmp = String.Format("{0}", sOrdineStringsParam.sOrdineNum); // consente Zoom numero scontrino
+                                    _fPrint.WriteLine("{0}\r\n", sTmp);
+
+                                    if (!String.IsNullOrEmpty(sHeader2_ToPrintBeforeCut))
+                                        _fPrint.WriteLine("{0}", sHeader2_ToPrintBeforeCut);
+
+                                }
+
+                                if (bReceiptGroups_CutRequired && bGroupsTextToPrint)
+                                {
+                                    bGroupsTextToPrint = false;
+
+                                    //#pragma warning disable IDE0059
+                                    if (_bStarsOnUnderGroup)
+                                    {
+                                        WriteStarsFrame(dataIdParam.sCopiesGroupsText[iGrpReorderPtr[i]]);
+                                    }
+                                    else
+                                    {
+                                        sGroup = String.Format("    {0}", dataIdParam.sCopiesGroupsText[iGrpReorderPtr[i]]);
+                                        _fPrint.WriteLine(sGroup);
+                                    }
+
+                                    _fPrint.WriteLine();
+                                }
+
+                                if (bHeaderToBePrinted)
+                                {
+                                    bHeaderToBePrinted = false;
+
+                                    // valutare se eliminare !bReceiptGroups_CutRequired
+                                    if ((iNumCoperti > 0) && (!bReceiptGroups_CutRequired && _bPlaceSettingsOnCopies || (iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_COUNTER)))
+                                    {
+                                        if (_bLocalPricesRequested)
+                                            sTmp = String.Format(sRCP_FMT_RCPT, iNumCoperti, _COPERTO, IntToEuro(iNumCoperti * dataIdParam.Articolo[MAX_ITEMS_NUM - 1].iPrezzoUnitario));
+                                        else
+                                            sTmp = String.Format(sRCP_FMT_CPY, iNumCoperti, _COPERTO);
+
+                                        _fPrint.WriteLine("{0}", sTmp);
+
+                                        // spazio aggiuntivo
+                                        if (iGrpReorderPtr[i] != (int)DEST_TYPE.DEST_COUNTER) // && (iGrpReorderPtr[i] != (int)DEST_TYPE.DEST_TIPO1))
+                                            _fPrint.WriteLine();
+                                    }
+                                }
+
+                                if ((dataIdParam.Articolo[j].iIndexListino != MAX_ITEMS_NUM - 1) || (dataIdParam.Articolo[j].iGruppoStampa != (int)DEST_TYPE.DEST_COUNTER))
+                                {
+                                    if (_bLocalPricesRequested)
+                                        sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo,
+                                            IntToEuro(dataIdParam.Articolo[j].iQuantitaOrdine * dataIdParam.Articolo[j].iPrezzoUnitario));
+                                    else
+                                        sTmp = String.Format(sRCP_FMT_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
+
+                                    _fPrint.WriteLine("{0}", sTmp);
+                                }
+
+                                if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
+                                {
+                                    sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                    _fPrint.WriteLine("{0}", sTmp);
+                                }
+
+                                // segna come stampato
+                                dataIdParam.Articolo[j].bLocalAlreadyPrinted = true;
+
+                                // se è l'ultimo del gruppo vediamo ...
+                                if (CheckLastItemToPrint_OnSameGroup(dataIdParam, iGrpReorderPtr[i], j))
+                                {
+                                    // se c'è il taglio
+                                    if (bReceiptGroups_CutRequired && !((iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_COUNTER) && bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_TIPO1]))
+                                    {
+                                        WriteFooter(dataIdParam, _fPrint);
+
+                                        // se non è l'ultimo articolo in generale fai il taglio
+                                        if (!CheckLastItemAndGroupToCut(dataIdParam, bSomethingInto_GrpToPrint))
+                                            _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+                                    }
+                                    else // se non c'è il taglio vediamo ...
+                                    {
+                                        // se è l'ultimo articolo in generale, scrivi il footer altrimenti metti il separatore
+                                        if (CheckLastItemAndGroupToCut(dataIdParam, bSomethingInto_GrpToPrint))
+                                            WriteFooter(dataIdParam, _fPrint);
+                                        else
+                                            _fPrint.WriteLine();
+                                    }
+                                }
+                            }
+
+                        } // end _bSomethingInto_GrpToPrint
+
+                    }   //  for (i
+
+                    _fPrint.Close();
+                }
+
+                /*****************************************************************************
+                 *  MESSA IN CODA DI STAMPA
+                 *  iQueueAction == PRINT_ENQUEUE mette in coda senza iniziare
+                 *  la stampa ; serve ad evitare problemi di Shared data
+                 *  durante _AUTO_SEQ_TEST richiede tempo e provoca disallineamenti
+                 *  
+                 *  in caso di stampa su A4 bisogna aspettare il completamento del file
+                 *  in caso di VisOrdini si stampa solo successivamente con click pulsante
+                 *****************************************************************************/
+                if (!CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
+                {
+                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+                    {
+                        if (sConfig.iLocalCopyPrinterNumRedirect >= 0)
+                            Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, sConfig.iLocalCopyPrinterNumRedirect); // redirezione
+                        else
+                            Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
+                    }
+                    else
+                        Printer_Legacy.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                }
+            }
+        }
+
+#endif
+
+        /// <summary>
+        /// funzione che scrive la copie di rete dello scontrino nel file _fPrint,<br/>
+        /// prelevando i dati dalla struct dataIdParam
+        /// </summary>
+        public static void WriteNetworkCopy(TData dataIdParam, int iNumOfReceiptsParam, String sDirParam, TOrdineStrings sOrdineStringsParam, bool bOrdineAnnullatoParam)
+        {
+            bool bColorLoop;
+
+            int i, j, k;
+            int iEqRowsNumber, iColorLoop, iNumCoperti, iNumCopertiBackupCopy;
+
+            String sTmp, sGroup, sNomeFileCopiePrt = "";
+
+            bool[] bSomethingInto_GrpToPrint = new bool[NUM_COPIES_GRPS]; // OK
+            bool[] bSomethingInto_ClrToPrint = new bool[NUM_COPIES_GRPS]; // OK
+            bool[] bGroupsColorPrinted = new bool[NUM_EDIT_GROUPS];
+
+            if (iNumOfReceiptsParam == 0)
+                iNumOfReceiptsParam = dataIdParam.iNumOfLastReceipt;
+
+            if (dataIdParam.iDataStruct_ID == DataID.SF_DATA)
+                Console.WriteLine("WriteNetworkCopy: --- SF_Data ---");
+            else
+                Console.WriteLine("WriteNetworkCopy: *** DB_Data ***");
+
+            CheckSomethingToPrint(bSomethingInto_GrpToPrint, bSomethingInto_ClrToPrint, dataIdParam);
+
+            // utile per le funzioni CheckSomethingToPrint(), CheckLastItemAndGroupToCut(), CheckLastItemToPrint_OnSameGroup()
+            for (i = 0; i < MAX_ITEMS_NUM + EXTRA_ITEMS_NUM; i++) // azzeramento
+                dataIdParam.Articolo[i].bLocalAlreadyPrinted = false;
+
+            /*******************************************************
+            *                 RICOSTRUZIONE COPIE
+            * i contatori sono inclusi nelle PIETANZE es: COPERTI
+            ********************************************************/
+
+
+            // identificazione dei coperti
+            iNumCoperti = GetNumeroCoperti(dataIdParam);
+            iNumCopertiBackupCopy = iNumCoperti;
+
+            ResetCopies_ToBePrintedOnce(bGroupsColorPrinted);
+
+            for (i = 0; (i < NUM_EDIT_GROUPS) && !(dataIdParam.bPrevendita || IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA)); i++)
+            {
+                // evita di stampare più di una volta gruppi dello stesso colore
+                if (!CheckCopy_ToBePrintedOnce(i, bGroupsColorPrinted, dataIdParam))
+                    continue;
+
+                // evita le stampe attualmente non richieste
+#if STANDFACILE
+                if (!dataIdParam.bCopiesGroupsFlag[i])
+                    continue;
+#elif STAND_CUCINA
+                if (!NetConfigLightDlg.GetCopiaGroup(i))
+                    continue;
+#endif
+
+                iEqRowsNumber = 1; // riga di partenza
+                iNumCoperti = iNumCopertiBackupCopy;
+
+                if (bSomethingInto_ClrToPrint[i] || ((i == (int)DEST_TYPE.DEST_TIPO1) && bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_COUNTER]))
+                {
+#if STANDFACILE
+                    if (sGlbWinPrinterParams.bA4Paper)
+                        sNomeFileCopiePrt = _sNomeFileReceiptPrt;
+                    else
+                    {
+                        sNomeFileCopiePrt = String.Format(NOME_FILE_COPIE_NET, dataIdParam.iNumCassa, iNumOfReceiptsParam, i);
+
+                        // verifica se serve ricostruire, commentare per debug
+                        if (!bOrdineAnnullatoParam && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && File.Exists(sDirParam + sNomeFileCopiePrt))
+                            continue;
+                    }
+
+#elif STAND_CUCINA
+                    sNomeFileCopiePrt = String.Format(NOME_FILE_COPIE, i);
+
+#endif
+
+                    _ErrMsg.sNomeFile = sNomeFileCopiePrt;
+
+                    if (sGlbWinPrinterParams.bA4Paper)
+                    {
+                        _fPrint = File.AppendText(sDirParam + sNomeFileCopiePrt);
+                        _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+                    }
+                    else
+                        _fPrint = File.CreateText(sDirParam + sNomeFileCopiePrt);
+
+
+                    if (_fPrint == null)
+                    {
+                        _ErrMsg.iErrID = ERR_FNO;
+                        ErrorManager(_ErrMsg);
+                    }
+                    else
+                    {
+                        // se non c'è il logo stampa sHeaders[0]
+                        if ((((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                            ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
+                        {
+                            sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 2;
+                        }
+                        else
+                        {
+                            if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[0]))
+                            {
+                                sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], iMAX_RECEIPT_CHARS);
+                                _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                                iEqRowsNumber += 2;
+                            }
+                            else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[0]))
+                            {
+                                sTmp = CenterJustify(dataIdParam.sHeaders[0], MAX_RECEIPT_CHARS_CPY);
+                                _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                                iEqRowsNumber += 2;
+                            }
+                        }
+
+                        //if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[1]))
+                        //{
+                        //    sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], iMAX_RECEIPT_CHARS);
+                        //    _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                        //    iEqRowsNumber += 2;
+                        //}
+                        //else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[1]))
+                        //{
+                        //    sTmp = CenterJustify(dataIdParam.sHeaders[1], MAX_RECEIPT_CHARS_CPY);
+                        //    _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                        //    iEqRowsNumber += 2;
+                        //}
+
+                        if (_bCassaInline)
+                            sTmp = dataIdParam.sDateTime;
+                        else
+                            sTmp = String.Format("{0,-22}C.{1}", dataIdParam.sDateTime, dataIdParam.iNumCassa);
+
+                        sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS_CPY);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                        iEqRowsNumber += 2;
+
+                        if (dataIdParam.bAnnullato) // ha senso solo nelle ricostruzioni, quindi con DB_Data
+                        {
+                            sTmp = CenterJustify(sConst_Annullo[0], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_Annullo[1], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_Annullo[2], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 4;
+                        }
+
+                        // posto qui per valutare il tipo di stampa gruppo
+                        bColorLoop = (dataIdParam.iGroupsColor[i] > 0);
+                        iColorLoop = dataIdParam.iGroupsColor[i];
+
+                        // sicurezza indice iExtLoopColor > 0
+                        if (bColorLoop)
+                        {
+                            sGroup = CenterJustify(dataIdParam.sColorGroupsText[iColorLoop - 1], MAX_RECEIPT_CHARS_CPY);
+                        }
+                        else
+                            sGroup = CenterJustifyStars(dataIdParam.sCopiesGroupsText[i], MAX_RECEIPT_CHARS_CPY, '#');
+
+                        if (_bStarsOnUnderGroup)
+                        {
+                            WriteStarsFrame(sGroup);
+                            iEqRowsNumber += 3;
+                        }
+                        else
+                        {
+                            _fPrint.WriteLine(sGroup);
+                            iEqRowsNumber++;
+                        }
+
+                        _fPrint.WriteLine();
+                        iEqRowsNumber++;
+
+                        if (!String.IsNullOrEmpty(sGroup))
+                        {
+                            // ??? e se ci sono stringhe nulle ?
+                        }
+
+                        // Stampa sempre il numero dell'ordine
+                        _fPrint.WriteLine("{0}", sOrdineStringsParam.sOrdineNum);
+                        _fPrint.WriteLine();
+                        iEqRowsNumber += 2;
+
+                        // Stampa il tavolo e il nome se presenti
+                        if (!String.IsNullOrEmpty(sOrdineStringsParam.sTavolo))
+                        {
+                            _fPrint.WriteLine("  {0}", sOrdineStringsParam.sTavolo);
+                            iEqRowsNumber++;
+                        }
+
+                        if (!String.IsNullOrEmpty(sOrdineStringsParam.sNome))
+                        {
+                            _fPrint.WriteLine("  {0}", sOrdineStringsParam.sNome);
+                            iEqRowsNumber++;
+                        }
+                        if (!String.IsNullOrEmpty(sOrdineStringsParam.sTavolo) || !String.IsNullOrEmpty(sOrdineStringsParam.sNome))
+                        {
+                            _fPrint.WriteLine();
+                            iEqRowsNumber++;
+                        }
+
+                        // Stampa i numeri di ordine WEB e PREVENDITA se presenti
+                        if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
+                        {
+                            _fPrint.WriteLine("{0}", sOrdineStringsParam.sOrdNumWeb); _fPrint.WriteLine();
+                            iEqRowsNumber += 2;
+                        }
+
+                        if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA))
+                        {
+                            _fPrint.WriteLine("{0}", sOrdineStringsParam.sOrdNumPrev); _fPrint.WriteLine();
+                            iEqRowsNumber += 2;
+                        }
+
+                        for (k = i; k < NUM_EDIT_GROUPS; k++)
+                        {
+                            // se non siamo nel colorLoop stampa i gruppi con colore trasparente solo una volta quando k == i, oppure
+                            // quelli con lo stesso colore dataIdParam.iGroupsColor[k] non trasparente vengono stampati tutti ma solo una volta
+                            // grazie a CheckCopy_ToBePrintedOnce()
+                            if ((!bColorLoop && (k == i)) || (bColorLoop && (dataIdParam.iGroupsColor[k] == iColorLoop)))
+                            {
+                                // STAMPA CONTATORI NELLO SCONTRINO DELLE PIETANZE
+                                if ((k == (int)DEST_TYPE.DEST_TIPO1) && (bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_COUNTER]))
+                                {
+                                    // aggiunge nel file stampa dei soli contatori
+                                    for (j = 0; j < MAX_ITEMS_NUM; j++)
+                                    {
+                                        if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == (int)DEST_TYPE.DEST_COUNTER) &&
+                                            (dataIdParam.Articolo[j].iIndexListino != MAX_ITEMS_NUM - 1))
+                                        {
+                                            _fPrint.WriteLine(sRCP_FMT_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
+                                            iEqRowsNumber++;
+
+                                            if (CheckLastItemToPrint_OnSameGroup(dataIdParam, (int)DEST_TYPE.DEST_COUNTER, j))
+                                            {
+                                                _fPrint.WriteLine();
+                                                iEqRowsNumber++;
+                                            }
+
+                                            if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
+                                            {
+                                                sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                                _fPrint.WriteLine("{0}", sTmp);
+                                                iEqRowsNumber++;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                // STAMPA SENZA CONTATORI ma se richiesto si ripetono i coperti
+                                if ((bSomethingInto_GrpToPrint[k]) || (iNumCoperti >= 0))
+                                {
+                                    // stampa COPERTI
+                                    if ((iNumCoperti > 0) && (_bPlaceSettingsOnCopies || (k == (int)DEST_TYPE.DEST_TIPO1))) // COPERTI si stampano assieme a DEST_TYPE.DEST_TIPO1
+                                    {
+                                        sTmp = String.Format(sRCP_FMT_CPY, iNumCoperti, _COPERTO);
+                                        _fPrint.WriteLine("{0}", sTmp);
+                                        iEqRowsNumber++;
+
+                                        _fPrint.WriteLine();
+                                        iEqRowsNumber++;
+
+                                        iNumCoperti = 0; // fa percorre questo blocco solo una volta per stampara i COPERTI
+                                    }
+
+                                    for (j = 0; j < MAX_ITEMS_NUM; j++)
+                                    {
+                                        if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == k))
+                                        {
+                                            _fPrint.WriteLine(sRCP_FMT_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
+                                            iEqRowsNumber++;
+
+                                            if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
+                                            {
+                                                sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                                _fPrint.WriteLine("{0}", sTmp);
+                                                iEqRowsNumber++;
+                                            }
+                                        }
+                                    }
+
+                                    if (bSomethingInto_GrpToPrint[k])
+                                    {
+                                        _fPrint.WriteLine();
+                                        iEqRowsNumber++;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!String.IsNullOrEmpty(dataIdParam.sNota))
+                        {
+                            sTmp = CenterJustify(sConst_Note[0], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(dataIdParam.sNota, MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_Note[1], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 4;
+                        }
+
+                        if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_ASPORTO))
+                        {
+                            sTmp = CenterJustify(sConst_TakeAway[0], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_TakeAway[1], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_TakeAway[2], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 4;
+                        }
+                        else
+                        {
+                            sTmp = CenterJustify("---", MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+                            iEqRowsNumber++;
+                        }
+
+                        if (((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B))
+                            && _bLogoNelleCopie
+                            )
+                        {
+                            sTmp = CenterJustify(_LOGO_B, MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 2;
+                        }
+
+                        if ((IsBitSet(SF_Data.iBarcodeRichiesto, i) && dBaseIntf.bUSA_NDB()) ||
+                        // OK verificato
+                        (SF_Data.bPrevendita || IsBitSet(dBaseIntf.DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA))
+
+#if STAND_CUCINA
+                            || (ReadRegistry(STAMPA_BARCODE_KEY, 0) == 1)
+#endif
+                        )
+                        // stampa stringa per BARCODE
+                        {
+                            sTmp = CenterJustify(_BARCODE, MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 2;
+                        }
+
+                        // inserimento numero minimo di righe per garantire lunghezza minima
+                        do
+                        {
+                            _fPrint.WriteLine();
+                            iEqRowsNumber++;
+                        }
+                        while (iEqRowsNumber < MIN_RECEIPT_ROWS_NUMBER);
+
+                        _fPrint.Close();
+                    }
+
+#if STANDFACILE
+
+                    /*****************************************************************************
+                     *  MESSA IN CODA DI STAMPA
+                     *  iQueueAction == PRINT_ENQUEUE mette in coda senza iniziare
+                     *  la stampa ; serve ad evitare problemi di Shared data
+                     *  durante _AUTO_SEQ_TEST richiede tempo e provoca disallineamenti
+                     *  
+                     *  in caso di stampa su A4 bisogna aspettare il completamento del file
+                     *  in caso di VisOrdini si stampa solo successivamente con click pulsante
+                     *****************************************************************************/
+                    if (dataIdParam.bCopiesGroupsFlag[i] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
+                    {
+                        if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWinwows(i))
+                            Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
+                        else
+                            Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                    }
+#endif
+                } // end if
+            }
+
+            /*******************************************************
+             *				STAMPA COPIE SINGOLE
+             * i contatori sono inclusi nelle PIETANZE es: COPERTI
+             *******************************************************/
+
+#if STANDFACILE
+
+            for (i = 0; (i < MAX_ITEMS_NUM) && !(dataIdParam.bPrevendita || IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA)); i++)
+            {
+                // evita le stampe attualmente non richieste
+                if (!SF_Data.bCopiesGroupsFlag[NUM_EDIT_GROUPS])
+                    continue;
+
+                iEqRowsNumber = 1; // riga di partenza
+                iNumCoperti = iNumCopertiBackupCopy;
+
+                if ((dataIdParam.Articolo[i].iQuantitaOrdine > 0) && (dataIdParam.Articolo[i].iGruppoStampa == ((int)DEST_TYPE.DEST_SINGLE)))
+                {
+                    if (sGlbWinPrinterParams.bA4Paper)
+                        sNomeFileCopiePrt = _sNomeFileReceiptPrt;
+                    else
+                    {
+                        sNomeFileCopiePrt = String.Format(NOME_FILE_COPIE_SINGOLE, dataIdParam.iNumCassa, iNumOfReceiptsParam, (int)DEST_TYPE.DEST_SINGLE,
+                                        dataIdParam.Articolo[i].iIndexListino);
+
+                        // verifica se serve ricostruire, commentare per debug
+                        if (!bOrdineAnnullatoParam && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && File.Exists(sDirParam + sNomeFileCopiePrt))
+                            continue;
+                    }
+
+                    _ErrMsg.sNomeFile = sNomeFileCopiePrt;
+
+                    if (sGlbWinPrinterParams.bA4Paper)
+                    {
+                        _fPrint = File.AppendText(sDirParam + sNomeFileCopiePrt);
+                        _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
+                    }
+                    else
+                        _fPrint = File.CreateText(sDirParam + sNomeFileCopiePrt);
+
+                    if (_fPrint == null)
+                    {
+                        _ErrMsg.iErrID = ERR_FNO;
+                        ErrorManager(_ErrMsg);
+                    }
+                    else
+                    {
+                        // se non c'è il logo stampa sHeaders[0]
+                        if ((((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                            ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
+                        {
+                            sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 2;
+                        }
+                        else
+                        {
+                            if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[0]))
+                            {
+                                sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], iMAX_RECEIPT_CHARS);
+                                _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                                iEqRowsNumber += 2;
+                            }
+                            else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[0]))
+                            {
+                                sTmp = CenterJustify(dataIdParam.sHeaders[0], MAX_RECEIPT_CHARS_CPY);
+                                _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                                iEqRowsNumber += 2;
+                            }
+                        }
+
+                        //if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[1]))
+                        //{
+                        //    sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], iMAX_RECEIPT_CHARS);
+                        //    _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                        //    iEqRowsNumber += 2;
+                        //}
+                        //else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[1]))
+                        //{
+                        //    sTmp = CenterJustify(dataIdParam.sHeaders[1], MAX_RECEIPT_CHARS_CPY);
+                        //    _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                        //    iEqRowsNumber += 2;
+                        //}
+
+                        if (_bCassaInline)
+                            sTmp = dataIdParam.sDateTime;
+                        else
+                            sTmp = String.Format("{0,-22}C.{1}", dataIdParam.sDateTime, dataIdParam.iNumCassa);
+
+                        sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS_CPY);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                        iEqRowsNumber += 2;
+
+                        if (dataIdParam.bAnnullato) // ha senso solo nelle ricostruzioni, quindi con DB_Data
+                        {
+                            sTmp = CenterJustify(sConst_Annullo[0], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_Annullo[1], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_Annullo[2], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 4;
+                        }
+
+                        sGroup = CenterJustifyStars(dataIdParam.sCopiesGroupsText[NUM_EDIT_GROUPS], MAX_RECEIPT_CHARS_CPY, '#');
+
+                        if (_bStarsOnUnderGroup)
+                        {
+                            WriteStarsFrame(sGroup);
+                            iEqRowsNumber += 3;
+                        }
+                        else
+                        {
+                            _fPrint.WriteLine(sGroup);
+                            iEqRowsNumber++;
+                        }
+
+                        _fPrint.WriteLine();
+                        iEqRowsNumber++;
+
+                        // Stampa sempre il numero dell'ordine
+                        _fPrint.WriteLine("{0}", sOrdineStringsParam.sOrdineNum);
+                        _fPrint.WriteLine();
+                        iEqRowsNumber += 2;
+
+                        // Stampa il tavolo e il nome se presenti
+                        if (!String.IsNullOrEmpty(sOrdineStringsParam.sTavolo))
+                        {
+                            _fPrint.WriteLine("  {0}", sOrdineStringsParam.sTavolo);
+                            iEqRowsNumber++;
+                        }
+                        if (!String.IsNullOrEmpty(sOrdineStringsParam.sNome))
+                        {
+                            _fPrint.WriteLine("  {0}", sOrdineStringsParam.sNome);
+                            iEqRowsNumber++;
+                        }
+                        if (!String.IsNullOrEmpty(sOrdineStringsParam.sTavolo) || !String.IsNullOrEmpty(sOrdineStringsParam.sNome))
+                        {
+                            _fPrint.WriteLine();
+                            iEqRowsNumber++;
+                        }
+
+                        // Stampa i numeri di ordine WEB e PREVENDITA se presenti
+                        if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
+                        {
+                            _fPrint.WriteLine("{0}", sOrdineStringsParam.sOrdNumWeb); _fPrint.WriteLine();
+                            iEqRowsNumber += 2;
+                        }
+
+                        if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA))
+                        {
+                            _fPrint.WriteLine("{0}", sOrdineStringsParam.sOrdNumPrev); _fPrint.WriteLine();
+                            iEqRowsNumber += 2;
+                        }
+
+                        // stampa COPERTI
+                        if ((iNumCoperti > 0) && _bPlaceSettingsOnCopies)
+                        {
+                            sTmp = String.Format(sRCP_FMT_CPY, iNumCoperti, _COPERTO);
+                            _fPrint.WriteLine("{0}", sTmp);
+                            iEqRowsNumber++;
+
+                            _fPrint.WriteLine();
+                            iEqRowsNumber++;
+                        }
+
+                        _fPrint.WriteLine(sRCP_FMT_CPY, dataIdParam.Articolo[i].iQuantitaOrdine, dataIdParam.Articolo[i].sTipo);
+                        iEqRowsNumber++;
+
+                        _fPrint.WriteLine();
+                        iEqRowsNumber++;
+
+                        if (!String.IsNullOrEmpty(dataIdParam.Articolo[i].sNotaArt))
+                        {
+                            sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[i].sNotaArt);
+                            _fPrint.WriteLine("{0}", sTmp);
+                            iEqRowsNumber++;
+                        }
+
+                        if (!String.IsNullOrEmpty(dataIdParam.sNota))
+                        {
+                            sTmp = CenterJustify(sConst_Note[0], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(dataIdParam.sNota, MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_Note[1], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 4;
+                        }
+
+                        if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_ASPORTO))
+                        {
+                            sTmp = CenterJustify(sConst_TakeAway[0], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_TakeAway[1], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+
+                            sTmp = CenterJustify(sConst_TakeAway[2], MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 4;
+                        }
+                        else
+                        {
+                            sTmp = CenterJustify("---", MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp);
+                            iEqRowsNumber++;
+                        }
+
+                        if (((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
+                            _bLogoNelleCopie)
+                        {
+                            sTmp = CenterJustify(_LOGO_B, MAX_RECEIPT_CHARS_CPY);
+                            _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                            iEqRowsNumber += 2;
+                        }
+
+                        // inserimento numero minimo di righe per garantire lunghezza minima
+                        do
+                        {
+                            _fPrint.WriteLine();
+                            iEqRowsNumber++;
+                        }
+                        while (iEqRowsNumber < MIN_RECEIPT_ROWS_NUMBER);
+
+                        _fPrint.Close();
+                    }
+
+                    /*****************************************************************************
+                     *  MESSA IN CODA DI STAMPA
+                     *  iQueueAction == PRINT_ENQUEUE mette in coda senza iniziare
+                     *  la stampa ; serve ad evitare problemi di Shared data
+                     *  durante _AUTO_SEQ_TEST richiede tempo e provoca disallineamenti
+                     *  
+                     *  in caso di stampa su A4 bisogna aspettare il completamento del file
+                     *  in caso di VisOrdini si stampa solo successivamente con click pulsante
+                     *****************************************************************************/
+                    if (dataIdParam.bCopiesGroupsFlag[(int)DEST_TYPE.DEST_SINGLE] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
+                    {
+                        if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWinwows((int)DEST_TYPE.DEST_SINGLE))
+                            Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
+                        else
+                            Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                    }
+                } // end if
+            }
+#endif
+
+        }
+
+        /// <summary>ottiene il numero dei coperti dalla struttura TData</summary>
+        static int GetNumeroCoperti(TData dataParam)
+        {
+            int i, iNumCoperti = 0;
+
+            for (i = 0; i < MAX_ITEMS_NUM; i++)
+            {
+                if ((dataParam.Articolo[i].iGruppoStampa == (int)DEST_TYPE.DEST_COUNTER) && (dataParam.Articolo[i].iIndexListino == MAX_ITEMS_NUM - 1))
+                {
+                    iNumCoperti = dataParam.Articolo[i].iQuantitaOrdine;
+                    break;
+                }
+            }
+
+            return iNumCoperti;
+        }
+
+        /// <summary>
+        /// funzione che scrive il Footer nel file _fPrint,<br/>
+        /// prelevando i dati dalla struct dataIdParam,<br/>
+        /// inoltre, se si verificano le condizioni necessarie,<br/>
+        /// scrive il Logo Bottom nella variabile _sLogo_B_ToPrintBeforeCut  
+        /// </summary>
+        static void WriteStarsFrame(String sCopiesGroupsTextParam)
+        {
+            String sGroup, sStarLine;
+
+            sGroup = sCopiesGroupsTextParam;
+
+            //if (sGroup.Length < (MAX_RECEIPT_CHARS_CPY - 4))
+            //    sGroup = String.Format("# {0} #", sGroup);
+
+            sGroup = CenterJustify(sGroup, MAX_RECEIPT_CHARS_CPY);
+            sStarLine = GetJustifiedStarLine(sGroup);
+
+            _fPrint.WriteLine(sStarLine);
+            _fPrint.WriteLine(sGroup);
+            _fPrint.WriteLine(sStarLine);
+        }
+
+#if STANDFACILE
+
+        /// <summary>
+        /// funzione che scrive il Footer nel file _fPrint,<br/>
+        /// prelevando i dati dalla struct dataIdParam,<br/>
+        /// inoltre, se si verificano le condizioni necessarie,<br/>
+        /// scrive il Logo Bottom nella variabile _sLogo_B_ToPrintBeforeCut  
+        /// </summary>
+        static void WriteFooter(TData dataIdParam, StreamWriter fPrintParam)
+        {
+            String sTmp;
+
+            fPrintParam.WriteLine();
+
+            if (!String.IsNullOrEmpty(dataIdParam.sNota))
+            {
+                sTmp = CenterJustify(sConst_Note[0], MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}", sTmp);
+
+                sTmp = CenterJustify(dataIdParam.sNota, MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}", sTmp);
+
+                sTmp = CenterJustify(sConst_Note[1], MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
+            }
+
+            if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_ASPORTO))
+            {
+                sTmp = CenterJustify(sConst_TakeAway[0], MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}", sTmp);
+                sTmp = CenterJustify(sConst_TakeAway[1], MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}", sTmp);
+                sTmp = CenterJustify(sConst_TakeAway[2], MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}\r\n", sTmp);
+            }
+
+            if (dataIdParam.bPrevendita)
+            {
+                sTmp = CenterJustify(sConst_Presale[0], MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}", sTmp);
+                sTmp = CenterJustify(sConst_Presale[1], MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}", sTmp);
+                sTmp = CenterJustify(sConst_Presale[2], MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}\r\n", sTmp);
+            }
+
+            if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[2]))
+            {
+                sTmp = CenterJustify(sConfig.sRcp_CS_Header[2], iMAX_RECEIPT_CHARS);
+                fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
+            }
+            else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[2]))
+            {
+                sTmp = CenterJustify(dataIdParam.sHeaders[2], iMAX_RECEIPT_CHARS);
+                fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
+            }
+
+            if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[3]))
+            {
+                sTmp = CenterJustify(sConfig.sRcp_CS_Header[3], iMAX_RECEIPT_CHARS);
+                fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
+            }
+            else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[3]))
+            {
+                sTmp = CenterJustify(dataIdParam.sHeaders[3], iMAX_RECEIPT_CHARS);
+                fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
+            }
+
+            if (!String.IsNullOrEmpty(sConfig.sExtraFooter) && _bLocalPricesRequested)
+            {
+                String[] sExtraFooterLines = sConfig.sExtraFooter.Split(new[] { @"\n" }, StringSplitOptions.None);
+
+                for (int i = 0; i < sExtraFooterLines.Length; i++)
+                {
+                    sTmp = CenterJustify(sExtraFooterLines[i], iMAX_RECEIPT_CHARS);
+                    fPrintParam.WriteLine("{0}", sTmp);
+                }
+            }
+
+            if (((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) && _bLogoNelleCopie)
+            {
+                sTmp = CenterJustify(_LOGO_B, MAX_RECEIPT_CHARS_CPY);
+                fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
+            }
+
+            return;
+        }
+
+#endif
+
+    } // end class
+} // end namespace

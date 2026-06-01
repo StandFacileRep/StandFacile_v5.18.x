@@ -1,0 +1,1875 @@
+﻿namespace StandFacile
+{
+    partial class FrmMain
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.Timer = new System.Windows.Forms.Timer(this.components);
+            this.BtnImgList = new System.Windows.Forms.ImageList(this.components);
+            this.MainMenu = new System.Windows.Forms.MenuStrip();
+            this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuPrintTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuPrintFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.F1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuExportPricelist = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuImportPricelist = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSessionClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.F2 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuEditItemsAvailab = new System.Windows.Forms.ToolStripMenuItem();
+            this.M_1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuOrderCancel = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuChangePayment = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuView = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuViewTodayIncome = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuViewDateIncome = new System.Windows.Forms.ToolStripMenuItem();
+            this.V1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuEsploraDB = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuEsploraOrdiniWeb = new System.Windows.Forms.ToolStripMenuItem();
+            this.V2 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuViewPricelist = new System.Windows.Forms.ToolStripMenuItem();
+            this.V3 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuReceiptPreview = new System.Windows.Forms.ToolStripMenuItem();
+            this.V4 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuVisMessaggiInviati = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuViewDateOrders = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuViewTodayOrders = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetup = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuExpert = new System.Windows.Forms.ToolStripMenuItem();
+            this.I1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuSetupNetwork = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetupLocalCopies = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetupNetworkCopies = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetupWinPrinter = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetupGenPrinter = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetupLegacyPrinter = new System.Windows.Forms.ToolStripMenuItem();
+            this.I2 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuSetupOptions = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuChangePassword = new System.Windows.Forms.ToolStripMenuItem();
+            this.I3 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuSetupHeader = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetupTabsGrid = new System.Windows.Forms.ToolStripMenuItem();
+            this.I4 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuFileDiConfigurazione = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetupPricelist = new System.Windows.Forms.ToolStripMenuItem();
+            this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuQuickHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.A1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MnuInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.DlgSaveFile = new System.Windows.Forms.SaveFileDialog();
+            this.StatusBar_Upper = new System.Windows.Forms.StatusStrip();
+            this.MF_LblStatusTotalPrev = new System.Windows.Forms.ToolStripStatusLabel();
+            this.MF_lblStatusTickNum = new System.Windows.Forms.ToolStripStatusLabel();
+            this.MF_lblNote = new System.Windows.Forms.ToolStripStatusLabel();
+            this.TabSet = new System.Windows.Forms.TabControl();
+            this.tabPage0 = new System.Windows.Forms.TabPage();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.MainGrid = new System.Windows.Forms.DataGridView();
+            this.MainGridContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.p1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p20 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.z1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.m1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.m2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.m3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.m5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.m10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.topPanel = new System.Windows.Forms.Panel();
+            this.toolStripTop = new System.Windows.Forms.ToolStrip();
+            this.BtnViewPricelist = new System.Windows.Forms.ToolStripButton();
+            this.BtnSep_T1 = new System.Windows.Forms.ToolStripSeparator();
+            this.BtnSendMsg = new System.Windows.Forms.ToolStripButton();
+            this.BtnSep_T2 = new System.Windows.Forms.ToolStripSeparator();
+            this.BtnX10 = new System.Windows.Forms.ToolStripButton();
+            this.BtnSep_T3 = new System.Windows.Forms.ToolStripSeparator();
+            this.BtnTakeAway = new System.Windows.Forms.ToolStripButton();
+            this.BtnSep_T4 = new System.Windows.Forms.ToolStripSeparator();
+            this.BtnSconto = new System.Windows.Forms.ToolStripButton();
+            this.Btn_OSKeyb = new System.Windows.Forms.ToolStripButton();
+            this.BtnSep_T6 = new System.Windows.Forms.ToolStripSeparator();
+            this.Btn_DB_Check = new System.Windows.Forms.ToolStripButton();
+            this.BtnSep_T7 = new System.Windows.Forms.ToolStripSeparator();
+            this.BtnScontrino = new System.Windows.Forms.ToolStripButton();
+            this.BtnSep_T8 = new System.Windows.Forms.ToolStripSeparator();
+            this.BtnSep_T5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripTop_TC_lbl = new System.Windows.Forms.ToolStripLabel();
+            this.EditNote = new System.Windows.Forms.TextBox();
+            this.lblStatus_Status = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblStatus_TC = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblStatus_Date = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblStatus_Time = new System.Windows.Forms.ToolStripStatusLabel();
+            this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.EditStatus_QRC = new System.Windows.Forms.TextBox();
+            this.MF_lblReadQrc = new System.Windows.Forms.Label();
+            this.toolStripButtons_R = new System.Windows.Forms.ToolStrip();
+            this.btnPlus = new System.Windows.Forms.ToolStripButton();
+            this.btnCanc = new System.Windows.Forms.ToolStripButton();
+            this.btnMinus = new System.Windows.Forms.ToolStripButton();
+            this.comboCashPos = new System.Windows.Forms.ComboBox();
+            this.panelRight = new System.Windows.Forms.Panel();
+            this.Edit_CAP = new System.Windows.Forms.TextBox();
+            this.MF_lbl_CAP = new System.Windows.Forms.Label();
+            this.btnNavRight = new System.Windows.Forms.Button();
+            this.EditChange = new System.Windows.Forms.TextBox();
+            this.EditPaidCash = new System.Windows.Forms.TextBox();
+            this.MF_lblPaidCash = new System.Windows.Forms.Label();
+            this.MF_lblChange = new System.Windows.Forms.Label();
+            this.Edit_TotCorrente = new System.Windows.Forms.TextBox();
+            this.MF_lblTotal = new System.Windows.Forms.Label();
+            this.EditName = new System.Windows.Forms.TextBox();
+            this.MF_lblName = new System.Windows.Forms.Label();
+            this.EditTable = new System.Windows.Forms.TextBox();
+            this.MF_lblTable = new System.Windows.Forms.Label();
+            this.EditPlaceSett = new System.Windows.Forms.TextBox();
+            this.MF_lblPlaceSett = new System.Windows.Forms.Label();
+            this.btnNavLeft = new System.Windows.Forms.Button();
+            this.previewLeftPanel = new System.Windows.Forms.Panel();
+            this.panelGrip = new System.Windows.Forms.Panel();
+            this.picBox = new System.Windows.Forms.PictureBox();
+            this.checkBoxLogoPreview = new System.Windows.Forms.CheckBox();
+            this.MainMenu.SuspendLayout();
+            this.StatusBar_Upper.SuspendLayout();
+            this.TabSet.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).BeginInit();
+            this.MainGridContextMenu.SuspendLayout();
+            this.topPanel.SuspendLayout();
+            this.toolStripTop.SuspendLayout();
+            this.StatusBar.SuspendLayout();
+            this.toolStripButtons_R.SuspendLayout();
+            this.panelRight.SuspendLayout();
+            this.previewLeftPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // Timer
+            // 
+            this.Timer.Interval = 250;
+            this.Timer.Tick += new System.EventHandler(this.MainFormTimer_Tick);
+            // 
+            // BtnImgList
+            // 
+            this.BtnImgList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("BtnImgList.ImageStream")));
+            this.BtnImgList.TransparentColor = System.Drawing.Color.White;
+            this.BtnImgList.Images.SetKeyName(0, "database.png");
+            this.BtnImgList.Images.SetKeyName(1, "database_check.png");
+            // 
+            // MainMenu
+            // 
+            this.MainMenu.BackColor = System.Drawing.SystemColors.Window;
+            this.MainMenu.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileMenu,
+            this.MnuEdit,
+            this.MnuView,
+            this.MnuSetup,
+            this.HelpMenu});
+            this.MainMenu.Location = new System.Drawing.Point(0, 0);
+            this.MainMenu.Name = "MainMenu";
+            this.MainMenu.Size = new System.Drawing.Size(1084, 24);
+            this.MainMenu.TabIndex = 4;
+            this.MainMenu.Text = "menuStrip";
+            // 
+            // fileMenu
+            // 
+            this.fileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MnuPrintTest,
+            this.MnuPrintFile,
+            this.F1,
+            this.MnuExportPricelist,
+            this.MnuImportPricelist,
+            this.MnuSessionClose,
+            this.F2,
+            this.MnuExit});
+            this.fileMenu.Name = "fileMenu";
+            this.fileMenu.Size = new System.Drawing.Size(92, 20);
+            this.fileMenu.Text = "&File e Stampa";
+            // 
+            // MnuPrintTest
+            // 
+            this.MnuPrintTest.Name = "MnuPrintTest";
+            this.MnuPrintTest.Size = new System.Drawing.Size(208, 22);
+            this.MnuPrintTest.Text = "Stampa di &prova";
+            this.MnuPrintTest.Click += new System.EventHandler(this.MnuPrintTest_Click);
+            // 
+            // MnuPrintFile
+            // 
+            this.MnuPrintFile.Name = "MnuPrintFile";
+            this.MnuPrintFile.Size = new System.Drawing.Size(208, 22);
+            this.MnuPrintFile.Text = "&Stampa File ...";
+            this.MnuPrintFile.Click += new System.EventHandler(this.MnuStampaFile_Click);
+            // 
+            // F1
+            // 
+            this.F1.Name = "F1";
+            this.F1.Size = new System.Drawing.Size(205, 6);
+            // 
+            // MnuExportPricelist
+            // 
+            this.MnuExportPricelist.Name = "MnuExportPricelist";
+            this.MnuExportPricelist.Size = new System.Drawing.Size(208, 22);
+            this.MnuExportPricelist.Text = "&Esporta Listino ...";
+            this.MnuExportPricelist.Click += new System.EventHandler(this.MnuEsportaListino_Click);
+            // 
+            // MnuImportPricelist
+            // 
+            this.MnuImportPricelist.Name = "MnuImportPricelist";
+            this.MnuImportPricelist.Size = new System.Drawing.Size(208, 22);
+            this.MnuImportPricelist.Text = "&Importa Listino ...";
+            this.MnuImportPricelist.Click += new System.EventHandler(this.MnuImportaListino_Click);
+            // 
+            // MnuSessionClose
+            // 
+            this.MnuSessionClose.Name = "MnuSessionClose";
+            this.MnuSessionClose.Size = new System.Drawing.Size(208, 22);
+            this.MnuSessionClose.Text = "&Forza chiusura incasso ...";
+            this.MnuSessionClose.Click += new System.EventHandler(this.MnuChiudiIncasso_Click);
+            // 
+            // F2
+            // 
+            this.F2.Name = "F2";
+            this.F2.Size = new System.Drawing.Size(205, 6);
+            // 
+            // MnuExit
+            // 
+            this.MnuExit.Name = "MnuExit";
+            this.MnuExit.Size = new System.Drawing.Size(208, 22);
+            this.MnuExit.Text = "&Esci";
+            this.MnuExit.Click += new System.EventHandler(this.MnuExit_Click);
+            // 
+            // MnuEdit
+            // 
+            this.MnuEdit.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MnuEditItemsAvailab,
+            this.M_1,
+            this.MnuOrderCancel,
+            this.MnuChangePayment});
+            this.MnuEdit.Name = "MnuEdit";
+            this.MnuEdit.Size = new System.Drawing.Size(62, 20);
+            this.MnuEdit.Text = "&Modifica";
+            // 
+            // MnuEditItemsAvailab
+            // 
+            this.MnuEditItemsAvailab.CheckOnClick = true;
+            this.MnuEditItemsAvailab.Name = "MnuEditItemsAvailab";
+            this.MnuEditItemsAvailab.Size = new System.Drawing.Size(219, 22);
+            this.MnuEditItemsAvailab.Text = "&Disponibilità Articoli";
+            this.MnuEditItemsAvailab.Click += new System.EventHandler(this.MnuModDispArticoli_Click);
+            // 
+            // M_1
+            // 
+            this.M_1.Name = "M_1";
+            this.M_1.Size = new System.Drawing.Size(216, 6);
+            // 
+            // MnuOrderCancel
+            // 
+            this.MnuOrderCancel.Name = "MnuOrderCancel";
+            this.MnuOrderCancel.Size = new System.Drawing.Size(219, 22);
+            this.MnuOrderCancel.Text = "&Annulla Ordine ...";
+            this.MnuOrderCancel.Click += new System.EventHandler(this.MnuAnnulloOrdine_Click);
+            // 
+            // MnuChangePayment
+            // 
+            this.MnuChangePayment.Name = "MnuChangePayment";
+            this.MnuChangePayment.Size = new System.Drawing.Size(219, 22);
+            this.MnuChangePayment.Text = "&Cambia tipo Pagamento ...";
+            this.MnuChangePayment.Click += new System.EventHandler(this.MnuChangePayment_Click);
+            // 
+            // MnuView
+            // 
+            this.MnuView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MnuViewTodayIncome,
+            this.MnuViewDateIncome,
+            this.V1,
+            this.MnuEsploraDB,
+            this.MnuEsploraOrdiniWeb,
+            this.V2,
+            this.MnuViewPricelist,
+            this.V3,
+            this.MnuReceiptPreview,
+            this.V4,
+            this.MnuVisMessaggiInviati,
+            this.MnuViewDateOrders,
+            this.MnuViewTodayOrders});
+            this.MnuView.Name = "MnuView";
+            this.MnuView.Size = new System.Drawing.Size(67, 20);
+            this.MnuView.Text = "&Visualizza";
+            // 
+            // MnuViewTodayIncome
+            // 
+            this.MnuViewTodayIncome.Name = "MnuViewTodayIncome";
+            this.MnuViewTodayIncome.Size = new System.Drawing.Size(235, 22);
+            this.MnuViewTodayIncome.Text = "&Incasso di oggi";
+            this.MnuViewTodayIncome.Click += new System.EventHandler(this.MnuVisIncassoOggi_Click);
+            // 
+            // MnuViewDateIncome
+            // 
+            this.MnuViewDateIncome.Name = "MnuViewDateIncome";
+            this.MnuViewDateIncome.Size = new System.Drawing.Size(235, 22);
+            this.MnuViewDateIncome.Text = "Incasso in altra &data";
+            this.MnuViewDateIncome.Click += new System.EventHandler(this.MnuVisIncassoAltraData_Click);
+            // 
+            // V1
+            // 
+            this.V1.Name = "V1";
+            this.V1.Size = new System.Drawing.Size(232, 6);
+            // 
+            // MnuEsploraDB
+            // 
+            this.MnuEsploraDB.Name = "MnuEsploraDB";
+            this.MnuEsploraDB.Size = new System.Drawing.Size(235, 22);
+            this.MnuEsploraDB.Text = "&Esplora Database";
+            this.MnuEsploraDB.Click += new System.EventHandler(this.MnuEsploraDB_Click);
+            // 
+            // MnuEsploraOrdiniWeb
+            // 
+            this.MnuEsploraOrdiniWeb.Name = "MnuEsploraOrdiniWeb";
+            this.MnuEsploraOrdiniWeb.Size = new System.Drawing.Size(235, 22);
+            this.MnuEsploraOrdiniWeb.Text = "Esplora Ordini &web";
+            this.MnuEsploraOrdiniWeb.Click += new System.EventHandler(this.MnuEsploraRemDB_Click);
+            // 
+            // V2
+            // 
+            this.V2.Name = "V2";
+            this.V2.Size = new System.Drawing.Size(232, 6);
+            // 
+            // MnuViewPricelist
+            // 
+            this.MnuViewPricelist.Name = "MnuViewPricelist";
+            this.MnuViewPricelist.Size = new System.Drawing.Size(235, 22);
+            this.MnuViewPricelist.Text = "&Listino Prezzi";
+            this.MnuViewPricelist.Click += new System.EventHandler(this.MnuVisListino_Click);
+            // 
+            // V3
+            // 
+            this.V3.Name = "V3";
+            this.V3.Size = new System.Drawing.Size(232, 6);
+            // 
+            // MnuReceiptPreview
+            // 
+            this.MnuReceiptPreview.Name = "MnuReceiptPreview";
+            this.MnuReceiptPreview.Size = new System.Drawing.Size(235, 22);
+            this.MnuReceiptPreview.Text = "&Anteprima Scontrino  Ctrl + P";
+            this.MnuReceiptPreview.Click += new System.EventHandler(this.MnuAnteprimaScontrino_Click);
+            // 
+            // V4
+            // 
+            this.V4.Name = "V4";
+            this.V4.Size = new System.Drawing.Size(232, 6);
+            // 
+            // MnuVisMessaggiInviati
+            // 
+            this.MnuVisMessaggiInviati.Name = "MnuVisMessaggiInviati";
+            this.MnuVisMessaggiInviati.Size = new System.Drawing.Size(235, 22);
+            this.MnuVisMessaggiInviati.Text = "&Messaggi Inviati";
+            this.MnuVisMessaggiInviati.Click += new System.EventHandler(this.MnuVisMessaggiInviati_Click);
+            // 
+            // MnuViewDateOrders
+            // 
+            this.MnuViewDateOrders.Name = "MnuViewDateOrders";
+            this.MnuViewDateOrders.Size = new System.Drawing.Size(235, 22);
+            this.MnuViewDateOrders.Text = "O&rdini emessi in altra data";
+            this.MnuViewDateOrders.Click += new System.EventHandler(this.MnuVisOrdiniAltraData_Click);
+            // 
+            // MnuViewTodayOrders
+            // 
+            this.MnuViewTodayOrders.Name = "MnuViewTodayOrders";
+            this.MnuViewTodayOrders.Size = new System.Drawing.Size(235, 22);
+            this.MnuViewTodayOrders.Text = "&Ordini emessi oggi";
+            this.MnuViewTodayOrders.Click += new System.EventHandler(this.MnuVisOrdiniEmessi_Click);
+            // 
+            // MnuSetup
+            // 
+            this.MnuSetup.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MnuExpert,
+            this.I1,
+            this.MnuSetupNetwork,
+            this.MnuSetupLocalCopies,
+            this.MnuSetupNetworkCopies,
+            this.MnuSetupWinPrinter,
+            this.MnuSetupGenPrinter,
+            this.MnuSetupLegacyPrinter,
+            this.I2,
+            this.MnuSetupOptions,
+            this.MnuChangePassword,
+            this.I3,
+            this.MnuSetupHeader,
+            this.MnuSetupTabsGrid,
+            this.I4,
+            this.MnuFileDiConfigurazione,
+            this.MnuSetupPricelist});
+            this.MnuSetup.Name = "MnuSetup";
+            this.MnuSetup.Size = new System.Drawing.Size(63, 20);
+            this.MnuSetup.Text = "&Imposta";
+            this.MnuSetup.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TabSet_MouseMove);
+            // 
+            // MnuExpert
+            // 
+            this.MnuExpert.Name = "MnuExpert";
+            this.MnuExpert.Size = new System.Drawing.Size(346, 22);
+            this.MnuExpert.Text = "S&blocco con password (chiesto solo una volta)";
+            this.MnuExpert.Click += new System.EventHandler(this.MnuEsperto_Click);
+            // 
+            // I1
+            // 
+            this.I1.Name = "I1";
+            this.I1.Size = new System.Drawing.Size(343, 6);
+            // 
+            // MnuSetupNetwork
+            // 
+            this.MnuSetupNetwork.Name = "MnuSetupNetwork";
+            this.MnuSetupNetwork.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupNetwork.Text = "Configurazione &Rete ...";
+            this.MnuSetupNetwork.Click += new System.EventHandler(this.MnuConfigurazioneRete_Click);
+            // 
+            // MnuSetupLocalCopies
+            // 
+            this.MnuSetupLocalCopies.Name = "MnuSetupLocalCopies";
+            this.MnuSetupLocalCopies.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupLocalCopies.Text = "Configurazione &Scontrino e Copie locali ...";
+            this.MnuSetupLocalCopies.Click += new System.EventHandler(this.MnuSetupLocalCopies_Click);
+            // 
+            // MnuSetupNetworkCopies
+            // 
+            this.MnuSetupNetworkCopies.Name = "MnuSetupNetworkCopies";
+            this.MnuSetupNetworkCopies.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupNetworkCopies.Text = "Configurazione Gruppi di Articoli e &Copie in rete ...";
+            this.MnuSetupNetworkCopies.Click += new System.EventHandler(this.MnuSetupNetworkCopies_Click);
+            // 
+            // MnuSetupWinPrinter
+            // 
+            this.MnuSetupWinPrinter.Name = "MnuSetupWinPrinter";
+            this.MnuSetupWinPrinter.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupWinPrinter.Text = "Configurazione S&tampante Windows ...";
+            this.MnuSetupWinPrinter.Click += new System.EventHandler(this.MnuSetupWinPrinter_Click);
+            // 
+            // MnuSetupGenPrinter
+            // 
+            this.MnuSetupGenPrinter.Name = "MnuSetupGenPrinter";
+            this.MnuSetupGenPrinter.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupGenPrinter.Text = "Configurazione Comune di Stampa ...";
+            this.MnuSetupGenPrinter.Click += new System.EventHandler(this.MnuImpostaStampanteGenerica_Click);
+            // 
+            // MnuSetupLegacyPrinter
+            // 
+            this.MnuSetupLegacyPrinter.Name = "MnuSetupLegacyPrinter";
+            this.MnuSetupLegacyPrinter.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupLegacyPrinter.Text = "Configurazione Stam&pante Legacy ...";
+            this.MnuSetupLegacyPrinter.Click += new System.EventHandler(this.MnuSetupLegacyPrinter_Click);
+            // 
+            // I2
+            // 
+            this.I2.Name = "I2";
+            this.I2.Size = new System.Drawing.Size(343, 6);
+            // 
+            // MnuSetupOptions
+            // 
+            this.MnuSetupOptions.Name = "MnuSetupOptions";
+            this.MnuSetupOptions.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupOptions.Text = "&Opzioni varie ...";
+            this.MnuSetupOptions.Click += new System.EventHandler(this.MnuSetupOptions_Click);
+            // 
+            // MnuChangePassword
+            // 
+            this.MnuChangePassword.Name = "MnuChangePassword";
+            this.MnuChangePassword.Size = new System.Drawing.Size(346, 22);
+            this.MnuChangePassword.Text = "&Modifica password ...";
+            this.MnuChangePassword.Click += new System.EventHandler(this.MnuChangePassword_Click);
+            // 
+            // I3
+            // 
+            this.I3.Name = "I3";
+            this.I3.Size = new System.Drawing.Size(343, 6);
+            // 
+            // MnuSetupHeader
+            // 
+            this.MnuSetupHeader.Name = "MnuSetupHeader";
+            this.MnuSetupHeader.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupHeader.Text = "Intestazione / &Piè pagina ...";
+            this.MnuSetupHeader.Click += new System.EventHandler(this.MnuSetupHeader_Click);
+            // 
+            // MnuSetupTabsGrid
+            // 
+            this.MnuSetupTabsGrid.Name = "MnuSetupTabsGrid";
+            this.MnuSetupTabsGrid.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupTabsGrid.Text = "Dimensioni &Griglia, Modo Touch, Tabs ...";
+            this.MnuSetupTabsGrid.Click += new System.EventHandler(this.MnuSetupDimGrid_Click);
+            // 
+            // I4
+            // 
+            this.I4.Name = "I4";
+            this.I4.Size = new System.Drawing.Size(343, 6);
+            // 
+            // MnuFileDiConfigurazione
+            // 
+            this.MnuFileDiConfigurazione.Name = "MnuFileDiConfigurazione";
+            this.MnuFileDiConfigurazione.Size = new System.Drawing.Size(346, 22);
+            this.MnuFileDiConfigurazione.Text = "&File di configurazione ...";
+            this.MnuFileDiConfigurazione.Click += new System.EventHandler(this.MnuFileDiConfigurazione_Click);
+            // 
+            // MnuSetupPricelist
+            // 
+            this.MnuSetupPricelist.CheckOnClick = true;
+            this.MnuSetupPricelist.Name = "MnuSetupPricelist";
+            this.MnuSetupPricelist.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupPricelist.Text = "&Listino Prezzi";
+            this.MnuSetupPricelist.Click += new System.EventHandler(this.MnuSetupListino_Click);
+            // 
+            // HelpMenu
+            // 
+            this.HelpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MnuQuickHelp,
+            this.A1,
+            this.MnuInfo});
+            this.HelpMenu.Name = "HelpMenu";
+            this.HelpMenu.Size = new System.Drawing.Size(48, 20);
+            this.HelpMenu.Text = "&Aiuto";
+            // 
+            // MnuQuickHelp
+            // 
+            this.MnuQuickHelp.Name = "MnuQuickHelp";
+            this.MnuQuickHelp.Size = new System.Drawing.Size(171, 22);
+            this.MnuQuickHelp.Text = "Aiuto &Rapido";
+            this.MnuQuickHelp.Click += new System.EventHandler(this.MnuQuickHelp_Click);
+            // 
+            // A1
+            // 
+            this.A1.Name = "A1";
+            this.A1.Size = new System.Drawing.Size(168, 6);
+            // 
+            // MnuInfo
+            // 
+            this.MnuInfo.Name = "MnuInfo";
+            this.MnuInfo.Size = new System.Drawing.Size(171, 22);
+            this.MnuInfo.Text = "&Informazioni su ...";
+            this.MnuInfo.Click += new System.EventHandler(this.MnuInfo_Click);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog";
+            // 
+            // StatusBar_Upper
+            // 
+            this.StatusBar_Upper.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.StatusBar_Upper.AutoSize = false;
+            this.StatusBar_Upper.BackColor = System.Drawing.SystemColors.Window;
+            this.StatusBar_Upper.Dock = System.Windows.Forms.DockStyle.None;
+            this.StatusBar_Upper.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StatusBar_Upper.GripMargin = new System.Windows.Forms.Padding(0);
+            this.StatusBar_Upper.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MF_LblStatusTotalPrev,
+            this.MF_lblStatusTickNum,
+            this.MF_lblNote});
+            this.StatusBar_Upper.Location = new System.Drawing.Point(0, 584);
+            this.StatusBar_Upper.Margin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this.StatusBar_Upper.Name = "StatusBar_Upper";
+            this.StatusBar_Upper.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.StatusBar_Upper.ShowItemToolTips = true;
+            this.StatusBar_Upper.Size = new System.Drawing.Size(486, 30);
+            this.StatusBar_Upper.SizingGrip = false;
+            this.StatusBar_Upper.Stretch = false;
+            this.StatusBar_Upper.TabIndex = 7;
+            // 
+            // MF_LblStatusTotalPrev
+            // 
+            this.MF_LblStatusTotalPrev.AutoSize = false;
+            this.MF_LblStatusTotalPrev.BackColor = System.Drawing.SystemColors.Window;
+            this.MF_LblStatusTotalPrev.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.MF_LblStatusTotalPrev.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.MF_LblStatusTotalPrev.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_LblStatusTotalPrev.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.MF_LblStatusTotalPrev.Margin = new System.Windows.Forms.Padding(2);
+            this.MF_LblStatusTotalPrev.Name = "MF_LblStatusTotalPrev";
+            this.MF_LblStatusTotalPrev.Size = new System.Drawing.Size(154, 26);
+            this.MF_LblStatusTotalPrev.Text = "Totale Pr. = 4999,88";
+            this.MF_LblStatusTotalPrev.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.MF_LblStatusTotalPrev.ToolTipText = "Totale Scontrino Precedente";
+            // 
+            // MF_lblStatusTickNum
+            // 
+            this.MF_lblStatusTickNum.AutoSize = false;
+            this.MF_lblStatusTickNum.BackColor = System.Drawing.SystemColors.Window;
+            this.MF_lblStatusTickNum.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.MF_lblStatusTickNum.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.MF_lblStatusTickNum.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lblStatusTickNum.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.MF_lblStatusTickNum.Margin = new System.Windows.Forms.Padding(2);
+            this.MF_lblStatusTickNum.Name = "MF_lblStatusTickNum";
+            this.MF_lblStatusTickNum.Size = new System.Drawing.Size(150, 26);
+            this.MF_lblStatusTickNum.Text = "N. Scontrino : 8888";
+            this.MF_lblStatusTickNum.ToolTipText = "Numero di scontrini emessi";
+            // 
+            // MF_lblNote
+            // 
+            this.MF_lblNote.AutoSize = false;
+            this.MF_lblNote.BackColor = System.Drawing.SystemColors.Window;
+            this.MF_lblNote.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lblNote.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.MF_lblNote.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.MF_lblNote.Name = "MF_lblNote";
+            this.MF_lblNote.Size = new System.Drawing.Size(153, 30);
+            this.MF_lblNote.Spring = true;
+            this.MF_lblNote.Text = "Nota:";
+            this.MF_lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TabSet
+            // 
+            this.TabSet.Controls.Add(this.tabPage0);
+            this.TabSet.Controls.Add(this.tabPage1);
+            this.TabSet.Controls.Add(this.tabPage2);
+            this.TabSet.Controls.Add(this.tabPage3);
+            this.TabSet.Controls.Add(this.tabPage4);
+            this.TabSet.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TabSet.HotTrack = true;
+            this.TabSet.ItemSize = new System.Drawing.Size(63, 25);
+            this.TabSet.Location = new System.Drawing.Point(5, 70);
+            this.TabSet.Name = "TabSet";
+            this.TabSet.Padding = new System.Drawing.Point(4, 3);
+            this.TabSet.SelectedIndex = 0;
+            this.TabSet.Size = new System.Drawing.Size(481, 28);
+            this.TabSet.TabIndex = 5;
+            this.TabSet.TabStop = false;
+            this.TabSet.SelectedIndexChanged += new System.EventHandler(this.TabSet_SelectedIndexChanged);
+            this.TabSet.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TabSet_MouseMove);
+            // 
+            // tabPage0
+            // 
+            this.tabPage0.BackColor = System.Drawing.SystemColors.Menu;
+            this.tabPage0.Location = new System.Drawing.Point(4, 29);
+            this.tabPage0.Name = "tabPage0";
+            this.tabPage0.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage0.Size = new System.Drawing.Size(473, 0);
+            this.tabPage0.TabIndex = 0;
+            this.tabPage0.Text = "Pagina 1";
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.Menu;
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(473, 0);
+            this.tabPage1.TabIndex = 1;
+            this.tabPage1.Text = "Pagina 2";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Menu;
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(473, 0);
+            this.tabPage2.TabIndex = 2;
+            this.tabPage2.Text = "Pagina 3";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.Menu;
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(473, 0);
+            this.tabPage3.TabIndex = 3;
+            this.tabPage3.Text = "Pagina 4";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.BackColor = System.Drawing.SystemColors.Menu;
+            this.tabPage4.Location = new System.Drawing.Point(4, 29);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(473, 0);
+            this.tabPage4.TabIndex = 4;
+            this.tabPage4.Text = "Pagina 5";
+            // 
+            // MainGrid
+            // 
+            this.MainGrid.AllowUserToAddRows = false;
+            this.MainGrid.AllowUserToDeleteRows = false;
+            this.MainGrid.AllowUserToResizeColumns = false;
+            this.MainGrid.AllowUserToResizeRows = false;
+            this.MainGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MainGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.MainGrid.BackgroundColor = System.Drawing.Color.Teal;
+            this.MainGrid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.MainGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+            this.MainGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.MainGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.MainGrid.ColumnHeadersVisible = false;
+            this.MainGrid.ContextMenuStrip = this.MainGridContextMenu;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Teal;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            this.MainGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.MainGrid.EnableHeadersVisualStyles = false;
+            this.MainGrid.GridColor = System.Drawing.Color.Gainsboro;
+            this.MainGrid.Location = new System.Drawing.Point(360, 98);
+            this.MainGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.MainGrid.MultiSelect = false;
+            this.MainGrid.Name = "MainGrid";
+            this.MainGrid.ReadOnly = true;
+            this.MainGrid.RowHeadersVisible = false;
+            this.MainGrid.RowHeadersWidth = 10;
+            this.MainGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.MainGrid.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.MainGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.MainGrid.Size = new System.Drawing.Size(496, 466);
+            this.MainGrid.TabIndex = 0;
+            this.MainGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGrid_CellClick);
+            this.MainGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGrid_CellDoubleClick);
+            this.MainGrid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.MainGrid_CellMouseDown);
+            this.MainGrid.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.MainGrid_CellMouseMove);
+            this.MainGrid.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.MainGrid_CellMouseUp);
+            this.MainGrid.DragLeave += new System.EventHandler(this.MainGrid_DragLeave);
+            this.MainGrid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainGrid_KeyDown);
+            this.MainGrid.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainGrid_KeyUp);
+            this.MainGrid.Leave += new System.EventHandler(this.MainGrid_DragLeave);
+            this.MainGrid.MouseLeave += new System.EventHandler(this.MainGrid_DragLeave);
+            this.MainGrid.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainGrid_MouseMove);
+            this.MainGrid.Resize += new System.EventHandler(this.MainGrid_Resize);
+            // 
+            // MainGridContextMenu
+            // 
+            this.MainGridContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.p1,
+            this.p2,
+            this.p3,
+            this.p4,
+            this.p5,
+            this.p6,
+            this.p7,
+            this.p8,
+            this.p9,
+            this.p10,
+            this.p20,
+            this.toolStripSeparator1,
+            this.z1,
+            this.toolStripSeparator2,
+            this.m1,
+            this.m2,
+            this.m3,
+            this.toolStripSeparator3,
+            this.m5,
+            this.m10});
+            this.MainGridContextMenu.Name = "MainGridMenu";
+            this.MainGridContextMenu.Size = new System.Drawing.Size(98, 396);
+            // 
+            // p1
+            // 
+            this.p1.Name = "p1";
+            this.p1.Size = new System.Drawing.Size(97, 22);
+            this.p1.Text = "+ 1";
+            this.p1.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p2
+            // 
+            this.p2.Name = "p2";
+            this.p2.Size = new System.Drawing.Size(97, 22);
+            this.p2.Text = "+ 2";
+            this.p2.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p3
+            // 
+            this.p3.Name = "p3";
+            this.p3.Size = new System.Drawing.Size(97, 22);
+            this.p3.Text = "+ 3";
+            this.p3.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p4
+            // 
+            this.p4.Name = "p4";
+            this.p4.Size = new System.Drawing.Size(97, 22);
+            this.p4.Text = "+ 4";
+            this.p4.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p5
+            // 
+            this.p5.Name = "p5";
+            this.p5.Size = new System.Drawing.Size(97, 22);
+            this.p5.Text = "+ 5";
+            this.p5.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p6
+            // 
+            this.p6.Name = "p6";
+            this.p6.Size = new System.Drawing.Size(97, 22);
+            this.p6.Text = "+ 6";
+            this.p6.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p7
+            // 
+            this.p7.Name = "p7";
+            this.p7.Size = new System.Drawing.Size(97, 22);
+            this.p7.Text = "+ 7";
+            this.p7.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p8
+            // 
+            this.p8.Name = "p8";
+            this.p8.Size = new System.Drawing.Size(97, 22);
+            this.p8.Text = "+ 8";
+            this.p8.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p9
+            // 
+            this.p9.Name = "p9";
+            this.p9.Size = new System.Drawing.Size(97, 22);
+            this.p9.Text = "+ 9";
+            this.p9.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p10
+            // 
+            this.p10.Name = "p10";
+            this.p10.Size = new System.Drawing.Size(97, 22);
+            this.p10.Text = "+ 10";
+            this.p10.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p20
+            // 
+            this.p20.Name = "p20";
+            this.p20.Size = new System.Drawing.Size(97, 22);
+            this.p20.Text = "+ 20";
+            this.p20.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(94, 6);
+            // 
+            // z1
+            // 
+            this.z1.Name = "z1";
+            this.z1.Size = new System.Drawing.Size(97, 22);
+            this.z1.Text = "= 0";
+            this.z1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.z1.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(94, 6);
+            // 
+            // m1
+            // 
+            this.m1.Name = "m1";
+            this.m1.Size = new System.Drawing.Size(97, 22);
+            this.m1.Text = "- 1";
+            this.m1.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // m2
+            // 
+            this.m2.Name = "m2";
+            this.m2.Size = new System.Drawing.Size(97, 22);
+            this.m2.Text = "- 2";
+            this.m2.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // m3
+            // 
+            this.m3.Name = "m3";
+            this.m3.Size = new System.Drawing.Size(97, 22);
+            this.m3.Text = "- 3";
+            this.m3.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(94, 6);
+            // 
+            // m5
+            // 
+            this.m5.Name = "m5";
+            this.m5.Size = new System.Drawing.Size(97, 22);
+            this.m5.Text = "- 5";
+            this.m5.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // m10
+            // 
+            this.m10.Name = "m10";
+            this.m10.Size = new System.Drawing.Size(97, 22);
+            this.m10.Text = "- 10";
+            this.m10.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // topPanel
+            // 
+            this.topPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.topPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.topPanel.BackColor = System.Drawing.SystemColors.Menu;
+            this.topPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.topPanel.Controls.Add(this.toolStripTop);
+            this.topPanel.Location = new System.Drawing.Point(5, 27);
+            this.topPanel.Name = "topPanel";
+            this.topPanel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.topPanel.Size = new System.Drawing.Size(1073, 41);
+            this.topPanel.TabIndex = 18;
+            // 
+            // toolStripTop
+            // 
+            this.toolStripTop.AllowMerge = false;
+            this.toolStripTop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolStripTop.AutoSize = false;
+            this.toolStripTop.BackColor = System.Drawing.SystemColors.Menu;
+            this.toolStripTop.CanOverflow = false;
+            this.toolStripTop.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripTop.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripTop.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BtnViewPricelist,
+            this.BtnSep_T1,
+            this.BtnSendMsg,
+            this.BtnSep_T2,
+            this.BtnX10,
+            this.BtnSep_T3,
+            this.BtnTakeAway,
+            this.BtnSep_T4,
+            this.BtnSconto,
+            this.Btn_OSKeyb,
+            this.BtnSep_T6,
+            this.Btn_DB_Check,
+            this.BtnSep_T7,
+            this.BtnScontrino,
+            this.BtnSep_T8,
+            this.BtnSep_T5,
+            this.toolStripTop_TC_lbl});
+            this.toolStripTop.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.toolStripTop.Location = new System.Drawing.Point(-1, 0);
+            this.toolStripTop.Margin = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.toolStripTop.Name = "toolStripTop";
+            this.toolStripTop.Padding = new System.Windows.Forms.Padding(2);
+            this.toolStripTop.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStripTop.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.toolStripTop.Size = new System.Drawing.Size(1067, 39);
+            this.toolStripTop.TabIndex = 0;
+            // 
+            // BtnViewPricelist
+            // 
+            this.BtnViewPricelist.AutoSize = false;
+            this.BtnViewPricelist.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnViewPricelist.Image = global::StandFacile.Properties.Resources.euro;
+            this.BtnViewPricelist.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.BtnViewPricelist.ImageTransparentColor = System.Drawing.Color.White;
+            this.BtnViewPricelist.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.BtnViewPricelist.Name = "BtnViewPricelist";
+            this.BtnViewPricelist.Size = new System.Drawing.Size(45, 38);
+            this.BtnViewPricelist.ToolTipText = "(F5) Vis. Prezzi";
+            this.BtnViewPricelist.Click += new System.EventHandler(this.BtnVisListino_Click);
+            this.BtnViewPricelist.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TabSet_MouseMove);
+            // 
+            // BtnSep_T1
+            // 
+            this.BtnSep_T1.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.BtnSep_T1.Name = "BtnSep_T1";
+            this.BtnSep_T1.Size = new System.Drawing.Size(6, 35);
+            // 
+            // BtnSendMsg
+            // 
+            this.BtnSendMsg.AccessibleDescription = "";
+            this.BtnSendMsg.AutoSize = false;
+            this.BtnSendMsg.BackColor = System.Drawing.SystemColors.Control;
+            this.BtnSendMsg.Image = ((System.Drawing.Image)(resources.GetObject("BtnSendMsg.Image")));
+            this.BtnSendMsg.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.BtnSendMsg.ImageTransparentColor = System.Drawing.Color.White;
+            this.BtnSendMsg.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.BtnSendMsg.Name = "BtnSendMsg";
+            this.BtnSendMsg.Size = new System.Drawing.Size(45, 38);
+            this.BtnSendMsg.ToolTipText = "(F6) Messaggio Cucina";
+            this.BtnSendMsg.Click += new System.EventHandler(this.BtnSendMsg_Click);
+            // 
+            // BtnSep_T2
+            // 
+            this.BtnSep_T2.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.BtnSep_T2.Name = "BtnSep_T2";
+            this.BtnSep_T2.Size = new System.Drawing.Size(6, 35);
+            // 
+            // BtnX10
+            // 
+            this.BtnX10.AccessibleDescription = "";
+            this.BtnX10.AutoSize = false;
+            this.BtnX10.CheckOnClick = true;
+            this.BtnX10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnX10.Image = global::StandFacile.Properties.Resources.x10_;
+            this.BtnX10.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.BtnX10.ImageTransparentColor = System.Drawing.Color.White;
+            this.BtnX10.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.BtnX10.Name = "BtnX10";
+            this.BtnX10.Size = new System.Drawing.Size(45, 38);
+            this.BtnX10.ToolTipText = "(F7) Quantità x10";
+            this.BtnX10.Click += new System.EventHandler(this.BtnX10_Click);
+            // 
+            // BtnSep_T3
+            // 
+            this.BtnSep_T3.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.BtnSep_T3.Name = "BtnSep_T3";
+            this.BtnSep_T3.Size = new System.Drawing.Size(6, 35);
+            // 
+            // BtnTakeAway
+            // 
+            this.BtnTakeAway.AccessibleDescription = "";
+            this.BtnTakeAway.AutoSize = false;
+            this.BtnTakeAway.CheckOnClick = true;
+            this.BtnTakeAway.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnTakeAway.Image = global::StandFacile.Properties.Resources.basket;
+            this.BtnTakeAway.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.BtnTakeAway.ImageTransparentColor = System.Drawing.Color.White;
+            this.BtnTakeAway.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.BtnTakeAway.Name = "BtnTakeAway";
+            this.BtnTakeAway.Size = new System.Drawing.Size(45, 38);
+            this.BtnTakeAway.ToolTipText = "(F8) Asporto";
+            this.BtnTakeAway.Click += new System.EventHandler(this.BtnTakeAway_Click);
+            // 
+            // BtnSep_T4
+            // 
+            this.BtnSep_T4.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.BtnSep_T4.Name = "BtnSep_T4";
+            this.BtnSep_T4.Size = new System.Drawing.Size(6, 35);
+            // 
+            // BtnSconto
+            // 
+            this.BtnSconto.AutoSize = false;
+            this.BtnSconto.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnSconto.Image = global::StandFacile.Properties.Resources.sconto_no;
+            this.BtnSconto.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.BtnSconto.ImageTransparentColor = System.Drawing.Color.White;
+            this.BtnSconto.Name = "BtnSconto";
+            this.BtnSconto.Size = new System.Drawing.Size(36, 36);
+            this.BtnSconto.ToolTipText = "(F9) applica sconto";
+            this.BtnSconto.Click += new System.EventHandler(this.BtnSconto_Click);
+            // 
+            // Btn_OSKeyb
+            // 
+            this.Btn_OSKeyb.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.Btn_OSKeyb.AutoSize = false;
+            this.Btn_OSKeyb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Btn_OSKeyb.Image = global::StandFacile.Properties.Resources.keyboard;
+            this.Btn_OSKeyb.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.Btn_OSKeyb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Btn_OSKeyb.Name = "Btn_OSKeyb";
+            this.Btn_OSKeyb.Size = new System.Drawing.Size(45, 38);
+            this.Btn_OSKeyb.Click += new System.EventHandler(this.BtnKeyb_Click);
+            // 
+            // BtnSep_T6
+            // 
+            this.BtnSep_T6.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.BtnSep_T6.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.BtnSep_T6.Name = "BtnSep_T6";
+            this.BtnSep_T6.Size = new System.Drawing.Size(6, 35);
+            // 
+            // Btn_DB_Check
+            // 
+            this.Btn_DB_Check.AccessibleDescription = "";
+            this.Btn_DB_Check.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.Btn_DB_Check.AutoSize = false;
+            this.Btn_DB_Check.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Btn_DB_Check.Image = ((System.Drawing.Image)(resources.GetObject("Btn_DB_Check.Image")));
+            this.Btn_DB_Check.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.Btn_DB_Check.ImageTransparentColor = System.Drawing.Color.White;
+            this.Btn_DB_Check.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.Btn_DB_Check.Name = "Btn_DB_Check";
+            this.Btn_DB_Check.Size = new System.Drawing.Size(45, 38);
+            this.Btn_DB_Check.ToolTipText = "test connessione DB";
+            this.Btn_DB_Check.Click += new System.EventHandler(this.BtnDB_Click);
+            // 
+            // BtnSep_T7
+            // 
+            this.BtnSep_T7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.BtnSep_T7.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.BtnSep_T7.Name = "BtnSep_T7";
+            this.BtnSep_T7.Size = new System.Drawing.Size(6, 35);
+            // 
+            // BtnScontrino
+            // 
+            this.BtnScontrino.AccessibleDescription = "\\";
+            this.BtnScontrino.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.BtnScontrino.AutoSize = false;
+            this.BtnScontrino.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.BtnScontrino.Image = global::StandFacile.Properties.Resources.printer;
+            this.BtnScontrino.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.BtnScontrino.ImageTransparentColor = System.Drawing.Color.White;
+            this.BtnScontrino.Margin = new System.Windows.Forms.Padding(0, 1, 0, 1);
+            this.BtnScontrino.Name = "BtnScontrino";
+            this.BtnScontrino.Size = new System.Drawing.Size(45, 38);
+            this.BtnScontrino.ToolTipText = "(F10) Stampa lo scontrino";
+            this.BtnScontrino.Click += new System.EventHandler(this.BtnScontrino_Click);
+            // 
+            // BtnSep_T8
+            // 
+            this.BtnSep_T8.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.BtnSep_T8.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.BtnSep_T8.Name = "BtnSep_T8";
+            this.BtnSep_T8.Size = new System.Drawing.Size(6, 35);
+            // 
+            // BtnSep_T5
+            // 
+            this.BtnSep_T5.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.BtnSep_T5.Name = "BtnSep_T5";
+            this.BtnSep_T5.Size = new System.Drawing.Size(6, 35);
+            // 
+            // toolStripTop_TC_lbl
+            // 
+            this.toolStripTop_TC_lbl.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripTop_TC_lbl.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripTop_TC_lbl.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripTop_TC_lbl.ForeColor = System.Drawing.Color.Crimson;
+            this.toolStripTop_TC_lbl.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripTop_TC_lbl.Margin = new System.Windows.Forms.Padding(0);
+            this.toolStripTop_TC_lbl.Name = "toolStripTop_TC_lbl";
+            this.toolStripTop_TC_lbl.RightToLeftAutoMirrorImage = true;
+            this.toolStripTop_TC_lbl.Size = new System.Drawing.Size(105, 35);
+            this.toolStripTop_TC_lbl.Text = "TC = 0.00";
+            this.toolStripTop_TC_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolStripTop_TC_lbl.ToolTipText = "Totale Corrente";
+            // 
+            // EditNote
+            // 
+            this.EditNote.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditNote.BackColor = System.Drawing.Color.Gainsboro;
+            this.EditNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditNote.Location = new System.Drawing.Point(479, 584);
+            this.EditNote.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.EditNote.MaxLength = 28;
+            this.EditNote.Name = "EditNote";
+            this.EditNote.Size = new System.Drawing.Size(321, 26);
+            this.EditNote.TabIndex = 2;
+            this.EditNote.WordWrap = false;
+            this.EditNote.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
+            this.EditNote.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
+            // 
+            // lblStatus_Status
+            // 
+            this.lblStatus_Status.AutoSize = false;
+            this.lblStatus_Status.BackColor = System.Drawing.SystemColors.Window;
+            this.lblStatus_Status.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.lblStatus_Status.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.lblStatus_Status.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus_Status.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblStatus_Status.Margin = new System.Windows.Forms.Padding(1);
+            this.lblStatus_Status.Name = "lblStatus_Status";
+            this.lblStatus_Status.Size = new System.Drawing.Size(400, 28);
+            this.lblStatus_Status.Text = "Pronto";
+            this.lblStatus_Status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblStatus_TC
+            // 
+            this.lblStatus_TC.AutoSize = false;
+            this.lblStatus_TC.BackColor = System.Drawing.Color.Red;
+            this.lblStatus_TC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.lblStatus_TC.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.lblStatus_TC.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.lblStatus_TC.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.lblStatus_TC.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus_TC.ForeColor = System.Drawing.Color.Crimson;
+            this.lblStatus_TC.Margin = new System.Windows.Forms.Padding(1);
+            this.lblStatus_TC.Name = "lblStatus_TC";
+            this.lblStatus_TC.Size = new System.Drawing.Size(40, 28);
+            this.lblStatus_TC.ToolTipText = "Totale Corrente";
+            // 
+            // lblStatus_Date
+            // 
+            this.lblStatus_Date.AutoSize = false;
+            this.lblStatus_Date.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.lblStatus_Date.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.lblStatus_Date.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus_Date.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblStatus_Date.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblStatus_Date.Name = "lblStatus_Date";
+            this.lblStatus_Date.Size = new System.Drawing.Size(180, 30);
+            this.lblStatus_Date.Text = "Domenica 01/01/2010";
+            this.lblStatus_Date.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblStatus_Time
+            // 
+            this.lblStatus_Time.AutoSize = false;
+            this.lblStatus_Time.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.lblStatus_Time.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
+            this.lblStatus_Time.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus_Time.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblStatus_Time.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblStatus_Time.Name = "lblStatus_Time";
+            this.lblStatus_Time.Size = new System.Drawing.Size(80, 30);
+            this.lblStatus_Time.Text = "18.18.10";
+            // 
+            // StatusBar
+            // 
+            this.StatusBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.StatusBar.AutoSize = false;
+            this.StatusBar.Dock = System.Windows.Forms.DockStyle.None;
+            this.StatusBar.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StatusBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
+            this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblStatus_Status,
+            this.lblStatus_TC,
+            this.lblStatus_Date,
+            this.lblStatus_Time});
+            this.StatusBar.Location = new System.Drawing.Point(0, 612);
+            this.StatusBar.Margin = new System.Windows.Forms.Padding(2);
+            this.StatusBar.Name = "StatusBar";
+            this.StatusBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.StatusBar.ShowItemToolTips = true;
+            this.StatusBar.Size = new System.Drawing.Size(800, 30);
+            this.StatusBar.SizingGrip = false;
+            this.StatusBar.Stretch = false;
+            this.StatusBar.TabIndex = 11;
+            this.StatusBar.Text = "StatusBar";
+            // 
+            // EditStatus_QRC
+            // 
+            this.EditStatus_QRC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditStatus_QRC.BackColor = System.Drawing.Color.Honeydew;
+            this.EditStatus_QRC.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditStatus_QRC.Location = new System.Drawing.Point(884, 613);
+            this.EditStatus_QRC.Margin = new System.Windows.Forms.Padding(0);
+            this.EditStatus_QRC.MaxLength = 0;
+            this.EditStatus_QRC.Name = "EditStatus_QRC";
+            this.EditStatus_QRC.Size = new System.Drawing.Size(181, 26);
+            this.EditStatus_QRC.TabIndex = 21;
+            this.EditStatus_QRC.Text = "1234567890123";
+            this.EditStatus_QRC.WordWrap = false;
+            this.EditStatus_QRC.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
+            this.EditStatus_QRC.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditStatus_QRC_KeyPress);
+            // 
+            // MF_lblReadQrc
+            // 
+            this.MF_lblReadQrc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.MF_lblReadQrc.AutoSize = true;
+            this.MF_lblReadQrc.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lblReadQrc.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.MF_lblReadQrc.Location = new System.Drawing.Point(801, 617);
+            this.MF_lblReadQrc.Name = "MF_lblReadQrc";
+            this.MF_lblReadQrc.Size = new System.Drawing.Size(70, 19);
+            this.MF_lblReadQrc.TabIndex = 22;
+            this.MF_lblReadQrc.Text = "QRcode:";
+            // 
+            // toolStripButtons_R
+            // 
+            this.toolStripButtons_R.AllowMerge = false;
+            this.toolStripButtons_R.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.toolStripButtons_R.AutoSize = false;
+            this.toolStripButtons_R.BackColor = System.Drawing.Color.Honeydew;
+            this.toolStripButtons_R.CanOverflow = false;
+            this.toolStripButtons_R.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripButtons_R.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripButtons_R.ImageScalingSize = new System.Drawing.Size(80, 80);
+            this.toolStripButtons_R.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnPlus,
+            this.btnCanc,
+            this.btnMinus});
+            this.toolStripButtons_R.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            this.toolStripButtons_R.Location = new System.Drawing.Point(856, 70);
+            this.toolStripButtons_R.Name = "toolStripButtons_R";
+            this.toolStripButtons_R.Padding = new System.Windows.Forms.Padding(0);
+            this.toolStripButtons_R.Size = new System.Drawing.Size(230, 75);
+            this.toolStripButtons_R.TabIndex = 23;
+            this.toolStripButtons_R.Text = "toolStripButtons_R";
+            // 
+            // btnPlus
+            // 
+            this.btnPlus.AutoSize = false;
+            this.btnPlus.BackColor = System.Drawing.Color.Honeydew;
+            this.btnPlus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPlus.Image = ((System.Drawing.Image)(resources.GetObject("btnPlus.Image")));
+            this.btnPlus.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnPlus.ImageTransparentColor = System.Drawing.Color.White;
+            this.btnPlus.Margin = new System.Windows.Forms.Padding(1);
+            this.btnPlus.Name = "btnPlus";
+            this.btnPlus.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            this.btnPlus.Size = new System.Drawing.Size(75, 75);
+            this.btnPlus.ToolTipText = "incrementa la quantità";
+            this.btnPlus.Click += new System.EventHandler(this.BtnPlus_Click);
+            // 
+            // btnCanc
+            // 
+            this.btnCanc.AutoSize = false;
+            this.btnCanc.BackColor = System.Drawing.Color.Honeydew;
+            this.btnCanc.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnCanc.Image = global::StandFacile.Properties.Resources.canc;
+            this.btnCanc.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnCanc.ImageTransparentColor = System.Drawing.Color.White;
+            this.btnCanc.Margin = new System.Windows.Forms.Padding(1);
+            this.btnCanc.Name = "btnCanc";
+            this.btnCanc.Size = new System.Drawing.Size(75, 75);
+            this.btnCanc.ToolTipText = "azzera la quantità";
+            this.btnCanc.Click += new System.EventHandler(this.BtnCanc_Click);
+            // 
+            // btnMinus
+            // 
+            this.btnMinus.AutoSize = false;
+            this.btnMinus.BackColor = System.Drawing.Color.Honeydew;
+            this.btnMinus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnMinus.Image = ((System.Drawing.Image)(resources.GetObject("btnMinus.Image")));
+            this.btnMinus.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnMinus.ImageTransparentColor = System.Drawing.Color.White;
+            this.btnMinus.Margin = new System.Windows.Forms.Padding(1, 1, 0, 1);
+            this.btnMinus.Name = "btnMinus";
+            this.btnMinus.Size = new System.Drawing.Size(75, 75);
+            this.btnMinus.ToolTipText = "decrementa la quantità";
+            this.btnMinus.Click += new System.EventHandler(this.BtnMinus_Click);
+            // 
+            // comboCashPos
+            // 
+            this.comboCashPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboCashPos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboCashPos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboCashPos.FormattingEnabled = true;
+            this.comboCashPos.ItemHeight = 18;
+            this.comboCashPos.Items.AddRange(new object[] {
+            "CONTANTI",
+            "CARD",
+            "SATYSPAY",
+            "   "});
+            this.comboCashPos.Location = new System.Drawing.Point(933, 584);
+            this.comboCashPos.Name = "comboCashPos";
+            this.comboCashPos.Size = new System.Drawing.Size(132, 26);
+            this.comboCashPos.TabIndex = 24;
+            this.comboCashPos.SelectedIndexChanged += new System.EventHandler(this.ComboCashPos_SelectedIndexChanged);
+            // 
+            // panelRight
+            // 
+            this.panelRight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelRight.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.panelRight.Controls.Add(this.Edit_CAP);
+            this.panelRight.Controls.Add(this.MF_lbl_CAP);
+            this.panelRight.Controls.Add(this.btnNavRight);
+            this.panelRight.Controls.Add(this.EditChange);
+            this.panelRight.Controls.Add(this.EditPaidCash);
+            this.panelRight.Controls.Add(this.MF_lblPaidCash);
+            this.panelRight.Controls.Add(this.MF_lblChange);
+            this.panelRight.Controls.Add(this.Edit_TotCorrente);
+            this.panelRight.Controls.Add(this.MF_lblTotal);
+            this.panelRight.Controls.Add(this.EditName);
+            this.panelRight.Controls.Add(this.MF_lblName);
+            this.panelRight.Controls.Add(this.EditTable);
+            this.panelRight.Controls.Add(this.MF_lblTable);
+            this.panelRight.Controls.Add(this.EditPlaceSett);
+            this.panelRight.Controls.Add(this.MF_lblPlaceSett);
+            this.panelRight.Location = new System.Drawing.Point(854, 145);
+            this.panelRight.Margin = new System.Windows.Forms.Padding(0);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Size = new System.Drawing.Size(230, 421);
+            this.panelRight.TabIndex = 29;
+            // 
+            // Edit_CAP
+            // 
+            this.Edit_CAP.BackColor = System.Drawing.Color.LightBlue;
+            this.Edit_CAP.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Edit_CAP.Location = new System.Drawing.Point(7, 209);
+            this.Edit_CAP.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.Edit_CAP.MaxLength = 20;
+            this.Edit_CAP.Name = "Edit_CAP";
+            this.Edit_CAP.Size = new System.Drawing.Size(217, 29);
+            this.Edit_CAP.TabIndex = 39;
+            this.Edit_CAP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Edit_CAP.WordWrap = false;
+            this.Edit_CAP.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
+            this.Edit_CAP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditFilter_KeyPress);
+            this.Edit_CAP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
+            // 
+            // MF_lbl_CAP
+            // 
+            this.MF_lbl_CAP.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lbl_CAP.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.MF_lbl_CAP.Location = new System.Drawing.Point(7, 183);
+            this.MF_lbl_CAP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
+            this.MF_lbl_CAP.Name = "MF_lbl_CAP";
+            this.MF_lbl_CAP.Size = new System.Drawing.Size(217, 23);
+            this.MF_lbl_CAP.TabIndex = 38;
+            this.MF_lbl_CAP.Text = "CAP";
+            this.MF_lbl_CAP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnNavRight
+            // 
+            this.btnNavRight.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnNavRight.Image = global::StandFacile.Properties.Resources.ArrowR;
+            this.btnNavRight.Location = new System.Drawing.Point(7, 3);
+            this.btnNavRight.Name = "btnNavRight";
+            this.btnNavRight.Size = new System.Drawing.Size(34, 28);
+            this.btnNavRight.TabIndex = 37;
+            this.btnNavRight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnNavRight.UseVisualStyleBackColor = false;
+            this.btnNavRight.Click += new System.EventHandler(this.BtnNav_Click);
+            // 
+            // EditChange
+            // 
+            this.EditChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.EditChange.BackColor = System.Drawing.Color.Honeydew;
+            this.EditChange.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditChange.Location = new System.Drawing.Point(7, 387);
+            this.EditChange.Margin = new System.Windows.Forms.Padding(0);
+            this.EditChange.MaxLength = 6;
+            this.EditChange.Name = "EditChange";
+            this.EditChange.ReadOnly = true;
+            this.EditChange.Size = new System.Drawing.Size(217, 29);
+            this.EditChange.TabIndex = 34;
+            this.EditChange.TabStop = false;
+            this.EditChange.Text = "4.40";
+            this.EditChange.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.EditChange.WordWrap = false;
+            this.EditChange.MouseClick += new System.Windows.Forms.MouseEventHandler(this.EditStatusResto_MouseClick);
+            this.EditChange.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
+            // 
+            // EditPaidCash
+            // 
+            this.EditPaidCash.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.EditPaidCash.BackColor = System.Drawing.Color.Honeydew;
+            this.EditPaidCash.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditPaidCash.Location = new System.Drawing.Point(7, 328);
+            this.EditPaidCash.Margin = new System.Windows.Forms.Padding(0);
+            this.EditPaidCash.MaxLength = 6;
+            this.EditPaidCash.Name = "EditPaidCash";
+            this.EditPaidCash.Size = new System.Drawing.Size(217, 29);
+            this.EditPaidCash.TabIndex = 33;
+            this.EditPaidCash.Text = "2.20";
+            this.EditPaidCash.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.EditPaidCash.WordWrap = false;
+            this.EditPaidCash.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
+            this.EditPaidCash.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditContante_KeyPress);
+            this.EditPaidCash.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
+            // 
+            // MF_lblPaidCash
+            // 
+            this.MF_lblPaidCash.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.MF_lblPaidCash.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lblPaidCash.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.MF_lblPaidCash.Location = new System.Drawing.Point(7, 303);
+            this.MF_lblPaidCash.Name = "MF_lblPaidCash";
+            this.MF_lblPaidCash.Size = new System.Drawing.Size(217, 23);
+            this.MF_lblPaidCash.TabIndex = 32;
+            this.MF_lblPaidCash.Text = "PAG. CONTANTI";
+            this.MF_lblPaidCash.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // MF_lblChange
+            // 
+            this.MF_lblChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.MF_lblChange.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lblChange.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.MF_lblChange.Location = new System.Drawing.Point(7, 362);
+            this.MF_lblChange.Name = "MF_lblChange";
+            this.MF_lblChange.Size = new System.Drawing.Size(217, 23);
+            this.MF_lblChange.TabIndex = 31;
+            this.MF_lblChange.Text = "RESTO";
+            this.MF_lblChange.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Edit_TotCorrente
+            // 
+            this.Edit_TotCorrente.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.Edit_TotCorrente.BackColor = System.Drawing.Color.Honeydew;
+            this.Edit_TotCorrente.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Edit_TotCorrente.ForeColor = System.Drawing.Color.Crimson;
+            this.Edit_TotCorrente.Location = new System.Drawing.Point(7, 269);
+            this.Edit_TotCorrente.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.Edit_TotCorrente.MaxLength = 20;
+            this.Edit_TotCorrente.Name = "Edit_TotCorrente";
+            this.Edit_TotCorrente.Size = new System.Drawing.Size(217, 29);
+            this.Edit_TotCorrente.TabIndex = 30;
+            this.Edit_TotCorrente.Text = "0.00";
+            this.Edit_TotCorrente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Edit_TotCorrente.WordWrap = false;
+            // 
+            // MF_lblTotal
+            // 
+            this.MF_lblTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.MF_lblTotal.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lblTotal.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.MF_lblTotal.Location = new System.Drawing.Point(7, 243);
+            this.MF_lblTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
+            this.MF_lblTotal.Name = "MF_lblTotal";
+            this.MF_lblTotal.Size = new System.Drawing.Size(217, 23);
+            this.MF_lblTotal.TabIndex = 29;
+            this.MF_lblTotal.Text = "TOTALE";
+            this.MF_lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // EditName
+            // 
+            this.EditName.BackColor = System.Drawing.Color.LightBlue;
+            this.EditName.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditName.Location = new System.Drawing.Point(7, 151);
+            this.EditName.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.EditName.MaxLength = 20;
+            this.EditName.Name = "EditName";
+            this.EditName.Size = new System.Drawing.Size(217, 29);
+            this.EditName.TabIndex = 28;
+            this.EditName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.EditName.WordWrap = false;
+            this.EditName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
+            this.EditName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
+            // 
+            // MF_lblName
+            // 
+            this.MF_lblName.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lblName.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.MF_lblName.Location = new System.Drawing.Point(7, 125);
+            this.MF_lblName.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
+            this.MF_lblName.Name = "MF_lblName";
+            this.MF_lblName.Size = new System.Drawing.Size(217, 23);
+            this.MF_lblName.TabIndex = 27;
+            this.MF_lblName.Text = "NOME";
+            this.MF_lblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // EditTable
+            // 
+            this.EditTable.BackColor = System.Drawing.Color.LightBlue;
+            this.EditTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditTable.Location = new System.Drawing.Point(7, 92);
+            this.EditTable.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.EditTable.MaxLength = 12;
+            this.EditTable.Name = "EditTable";
+            this.EditTable.Size = new System.Drawing.Size(217, 29);
+            this.EditTable.TabIndex = 23;
+            this.EditTable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.EditTable.WordWrap = false;
+            this.EditTable.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
+            this.EditTable.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
+            // 
+            // MF_lblTable
+            // 
+            this.MF_lblTable.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lblTable.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.MF_lblTable.Location = new System.Drawing.Point(7, 66);
+            this.MF_lblTable.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
+            this.MF_lblTable.Name = "MF_lblTable";
+            this.MF_lblTable.Size = new System.Drawing.Size(217, 23);
+            this.MF_lblTable.TabIndex = 22;
+            this.MF_lblTable.Text = "TAVOLO";
+            this.MF_lblTable.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // EditPlaceSett
+            // 
+            this.EditPlaceSett.BackColor = System.Drawing.Color.LightBlue;
+            this.EditPlaceSett.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EditPlaceSett.Location = new System.Drawing.Point(7, 33);
+            this.EditPlaceSett.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.EditPlaceSett.MaxLength = 3;
+            this.EditPlaceSett.Name = "EditPlaceSett";
+            this.EditPlaceSett.Size = new System.Drawing.Size(217, 29);
+            this.EditPlaceSett.TabIndex = 21;
+            this.EditPlaceSett.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.EditPlaceSett.WordWrap = false;
+            this.EditPlaceSett.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
+            this.EditPlaceSett.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditFilter_KeyPress);
+            this.EditPlaceSett.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
+            // 
+            // MF_lblPlaceSett
+            // 
+            this.MF_lblPlaceSett.AutoSize = true;
+            this.MF_lblPlaceSett.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lblPlaceSett.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.MF_lblPlaceSett.Location = new System.Drawing.Point(69, 7);
+            this.MF_lblPlaceSett.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
+            this.MF_lblPlaceSett.Name = "MF_lblPlaceSett";
+            this.MF_lblPlaceSett.Size = new System.Drawing.Size(85, 23);
+            this.MF_lblPlaceSett.TabIndex = 20;
+            this.MF_lblPlaceSett.Text = "COPERTI";
+            // 
+            // btnNavLeft
+            // 
+            this.btnNavLeft.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNavLeft.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btnNavLeft.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnNavLeft.Image = global::StandFacile.Properties.Resources.ArrowL;
+            this.btnNavLeft.Location = new System.Drawing.Point(819, 69);
+            this.btnNavLeft.Name = "btnNavLeft";
+            this.btnNavLeft.Size = new System.Drawing.Size(34, 26);
+            this.btnNavLeft.TabIndex = 37;
+            this.btnNavLeft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnNavLeft.UseVisualStyleBackColor = false;
+            this.btnNavLeft.Click += new System.EventHandler(this.BtnNav_Click);
+            // 
+            // previewLeftPanel
+            // 
+            this.previewLeftPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.previewLeftPanel.AutoScroll = true;
+            this.previewLeftPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.previewLeftPanel.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.previewLeftPanel.Controls.Add(this.panelGrip);
+            this.previewLeftPanel.Controls.Add(this.picBox);
+            this.previewLeftPanel.Location = new System.Drawing.Point(5, 100);
+            this.previewLeftPanel.Name = "previewLeftPanel";
+            this.previewLeftPanel.Size = new System.Drawing.Size(281, 441);
+            this.previewLeftPanel.TabIndex = 38;
+            // 
+            // panelGrip
+            // 
+            this.panelGrip.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelGrip.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.panelGrip.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelGrip.Location = new System.Drawing.Point(254, 0);
+            this.panelGrip.Name = "panelGrip";
+            this.panelGrip.Size = new System.Drawing.Size(10, 466);
+            this.panelGrip.TabIndex = 41;
+            this.panelGrip.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelGrip_MouseDown);
+            this.panelGrip.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelGrip_MouseMove);
+            this.panelGrip.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelGrip_MouseUp);
+            // 
+            // picBox
+            // 
+            this.picBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.picBox.BackColor = System.Drawing.Color.White;
+            this.picBox.Location = new System.Drawing.Point(1, -2);
+            this.picBox.Name = "picBox";
+            this.picBox.Size = new System.Drawing.Size(220, 468);
+            this.picBox.TabIndex = 0;
+            this.picBox.TabStop = false;
+            // 
+            // checkBoxLogoPreview
+            // 
+            this.checkBoxLogoPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxLogoPreview.AutoCheck = false;
+            this.checkBoxLogoPreview.AutoSize = true;
+            this.checkBoxLogoPreview.Checked = true;
+            this.checkBoxLogoPreview.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxLogoPreview.Location = new System.Drawing.Point(25, 555);
+            this.checkBoxLogoPreview.Name = "checkBoxLogoPreview";
+            this.checkBoxLogoPreview.Size = new System.Drawing.Size(101, 17);
+            this.checkBoxLogoPreview.TabIndex = 39;
+            this.checkBoxLogoPreview.Text = "visualizza il logo";
+            this.checkBoxLogoPreview.UseVisualStyleBackColor = true;
+            this.checkBoxLogoPreview.Click += new System.EventHandler(this.checkBoxLogoPreview_Click);
+            // 
+            // FrmMain
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(1084, 642);
+            this.Controls.Add(this.checkBoxLogoPreview);
+            this.Controls.Add(this.previewLeftPanel);
+            this.Controls.Add(this.btnNavLeft);
+            this.Controls.Add(this.panelRight);
+            this.Controls.Add(this.comboCashPos);
+            this.Controls.Add(this.toolStripButtons_R);
+            this.Controls.Add(this.MF_lblReadQrc);
+            this.Controls.Add(this.EditStatus_QRC);
+            this.Controls.Add(this.MainGrid);
+            this.Controls.Add(this.TabSet);
+            this.Controls.Add(this.EditNote);
+            this.Controls.Add(this.topPanel);
+            this.Controls.Add(this.StatusBar_Upper);
+            this.Controls.Add(this.StatusBar);
+            this.Controls.Add(this.MainMenu);
+            this.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.MainMenu;
+            this.MinimumSize = new System.Drawing.Size(880, 580);
+            this.Name = "FrmMain";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Text = "StandFacile 2026";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
+            this.Resize += new System.EventHandler(this.FormResize);
+            this.MainMenu.ResumeLayout(false);
+            this.MainMenu.PerformLayout();
+            this.StatusBar_Upper.ResumeLayout(false);
+            this.StatusBar_Upper.PerformLayout();
+            this.TabSet.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).EndInit();
+            this.MainGridContextMenu.ResumeLayout(false);
+            this.topPanel.ResumeLayout(false);
+            this.toolStripTop.ResumeLayout(false);
+            this.toolStripTop.PerformLayout();
+            this.StatusBar.ResumeLayout(false);
+            this.StatusBar.PerformLayout();
+            this.toolStripButtons_R.ResumeLayout(false);
+            this.toolStripButtons_R.PerformLayout();
+            this.panelRight.ResumeLayout(false);
+            this.panelRight.PerformLayout();
+            this.previewLeftPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBox)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Timer Timer;
+        private System.Windows.Forms.ImageList BtnImgList;
+        private System.Windows.Forms.MenuStrip MainMenu;
+        private System.Windows.Forms.ToolStripMenuItem fileMenu;
+        private System.Windows.Forms.ToolStripMenuItem MnuPrintFile;
+        private System.Windows.Forms.ToolStripMenuItem MnuExit;
+        private System.Windows.Forms.ToolStripMenuItem MnuEdit;
+        private System.Windows.Forms.ToolStripMenuItem MnuEditItemsAvailab;
+        private System.Windows.Forms.ToolStripMenuItem MnuView;
+        private System.Windows.Forms.ToolStripMenuItem MnuViewTodayIncome;
+        private System.Windows.Forms.ToolStripMenuItem MnuViewDateIncome;
+        private System.Windows.Forms.ToolStripSeparator V1;
+        private System.Windows.Forms.ToolStripMenuItem MnuViewPricelist;
+        private System.Windows.Forms.ToolStripSeparator V3;
+        private System.Windows.Forms.ToolStripMenuItem MnuReceiptPreview;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetup;
+        private System.Windows.Forms.ToolStripMenuItem MnuChangePassword;
+        private System.Windows.Forms.ToolStripSeparator I1;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupTabsGrid;
+        private System.Windows.Forms.ToolStripSeparator I4;
+        private System.Windows.Forms.ToolStripMenuItem HelpMenu;
+        private System.Windows.Forms.ToolStripMenuItem MnuQuickHelp;
+        private System.Windows.Forms.ToolStripSeparator A1;
+        private System.Windows.Forms.ToolStripMenuItem MnuInfo;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupNetworkCopies;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.ToolStripMenuItem MnuPrintTest;
+        private System.Windows.Forms.ToolStripSeparator F1;
+        private System.Windows.Forms.ToolStripMenuItem MnuExportPricelist;
+        private System.Windows.Forms.ToolStripMenuItem MnuImportPricelist;
+        private System.Windows.Forms.ToolStripSeparator F2;
+        private System.Windows.Forms.SaveFileDialog DlgSaveFile;
+        private System.Windows.Forms.StatusStrip StatusBar_Upper;
+        private System.Windows.Forms.ToolStripStatusLabel MF_lblStatusTickNum;
+        private System.Windows.Forms.ToolStripStatusLabel MF_LblStatusTotalPrev;
+        private System.Windows.Forms.ToolStripStatusLabel MF_lblNote;
+        private System.Windows.Forms.TabControl TabSet;
+        private System.Windows.Forms.TabPage tabPage0;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Panel topPanel;
+        private System.Windows.Forms.ToolStrip toolStripTop;
+        private System.Windows.Forms.ToolStripButton BtnViewPricelist;
+        private System.Windows.Forms.ToolStripButton BtnSendMsg;
+        private System.Windows.Forms.ToolStripButton BtnX10;
+        private System.Windows.Forms.ToolStripMenuItem MnuSessionClose;
+        private System.Windows.Forms.ToolStripSeparator M_1;
+        private System.Windows.Forms.ToolStripMenuItem MnuOrderCancel;
+        private System.Windows.Forms.ToolStripMenuItem MnuEsploraDB;
+        private System.Windows.Forms.ToolStripSeparator V2;
+        private System.Windows.Forms.ToolStripSeparator V4;
+        private System.Windows.Forms.ToolStripMenuItem MnuVisMessaggiInviati;
+        private System.Windows.Forms.ToolStripMenuItem MnuViewTodayOrders;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupNetwork;
+        private System.Windows.Forms.ToolStripSeparator I2;
+        private System.Windows.Forms.ToolStripSeparator BtnSep_T1;
+        private System.Windows.Forms.ToolStripSeparator BtnSep_T2;
+        private System.Windows.Forms.ToolStripSeparator BtnSep_T3;
+        private System.Windows.Forms.ToolStripSeparator BtnSep_T7;
+        private System.Windows.Forms.TextBox EditNote;
+        private System.Windows.Forms.DataGridView MainGrid;
+        private System.Windows.Forms.ToolStripSeparator BtnSep_T4;
+        private System.Windows.Forms.ToolStripSeparator BtnSep_T8;
+        private System.Windows.Forms.ToolStripSeparator BtnSep_T6;
+        private System.Windows.Forms.ToolStripButton BtnSconto;
+        private System.Windows.Forms.ToolStripSeparator BtnSep_T5;
+        private System.Windows.Forms.ToolStripButton BtnTakeAway;
+        private System.Windows.Forms.ToolStripButton BtnScontrino;
+        private System.Windows.Forms.ToolStripButton Btn_DB_Check;
+        private System.Windows.Forms.ToolStripMenuItem MnuViewDateOrders;
+        private System.Windows.Forms.ToolStripSeparator I3;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupPricelist;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupHeader;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupOptions;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus_Status;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus_TC;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus_Date;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus_Time;
+        private System.Windows.Forms.StatusStrip StatusBar;
+        private System.Windows.Forms.TextBox EditStatus_QRC;
+        private System.Windows.Forms.Label MF_lblReadQrc;
+        private System.Windows.Forms.ToolStripMenuItem MnuEsploraOrdiniWeb;
+        private System.Windows.Forms.ToolStrip toolStripButtons_R;
+        private System.Windows.Forms.ToolStripButton btnPlus;
+        private System.Windows.Forms.ToolStripButton btnMinus;
+        private System.Windows.Forms.ToolStripButton btnCanc;
+        private System.Windows.Forms.ComboBox comboCashPos;
+        private System.Windows.Forms.ToolStripMenuItem MnuChangePayment;
+        private System.Windows.Forms.ToolStripMenuItem MnuExpert;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupLocalCopies;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupWinPrinter;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupLegacyPrinter;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupGenPrinter;
+        private System.Windows.Forms.Panel panelRight;
+        private System.Windows.Forms.Label MF_lblPlaceSett;
+        private System.Windows.Forms.TextBox EditPlaceSett;
+        private System.Windows.Forms.TextBox EditTable;
+        private System.Windows.Forms.Label MF_lblTable;
+        private System.Windows.Forms.Label MF_lblName;
+        private System.Windows.Forms.TextBox EditName;
+        private System.Windows.Forms.TextBox Edit_TotCorrente;
+        private System.Windows.Forms.Label MF_lblTotal;
+        private System.Windows.Forms.TextBox EditChange;
+        private System.Windows.Forms.TextBox EditPaidCash;
+        private System.Windows.Forms.Label MF_lblPaidCash;
+        private System.Windows.Forms.Label MF_lblChange;
+        private System.Windows.Forms.Button btnNavRight;
+        private System.Windows.Forms.ToolStripLabel toolStripTop_TC_lbl;
+        private System.Windows.Forms.ContextMenuStrip MainGridContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem p1;
+        private System.Windows.Forms.ToolStripMenuItem p2;
+        private System.Windows.Forms.ToolStripMenuItem p3;
+        private System.Windows.Forms.ToolStripMenuItem p4;
+        private System.Windows.Forms.ToolStripMenuItem p5;
+        private System.Windows.Forms.ToolStripMenuItem p6;
+        private System.Windows.Forms.ToolStripMenuItem p7;
+        private System.Windows.Forms.ToolStripMenuItem p8;
+        private System.Windows.Forms.ToolStripMenuItem p9;
+        private System.Windows.Forms.ToolStripMenuItem p10;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem m1;
+        private System.Windows.Forms.ToolStripMenuItem m2;
+        private System.Windows.Forms.ToolStripMenuItem m3;
+        private System.Windows.Forms.ToolStripMenuItem m5;
+        private System.Windows.Forms.ToolStripMenuItem m10;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem MnuFileDiConfigurazione;
+        private System.Windows.Forms.ToolStripMenuItem z1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.Button btnNavLeft;
+        private System.Windows.Forms.ToolStripMenuItem p20;
+        private System.Windows.Forms.ToolStripButton Btn_OSKeyb;
+        private System.Windows.Forms.TextBox Edit_CAP;
+        private System.Windows.Forms.Label MF_lbl_CAP;
+        private System.Windows.Forms.Panel previewLeftPanel;
+        private System.Windows.Forms.PictureBox picBox;
+        private System.Windows.Forms.CheckBox checkBoxLogoPreview;
+        private System.Windows.Forms.Panel panelGrip;
+    }
+}
+
