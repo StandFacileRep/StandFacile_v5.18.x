@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.BtnImgList = new System.Windows.Forms.ImageList(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -651,7 +651,7 @@
             this.MF_lblNote.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.MF_lblNote.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.MF_lblNote.Name = "MF_lblNote";
-            this.MF_lblNote.Size = new System.Drawing.Size(153, 30);
+            this.MF_lblNote.Size = new System.Drawing.Size(122, 30);
             this.MF_lblNote.Spring = true;
             this.MF_lblNote.Text = "Nota:";
             this.MF_lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -739,18 +739,18 @@
             this.MainGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.MainGrid.ColumnHeadersVisible = false;
             this.MainGrid.ContextMenuStrip = this.MainGridContextMenu;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Teal;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Teal;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.MainGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.MainGrid.EnableHeadersVisualStyles = false;
             this.MainGrid.GridColor = System.Drawing.Color.Gainsboro;
-            this.MainGrid.Location = new System.Drawing.Point(360, 98);
+            this.MainGrid.Location = new System.Drawing.Point(289, 98);
             this.MainGrid.Margin = new System.Windows.Forms.Padding(0);
             this.MainGrid.MultiSelect = false;
             this.MainGrid.Name = "MainGrid";
@@ -760,7 +760,7 @@
             this.MainGrid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.MainGrid.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.MainGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.MainGrid.Size = new System.Drawing.Size(496, 466);
+            this.MainGrid.Size = new System.Drawing.Size(567, 466);
             this.MainGrid.TabIndex = 0;
             this.MainGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGrid_CellClick);
             this.MainGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGrid_CellDoubleClick);
@@ -1558,7 +1558,7 @@
             this.EditTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EditTable.Location = new System.Drawing.Point(7, 92);
             this.EditTable.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.EditTable.MaxLength = 12;
+            this.EditTable.MaxLength = 18;
             this.EditTable.Name = "EditTable";
             this.EditTable.Size = new System.Drawing.Size(217, 29);
             this.EditTable.TabIndex = 23;
@@ -1666,9 +1666,11 @@
             this.checkBoxLogoPreview.AutoSize = true;
             this.checkBoxLogoPreview.Checked = true;
             this.checkBoxLogoPreview.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxLogoPreview.Location = new System.Drawing.Point(25, 555);
+            this.checkBoxLogoPreview.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxLogoPreview.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.checkBoxLogoPreview.Location = new System.Drawing.Point(25, 550);
             this.checkBoxLogoPreview.Name = "checkBoxLogoPreview";
-            this.checkBoxLogoPreview.Size = new System.Drawing.Size(101, 17);
+            this.checkBoxLogoPreview.Size = new System.Drawing.Size(126, 22);
             this.checkBoxLogoPreview.TabIndex = 39;
             this.checkBoxLogoPreview.Text = "visualizza il logo";
             this.checkBoxLogoPreview.UseVisualStyleBackColor = true;

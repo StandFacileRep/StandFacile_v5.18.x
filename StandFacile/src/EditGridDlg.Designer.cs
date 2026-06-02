@@ -53,7 +53,6 @@
             this.Edit_4 = new System.Windows.Forms.TextBox();
             this.BtnCanc_4 = new System.Windows.Forms.Button();
             this.GS_ckBoxDirectTapInc = new System.Windows.Forms.CheckBox();
-            this.GS_ckBoxExternalPreview = new System.Windows.Forms.CheckBox();
             this.GS_RadioRows.SuspendLayout();
             this.GS_RadioCols.SuspendLayout();
             this.SuspendLayout();
@@ -119,7 +118,7 @@
             this.GS_RadioRows.Controls.Add(this.radioRows4);
             this.GS_RadioRows.Controls.Add(this.radioRows3);
             this.GS_RadioRows.Controls.Add(this.radioRows1);
-            this.GS_RadioRows.Location = new System.Drawing.Point(12, 136);
+            this.GS_RadioRows.Location = new System.Drawing.Point(12, 131);
             this.GS_RadioRows.Name = "GS_RadioRows";
             this.GS_RadioRows.Size = new System.Drawing.Size(90, 200);
             this.GS_RadioRows.TabIndex = 0;
@@ -143,7 +142,7 @@
             this.GS_RadioCols.Controls.Add(this.radioCols3);
             this.GS_RadioCols.Controls.Add(this.radioCols2);
             this.GS_RadioCols.Controls.Add(this.radioCols1);
-            this.GS_RadioCols.Location = new System.Drawing.Point(121, 136);
+            this.GS_RadioCols.Location = new System.Drawing.Point(121, 131);
             this.GS_RadioCols.Name = "GS_RadioCols";
             this.GS_RadioCols.Size = new System.Drawing.Size(90, 200);
             this.GS_RadioCols.TabIndex = 1;
@@ -177,7 +176,7 @@
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Image = global::StandFacile.Properties.Resources.Cancel;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancel.Location = new System.Drawing.Point(124, 356);
+            this.btnCancel.Location = new System.Drawing.Point(124, 351);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 28);
             this.btnCancel.TabIndex = 11;
@@ -190,7 +189,7 @@
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Image = global::StandFacile.Properties.Resources.OK;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOK.Location = new System.Drawing.Point(249, 356);
+            this.btnOK.Location = new System.Drawing.Point(249, 351);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 28);
             this.btnOK.TabIndex = 12;
@@ -202,7 +201,7 @@
             // Edit_0
             // 
             this.Edit_0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Edit_0.Location = new System.Drawing.Point(249, 119);
+            this.Edit_0.Location = new System.Drawing.Point(249, 114);
             this.Edit_0.Name = "Edit_0";
             this.Edit_0.Size = new System.Drawing.Size(112, 21);
             this.Edit_0.TabIndex = 3;
@@ -210,7 +209,7 @@
             // Edit_1
             // 
             this.Edit_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Edit_1.Location = new System.Drawing.Point(249, 167);
+            this.Edit_1.Location = new System.Drawing.Point(249, 162);
             this.Edit_1.Name = "Edit_1";
             this.Edit_1.Size = new System.Drawing.Size(112, 21);
             this.Edit_1.TabIndex = 5;
@@ -218,7 +217,7 @@
             // Edit_2
             // 
             this.Edit_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Edit_2.Location = new System.Drawing.Point(249, 215);
+            this.Edit_2.Location = new System.Drawing.Point(249, 210);
             this.Edit_2.Name = "Edit_2";
             this.Edit_2.Size = new System.Drawing.Size(112, 21);
             this.Edit_2.TabIndex = 7;
@@ -226,7 +225,7 @@
             // Edit_3
             // 
             this.Edit_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Edit_3.Location = new System.Drawing.Point(249, 263);
+            this.Edit_3.Location = new System.Drawing.Point(249, 258);
             this.Edit_3.Name = "Edit_3";
             this.Edit_3.Size = new System.Drawing.Size(112, 21);
             this.Edit_3.TabIndex = 9;
@@ -234,7 +233,7 @@
             // BtnCanc_0
             // 
             this.BtnCanc_0.Image = global::StandFacile.Properties.Resources.Cancel1;
-            this.BtnCanc_0.Location = new System.Drawing.Point(384, 119);
+            this.BtnCanc_0.Location = new System.Drawing.Point(384, 114);
             this.BtnCanc_0.Name = "BtnCanc_0";
             this.BtnCanc_0.Size = new System.Drawing.Size(27, 23);
             this.BtnCanc_0.TabIndex = 4;
@@ -244,7 +243,7 @@
             // BtnCanc_1
             // 
             this.BtnCanc_1.Image = global::StandFacile.Properties.Resources.Cancel1;
-            this.BtnCanc_1.Location = new System.Drawing.Point(384, 167);
+            this.BtnCanc_1.Location = new System.Drawing.Point(384, 162);
             this.BtnCanc_1.Name = "BtnCanc_1";
             this.BtnCanc_1.Size = new System.Drawing.Size(27, 23);
             this.BtnCanc_1.TabIndex = 6;
@@ -254,7 +253,7 @@
             // BtnCanc_2
             // 
             this.BtnCanc_2.Image = global::StandFacile.Properties.Resources.Cancel1;
-            this.BtnCanc_2.Location = new System.Drawing.Point(384, 215);
+            this.BtnCanc_2.Location = new System.Drawing.Point(384, 210);
             this.BtnCanc_2.Name = "BtnCanc_2";
             this.BtnCanc_2.Size = new System.Drawing.Size(27, 23);
             this.BtnCanc_2.TabIndex = 8;
@@ -264,7 +263,7 @@
             // BtnCanc_3
             // 
             this.BtnCanc_3.Image = global::StandFacile.Properties.Resources.Cancel1;
-            this.BtnCanc_3.Location = new System.Drawing.Point(384, 263);
+            this.BtnCanc_3.Location = new System.Drawing.Point(384, 258);
             this.BtnCanc_3.Name = "BtnCanc_3";
             this.BtnCanc_3.Size = new System.Drawing.Size(27, 23);
             this.BtnCanc_3.TabIndex = 10;
@@ -275,7 +274,7 @@
             // 
             this.GS_lbl1.AutoSize = true;
             this.GS_lbl1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GS_lbl1.Location = new System.Drawing.Point(259, 92);
+            this.GS_lbl1.Location = new System.Drawing.Point(259, 87);
             this.GS_lbl1.Name = "GS_lbl1";
             this.GS_lbl1.Size = new System.Drawing.Size(90, 14);
             this.GS_lbl1.TabIndex = 2;
@@ -285,7 +284,7 @@
             // 
             this.GS_ckBoxTouchMode.AutoSize = true;
             this.GS_ckBoxTouchMode.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.GS_ckBoxTouchMode.Location = new System.Drawing.Point(22, 26);
+            this.GS_ckBoxTouchMode.Location = new System.Drawing.Point(22, 24);
             this.GS_ckBoxTouchMode.Name = "GS_ckBoxTouchMode";
             this.GS_ckBoxTouchMode.Size = new System.Drawing.Size(96, 18);
             this.GS_ckBoxTouchMode.TabIndex = 14;
@@ -296,7 +295,7 @@
             // Edit_4
             // 
             this.Edit_4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Edit_4.Location = new System.Drawing.Point(249, 311);
+            this.Edit_4.Location = new System.Drawing.Point(249, 306);
             this.Edit_4.Name = "Edit_4";
             this.Edit_4.Size = new System.Drawing.Size(112, 21);
             this.Edit_4.TabIndex = 15;
@@ -304,7 +303,7 @@
             // BtnCanc_4
             // 
             this.BtnCanc_4.Image = global::StandFacile.Properties.Resources.Cancel1;
-            this.BtnCanc_4.Location = new System.Drawing.Point(384, 311);
+            this.BtnCanc_4.Location = new System.Drawing.Point(384, 306);
             this.BtnCanc_4.Name = "BtnCanc_4";
             this.BtnCanc_4.Size = new System.Drawing.Size(27, 23);
             this.BtnCanc_4.TabIndex = 16;
@@ -315,31 +314,19 @@
             // 
             this.GS_ckBoxDirectTapInc.AutoSize = true;
             this.GS_ckBoxDirectTapInc.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.GS_ckBoxDirectTapInc.Location = new System.Drawing.Point(22, 67);
+            this.GS_ckBoxDirectTapInc.Location = new System.Drawing.Point(22, 65);
             this.GS_ckBoxDirectTapInc.Name = "GS_ckBoxDirectTapInc";
             this.GS_ckBoxDirectTapInc.Size = new System.Drawing.Size(204, 18);
             this.GS_ckBoxDirectTapInc.TabIndex = 17;
             this.GS_ckBoxDirectTapInc.Text = "Incremento diretto con click/tap";
             this.GS_ckBoxDirectTapInc.UseVisualStyleBackColor = true;
             // 
-            // GS_ckBoxExternalPreview
-            // 
-            this.GS_ckBoxExternalPreview.AutoSize = true;
-            this.GS_ckBoxExternalPreview.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.GS_ckBoxExternalPreview.Location = new System.Drawing.Point(246, 26);
-            this.GS_ckBoxExternalPreview.Name = "GS_ckBoxExternalPreview";
-            this.GS_ckBoxExternalPreview.Size = new System.Drawing.Size(168, 18);
-            this.GS_ckBoxExternalPreview.TabIndex = 18;
-            this.GS_ckBoxExternalPreview.Text = "mostra Anteprima esterna";
-            this.GS_ckBoxExternalPreview.UseVisualStyleBackColor = true;
-            // 
             // EditGridDlg
             // 
             this.AcceptButton = this.btnCancel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(452, 404);
-            this.Controls.Add(this.GS_ckBoxExternalPreview);
+            this.ClientSize = new System.Drawing.Size(452, 400);
             this.Controls.Add(this.GS_ckBoxDirectTapInc);
             this.Controls.Add(this.BtnCanc_4);
             this.Controls.Add(this.Edit_4);
@@ -401,6 +388,5 @@
         private System.Windows.Forms.RadioButton radioRows2;
         private System.Windows.Forms.RadioButton radioCols4;
         private System.Windows.Forms.CheckBox GS_ckBoxDirectTapInc;
-        private System.Windows.Forms.CheckBox GS_ckBoxExternalPreview;
     }
 }

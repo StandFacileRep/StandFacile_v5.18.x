@@ -63,9 +63,9 @@ namespace StandFacile
         public static bool GetDirectTapIncEnabled() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_DIRECT_TAP_INC); }
 
         /// <summary>ottiene flag di visualizzazione interna dell'Anteprima</summary>
-        public static bool GetShowExternalPreview() 
-        { 
-            return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_EXTERNAL_PREVIEW) || PREVIEW_DEBUG; 
+        public static bool GetShowExternalPreview()
+        {
+            return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_EXTERNAL_PREVIEW) || PREVIEW_DEBUG;
         }
 
         /// <summary>ottiene flag di inserimento CAP obbligatorio</summary>
@@ -107,6 +107,8 @@ namespace StandFacile
             MO_checkBox_CAP.Checked = Get_CAP_MandatoryFlag();
             MO_checkBoxPayment.Checked = GetPayment_MandatoryFlag();
 
+            MO_ckBoxExternalPreview.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_EXTERNAL_PREVIEW);
+
             MO_checkBox_ZeroPriceItems.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_ZERO_PRICE_ITEMS_ALLOWED);
             MO_checkBox_Enter.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_ENTER_PRINT_RECEIPT_ENABLED);
             MO_checkBoxPrivacy.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_PRIVACY);
@@ -146,7 +148,7 @@ namespace StandFacile
             else
             {
                 _iDispMngStatus = ReadRegistry(DISP_DLG_MNG_KEY, SetBit(0, BIT_SHOW_DISP_DLG));
-                
+
                 MO_checkBox_InitialAvailabilityDlg.Enabled = true;
                 MO_checkBox_InitialAvailabilityDlg.Checked = IsBitSet(_iDispMngStatus, BIT_SHOW_DISP_DLG);
 
@@ -234,7 +236,7 @@ namespace StandFacile
             if (GetDirectTapIncEnabled())
                 iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_DIRECT_TAP_INC);
 
-            if (GetShowExternalPreview())
+            if (MO_ckBoxExternalPreview.Checked)
                 iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_EXTERNAL_PREVIEW);
 
 
@@ -309,6 +311,8 @@ namespace StandFacile
                 _iColorThemeIndex = comboColorTheme.SelectedIndex;
                 WriteRegistry(COLOR_THEME_KEY, _iColorThemeIndex);
             }
+
+            FrmMain.rFrmMain.MnuAnteprimaScontrino_Click(this, null);
 
             WriteRegistry(DISP_DLG_MNG_KEY, _iDispMngStatus);
 

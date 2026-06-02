@@ -54,6 +54,7 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.MO_checkBox_CAP = new System.Windows.Forms.CheckBox();
             this.MO_checkBox_Name = new System.Windows.Forms.CheckBox();
+            this.MO_ckBoxExternalPreview = new System.Windows.Forms.CheckBox();
             this.panelPresale.SuspendLayout();
             this.panelShowHideButtons.SuspendLayout();
             this.SuspendLayout();
@@ -124,7 +125,7 @@
             this.panelPresale.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelPresale.Controls.Add(this.MO_checkBoxPresales_loadMode);
             this.panelPresale.Controls.Add(this.MO_checkBoxPresale_workMode);
-            this.panelPresale.Location = new System.Drawing.Point(358, 324);
+            this.panelPresale.Location = new System.Drawing.Point(358, 338);
             this.panelPresale.Name = "panelPresale";
             this.panelPresale.Size = new System.Drawing.Size(312, 90);
             this.panelPresale.TabIndex = 8;
@@ -192,10 +193,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 9F);
+            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(231, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 14);
+            this.label1.Size = new System.Drawing.Size(128, 16);
             this.label1.TabIndex = 22;
             this.label1.Text = "selezione tema colori";
             // 
@@ -241,7 +242,7 @@
             this.panelShowHideButtons.Controls.Add(this.MO_checkBox_ShowTakeAway);
             this.panelShowHideButtons.Controls.Add(this.MO_checkBox_Show_DB_Check);
             this.panelShowHideButtons.Controls.Add(this.MO_checkBox_Show_OSKeyb);
-            this.panelShowHideButtons.Location = new System.Drawing.Point(358, 55);
+            this.panelShowHideButtons.Location = new System.Drawing.Point(358, 69);
             this.panelShowHideButtons.Name = "panelShowHideButtons";
             this.panelShowHideButtons.Size = new System.Drawing.Size(312, 245);
             this.panelShowHideButtons.TabIndex = 31;
@@ -349,11 +350,24 @@
             this.MO_checkBox_Name.Text = "rendi obbligatorio l\'inserimento del nome utente";
             this.MO_checkBox_Name.UseVisualStyleBackColor = true;
             // 
+            // MO_ckBoxExternalPreview
+            // 
+            this.MO_ckBoxExternalPreview.AutoSize = true;
+            this.MO_ckBoxExternalPreview.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MO_ckBoxExternalPreview.ForeColor = System.Drawing.Color.Blue;
+            this.MO_ckBoxExternalPreview.Location = new System.Drawing.Point(420, 24);
+            this.MO_ckBoxExternalPreview.Name = "MO_ckBoxExternalPreview";
+            this.MO_ckBoxExternalPreview.Size = new System.Drawing.Size(176, 20);
+            this.MO_ckBoxExternalPreview.TabIndex = 36;
+            this.MO_ckBoxExternalPreview.Text = "mostra Anteprima esterna";
+            this.MO_ckBoxExternalPreview.UseVisualStyleBackColor = true;
+            // 
             // OptionsDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(696, 516);
+            this.Controls.Add(this.MO_ckBoxExternalPreview);
             this.Controls.Add(this.MO_checkBox_Name);
             this.Controls.Add(this.MO_checkBox_CAP);
             this.Controls.Add(this.btnReset);
@@ -414,5 +428,6 @@
         private System.Windows.Forms.CheckBox MO_checkBox_Show_CAP;
         private System.Windows.Forms.CheckBox MO_checkBox_CAP;
         private System.Windows.Forms.CheckBox MO_checkBox_Name;
+        private System.Windows.Forms.CheckBox MO_ckBoxExternalPreview;
     }
 }

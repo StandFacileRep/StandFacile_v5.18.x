@@ -1,6 +1,7 @@
 
 Attenzione: <br>
 il file Listino.txt va aggiunto alla directory dell'eseguibile<br>
+il file opzionale config.ini va aggiunto alla directory dell'eseguibile<br>
 il file StandCommonSafe.cs presente nella root va copiato nella directory: StandCommonSrc
 
 ---------------------------------------------------------------------------------

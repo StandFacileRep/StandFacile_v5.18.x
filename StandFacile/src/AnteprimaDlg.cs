@@ -728,7 +728,7 @@ namespace StandFacile
         public void AnteprimaDlg_Resize(int iWidthParam)
         {
             if (!OptionsDlg.GetShowExternalPreview())
-                Width = iWidthParam + 35;
+                Width = iWidthParam + 20;
 
             RedrawReceipt();
         }

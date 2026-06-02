@@ -58,7 +58,6 @@ namespace StandFacile
             Edit_4.MaxLength = MAX_PAGES_CHAR;
 
             GS_ckBoxTouchMode.Checked = OptionsDlg.GetTouchModeEnabled();
-            GS_ckBoxExternalPreview.Checked = OptionsDlg.GetShowExternalPreview();
             GS_ckBoxDirectTapInc.Checked = OptionsDlg.GetDirectTapIncEnabled();
 
             GS_ckBoxDirectTapInc.Enabled = GS_ckBoxTouchMode.Checked;
@@ -432,9 +431,6 @@ namespace StandFacile
             {
                 SF_Data.iGeneralProgOptions = UpdateBit(SF_Data.iGeneralProgOptions, GS_ckBoxTouchMode.Checked, (int)GEN_PROGRAM_OPTIONS.BIT_TOUCH_MODE_REQUIRED);
                 SF_Data.iGeneralProgOptions = UpdateBit(SF_Data.iGeneralProgOptions, GS_ckBoxDirectTapInc.Checked, (int)GEN_PROGRAM_OPTIONS.BIT_DIRECT_TAP_INC);
-                SF_Data.iGeneralProgOptions = UpdateBit(SF_Data.iGeneralProgOptions, GS_ckBoxExternalPreview.Checked, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_EXTERNAL_PREVIEW);
-
-                FrmMain.rFrmMain.MnuAnteprimaScontrino_Click(this, null);
 
                 SF_Data.iGridCols = iNumColonneTmp;
                 SF_Data.iGridRows = iNumRigheTmp;

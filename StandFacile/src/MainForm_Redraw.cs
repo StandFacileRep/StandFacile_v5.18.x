@@ -706,7 +706,7 @@ namespace StandFacile
                 case 'P':
                     if (e.Modifiers == Keys.Control)
                     {
-                        MnuAnteprimaScontrino_Click(this, null);
+                        MnuAnteprimaScontrino_Click("Ctrl_P", null);
                         scannerInputQueue.Clear();
                     }
                     break;
@@ -782,8 +782,6 @@ namespace StandFacile
                 // reset EditNota
                 EditNote.BackColor = Color.Gainsboro;
                 SF_Data.Articolo[_iCellPt].sNotaArt = "";
-
-                MainGrid_Redraw(this, null);
             }
 
             MainGrid_Redraw(this, null);
@@ -1463,7 +1461,7 @@ namespace StandFacile
             previewLeftPanel.Height = MainGrid.Height - PREVIEW_BOTTOM_MARGIN;
             panelGrip.Height = MainGrid.Height;
 
-            MainGrid.Left = previewLeftPanel.Width + panelGrip.Width + previewLeftPanel.Location.X;
+            MainGrid.Left = previewLeftPanel.Width + panelGrip.Width + previewLeftPanel.Location.X - 6;
 
             toolStripButtons_R.Left = topPanel.Width - toolStripButtons_R.Width - previewLeftPanel.Location.X + 10;
 

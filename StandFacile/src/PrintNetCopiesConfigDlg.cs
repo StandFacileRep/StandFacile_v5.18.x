@@ -1,6 +1,6 @@
 ﻿/*****************************************************
  	NomeFile : StandFacile/PrintNetCopiesConfigDlg.cs
-    Data	 : 01.12.2025
+    Data	 : 02.06.2026
  	Autore   : Mauro Artuso
  *****************************************************/
 
@@ -486,7 +486,7 @@ namespace StandFacile
                 // trim() opportuno
                 _pPrintCopyText[i].Text = _pPrintCopyText[i].Text.Trim();
 
-                if (_pPrintCopyText[i].Text.Length < MIN_COPIES_CHARS)
+                if ((_pPrintCopyText[i].Text.Length < MIN_COPIES_CHARS) && !String.IsNullOrEmpty(_pPrintCopyText[i].Text))
                 {
                     _WrnMsg.sMsg = String.Format("{0}", _pPrintCopyText[i].Text);
                     _WrnMsg.iErrID = WRN_LTE;
@@ -501,7 +501,7 @@ namespace StandFacile
             {
                 _pTextBoxColor[i].Text = _pTextBoxColor[i].Text.Trim();
 
-                if (_pTextBoxColor[i].Text.Length < MIN_COPIES_CHARS)
+                if ((_pTextBoxColor[i].Text.Length < MIN_COPIES_CHARS) && !String.IsNullOrEmpty(_pTextBoxColor[i].Text))
                 {
                     _WrnMsg.sMsg = String.Format("{0}", _pTextBoxColor[i].Text);
                     _WrnMsg.iErrID = WRN_LTE;

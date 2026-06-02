@@ -1202,6 +1202,7 @@ namespace StandFacile
                 }
 
                 _iAnteprimaTotParziale = AnteprimaDlg.rAnteprimaDlg.RedrawReceipt();
+                MainGrid_Redraw(this, null);
             }
         }
 
@@ -1974,11 +1975,15 @@ namespace StandFacile
             if ((sender is string) && (string)sender == "showPreview")
                 MnuReceiptPreview.Checked = true;
             //
+            else if ((sender is string) && (string)sender == "Ctrl_P")
+            {
+                MnuReceiptPreview.Checked = !MnuReceiptPreview.Checked;
+            }
+            //
             else if ((sender == MnuReceiptPreview) || (sender == rFrmMain))
                 MnuReceiptPreview.Checked = !MnuReceiptPreview.Checked;
 
             AnteprimaDlg.rAnteprimaDlg.ResetPreview();
-            AnteprimaDlg.rAnteprimaDlg.AnteprimaDlg_Resize(previewLeftPanel.Width);
 
             if (GetShowExternalPreview())
             {
@@ -1998,6 +2003,9 @@ namespace StandFacile
             {
                 AnteprimaDlg.rAnteprimaDlg.Hide();
 
+                previewLeftPanel.Width = _iPreviewPanelWidthCopy;
+
+                AnteprimaDlg.rAnteprimaDlg.AnteprimaDlg_Resize(previewLeftPanel.Width);
                 _iAnteprimaTotParziale = AnteprimaDlg.rAnteprimaDlg.RedrawReceipt();
             }
 
@@ -2501,6 +2509,7 @@ namespace StandFacile
                 BtnSconto.Checked = false;
 
             _iAnteprimaTotParziale = AnteprimaDlg.rAnteprimaDlg.RedrawReceipt();
+            MainGrid_Redraw(this, null);
         }
 
         private void BtnPlus_Click(object sender, EventArgs e)
@@ -2725,6 +2734,8 @@ namespace StandFacile
                     SF_Data.iStatusReceipt = ClearBit(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY);
                     break;
             }
+
+            MainGrid_Redraw(this, null);
         }
 
         /// <summary>/// imposta CASH come metodo di pagamento/// </summary>
@@ -2823,6 +2834,7 @@ namespace StandFacile
             SF_Data.iStatusReceipt = UpdateBit(SF_Data.iStatusReceipt, BtnTakeAway.Checked, (int)STATUS_FLAGS.BIT_ASPORTO);
 
             _iAnteprimaTotParziale = AnteprimaDlg.rAnteprimaDlg.RedrawReceipt();
+            MainGrid_Redraw(this, null);
         }
 
         private void EditStatusResto_MouseClick(object sender, MouseEventArgs e)
