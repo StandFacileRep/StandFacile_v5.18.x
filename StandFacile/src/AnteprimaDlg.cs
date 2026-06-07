@@ -61,6 +61,9 @@ namespace StandFacile
 
         Graphics pg, pg_cpy;
 
+        /// <summary>variabile di scroll</summary>
+        public Point _scroll;
+
         /// <summary>funzione che ottiene se c'è qualcosa da stampare nel gruppo di stampa iGrpParam</summary>
         public static bool GetSomethingInto_GrpToPrint(int iGrpParam) { return _bSomethingInto_GrpToPrint[iGrpParam]; }
 
@@ -175,7 +178,7 @@ namespace StandFacile
                 bmpCanvas = new Bitmap(picBox.Width, 4000);
                 pg = Graphics.FromImage(bmpCanvas);
 
-                pg.FillRectangle(new SolidBrush(Color.White), new Rectangle(0, 0, picBox.Width, 4000));
+                pg.Clear(Color.White);
 
                 // Zoom da applicare ai pixels, 1 = stessa risoluzione della TM-T88IV
                 _fHZoom = picBox.Width / _fTM_T88_IV_PAPER_WIDTH;
@@ -718,9 +721,17 @@ namespace StandFacile
             TopMost = checkBox_PrimoPiano.Checked;
         }
 
+        private void picBox_Paint(object sender, PaintEventArgs e)
+        {
+            _scroll = panel.AutoScrollPosition;
+
+            // Compensa lo _scroll
+            e.Graphics.TranslateTransform(_scroll.X, _scroll.Y);
+        }
+
         private void AnteprimaDlg_Resize(object sender, EventArgs e)
         {
-            RedrawReceipt();
+            //RedrawReceipt();
             RedrawReceipt();
         }
 
@@ -771,6 +782,8 @@ namespace StandFacile
 
         private void CheckBoxLogo_CheckedChanged(object sender, EventArgs e)
         {
+            panel.AutoScrollPosition = new Point(0, 0); 
+            
             RedrawReceipt();
         }
 

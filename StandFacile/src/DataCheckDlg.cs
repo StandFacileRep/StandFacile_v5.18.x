@@ -145,6 +145,7 @@ namespace StandFacile
 
                 int iContante = EuroToInt(DC_Edit_CASH.Text, EURO_CONVERSION.EUROCONV_DONT_CARE, WrnMsg);
 
+                // if ((iContante != -1) && ((iContante >= _iTotaleParz) || String.IsNullOrEmpty(DC_Edit_CASH.Text)))
                 if ((iContante != -1) && (iContante >= _iTotaleParz))
                 {
                     DC_Edit_CASH.BackColor = Color.Aquamarine;
@@ -168,7 +169,8 @@ namespace StandFacile
         {
             int iContante = EuroToInt(DC_Edit_CASH.Text, EURO_CONVERSION.EUROCONV_DONT_CARE, WrnMsg);
 
-            if ((iContante >= _iTotaleParz) && radioContantiBtn.Checked)
+            // if (radioContantiBtn.Checked && ((iContante >= _iTotaleParz) || String.IsNullOrEmpty(DC_Edit_CASH.Text)))
+            if (radioContantiBtn.Checked && (iContante >= _iTotaleParz))
                 return true;
             else
                 return (radioCardBtn.Checked || radioSatispayBtn.Checked);

@@ -179,7 +179,7 @@
             this.btnCancel.Location = new System.Drawing.Point(124, 351);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 28);
-            this.btnCancel.TabIndex = 11;
+            this.btnCancel.TabIndex = 15;
             this.btnCancel.Text = "Annulla";
             this.btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -192,7 +192,7 @@
             this.btnOK.Location = new System.Drawing.Point(249, 351);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 28);
-            this.btnOK.TabIndex = 12;
+            this.btnOK.TabIndex = 16;
             this.btnOK.Text = "OK  ";
             this.btnOK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOK.UseVisualStyleBackColor = true;
@@ -204,7 +204,7 @@
             this.Edit_0.Location = new System.Drawing.Point(249, 114);
             this.Edit_0.Name = "Edit_0";
             this.Edit_0.Size = new System.Drawing.Size(112, 21);
-            this.Edit_0.TabIndex = 3;
+            this.Edit_0.TabIndex = 5;
             // 
             // Edit_1
             // 
@@ -212,7 +212,7 @@
             this.Edit_1.Location = new System.Drawing.Point(249, 162);
             this.Edit_1.Name = "Edit_1";
             this.Edit_1.Size = new System.Drawing.Size(112, 21);
-            this.Edit_1.TabIndex = 5;
+            this.Edit_1.TabIndex = 7;
             // 
             // Edit_2
             // 
@@ -220,7 +220,7 @@
             this.Edit_2.Location = new System.Drawing.Point(249, 210);
             this.Edit_2.Name = "Edit_2";
             this.Edit_2.Size = new System.Drawing.Size(112, 21);
-            this.Edit_2.TabIndex = 7;
+            this.Edit_2.TabIndex = 9;
             // 
             // Edit_3
             // 
@@ -228,7 +228,7 @@
             this.Edit_3.Location = new System.Drawing.Point(249, 258);
             this.Edit_3.Name = "Edit_3";
             this.Edit_3.Size = new System.Drawing.Size(112, 21);
-            this.Edit_3.TabIndex = 9;
+            this.Edit_3.TabIndex = 11;
             // 
             // BtnCanc_0
             // 
@@ -236,7 +236,7 @@
             this.BtnCanc_0.Location = new System.Drawing.Point(384, 114);
             this.BtnCanc_0.Name = "BtnCanc_0";
             this.BtnCanc_0.Size = new System.Drawing.Size(27, 23);
-            this.BtnCanc_0.TabIndex = 4;
+            this.BtnCanc_0.TabIndex = 6;
             this.BtnCanc_0.UseVisualStyleBackColor = true;
             this.BtnCanc_0.Click += new System.EventHandler(this.BtnCanc_0_Click);
             // 
@@ -246,7 +246,7 @@
             this.BtnCanc_1.Location = new System.Drawing.Point(384, 162);
             this.BtnCanc_1.Name = "BtnCanc_1";
             this.BtnCanc_1.Size = new System.Drawing.Size(27, 23);
-            this.BtnCanc_1.TabIndex = 6;
+            this.BtnCanc_1.TabIndex = 8;
             this.BtnCanc_1.UseVisualStyleBackColor = true;
             this.BtnCanc_1.Click += new System.EventHandler(this.BtnCanc_1_Click);
             // 
@@ -256,7 +256,7 @@
             this.BtnCanc_2.Location = new System.Drawing.Point(384, 210);
             this.BtnCanc_2.Name = "BtnCanc_2";
             this.BtnCanc_2.Size = new System.Drawing.Size(27, 23);
-            this.BtnCanc_2.TabIndex = 8;
+            this.BtnCanc_2.TabIndex = 10;
             this.BtnCanc_2.UseVisualStyleBackColor = true;
             this.BtnCanc_2.Click += new System.EventHandler(this.BtnCanc_2_Click);
             // 
@@ -266,7 +266,7 @@
             this.BtnCanc_3.Location = new System.Drawing.Point(384, 258);
             this.BtnCanc_3.Name = "BtnCanc_3";
             this.BtnCanc_3.Size = new System.Drawing.Size(27, 23);
-            this.BtnCanc_3.TabIndex = 10;
+            this.BtnCanc_3.TabIndex = 12;
             this.BtnCanc_3.UseVisualStyleBackColor = true;
             this.BtnCanc_3.Click += new System.EventHandler(this.BtnCanc_3_Click);
             // 
@@ -277,7 +277,7 @@
             this.GS_lbl1.Location = new System.Drawing.Point(259, 87);
             this.GS_lbl1.Name = "GS_lbl1";
             this.GS_lbl1.Size = new System.Drawing.Size(90, 14);
-            this.GS_lbl1.TabIndex = 2;
+            this.GS_lbl1.TabIndex = 4;
             this.GS_lbl1.Text = "etichette TABs";
             // 
             // GS_ckBoxTouchMode
@@ -287,7 +287,7 @@
             this.GS_ckBoxTouchMode.Location = new System.Drawing.Point(22, 24);
             this.GS_ckBoxTouchMode.Name = "GS_ckBoxTouchMode";
             this.GS_ckBoxTouchMode.Size = new System.Drawing.Size(96, 18);
-            this.GS_ckBoxTouchMode.TabIndex = 14;
+            this.GS_ckBoxTouchMode.TabIndex = 2;
             this.GS_ckBoxTouchMode.Text = "Touch mode";
             this.GS_ckBoxTouchMode.UseVisualStyleBackColor = true;
             this.GS_ckBoxTouchMode.CheckedChanged += new System.EventHandler(this.CheckBoxTouchMode_CheckedChanged);
@@ -298,7 +298,7 @@
             this.Edit_4.Location = new System.Drawing.Point(249, 306);
             this.Edit_4.Name = "Edit_4";
             this.Edit_4.Size = new System.Drawing.Size(112, 21);
-            this.Edit_4.TabIndex = 15;
+            this.Edit_4.TabIndex = 13;
             // 
             // BtnCanc_4
             // 
@@ -306,7 +306,7 @@
             this.BtnCanc_4.Location = new System.Drawing.Point(384, 306);
             this.BtnCanc_4.Name = "BtnCanc_4";
             this.BtnCanc_4.Size = new System.Drawing.Size(27, 23);
-            this.BtnCanc_4.TabIndex = 16;
+            this.BtnCanc_4.TabIndex = 14;
             this.BtnCanc_4.UseVisualStyleBackColor = true;
             this.BtnCanc_4.Click += new System.EventHandler(this.BtnCanc_4_Click);
             // 
@@ -317,7 +317,7 @@
             this.GS_ckBoxDirectTapInc.Location = new System.Drawing.Point(22, 65);
             this.GS_ckBoxDirectTapInc.Name = "GS_ckBoxDirectTapInc";
             this.GS_ckBoxDirectTapInc.Size = new System.Drawing.Size(204, 18);
-            this.GS_ckBoxDirectTapInc.TabIndex = 17;
+            this.GS_ckBoxDirectTapInc.TabIndex = 3;
             this.GS_ckBoxDirectTapInc.Text = "Incremento diretto con click/tap";
             this.GS_ckBoxDirectTapInc.UseVisualStyleBackColor = true;
             // 

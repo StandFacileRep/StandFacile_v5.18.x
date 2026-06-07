@@ -651,6 +651,9 @@ namespace StandFacile
                         else
                             WarningManager(WRN_DLE);
 
+                        // libera la risorsa file
+                        tmpImage.Dispose();
+
                         AggiornaAspettoControlli();
 
                         Logger.Info("WinPrinterDlg : Load Logo" + sDestinationFile);

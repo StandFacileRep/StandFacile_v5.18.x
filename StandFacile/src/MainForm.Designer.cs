@@ -210,7 +210,7 @@
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(1084, 24);
-            this.MainMenu.TabIndex = 4;
+            this.MainMenu.TabIndex = 9;
             this.MainMenu.Text = "menuStrip";
             // 
             // fileMenu
@@ -612,7 +612,7 @@
             this.StatusBar_Upper.Size = new System.Drawing.Size(486, 30);
             this.StatusBar_Upper.SizingGrip = false;
             this.StatusBar_Upper.Stretch = false;
-            this.StatusBar_Upper.TabIndex = 7;
+            this.StatusBar_Upper.TabIndex = 11;
             // 
             // MF_LblStatusTotalPrev
             // 
@@ -651,7 +651,7 @@
             this.MF_lblNote.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.MF_lblNote.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.MF_lblNote.Name = "MF_lblNote";
-            this.MF_lblNote.Size = new System.Drawing.Size(122, 30);
+            this.MF_lblNote.Size = new System.Drawing.Size(153, 30);
             this.MF_lblNote.Spring = true;
             this.MF_lblNote.Text = "Nota:";
             this.MF_lblNote.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -671,7 +671,7 @@
             this.TabSet.Padding = new System.Drawing.Point(4, 3);
             this.TabSet.SelectedIndex = 0;
             this.TabSet.Size = new System.Drawing.Size(481, 28);
-            this.TabSet.TabIndex = 5;
+            this.TabSet.TabIndex = 6;
             this.TabSet.TabStop = false;
             this.TabSet.SelectedIndexChanged += new System.EventHandler(this.TabSet_SelectedIndexChanged);
             this.TabSet.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TabSet_MouseMove);
@@ -761,7 +761,7 @@
             this.MainGrid.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.MainGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.MainGrid.Size = new System.Drawing.Size(567, 466);
-            this.MainGrid.TabIndex = 0;
+            this.MainGrid.TabIndex = 8;
             this.MainGrid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGrid_CellClick);
             this.MainGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGrid_CellDoubleClick);
             this.MainGrid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.MainGrid_CellMouseDown);
@@ -1176,7 +1176,7 @@
             this.EditNote.MaxLength = 28;
             this.EditNote.Name = "EditNote";
             this.EditNote.Size = new System.Drawing.Size(321, 26);
-            this.EditNote.TabIndex = 2;
+            this.EditNote.TabIndex = 1;
             this.EditNote.WordWrap = false;
             this.EditNote.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
             this.EditNote.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
@@ -1255,7 +1255,7 @@
             this.StatusBar.Size = new System.Drawing.Size(800, 30);
             this.StatusBar.SizingGrip = false;
             this.StatusBar.Stretch = false;
-            this.StatusBar.TabIndex = 11;
+            this.StatusBar.TabIndex = 12;
             this.StatusBar.Text = "StatusBar";
             // 
             // EditStatus_QRC
@@ -1268,7 +1268,7 @@
             this.EditStatus_QRC.MaxLength = 0;
             this.EditStatus_QRC.Name = "EditStatus_QRC";
             this.EditStatus_QRC.Size = new System.Drawing.Size(181, 26);
-            this.EditStatus_QRC.TabIndex = 21;
+            this.EditStatus_QRC.TabIndex = 0;
             this.EditStatus_QRC.Text = "1234567890123";
             this.EditStatus_QRC.WordWrap = false;
             this.EditStatus_QRC.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
@@ -1283,7 +1283,7 @@
             this.MF_lblReadQrc.Location = new System.Drawing.Point(801, 617);
             this.MF_lblReadQrc.Name = "MF_lblReadQrc";
             this.MF_lblReadQrc.Size = new System.Drawing.Size(70, 19);
-            this.MF_lblReadQrc.TabIndex = 22;
+            this.MF_lblReadQrc.TabIndex = 13;
             this.MF_lblReadQrc.Text = "QRcode:";
             // 
             // toolStripButtons_R
@@ -1305,7 +1305,7 @@
             this.toolStripButtons_R.Name = "toolStripButtons_R";
             this.toolStripButtons_R.Padding = new System.Windows.Forms.Padding(0);
             this.toolStripButtons_R.Size = new System.Drawing.Size(230, 75);
-            this.toolStripButtons_R.TabIndex = 23;
+            this.toolStripButtons_R.TabIndex = 5;
             this.toolStripButtons_R.Text = "toolStripButtons_R";
             // 
             // btnPlus
@@ -1366,7 +1366,7 @@
             this.comboCashPos.Location = new System.Drawing.Point(933, 584);
             this.comboCashPos.Name = "comboCashPos";
             this.comboCashPos.Size = new System.Drawing.Size(132, 26);
-            this.comboCashPos.TabIndex = 24;
+            this.comboCashPos.TabIndex = 3;
             this.comboCashPos.SelectedIndexChanged += new System.EventHandler(this.ComboCashPos_SelectedIndexChanged);
             // 
             // panelRight
@@ -1393,7 +1393,7 @@
             this.panelRight.Margin = new System.Windows.Forms.Padding(0);
             this.panelRight.Name = "panelRight";
             this.panelRight.Size = new System.Drawing.Size(230, 421);
-            this.panelRight.TabIndex = 29;
+            this.panelRight.TabIndex = 4;
             // 
             // Edit_CAP
             // 
@@ -1404,7 +1404,7 @@
             this.Edit_CAP.MaxLength = 20;
             this.Edit_CAP.Name = "Edit_CAP";
             this.Edit_CAP.Size = new System.Drawing.Size(217, 29);
-            this.Edit_CAP.TabIndex = 39;
+            this.Edit_CAP.TabIndex = 3;
             this.Edit_CAP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Edit_CAP.WordWrap = false;
             this.Edit_CAP.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
@@ -1419,7 +1419,7 @@
             this.MF_lbl_CAP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.MF_lbl_CAP.Name = "MF_lbl_CAP";
             this.MF_lbl_CAP.Size = new System.Drawing.Size(217, 23);
-            this.MF_lbl_CAP.TabIndex = 38;
+            this.MF_lbl_CAP.TabIndex = 10;
             this.MF_lbl_CAP.Text = "CAP";
             this.MF_lbl_CAP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1430,7 +1430,7 @@
             this.btnNavRight.Location = new System.Drawing.Point(7, 3);
             this.btnNavRight.Name = "btnNavRight";
             this.btnNavRight.Size = new System.Drawing.Size(34, 28);
-            this.btnNavRight.TabIndex = 37;
+            this.btnNavRight.TabIndex = 14;
             this.btnNavRight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnNavRight.UseVisualStyleBackColor = false;
             this.btnNavRight.Click += new System.EventHandler(this.BtnNav_Click);
@@ -1446,7 +1446,7 @@
             this.EditChange.Name = "EditChange";
             this.EditChange.ReadOnly = true;
             this.EditChange.Size = new System.Drawing.Size(217, 29);
-            this.EditChange.TabIndex = 34;
+            this.EditChange.TabIndex = 6;
             this.EditChange.TabStop = false;
             this.EditChange.Text = "4.40";
             this.EditChange.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1464,7 +1464,7 @@
             this.EditPaidCash.MaxLength = 6;
             this.EditPaidCash.Name = "EditPaidCash";
             this.EditPaidCash.Size = new System.Drawing.Size(217, 29);
-            this.EditPaidCash.TabIndex = 33;
+            this.EditPaidCash.TabIndex = 5;
             this.EditPaidCash.Text = "2.20";
             this.EditPaidCash.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.EditPaidCash.WordWrap = false;
@@ -1480,7 +1480,7 @@
             this.MF_lblPaidCash.Location = new System.Drawing.Point(7, 303);
             this.MF_lblPaidCash.Name = "MF_lblPaidCash";
             this.MF_lblPaidCash.Size = new System.Drawing.Size(217, 23);
-            this.MF_lblPaidCash.TabIndex = 32;
+            this.MF_lblPaidCash.TabIndex = 12;
             this.MF_lblPaidCash.Text = "PAG. CONTANTI";
             this.MF_lblPaidCash.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1492,7 +1492,7 @@
             this.MF_lblChange.Location = new System.Drawing.Point(7, 362);
             this.MF_lblChange.Name = "MF_lblChange";
             this.MF_lblChange.Size = new System.Drawing.Size(217, 23);
-            this.MF_lblChange.TabIndex = 31;
+            this.MF_lblChange.TabIndex = 13;
             this.MF_lblChange.Text = "RESTO";
             this.MF_lblChange.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1507,7 +1507,7 @@
             this.Edit_TotCorrente.MaxLength = 20;
             this.Edit_TotCorrente.Name = "Edit_TotCorrente";
             this.Edit_TotCorrente.Size = new System.Drawing.Size(217, 29);
-            this.Edit_TotCorrente.TabIndex = 30;
+            this.Edit_TotCorrente.TabIndex = 4;
             this.Edit_TotCorrente.Text = "0.00";
             this.Edit_TotCorrente.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Edit_TotCorrente.WordWrap = false;
@@ -1521,7 +1521,7 @@
             this.MF_lblTotal.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.MF_lblTotal.Name = "MF_lblTotal";
             this.MF_lblTotal.Size = new System.Drawing.Size(217, 23);
-            this.MF_lblTotal.TabIndex = 29;
+            this.MF_lblTotal.TabIndex = 11;
             this.MF_lblTotal.Text = "TOTALE";
             this.MF_lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1534,7 +1534,7 @@
             this.EditName.MaxLength = 20;
             this.EditName.Name = "EditName";
             this.EditName.Size = new System.Drawing.Size(217, 29);
-            this.EditName.TabIndex = 28;
+            this.EditName.TabIndex = 2;
             this.EditName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.EditName.WordWrap = false;
             this.EditName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
@@ -1548,7 +1548,7 @@
             this.MF_lblName.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.MF_lblName.Name = "MF_lblName";
             this.MF_lblName.Size = new System.Drawing.Size(217, 23);
-            this.MF_lblName.TabIndex = 27;
+            this.MF_lblName.TabIndex = 9;
             this.MF_lblName.Text = "NOME";
             this.MF_lblName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1561,7 +1561,7 @@
             this.EditTable.MaxLength = 18;
             this.EditTable.Name = "EditTable";
             this.EditTable.Size = new System.Drawing.Size(217, 29);
-            this.EditTable.TabIndex = 23;
+            this.EditTable.TabIndex = 1;
             this.EditTable.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.EditTable.WordWrap = false;
             this.EditTable.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
@@ -1575,7 +1575,7 @@
             this.MF_lblTable.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.MF_lblTable.Name = "MF_lblTable";
             this.MF_lblTable.Size = new System.Drawing.Size(217, 23);
-            this.MF_lblTable.TabIndex = 22;
+            this.MF_lblTable.TabIndex = 8;
             this.MF_lblTable.Text = "TAVOLO";
             this.MF_lblTable.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -1588,7 +1588,7 @@
             this.EditPlaceSett.MaxLength = 3;
             this.EditPlaceSett.Name = "EditPlaceSett";
             this.EditPlaceSett.Size = new System.Drawing.Size(217, 29);
-            this.EditPlaceSett.TabIndex = 21;
+            this.EditPlaceSett.TabIndex = 0;
             this.EditPlaceSett.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.EditPlaceSett.WordWrap = false;
             this.EditPlaceSett.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
@@ -1604,7 +1604,7 @@
             this.MF_lblPlaceSett.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.MF_lblPlaceSett.Name = "MF_lblPlaceSett";
             this.MF_lblPlaceSett.Size = new System.Drawing.Size(85, 23);
-            this.MF_lblPlaceSett.TabIndex = 20;
+            this.MF_lblPlaceSett.TabIndex = 7;
             this.MF_lblPlaceSett.Text = "COPERTI";
             // 
             // btnNavLeft
@@ -1616,7 +1616,7 @@
             this.btnNavLeft.Location = new System.Drawing.Point(819, 69);
             this.btnNavLeft.Name = "btnNavLeft";
             this.btnNavLeft.Size = new System.Drawing.Size(34, 26);
-            this.btnNavLeft.TabIndex = 37;
+            this.btnNavLeft.TabIndex = 10;
             this.btnNavLeft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnNavLeft.UseVisualStyleBackColor = false;
             this.btnNavLeft.Click += new System.EventHandler(this.BtnNav_Click);
@@ -1633,7 +1633,7 @@
             this.previewLeftPanel.Location = new System.Drawing.Point(5, 100);
             this.previewLeftPanel.Name = "previewLeftPanel";
             this.previewLeftPanel.Size = new System.Drawing.Size(281, 441);
-            this.previewLeftPanel.TabIndex = 38;
+            this.previewLeftPanel.TabIndex = 7;
             // 
             // panelGrip
             // 
@@ -1642,8 +1642,8 @@
             this.panelGrip.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelGrip.Location = new System.Drawing.Point(254, 0);
             this.panelGrip.Name = "panelGrip";
-            this.panelGrip.Size = new System.Drawing.Size(10, 466);
-            this.panelGrip.TabIndex = 41;
+            this.panelGrip.Size = new System.Drawing.Size(10, 444);
+            this.panelGrip.TabIndex = 0;
             this.panelGrip.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelGrip_MouseDown);
             this.panelGrip.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelGrip_MouseMove);
             this.panelGrip.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelGrip_MouseUp);
@@ -1655,7 +1655,7 @@
             this.picBox.BackColor = System.Drawing.Color.White;
             this.picBox.Location = new System.Drawing.Point(1, -2);
             this.picBox.Name = "picBox";
-            this.picBox.Size = new System.Drawing.Size(220, 468);
+            this.picBox.Size = new System.Drawing.Size(220, 446);
             this.picBox.TabIndex = 0;
             this.picBox.TabStop = false;
             // 
@@ -1668,10 +1668,10 @@
             this.checkBoxLogoPreview.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxLogoPreview.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxLogoPreview.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.checkBoxLogoPreview.Location = new System.Drawing.Point(25, 550);
+            this.checkBoxLogoPreview.Location = new System.Drawing.Point(25, 556);
             this.checkBoxLogoPreview.Name = "checkBoxLogoPreview";
             this.checkBoxLogoPreview.Size = new System.Drawing.Size(126, 22);
-            this.checkBoxLogoPreview.TabIndex = 39;
+            this.checkBoxLogoPreview.TabIndex = 2;
             this.checkBoxLogoPreview.Text = "visualizza il logo";
             this.checkBoxLogoPreview.UseVisualStyleBackColor = true;
             this.checkBoxLogoPreview.Click += new System.EventHandler(this.checkBoxLogoPreview_Click);

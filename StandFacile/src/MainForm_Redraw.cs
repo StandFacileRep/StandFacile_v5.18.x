@@ -1425,6 +1425,7 @@ namespace StandFacile
             {
                 previewLeftPanel.Width = _iPreviewPanelWidthCopy; // c'è il resize()
                 previewLeftPanel.Visible = true;
+                checkBoxLogoPreview.Visible = true;
                 picBox.Width = previewLeftPanel.Width - 16; // spazio per scrollbar
 
                 panelGrip.Width = 8;
@@ -1434,6 +1435,7 @@ namespace StandFacile
             {
                 previewLeftPanel.Width = 2;
                 previewLeftPanel.Visible = false;
+                checkBoxLogoPreview.Visible = false;
                 picBox.Width = previewLeftPanel.Width;
 
                 panelGrip.Width = 2;
@@ -1451,15 +1453,18 @@ namespace StandFacile
             picBox.Left = 0;
             picBox.Top = 0;
 
-            picBox.Image = AnteprimaDlg.bmpCanvas;
+            //picBox.Image = AnteprimaDlg.bmpCanvas;
 
-            if ((AnteprimaDlg.rAnteprimaDlg != null) && (AnteprimaDlg.rAnteprimaDlg.picBox.Height > MainGrid.Height))
-                picBox.Height = AnteprimaDlg.rAnteprimaDlg.picBox.Height;
-            else
-                picBox.Height = MainGrid.Height;
+            if (previewLeftPanel.Visible)
+            {
+                if ((AnteprimaDlg.rAnteprimaDlg != null) && (AnteprimaDlg.rAnteprimaDlg.picBox.Height > MainGrid.Height))
+                    picBox.Height = AnteprimaDlg.rAnteprimaDlg.picBox.Height;
+                else
+                    picBox.Height = MainGrid.Height;
 
-            previewLeftPanel.Height = MainGrid.Height - PREVIEW_BOTTOM_MARGIN;
-            panelGrip.Height = MainGrid.Height;
+                previewLeftPanel.Height = MainGrid.Height - PREVIEW_BOTTOM_MARGIN;
+                panelGrip.Height = MainGrid.Height;
+            }
 
             MainGrid.Left = previewLeftPanel.Width + panelGrip.Width + previewLeftPanel.Location.X - 6;
 
@@ -2035,12 +2040,18 @@ namespace StandFacile
             // aggiorna il web checksum in caso di modifica Listino
             Text = String.Format("{0} {1} {2} {1} webcks Listino = {3}   {4}", TITLE, "   ", RELEASE_SW, DataManager.GetWebListinoChecksum(), _sShortDBType);
 
-            picBox.Image = AnteprimaDlg.bmpCanvas;
+            if (previewLeftPanel.Visible)
+            {
+                picBox.Image = AnteprimaDlg.bmpCanvas;
 
-            if ((AnteprimaDlg.rAnteprimaDlg != null) && (AnteprimaDlg.rAnteprimaDlg.picBox.Height > MainGrid.Height))
-                picBox.Height = AnteprimaDlg.rAnteprimaDlg.picBox.Height;
-            else
-                picBox.Height = MainGrid.Height;
+                //previewLeftPanel.AutoScrollPosition = new Point(-AnteprimaDlg.rAnteprimaDlg.panel.AutoScrollPosition.X,
+                //                                                -AnteprimaDlg.rAnteprimaDlg.panel.AutoScrollPosition.Y);
+
+                if ((AnteprimaDlg.rAnteprimaDlg != null) && (AnteprimaDlg.rAnteprimaDlg.picBox.Height > MainGrid.Height))
+                    picBox.Height = AnteprimaDlg.rAnteprimaDlg.picBox.Height;
+                else
+                    picBox.Height = MainGrid.Height;
+            }
 
             MainGrid.Refresh();
         } // end MainGrid_Redraw

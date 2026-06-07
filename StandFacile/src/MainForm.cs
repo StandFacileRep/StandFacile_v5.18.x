@@ -1,6 +1,6 @@
 ﻿/***********************************************
   	NomeFile : StandFacile/MainForm.cs
-    Data	 : 30.05.2026
+    Data	 : 07.06.2026
   	Autore   : Mauro Artuso
  ***********************************************/
 
@@ -2597,6 +2597,8 @@ namespace StandFacile
 
         private void checkBoxLogoPreview_Click(object sender, EventArgs e)
         {
+            previewLeftPanel.AutoScrollPosition = new Point(0, 0);
+            
             checkBoxLogoPreview.Checked = !checkBoxLogoPreview.Checked;
 
             MnuAnteprimaScontrino_Click(null, null);
@@ -2627,6 +2629,8 @@ namespace StandFacile
                     // Processo a 64 bit, oppure OS a 32 bit
                     oskPath = Path.Combine(windows, "System32", "osk.exe");
                 }
+
+                Logger.Info("Mainform : BtnKeyb_Click {0}", oskPath);
 
                 Process.Start(oskPath);
 

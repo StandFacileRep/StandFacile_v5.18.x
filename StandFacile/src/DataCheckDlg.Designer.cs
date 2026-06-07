@@ -60,7 +60,7 @@
             this.DC_lblTavolo.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.DC_lblTavolo.Name = "DC_lblTavolo";
             this.DC_lblTavolo.Size = new System.Drawing.Size(57, 18);
-            this.DC_lblTavolo.TabIndex = 20;
+            this.DC_lblTavolo.TabIndex = 11;
             this.DC_lblTavolo.Text = "Tavolo:";
             // 
             // DC_EditTavolo
@@ -73,7 +73,7 @@
             this.DC_EditTavolo.MaxLength = 12;
             this.DC_EditTavolo.Name = "DC_EditTavolo";
             this.DC_EditTavolo.Size = new System.Drawing.Size(100, 26);
-            this.DC_EditTavolo.TabIndex = 0;
+            this.DC_EditTavolo.TabIndex = 1;
             this.DC_EditTavolo.WordWrap = false;
             this.DC_EditTavolo.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
             // 
@@ -87,7 +87,7 @@
             this.DC_lblCoperti.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.DC_lblCoperti.Name = "DC_lblCoperti";
             this.DC_lblCoperti.Size = new System.Drawing.Size(58, 18);
-            this.DC_lblCoperti.TabIndex = 22;
+            this.DC_lblCoperti.TabIndex = 10;
             this.DC_lblCoperti.Text = "Coperti:";
             // 
             // DC_EditCoperti
@@ -100,7 +100,7 @@
             this.DC_EditCoperti.MaxLength = 3;
             this.DC_EditCoperti.Name = "DC_EditCoperti";
             this.DC_EditCoperti.Size = new System.Drawing.Size(48, 26);
-            this.DC_EditCoperti.TabIndex = 1;
+            this.DC_EditCoperti.TabIndex = 0;
             this.DC_EditCoperti.WordWrap = false;
             this.DC_EditCoperti.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditFilter_KeyPress);
             this.DC_EditCoperti.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
@@ -113,7 +113,7 @@
             this.btnOK.Location = new System.Drawing.Point(249, 361);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 35);
-            this.btnOK.TabIndex = 9;
+            this.btnOK.TabIndex = 8;
             this.btnOK.Text = "OK   ";
             this.btnOK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnOK.UseVisualStyleBackColor = true;
@@ -128,7 +128,7 @@
             this.btnCancel.Location = new System.Drawing.Point(30, 361);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 35);
-            this.btnCancel.TabIndex = 7;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Annulla";
             this.btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -144,7 +144,7 @@
             this.groupBox.Location = new System.Drawing.Point(30, 224);
             this.groupBox.Name = "groupBox";
             this.groupBox.Size = new System.Drawing.Size(299, 70);
-            this.groupBox.TabIndex = 3;
+            this.groupBox.TabIndex = 4;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "modo di pagamento";
             // 
@@ -154,7 +154,7 @@
             this.radioSatispayBtn.Location = new System.Drawing.Point(210, 30);
             this.radioSatispayBtn.Name = "radioSatispayBtn";
             this.radioSatispayBtn.Size = new System.Drawing.Size(73, 20);
-            this.radioSatispayBtn.TabIndex = 6;
+            this.radioSatispayBtn.TabIndex = 2;
             this.radioSatispayBtn.TabStop = true;
             this.radioSatispayBtn.Text = "Satispay";
             this.radioSatispayBtn.UseVisualStyleBackColor = true;
@@ -166,7 +166,7 @@
             this.radioCardBtn.Location = new System.Drawing.Point(126, 30);
             this.radioCardBtn.Name = "radioCardBtn";
             this.radioCardBtn.Size = new System.Drawing.Size(52, 20);
-            this.radioCardBtn.TabIndex = 5;
+            this.radioCardBtn.TabIndex = 1;
             this.radioCardBtn.TabStop = true;
             this.radioCardBtn.Text = "Card";
             this.radioCardBtn.UseVisualStyleBackColor = true;
@@ -178,7 +178,7 @@
             this.radioContantiBtn.Location = new System.Drawing.Point(25, 30);
             this.radioContantiBtn.Name = "radioContantiBtn";
             this.radioContantiBtn.Size = new System.Drawing.Size(72, 20);
-            this.radioContantiBtn.TabIndex = 4;
+            this.radioContantiBtn.TabIndex = 0;
             this.radioContantiBtn.TabStop = true;
             this.radioContantiBtn.Text = "Contanti";
             this.radioContantiBtn.UseVisualStyleBackColor = true;
@@ -191,7 +191,7 @@
             this.BtnPrt.Location = new System.Drawing.Point(151, 360);
             this.BtnPrt.Name = "BtnPrt";
             this.BtnPrt.Size = new System.Drawing.Size(70, 35);
-            this.BtnPrt.TabIndex = 8;
+            this.BtnPrt.TabIndex = 7;
             this.BtnPrt.UseVisualStyleBackColor = true;
             this.BtnPrt.Click += new System.EventHandler(this.BtnPrt_Click);
             // 
@@ -205,7 +205,7 @@
             this.DC_Edit_CAP.MaxLength = 5;
             this.DC_Edit_CAP.Name = "DC_Edit_CAP";
             this.DC_Edit_CAP.Size = new System.Drawing.Size(70, 26);
-            this.DC_Edit_CAP.TabIndex = 23;
+            this.DC_Edit_CAP.TabIndex = 3;
             this.DC_Edit_CAP.WordWrap = false;
             this.DC_Edit_CAP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditFilter_KeyPress);
             this.DC_Edit_CAP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
@@ -220,7 +220,7 @@
             this.DC_lbl_CAP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.DC_lbl_CAP.Name = "DC_lbl_CAP";
             this.DC_lbl_CAP.Size = new System.Drawing.Size(39, 18);
-            this.DC_lbl_CAP.TabIndex = 24;
+            this.DC_lbl_CAP.TabIndex = 13;
             this.DC_lbl_CAP.Text = "CAP:";
             // 
             // labelWarn
@@ -233,7 +233,7 @@
             this.labelWarn.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.labelWarn.Name = "labelWarn";
             this.labelWarn.Size = new System.Drawing.Size(256, 18);
-            this.labelWarn.TabIndex = 25;
+            this.labelWarn.TabIndex = 9;
             this.labelWarn.Text = "i campi obbligatori hanno l\'etichetta blu";
             // 
             // DC_EditName
@@ -246,7 +246,7 @@
             this.DC_EditName.MaxLength = 20;
             this.DC_EditName.Name = "DC_EditName";
             this.DC_EditName.Size = new System.Drawing.Size(159, 26);
-            this.DC_EditName.TabIndex = 26;
+            this.DC_EditName.TabIndex = 2;
             this.DC_EditName.WordWrap = false;
             this.DC_EditName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
             // 
@@ -260,7 +260,7 @@
             this.DC_lblName.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.DC_lblName.Name = "DC_lblName";
             this.DC_lblName.Size = new System.Drawing.Size(52, 18);
-            this.DC_lblName.TabIndex = 27;
+            this.DC_lblName.TabIndex = 12;
             this.DC_lblName.Text = "Nome:";
             // 
             // DC_lbl_Cash
@@ -273,7 +273,7 @@
             this.DC_lbl_Cash.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.DC_lbl_Cash.Name = "DC_lbl_Cash";
             this.DC_lbl_Cash.Size = new System.Drawing.Size(72, 18);
-            this.DC_lbl_Cash.TabIndex = 28;
+            this.DC_lbl_Cash.TabIndex = 14;
             this.DC_lbl_Cash.Text = "Contante:";
             // 
             // DC_Edit_CASH
@@ -286,7 +286,7 @@
             this.DC_Edit_CASH.MaxLength = 5;
             this.DC_Edit_CASH.Name = "DC_Edit_CASH";
             this.DC_Edit_CASH.Size = new System.Drawing.Size(70, 26);
-            this.DC_Edit_CASH.TabIndex = 29;
+            this.DC_Edit_CASH.TabIndex = 5;
             this.DC_Edit_CASH.WordWrap = false;
             this.DC_Edit_CASH.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditCashFilter_KeyPress);
             this.DC_Edit_CASH.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
