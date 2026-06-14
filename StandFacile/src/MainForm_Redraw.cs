@@ -1457,8 +1457,8 @@ namespace StandFacile
 
             if (previewLeftPanel.Visible)
             {
-                if ((AnteprimaDlg.rAnteprimaDlg != null) && (AnteprimaDlg.rAnteprimaDlg.picBox.Height > MainGrid.Height))
-                    picBox.Height = AnteprimaDlg.rAnteprimaDlg.picBox.Height;
+                if ((AnteprimaDlg.rAnteprimaDlg != null) && (AnteprimaDlg.rAnteprimaDlg.GetPictureBox_Size().Height > MainGrid.Height))
+                    picBox.Height = AnteprimaDlg.rAnteprimaDlg.GetPictureBox_Size().Height;
                 else
                     picBox.Height = MainGrid.Height;
 
@@ -2047,8 +2047,8 @@ namespace StandFacile
                 //previewLeftPanel.AutoScrollPosition = new Point(-AnteprimaDlg.rAnteprimaDlg.panel.AutoScrollPosition.X,
                 //                                                -AnteprimaDlg.rAnteprimaDlg.panel.AutoScrollPosition.Y);
 
-                if ((AnteprimaDlg.rAnteprimaDlg != null) && (AnteprimaDlg.rAnteprimaDlg.picBox.Height > MainGrid.Height))
-                    picBox.Height = AnteprimaDlg.rAnteprimaDlg.picBox.Height;
+                if ((AnteprimaDlg.rAnteprimaDlg != null) && (AnteprimaDlg.rAnteprimaDlg.GetPictureBox_Size().Height > MainGrid.Height))
+                    picBox.Height = AnteprimaDlg.rAnteprimaDlg.GetPictureBox_Size().Height;
                 else
                     picBox.Height = MainGrid.Height;
             }

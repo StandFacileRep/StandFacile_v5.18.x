@@ -94,6 +94,9 @@ namespace StandCommonFiles
             public const String _HIDE_LEGACY_PRINTER = "noLegacyPrinters";
         }
 
+        /// <summary>stringa per definire Legacy Printers</summary>
+        public const String _LEGACY_PRINTER = "Legacy Printer (COM, LPT)";
+
         /// <summary>indicatore di ordine formattato JSON</summary>
         public const String _JS_ORDER = "js_order_v5d";
 
@@ -638,7 +641,7 @@ namespace StandCommonFiles
         public static readonly int NUM_COPIES_GRPS = Enum.GetNames(typeof(DEST_TYPE)).Length;
 
         /// <summary>
-        /// numero=10 dei gruppi di stampa separata, comprese copie sigole ma esclusi i contatori<br/>
+        /// numero=10 dei gruppi di stampa separata, comprese copie singole ma esclusi i contatori<br/>
         /// corrisponde anche all'indice della stampante Locale
         /// </summary>
         public static readonly int NUM_SEP_PRINT_GROUPS = NUM_COPIES_GRPS - 2;

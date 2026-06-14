@@ -177,6 +177,9 @@ namespace StandFacile
             /// </summary>
             public const string _AUTO_SEQ_TEST = "seqTest"; // _C1
 
+            /// <summary>mantiene i files Receipt e copie</summary>
+            public const String _KEEP_TXT_FILES = "keepTextFiles";
+
             /// <summary>serviceStrings: generazione automatica scontrini mediante qrcode per test</summary>
             public const string _AUTO_QRCODE_TEST = "qrcodeTest";
 

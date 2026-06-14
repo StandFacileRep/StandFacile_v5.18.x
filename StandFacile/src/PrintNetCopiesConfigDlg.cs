@@ -29,8 +29,6 @@ namespace StandFacile
     {
 #pragma warning disable IDE0044
 
-        const String _LEGACY_PRINTER = "Legacy Printer (COM, LPT)";
-
         /// <summary>riferimento a rPrintConfigDlg</summary>
         public static PrintNetCopiesConfigDlg _rPrintConfigDlg;
 

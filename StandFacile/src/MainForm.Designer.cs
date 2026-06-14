@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.BtnImgList = new System.Windows.Forms.ImageList(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -739,14 +739,14 @@
             this.MainGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.MainGrid.ColumnHeadersVisible = false;
             this.MainGrid.ContextMenuStrip = this.MainGridContextMenu;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Teal;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Teal;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.MainGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.MainGrid.EnableHeadersVisualStyles = false;
             this.MainGrid.GridColor = System.Drawing.Color.Gainsboro;
@@ -1355,17 +1355,17 @@
             // 
             this.comboCashPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboCashPos.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboCashPos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboCashPos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboCashPos.FormattingEnabled = true;
-            this.comboCashPos.ItemHeight = 18;
+            this.comboCashPos.ItemHeight = 20;
             this.comboCashPos.Items.AddRange(new object[] {
             "CONTANTI",
             "CARD",
             "SATYSPAY",
             "   "});
-            this.comboCashPos.Location = new System.Drawing.Point(933, 584);
+            this.comboCashPos.Location = new System.Drawing.Point(884, 582);
             this.comboCashPos.Name = "comboCashPos";
-            this.comboCashPos.Size = new System.Drawing.Size(132, 26);
+            this.comboCashPos.Size = new System.Drawing.Size(181, 28);
             this.comboCashPos.TabIndex = 3;
             this.comboCashPos.SelectedIndexChanged += new System.EventHandler(this.ComboCashPos_SelectedIndexChanged);
             // 

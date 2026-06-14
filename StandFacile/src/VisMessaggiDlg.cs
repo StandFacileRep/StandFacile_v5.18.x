@@ -42,8 +42,6 @@ namespace StandFacile
         /// <summary>numero minimo di righe visualizzate</summary>
         public const int MIN_ROWS_NUMBER = 10;
 
-        const String _LEGACY_PRINTER = "Legacy Printer (COM, LPT)";
-
         TErrMsg WrnMsg;
 
         readonly ToolTip _tt = new ToolTip
@@ -76,7 +74,9 @@ namespace StandFacile
             PrintersListCombo.Items.Clear();
 
             i = 0;
-            PrintersListCombo.Items.Add(_LEGACY_PRINTER);
+
+            if (!CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
+                PrintersListCombo.Items.Add(_LEGACY_PRINTER);
 
             foreach (string printer in PrinterSettings.InstalledPrinters)
             {
@@ -84,7 +84,10 @@ namespace StandFacile
 
                 if (printer == sGlbWinPrinterParams.sMsgPrinterModel)
                 {
-                    sGlbWinPrinterParams.iMsgPrinterModel = i + 1;  // tiene conto di _LEGACY_PRINTER
+                    if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
+                        sGlbWinPrinterParams.iMsgPrinterModel = i;
+                    else
+                        sGlbWinPrinterParams.iMsgPrinterModel = i + 1;  // tiene conto di _LEGACY_PRINTER
                 }
 
                 i++;

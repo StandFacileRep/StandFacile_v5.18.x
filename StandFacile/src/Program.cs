@@ -1,22 +1,20 @@
 ﻿/*********************************************************
     NomeFile : StandFacile
-    Data	 : 08.12.2025
+    Data	 : 10.06.2026
     Autore   : Mauro Artuso
 
     Avvia le classi visuali e non, nell'ordine corretto
  *********************************************************/
 
 using Microsoft.Win32;
-using System;
-using System.Windows.Forms;
-using System.Threading;
 using NLog;
-
 using StandCommonFiles;
+using System;
+using System.Reflection;
+using System.Threading;
+using System.Windows.Forms;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
-
-
 using static System.Convert;
 
 namespace StandFacile
@@ -30,6 +28,13 @@ namespace StandFacile
         public static dBaseTunnel_my _rdBaseTunnel_my;
 
         static Mutex _mx;
+
+        static Assembly ResolveAssembly(object sender, ResolveEventArgs args)
+        {
+            MessageBox.Show("DLL non trovata: " + args.Name + " \n");
+
+            return null;
+        }
 
         [STAThread]
         public static void Main()
@@ -105,6 +110,8 @@ namespace StandFacile
                 // Avvio del server di stampa
                 Printer_Legacy.Init();
             }
+
+            AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 
             // Precede tutte le classi visuali
             Application.EnableVisualStyles();

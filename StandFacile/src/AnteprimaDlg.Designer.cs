@@ -116,9 +116,9 @@
         }
 
         #endregion
-        public System.Windows.Forms.PictureBox picBox;
-        public System.Windows.Forms.CheckBox checkBoxLogoPreview;
-        public System.Windows.Forms.CheckBox checkBox_PrimoPiano;
         public System.Windows.Forms.Panel panel;
+        private System.Windows.Forms.CheckBox checkBoxLogoPreview;
+        private System.Windows.Forms.CheckBox checkBox_PrimoPiano;
+        private System.Windows.Forms.PictureBox picBox;
     }
 }

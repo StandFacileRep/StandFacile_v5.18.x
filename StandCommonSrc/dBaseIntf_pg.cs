@@ -1011,7 +1011,7 @@ namespace StandFacile_DB
             catch (Exception)
             {
                 _WrnMsg.iErrID = WRN_DBE;
-                _WrnMsg.sMsg = String.Format("accesso alla tabella DISP_DBTBL non possibile");
+                _WrnMsg.sMsg = String.Format("accesso alla tabella DISP_DBTBL non possibile\n\noppure problemi di comunicazione con il DB server");
                 WarningManager(_WrnMsg);
             }
 

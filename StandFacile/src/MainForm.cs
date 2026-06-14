@@ -133,9 +133,6 @@ namespace StandFacile
         /// </summary>
         public static void ClearListinoModificato() { _bListinoModificato = false; }
 
-        /// <summary>imposta lo stato di attivazione Pulsanti + - X</summary>
-        public static void Set_RButtons(int iStatusParam) { _iButtonStatus = iStatusParam; }
-
 
         /// <summary>mette evento in coda cross thread</summary>
         public static void EventEnqueue(String[] sEvQueueObjParam)
@@ -327,6 +324,8 @@ namespace StandFacile
             Btn_DB_Check.ToolTipText = "test di connessione DB:\n" +
                 "con Ctrl premuto verifica la connessione\n" +
                 "al DB remoto e forza l'upload del Listino";
+            
+            Btn_OSKeyb.ToolTipText = "tastiera onscreen";
 
             _tt.SetToolTip(btnNavLeft, "espande la barra laterale");
             _tt.SetToolTip(btnNavRight, "riduce la barra laterale");
@@ -2619,20 +2618,36 @@ namespace StandFacile
             }
             else
             {
-                if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
+                try
                 {
-                    // Processo a 32 bit su OS a 64 bit → usa Sysnative
-                    oskPath = Path.Combine(windows, "Sysnative", "osk.exe");
+                    oskPath = "osk.exe";
+
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "osk.exe",
+                        UseShellExecute = true
+                    });
                 }
-                else
+                catch
                 {
-                    // Processo a 64 bit, oppure OS a 32 bit
                     oskPath = Path.Combine(windows, "System32", "osk.exe");
+
+                    if (File.Exists(oskPath))
+                    {
+                        Process.Start(oskPath);
+                    }
+                    else
+                    {
+                        oskPath = Path.Combine(windows, "Sysnative", "osk.exe");
+
+                        if (File.Exists(oskPath))
+                        {
+                            Process.Start(oskPath);
+                        }
+                    }
                 }
 
                 Logger.Info("Mainform : BtnKeyb_Click {0}", oskPath);
-
-                Process.Start(oskPath);
 
                 Btn_OSKeyb.Checked = true;
             }
@@ -2892,7 +2907,8 @@ namespace StandFacile
             if ((SF_Data.iNumOfLastReceipt > 0) || (SF_Data.iNumOfMessages > 0) || DataManager.CheckDispLoaded())
                 DataManager.SalvaDati(DB_Data, false);
 
-            if (!CheckService(Define.CFG_SERVICE_STRINGS._AUTO_RECEIPT_GEN) && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
+            if (!CheckService(Define.CFG_SERVICE_STRINGS._AUTO_RECEIPT_GEN) && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && 
+                !CheckService(Define.CFG_SERVICE_STRINGS._KEEP_TXT_FILES))
             {
                 // ***** puliza finale *****
                 try
@@ -2971,8 +2987,8 @@ namespace StandFacile
             if (GetShowExternalPreview())
             {
                 _iPreviewStatus = UpdateBit(_iPreviewStatus, AnteprimaDlg.rAnteprimaDlg.Visible, (int)PREVIEW_STATUS_FLAGS.BIT_ENABLE_PREVIEW);
-                _iPreviewStatus = UpdateBit(_iPreviewStatus, AnteprimaDlg.rAnteprimaDlg.checkBoxLogoPreview.Checked, (int)PREVIEW_STATUS_FLAGS.BIT_ENABLE_LOGO);
-                _iPreviewStatus = UpdateBit(_iPreviewStatus, AnteprimaDlg.rAnteprimaDlg.checkBox_PrimoPiano.Checked, (int)PREVIEW_STATUS_FLAGS.BIT_TOPMOST);
+                _iPreviewStatus = UpdateBit(_iPreviewStatus, AnteprimaDlg.rAnteprimaDlg.GetCheckBoxLogoPreview(), (int)PREVIEW_STATUS_FLAGS.BIT_ENABLE_LOGO);
+                _iPreviewStatus = UpdateBit(_iPreviewStatus, AnteprimaDlg.rAnteprimaDlg.GetCheckBox_PrimoPiano(), (int)PREVIEW_STATUS_FLAGS.BIT_TOPMOST);
             }
             else
             {

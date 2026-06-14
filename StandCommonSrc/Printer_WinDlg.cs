@@ -159,7 +159,7 @@ namespace StandFacile
                     sGlbWinPrinterParams.iTckPrinterModel = i;
                     j = i;
 
-                    sLogStr = String.Format("WinPrinterDlg : InstalledPrinters j = {0}", j);
+                    sLogStr = String.Format("WinPrinterDlg : ReceiptPrinter j = {0}", j);
                     Logger.Info(sLogStr);
                 }
 
@@ -629,7 +629,7 @@ namespace StandFacile
                         if ((tmpImage.Width > 50) && (tmpImage.Width < (LOGO_WIDTH + 100)) &&
                             (tmpImage.Height > 50) && (tmpImage.Height < (LOGO_HEIGHT + 100)))
                         {
-                            WP_logoImage.Image = tmpImage;
+                            WP_logoImage.Image = new Bitmap(tmpImage);
 
                             if (RadioBtnLogo_T.Checked)
                             {
