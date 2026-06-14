@@ -17,7 +17,7 @@ namespace StandCommonFiles
 #pragma warning disable IDE0060
 
         /// <summary>versione del Programma</summary>
-        public const String RELEASE_SW = "v5.18.0"; 
+        public const String RELEASE_SW = "v5.18.0a"; 
 
         /// <summary>prefisso versione delle tabelle DB</summary>
         public const String RELEASE_DB_TBLS = "v5d";
@@ -1572,7 +1572,7 @@ namespace StandCommonFiles
             public int iRefreshTimer;
             /// <summary>numero di millisecondi dell'intervallo tra stampe, normalmente = 200ms per StandFacile</summary>
             public int iPrintInterval;
-            /// <summary>indice della stampante per il redirect della stampa copie locali</summary>
+            /// <summary>indice della stampante per il redirect della stampa copie locali, inizializzato con -1</summary>
             public int iLocalCopyPrinterNumRedirect;
 
             /// <summary>stringa per gestione Service Mode</summary>

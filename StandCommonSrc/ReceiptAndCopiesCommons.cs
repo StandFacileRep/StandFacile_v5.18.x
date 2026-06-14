@@ -9,15 +9,15 @@
     SF_Data si può utilizzare di sicuro all'interno di WriteLocalCopy
  *********************************************************************************/
 
+using StandFacile;
 using System;
-using System.IO;
 using System.Drawing;
+using System.Drawing.Printing;
+using System.IO;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
-
-using StandFacile;
-using static StandFacile.glb;
 using static StandFacile.Define;
+using static StandFacile.glb;
 
 namespace StandCommonFiles
 {
@@ -1330,8 +1330,8 @@ namespace StandCommonFiles
                 {
                     if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
                     {
-                        if (sConfig.iLocalCopyPrinterNumRedirect >= 0)
-                            Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, sConfig.iLocalCopyPrinterNumRedirect); // redirezione
+                        if ((sConfig.iLocalCopyPrinterNumRedirect >= 0) && (sConfig.iLocalCopyPrinterNumRedirect < PrinterSettings.InstalledPrinters.Count))
+                            Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
                         else
                             Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
                     }

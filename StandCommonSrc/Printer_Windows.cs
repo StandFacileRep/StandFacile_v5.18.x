@@ -126,14 +126,10 @@ namespace StandCommonFiles
         /// <summary>
         ///  STAMPA su stampante gestita da driver windows,<br/>
         ///  diversa per le 10 copie + scontrino principale + messaggi<br/>
-        ///  iPrinterIndex da 0 a NUM_EDIT_GROUPS - 1   identifica stampante copie,<br/>
+        ///  iPrinterIndex da 0 a NUM_SEP_PRINT_GROUPS - 1   identifica stampante copie,<br/>
         ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS      identifica stampante Receipt,<br/>
         ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1  identifica stampante Messaggi
         /// </summary>
-        /// <param name="sFileToPrintParam"></param>
-        /// <param name="sWinPrinterParams"></param>
-        /// <param name="iPrinterIndex"></param>
-        /// <param name="sPrinterNameParam"></param>
         public static void PrintFile(String sFileToPrintParam, TWinPrinterParams sWinPrinterParams, int iPrinterIndex, string sPrinterNameParam = "")
         {
             int iPos;
