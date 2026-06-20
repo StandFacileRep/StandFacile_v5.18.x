@@ -7,7 +7,9 @@ using System;
 using System.Windows.Forms;
 
 using static StandCommonFiles.CommonCl;
+
 using static StandFacile.Define;
+using static StandFacile.Config;
 
 namespace StandFacile
 {

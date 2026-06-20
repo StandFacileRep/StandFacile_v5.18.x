@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using static StandFacile.glb;
+using static StandFacile.Config;
 using static StandFacile.Define;
 using static StandFacile.dBaseIntf;
 using static StandFacile.OptionsDlg;

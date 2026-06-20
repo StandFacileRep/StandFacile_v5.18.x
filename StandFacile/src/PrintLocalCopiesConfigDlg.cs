@@ -8,12 +8,12 @@
 using System;
 using System.Windows.Forms;
 
-using static StandFacile.glb;
-
-using static StandCommonFiles.CommonCl;
 using static StandCommonFiles.ComDef;
+using static StandCommonFiles.CommonCl;
 
+using static StandFacile.glb;
 using static StandFacile.Define;
+using static StandFacile.Config;
 
 namespace StandFacile
 {
@@ -44,7 +44,7 @@ namespace StandFacile
         public static bool GetListinoModificato() { return _bListinoModificato; }
 
         /// <summary>ottiene true se la stampante è windows</summary>
-        public static bool GetPrinterTypeIsWinwows() { return (iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS); }
+        public static bool GetPrinterTypeIsWindows() { return (iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS); }
 
         /// <summary>ottiene flag di richiesta stampa copia scontrino NoPrice</summary>
         public static bool GetTicketNoPriceCopy() { return _rPrintTckConfigDlg.LC_checkBoxLocalCopy.Checked; }
@@ -275,7 +275,7 @@ namespace StandFacile
                 prt_Legacy.Checked = true;
             }
 
-            Logger.Info("PrintTicketConfigDlg OK");
+            Logger.Info("PrintLocalCopiesConfigDlg OK");
 
             timer.Enabled = false;
             Close();

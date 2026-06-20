@@ -9,6 +9,7 @@
 
 using System;
 using System.IO;
+using System.Threading;
 using System.Collections.Generic;
 using static System.Convert;
 
@@ -17,11 +18,11 @@ using static StandCommonFiles.CommonCl;
 
 
 using static StandFacile.glb;
+using static StandFacile.Config;
 using static StandFacile.dBaseIntf;
 using static StandFacile.DataManager;
 using static StandFacile.ScontoDlg;
 using static StandFacile.FrmMain;
-using System.Threading;
 
 namespace StandFacile
 {

@@ -23,6 +23,15 @@ namespace StandFacile
 
         TErrMsg _ErrMsg;
 
+        /// <summary>verifica se la stringa passata è contenuta nella chiave "serviceStrings"</summary>
+        public static bool CheckService(String sString)
+        {
+            if (!String.IsNullOrEmpty(sConfig.sService) && sConfig.sService.Contains(sString))
+                return true; // mediante config.ini
+            else
+                return false;
+        }
+
         /// <summary>costruttore</summary>
         public Config()
         {

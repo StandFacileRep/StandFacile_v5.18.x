@@ -1260,7 +1260,7 @@ namespace StandFacile_DB
                     }
 
 #if STANDFACILE
-                    if (CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
+                    if (Config.CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
                     {
                         while (TestManager.sFakeItem.Count > 0)
                         {

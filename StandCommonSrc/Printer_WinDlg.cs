@@ -17,8 +17,9 @@ using StandCommonFiles;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
 
-using static StandFacile.Define;
 using static StandFacile.glb;
+using static StandFacile.Define;
+using static StandFacile.Config;
 
 namespace StandFacile
 {
@@ -71,7 +72,8 @@ namespace StandFacile
         const String LOGO_WIN_CENTER_KEY = "iWinLogoCenter";
 
         bool _bInitComplete = false;
-        int _yDisp = 0;
+
+        int _yDisp;
 
         static Font tckFont, repFont;
         FontDialog fontTckDlg, fontRepDlg;
@@ -120,7 +122,7 @@ namespace StandFacile
         /// </summary>
         public bool Init(bool bShow)
         {
-            int i = 0, j = 0;
+            int i = 0;
 
             String sLogStr;
             DialogResult result = DialogResult.None;
@@ -133,10 +135,10 @@ namespace StandFacile
             //	letto anche dalla classe TFrmPrintConfig() così non ci sono problemi di ordine della
             //	instanziazione delle classi
 
-            //  l'ultimo elemento del vettore è la stampante Locale ( = non quella delle copie)
-            sGlbWinPrinterParams.sTckPrinterModel = ReadRegistry(WIN_PRINTER_MODEL_KEY, sDefaultPrinter);
+            //  l'ultimo elemento del vettore è la stampante messaggi, poi la Locale ( = non quella delle copie)
+            sGlbWinPrinterParams.sRcpPrinterModel = ReadRegistry(WIN_PRINTER_MODEL_KEY, sDefaultPrinter);
 
-            sGlbWinPrinterParams.iTckPrinterModel = 0;
+            sGlbWinPrinterParams.iRcpPrinterModel = 0;
 
             PrintersListCombo.Items.Clear();
 
@@ -154,24 +156,23 @@ namespace StandFacile
 
                 PrintersListCombo.Items.Add(printer);
 
-                if (printer == sGlbWinPrinterParams.sTckPrinterModel)
+                if (printer == sGlbWinPrinterParams.sRcpPrinterModel)
                 {
-                    sGlbWinPrinterParams.iTckPrinterModel = i;
-                    j = i;
+                    sGlbWinPrinterParams.iRcpPrinterModel = i;
 
-                    sLogStr = String.Format("WinPrinterDlg : ReceiptPrinter j = {0}", j);
+                    sLogStr = String.Format("WinPrinterDlg : iRcpPrinterModel = {0}", sGlbWinPrinterParams.iRcpPrinterModel);
                     Logger.Info(sLogStr);
                 }
 
                 i++;
             }
 
-            sLogStr = String.Format("WinPrinterDlg : prima di PrintersListCombo {0}, {1}", PrintersListCombo.Items.Count, j);
+            sLogStr = String.Format("WinPrinterDlg : prima di PrintersListCombo {0}, {1}", PrintersListCombo.Items.Count, sGlbWinPrinterParams.iRcpPrinterModel);
             Logger.Info(sLogStr);
 
             // imposta nel combo la stampante Locale
-            if ((j >= 0) && (j < PrintersListCombo.Items.Count))
-                PrintersListCombo.SelectedIndex = j;
+            if ((sGlbWinPrinterParams.iRcpPrinterModel >= 0) && (sGlbWinPrinterParams.iRcpPrinterModel < PrintersListCombo.Items.Count))
+                PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iRcpPrinterModel;
             else
                 PrintersListCombo.SelectedIndex = 0;
 
@@ -335,8 +336,8 @@ namespace StandFacile
             // 7, no Logo letto a parte
             sPrinterName = PrintersListCombo.SelectedItem.ToString();
 
-            _sWinPrinterParamsCopy.sTckPrinterModel = sPrinterName;
-            _sWinPrinterParamsCopy.iTckPrinterModel = PrintersListCombo.SelectedIndex;
+            _sWinPrinterParamsCopy.sRcpPrinterModel = sPrinterName;
+            _sWinPrinterParamsCopy.iRcpPrinterModel = PrintersListCombo.SelectedIndex;
 
             _sWinPrinterParamsCopy.iTckLeftMargin = (int)numUpDown_RcpMargin.Value;
             _sWinPrinterParamsCopy.iRepLeftMargin = (int)numUpDown_RepMargin.Value;
@@ -373,12 +374,12 @@ namespace StandFacile
             float fParam1;
             String sText;
 
-            pd.PrinterSettings.PrinterName = _sWinPrinterParamsCopy.sTckPrinterModel;
+            pd.PrinterSettings.PrinterName = _sWinPrinterParamsCopy.sRcpPrinterModel;
 
             if (pd.PrinterSettings.IsValid)
             {
 
-                Logger.Info("WinPrinterDlg : sTckPrinterModel = {0}", _sWinPrinterParamsCopy.sTckPrinterModel);
+                Logger.Info("WinPrinterDlg : sRcpPrinterModel = {0}", _sWinPrinterParamsCopy.sRcpPrinterModel);
 
                 //try {
                 //    Logger.Info("WinPrinterDlg : PaperSize.Width = {0}", pd.PrinterSettings.DefaultPageSettings.PaperSize.Width);
@@ -443,7 +444,7 @@ namespace StandFacile
 
             Memo.Clear();
 
-            sText = "Stampante : " + _sWinPrinterParamsCopy.sTckPrinterModel;
+            sText = "Stampante : " + _sWinPrinterParamsCopy.sRcpPrinterModel;
             Memo.AppendText(sText); Memo.AppendText(Environment.NewLine);
 
             sText = String.Format("Larghezza pagina : {0} px\n", iParam1);
@@ -788,7 +789,7 @@ namespace StandFacile
 #endif
 
             // 8 scrittura nel registro
-            WriteRegistry(WIN_PRINTER_MODEL_KEY, sGlbWinPrinterParams.sTckPrinterModel);
+            WriteRegistry(WIN_PRINTER_MODEL_KEY, sGlbWinPrinterParams.sRcpPrinterModel);
 
             WriteRegistry(WIN_LOGO_NAME_KEY_T, sGlbWinPrinterParams.sLogoName_T);
             WriteRegistry(WIN_LOGO_NAME_KEY_B, sGlbWinPrinterParams.sLogoName_B);

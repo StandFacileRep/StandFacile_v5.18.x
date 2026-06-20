@@ -30,13 +30,15 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Threading;
 
 using static StandCommonFiles.CommonCl;
 using static StandCommonFiles.ComDef;
 
 using StandFacile;
 using static StandFacile.glb;
-using System.Threading;
+using static StandFacile.Config;
+
 
 #if STAND_CUCINA
 using static StandFacile.Define; // serve a StandCucina
@@ -68,7 +70,6 @@ namespace StandCommonFiles
 
 
         /// <summary>se true evita la stampa dello scontrino</summary>
-        static bool _bSkipTicketPrint = false;
         static bool _bPaperIsA4 = false;
         static bool _bPageContinueSameHorPos;
 
@@ -264,7 +265,7 @@ namespace StandCommonFiles
                         if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1)  // stampa Messaggi
                             pd.PrinterSettings.PrinterName = _sWinPrinterParams.sMsgPrinterModel;
                         else if (iPrinterIndex == (NUM_SEP_PRINT_GROUPS)) // stampa Tickets
-                            pd.PrinterSettings.PrinterName = _sWinPrinterParams.sTckPrinterModel;
+                            pd.PrinterSettings.PrinterName = _sWinPrinterParams.sRcpPrinterModel;
                         else
                             pd.PrinterSettings.PrinterName = _sWinPrinterParams.sPrinterModel[iPrinterIndex];
                     }

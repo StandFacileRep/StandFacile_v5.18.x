@@ -58,7 +58,7 @@ namespace StandFacile
             iPrinterType = ReadRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_SEL.STAMPANTE_WINDOWS);
 
             if (iPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS)
-                sTmp = String.Format("Stampante windows : {0}", sGlbWinPrinterParams.sTckPrinterModel);
+                sTmp = String.Format("Stampante windows : {0}", sGlbWinPrinterParams.sRcpPrinterModel);
             else
                 sTmp = String.Format("Stampante legacy : {0}, {1}, {2}", sConstLegacyModels[sGlbLegacyPrinterParams.iPrinterModel],
                     sGlbLegacyPrinterParams.sPort, sConstFlow[sGlbLegacyPrinterParams.iFlowCtrl]);
@@ -67,7 +67,7 @@ namespace StandFacile
 
             Lbl_Listino.Text = "data Listino : " + SF_Data.sListinoDateTime;
 
-            if (CheckService(CFG_SERVICE_STRINGS._SKIP_DATA))
+            if (Config.CheckService(CFG_SERVICE_STRINGS._SKIP_DATA))
                 timer.Enabled = false;
             else
             {

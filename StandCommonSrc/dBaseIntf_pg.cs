@@ -29,6 +29,7 @@ using static StandCommonFiles.CommonCl;
 
 using StandFacile;
 using static StandFacile.glb;
+using static StandFacile.Config;
 using static StandFacile.dBaseIntf;
 
 namespace StandFacile_DB

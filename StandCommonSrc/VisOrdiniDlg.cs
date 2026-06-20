@@ -495,9 +495,9 @@ namespace StandFacile
 
             // STAMPA SCONTRINO PRINCIPALE
 #if STANDFACILE
-            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
 #else
-            if (PrintConfigLightDlg.GetPrinterTypeIsWinwows())
+            if (PrintConfigLightDlg.GetPrinterTypeIsWindows())
 #endif
             {
                 Printer_Windows.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicket, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
@@ -527,7 +527,7 @@ namespace StandFacile
 
                 if (_dataIdentifierParam.bCopiesGroupsFlag[i])
                 {
-                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
                         Printer_Windows.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
                     else
                         Printer_Legacy.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbLegacyPrinterParams,
@@ -545,7 +545,7 @@ namespace StandFacile
                     // *** MESSA IN CODA DI STAMPA COPIE SINGOLE ***
                     if (SF_Data.bCopiesGroupsFlag[(int)DEST_TYPE.DEST_SINGLE])
                     {
-                        if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+                        if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
                             Printer_Windows.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
                         else
                             Printer_Legacy.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
@@ -556,9 +556,9 @@ namespace StandFacile
 #endif
 
 #if STANDFACILE
-            if (!PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+            if (!PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
 #else
-            if (!PrintConfigLightDlg.GetPrinterTypeIsWinwows())
+            if (!PrintConfigLightDlg.GetPrinterTypeIsWindows())
 #endif
             {
                 // Avvia eventuali code delle copie Legacy

@@ -9,16 +9,17 @@
 using System;
 using System.IO;
 
-using static StandFacile.glb;
-using static StandFacile.Define;
-using static StandFacile.dBaseIntf;
-using static StandFacile.dBaseTunnel_my;
-using static StandFacile.FrmMain;
-
 using StandCommonFiles;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
 using static StandCommonFiles.ReceiptAndCopies;
+
+using static StandFacile.glb;
+using static StandFacile.Define;
+using static StandFacile.Config;
+using static StandFacile.dBaseIntf;
+using static StandFacile.dBaseTunnel_my;
+using static StandFacile.FrmMain;
 
 
 namespace StandFacile
@@ -581,19 +582,17 @@ namespace StandFacile
             _bChars33 = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
             InitFormatStrings(_bChars33);
 
-            /*******************************
-             ***     STAMPA SCONTRINO    ***
-             *******************************/
+            /**************************************
+             ***        STAMPA SCONTRINO        ***
+             **************************************/
 
             sDir = _sTicketsDir + "\\";
 
             WriteReceipt(ref SF_Data, 0, sDir, sOrdineStrings);
 
-            /*******************************************
-             ***  STAMPA COPIE LOCALI SENZA PREZZI	 ***
-             *******************************************/
-
-            sDir = _sTicketsDir + "\\";
+            /******************************************
+             ***        STAMPA COPIE LOCALI         ***
+             ******************************************/
 
             WriteLocalCopy(SF_Data, 0, sDir, sOrdineStrings);
 
@@ -614,7 +613,7 @@ namespace StandFacile
                 Print_A4_Receipt(sDir);
 
             // AVVIO STAMPE LEGACY DOPO IL SALVATAGGIO SU DATABASE PER EVITARE PROBLEMI EVENTUALI
-            if (!PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+            if (!PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
             {
                 // Avvia eventuali code delle copie Legacy
                 Printer_Legacy.PrintFile("", sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_START);
@@ -1018,7 +1017,7 @@ namespace StandFacile
 
                         if (_bSomethingInto_ClrToPrint[i])
                         {
-                            if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWinwows(i))
+                            if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(i))
                                 Printer_Windows.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
                             else
                                 Printer_Legacy.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);

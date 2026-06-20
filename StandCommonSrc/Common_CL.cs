@@ -45,15 +45,6 @@ namespace StandCommonFiles
         /// <summary>istanza del Logger NLog/// </summary>
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        /// <summary>verifica se la stringa passata è contenuta nella chiave "serviceStrings"</summary>
-        public static bool CheckService(String sString)
-        {
-            if (!String.IsNullOrEmpty(sConfig.sService) && sConfig.sService.Contains(sString))
-                return true; // mediante config.ini
-            else
-                return false;
-        }
-
         /// <summary>
         /// legge dal Registry un intero ritornando il valore
         /// iDef in caso di errore come .NET
@@ -519,9 +510,9 @@ namespace StandCommonFiles
         public static void GenPrintFile(String sFileToPrintParm)
         {
 #if STANDFACILE
-            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
 #else
-            if (PrintConfigLightDlg.GetPrinterTypeIsWinwows())
+            if (PrintConfigLightDlg.GetPrinterTypeIsWindows())
 #endif
                 Printer_Windows.PrintFile(sFileToPrintParm);
             else

@@ -18,6 +18,7 @@ using static StandCommonFiles.CommonCl;
 using StandFacile;
 using static StandFacile.glb;
 using static StandFacile.Define;
+using static StandFacile.Config;
 
 namespace StandCommonFiles
 {

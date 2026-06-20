@@ -10,6 +10,7 @@ using System.Drawing.Printing;
 
 using static StandFacile.glb;
 using static StandFacile.Define;
+using static StandFacile.Config;
 using static StandFacile.dBaseIntf;
 
 using static StandCommonFiles.CommonCl;
@@ -61,16 +62,27 @@ namespace StandFacile
          *****************************************************/
 
         /// <summary> overload funzione che ritorna true se la stampante copie in uso è windows</summary>
-        public static bool GetPrinterTypeIsWinwows(int iPrinterIndex)
+        public static bool GetPrinterTypeIsWindows(int iPrinterIndex)
         {
             if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
                 return true;
             else if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1)  // stampa Messaggi
                 return (sGlbWinPrinterParams.sMsgPrinterModel != _LEGACY_PRINTER);
             else if (iPrinterIndex == (NUM_SEP_PRINT_GROUPS)) // stampa Tickets
-                return (sGlbWinPrinterParams.sTckPrinterModel != _LEGACY_PRINTER);
+                return (sGlbWinPrinterParams.sRcpPrinterModel != _LEGACY_PRINTER);
             else
                 return (sGlbWinPrinterParams.sPrinterModel[iPrinterIndex] != _LEGACY_PRINTER);
+        }
+
+        /// <summary> overload funzione che ritorna true se la stampante copie è windows</summary>
+        public static bool GetPrinterTypeIsWindows(String sPrinterParam)
+        {
+            if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
+                return true;
+            else if (sPrinterParam != _LEGACY_PRINTER)
+                return true;
+            else
+                return false;
         }
 
         readonly ToolTip _tt = new ToolTip
@@ -233,7 +245,7 @@ namespace StandFacile
                     j++;
                 }
 
-                if ((sGlbWinPrinterParams.iPrinterModel[i] < PrinterSettings.InstalledPrinters.Count + 1) && (sGlbWinPrinterParams.iPrinterModel[i] >= 0))
+                if ((sGlbWinPrinterParams.iPrinterModel[i] >= 0) && (sGlbWinPrinterParams.iPrinterModel[i] < _pPrintersListCombo[i].Items.Count))
                     _pPrintersListCombo[i].SelectedIndex = sGlbWinPrinterParams.iPrinterModel[i];
                 else
                     _pPrintersListCombo[i].SelectedIndex = 0;
@@ -401,7 +413,7 @@ namespace StandFacile
             {
                 if (sender == _pBtnPrintCheck[i])
                 {
-                    if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWinwows(i))
+                    if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(_pPrintersListCombo[i].Text))
                         PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, _pPrintersListCombo[i].Text);
                     else
                         PrintFile(sFileToPrint, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);

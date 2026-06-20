@@ -8,11 +8,12 @@
 using System;
 using System.Windows.Forms;
 
-using static StandFacile.glb;
-
-using static StandCommonFiles.CommonCl;
 using static StandCommonFiles.ComDef;
+using static StandCommonFiles.CommonCl;
 using static StandCommonFiles.Printer_Legacy;
+
+using static StandFacile.glb;
+using static StandFacile.Config;
 
 namespace StandFacile
 {
@@ -38,7 +39,7 @@ namespace StandFacile
          *****************************************************/
 
         /// <summary>ottiene true se la stampante è windows</summary>
-        public static bool GetPrinterTypeIsWinwows() { return (iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS); }
+        public static bool GetPrinterTypeIsWindows() { return (iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS); }
 
         /// <summary>costruttore</summary>
         public PrintConfigLightDlg()

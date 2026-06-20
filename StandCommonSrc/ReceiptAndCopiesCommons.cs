@@ -1,6 +1,6 @@
 ﻿/*********************************************************************************
  	NomeFile : StandCommonSrc/ReceiptAndCopiesCommons.cs
-    Data	 : 04.02.2026
+    Data	 : 14.06.2026
  	Autore	 : Mauro Artuso
 
 	Classi di uso comune a DataManager.Receipt(), ViewOrdersDlg.ReceiptRebuild()<br/>
@@ -9,15 +9,18 @@
     SF_Data si può utilizzare di sicuro all'interno di WriteLocalCopy
  *********************************************************************************/
 
-using StandFacile;
 using System;
+using System.IO;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.IO;
+
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
-using static StandFacile.Define;
+
+using StandFacile;
 using static StandFacile.glb;
+using static StandFacile.Define;
+using static StandFacile.Config;
 
 namespace StandCommonFiles
 {
@@ -823,7 +826,7 @@ namespace StandCommonFiles
 
                 if (!sGlbWinPrinterParams.bA4Paper) // bisogna aspettare il completamento del file
                 {
-                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
                         Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
                     else
                         Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
@@ -841,7 +844,7 @@ namespace StandCommonFiles
             // completamento del file A4 completato
             if (sGlbWinPrinterParams.bA4Paper)
             {
-                if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+                if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
                     Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
                 else
                     Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
@@ -1328,7 +1331,7 @@ namespace StandCommonFiles
                  *****************************************************************************/
                 if (!CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                 {
-                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
                     {
                         if ((sConfig.iLocalCopyPrinterNumRedirect >= 0) && (sConfig.iLocalCopyPrinterNumRedirect < PrinterSettings.InstalledPrinters.Count))
                             Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
@@ -1723,7 +1726,7 @@ namespace StandCommonFiles
                      *****************************************************************************/
                     if (dataIdParam.bCopiesGroupsFlag[i] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                     {
-                        if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWinwows(i))
+                        if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(i))
                             Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
                         else
                             Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
@@ -1975,7 +1978,7 @@ namespace StandCommonFiles
                      *****************************************************************************/
                     if (dataIdParam.bCopiesGroupsFlag[(int)DEST_TYPE.DEST_SINGLE] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                     {
-                        if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWinwows((int)DEST_TYPE.DEST_SINGLE))
+                        if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows((int)DEST_TYPE.DEST_SINGLE))
                             Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
                         else
                             Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);

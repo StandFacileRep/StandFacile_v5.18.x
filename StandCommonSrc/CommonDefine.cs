@@ -862,9 +862,9 @@ namespace StandCommonFiles
             public bool bA5Paper;
 
             /// <summary>modello di stampante windows per lo scontrino</summary>
-            public String sTckPrinterModel;
+            public String sRcpPrinterModel;
             /// <summary>modello associato alla stampante windows per lo scontrino</summary>
-            public int iTckPrinterModel;
+            public int iRcpPrinterModel;
 
             /// <summary>modello di stampante windows per il messaggio</summary>
             public String sMsgPrinterModel;
@@ -923,8 +923,8 @@ namespace StandCommonFiles
                 bA4Paper = false;
                 bA5Paper = false;
 
-                sTckPrinterModel = "";
-                iTckPrinterModel = 0;
+                sRcpPrinterModel = "";
+                iRcpPrinterModel = 0;
                 sMsgPrinterModel = "";
                 iMsgPrinterModel = 0;
 

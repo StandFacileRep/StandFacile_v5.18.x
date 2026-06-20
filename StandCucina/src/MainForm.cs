@@ -17,6 +17,7 @@ using static StandCommonFiles.ReceiptAndCopies;
 
 using static StandFacile.glb;
 using static StandFacile.Define;
+using static StandFacile.Config;
 using static StandFacile.NetConfigLightDlg;
 using static StandFacile.dBaseIntf;
 using static StandFacile.LogForm;
@@ -898,7 +899,7 @@ namespace StandFacile
                         // Invio alla Stampante
                         Logger.Info("ClientTimer : stampa di " + sFileToPrint);
 
-                        if (PrintConfigLightDlg.GetPrinterTypeIsWinwows())
+                        if (PrintConfigLightDlg.GetPrinterTypeIsWindows())
                         {
                             _iWP_Delay = LED_TIMER;
                             printerPicBox.Image = Properties.Resources.circleRed; // Red

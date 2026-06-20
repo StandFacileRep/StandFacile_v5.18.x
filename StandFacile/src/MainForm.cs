@@ -22,6 +22,7 @@ using static StandCommonFiles.Printer_Legacy;
 
 using static StandFacile.glb;
 using static StandFacile.Define;
+using static StandFacile.Config;
 using static StandFacile.OptionsDlg;
 using static StandFacile.dBaseIntf;
 using static StandFacile.dBaseTunnel_my;
@@ -1370,7 +1371,7 @@ namespace StandFacile
             _iAnteprimaTotParziale = 0;
             AnteprimaDlg.ResetSomethingInto_GrpToPrint();
 
-            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
                 ResetBtnScontrino();
             // else
             //  viene eseguito dopo la stampa Legacy con l'evento RESET_RECEIPT_BTN_EVENT

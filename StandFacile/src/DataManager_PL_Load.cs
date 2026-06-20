@@ -13,6 +13,7 @@ using static System.Convert;
 
 using static StandFacile.glb;
 using static StandFacile.Define;
+using static StandFacile.Config;
 using static StandFacile.dBaseIntf;
 using static StandFacile.ScontoDlg;
 using static StandFacile.OptionsDlg;

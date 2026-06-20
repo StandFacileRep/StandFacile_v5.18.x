@@ -225,7 +225,7 @@ namespace StandFacile
             /*************************************
              * 		 Stampa del Logo Top
              *************************************/
-            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T) && PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T) && PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
             {
                 Image img = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(true);
 
@@ -651,7 +651,7 @@ namespace StandFacile
              * 		 Stampa del Logo Bottom
              *************************************/
 
-            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B) && PrintLocalCopiesConfigDlg.GetPrinterTypeIsWinwows())
+            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B) && PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
             {
                 Image img = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(false);
 

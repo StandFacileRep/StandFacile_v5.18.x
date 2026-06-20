@@ -6,16 +6,20 @@
  ***************************************************************************/
 
 using System;
+using System.IO;
 using System.Windows.Forms;
+using System.Drawing.Printing;
 
 using StandCommonFiles;
 using static StandCommonFiles.ComDef;
 
 using static StandCommonFiles.CommonCl;
-using static StandFacile.dBaseIntf;
 
 using static StandFacile.glb;
 using static StandFacile.Define;
+using static StandFacile.Config;
+using static StandFacile.dBaseIntf;
+
 using System.IO;
 using System.Drawing.Printing;
 
@@ -405,7 +409,7 @@ namespace StandFacile
                     // Invio alla Stampante
                     Logger.Info("VisMessaggiDlg : stampa di " + sNomeFileMsg);
 
-                    if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWinwows(NUM_SEP_PRINT_GROUPS + 1))
+                    if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(PrintersListCombo.Text))
                         Printer_Windows.PrintFile(sNomeFileMsg, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
                     else
                         Printer_Legacy.PrintFile(sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
