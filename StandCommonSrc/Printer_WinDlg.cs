@@ -135,7 +135,7 @@ namespace StandFacile
             //	letto anche dalla classe TFrmPrintConfig() così non ci sono problemi di ordine della
             //	instanziazione delle classi
 
-            //  l'ultimo elemento del vettore è la stampante messaggi, poi la Locale ( = non quella delle copie)
+            //  l'ultimo elemento del vettore è la stampante messaggi, poi di riepilogo, poi la Locale ( = non quella delle copie)
             sGlbWinPrinterParams.sRcpPrinterModel = ReadRegistry(WIN_PRINTER_MODEL_KEY, sDefaultPrinter);
 
             sGlbWinPrinterParams.iRcpPrinterModel = 0;
@@ -170,11 +170,14 @@ namespace StandFacile
             sLogStr = String.Format("WinPrinterDlg : prima di PrintersListCombo {0}, {1}", PrintersListCombo.Items.Count, sGlbWinPrinterParams.iRcpPrinterModel);
             Logger.Info(sLogStr);
 
-            // imposta nel combo la stampante Locale
-            if ((sGlbWinPrinterParams.iRcpPrinterModel >= 0) && (sGlbWinPrinterParams.iRcpPrinterModel < PrintersListCombo.Items.Count))
-                PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iRcpPrinterModel;
-            else
-                PrintersListCombo.SelectedIndex = 0;
+            if (PrintersListCombo.Items.Count > 0)
+            {
+                // imposta nel combo la stampante Locale
+                if ((sGlbWinPrinterParams.iRcpPrinterModel >= 0) && (sGlbWinPrinterParams.iRcpPrinterModel < PrintersListCombo.Items.Count))
+                    PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iRcpPrinterModel;
+                else
+                    PrintersListCombo.SelectedIndex = 0;
+            }
 
 #if STANDFACILE
             // 7+1, sPrinterModel è sopra

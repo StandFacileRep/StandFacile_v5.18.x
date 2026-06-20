@@ -66,8 +66,10 @@ namespace StandFacile
         {
             if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
                 return true;
-            else if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1)  // stampa Messaggi
+            else if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 2)  // stampa Messaggi
                 return (sGlbWinPrinterParams.sMsgPrinterModel != _LEGACY_PRINTER);
+            else if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1)  // stampa Riepilogo
+                return (sGlbWinPrinterParams.sSumPrinterModel != _LEGACY_PRINTER);
             else if (iPrinterIndex == (NUM_SEP_PRINT_GROUPS)) // stampa Tickets
                 return (sGlbWinPrinterParams.sRcpPrinterModel != _LEGACY_PRINTER);
             else
@@ -245,10 +247,13 @@ namespace StandFacile
                     j++;
                 }
 
-                if ((sGlbWinPrinterParams.iPrinterModel[i] >= 0) && (sGlbWinPrinterParams.iPrinterModel[i] < _pPrintersListCombo[i].Items.Count))
-                    _pPrintersListCombo[i].SelectedIndex = sGlbWinPrinterParams.iPrinterModel[i];
-                else
-                    _pPrintersListCombo[i].SelectedIndex = 0;
+                if (_pPrintersListCombo[i].Items.Count > 0)
+                {
+                    if ((sGlbWinPrinterParams.iPrinterModel[i] >= 0) && (sGlbWinPrinterParams.iPrinterModel[i] < _pPrintersListCombo[i].Items.Count))
+                        _pPrintersListCombo[i].SelectedIndex = sGlbWinPrinterParams.iPrinterModel[i];
+                    else
+                        _pPrintersListCombo[i].SelectedIndex = 0;
+                }
             }
 
             //letture dal DataManager

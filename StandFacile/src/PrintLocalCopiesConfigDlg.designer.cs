@@ -66,6 +66,11 @@
             this.LC_label2 = new System.Windows.Forms.Label();
             this.LC_label3 = new System.Windows.Forms.Label();
             this.LC_label1 = new System.Windows.Forms.Label();
+            this.PrintersListCombo = new System.Windows.Forms.ComboBox();
+            this.LC_checkBoxRiepilogo = new System.Windows.Forms.CheckBox();
+            this.LC_label4 = new System.Windows.Forms.Label();
+            this.BtnPrintCheck = new System.Windows.Forms.Button();
+            this.LC_label5 = new System.Windows.Forms.Label();
             this.RadioGroup_PrinterType.SuspendLayout();
             this.printersGroupBox.SuspendLayout();
             this.LC_panelLocalCopies.SuspendLayout();
@@ -77,7 +82,7 @@
             this.RadioGroup_PrinterType.Controls.Add(this.prt_Legacy);
             this.RadioGroup_PrinterType.Controls.Add(this.prt_Windows);
             this.RadioGroup_PrinterType.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.RadioGroup_PrinterType.Location = new System.Drawing.Point(312, 20);
+            this.RadioGroup_PrinterType.Location = new System.Drawing.Point(312, 14);
             this.RadioGroup_PrinterType.Name = "RadioGroup_PrinterType";
             this.RadioGroup_PrinterType.Size = new System.Drawing.Size(211, 94);
             this.RadioGroup_PrinterType.TabIndex = 1;
@@ -112,7 +117,7 @@
             this.printersGroupBox.Controls.Add(this.BtnLegacy);
             this.printersGroupBox.Controls.Add(this.BtnWin);
             this.printersGroupBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.printersGroupBox.Location = new System.Drawing.Point(30, 20);
+            this.printersGroupBox.Location = new System.Drawing.Point(30, 14);
             this.printersGroupBox.Name = "printersGroupBox";
             this.printersGroupBox.Size = new System.Drawing.Size(260, 94);
             this.printersGroupBox.TabIndex = 0;
@@ -161,7 +166,7 @@
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancel.Location = new System.Drawing.Point(163, 610);
+            this.btnCancel.Location = new System.Drawing.Point(163, 655);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 28);
@@ -176,7 +181,7 @@
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOK.Image = global::StandFacile.Properties.Resources.OK;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOK.Location = new System.Drawing.Point(299, 610);
+            this.btnOK.Location = new System.Drawing.Point(299, 655);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 28);
@@ -188,7 +193,6 @@
             // 
             // LC_panelLocalCopies
             // 
-            this.LC_panelLocalCopies.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_panelLocalCopies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LC_panelLocalCopies.Controls.Add(this.LC_checkBox_LocPrices);
             this.LC_panelLocalCopies.Controls.Add(this.LC_labelWarn1);
@@ -200,9 +204,9 @@
             this.LC_panelLocalCopies.Controls.Add(this.LC_checkBoxSingleRowItems);
             this.LC_panelLocalCopies.Controls.Add(this.LC_checkBoxSelectedOnly);
             this.LC_panelLocalCopies.Controls.Add(this.LC_checkBoxLocalCopy);
-            this.LC_panelLocalCopies.Location = new System.Drawing.Point(16, 200);
+            this.LC_panelLocalCopies.Location = new System.Drawing.Point(16, 190);
             this.LC_panelLocalCopies.Name = "LC_panelLocalCopies";
-            this.LC_panelLocalCopies.Size = new System.Drawing.Size(517, 390);
+            this.LC_panelLocalCopies.Size = new System.Drawing.Size(517, 379);
             this.LC_panelLocalCopies.TabIndex = 6;
             // 
             // LC_checkBox_LocPrices
@@ -288,7 +292,7 @@
             this.panelCopies.Controls.Add(this.checkBoxCopia_2);
             this.panelCopies.Controls.Add(this.checkBoxCopia_1);
             this.panelCopies.Controls.Add(this.checkBoxCopia_0);
-            this.panelCopies.Location = new System.Drawing.Point(10, 164);
+            this.panelCopies.Location = new System.Drawing.Point(10, 156);
             this.panelCopies.Name = "panelCopies";
             this.panelCopies.Size = new System.Drawing.Size(496, 209);
             this.panelCopies.TabIndex = 1;
@@ -457,10 +461,9 @@
             // 
             // LC_LinkLbl_Mnu_CCR
             // 
-            this.LC_LinkLbl_Mnu_CCR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_LinkLbl_Mnu_CCR.AutoSize = true;
             this.LC_LinkLbl_Mnu_CCR.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_LinkLbl_Mnu_CCR.Location = new System.Drawing.Point(339, 169);
+            this.LC_LinkLbl_Mnu_CCR.Location = new System.Drawing.Point(339, 160);
             this.LC_LinkLbl_Mnu_CCR.Name = "LC_LinkLbl_Mnu_CCR";
             this.LC_LinkLbl_Mnu_CCR.Size = new System.Drawing.Size(188, 14);
             this.LC_LinkLbl_Mnu_CCR.TabIndex = 5;
@@ -470,10 +473,9 @@
             // 
             // LC_label2
             // 
-            this.LC_label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label2.AutoSize = true;
             this.LC_label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_label2.Location = new System.Drawing.Point(21, 148);
+            this.LC_label2.Location = new System.Drawing.Point(21, 139);
             this.LC_label2.Name = "LC_label2";
             this.LC_label2.Size = new System.Drawing.Size(489, 16);
             this.LC_label2.TabIndex = 3;
@@ -482,10 +484,9 @@
             // 
             // LC_label3
             // 
-            this.LC_label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label3.AutoSize = true;
             this.LC_label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_label3.Location = new System.Drawing.Point(21, 168);
+            this.LC_label3.Location = new System.Drawing.Point(21, 159);
             this.LC_label3.Name = "LC_label3";
             this.LC_label3.Size = new System.Drawing.Size(317, 16);
             this.LC_label3.TabIndex = 4;
@@ -493,21 +494,81 @@
             // 
             // LC_label1
             // 
-            this.LC_label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label1.AutoSize = true;
             this.LC_label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_label1.Location = new System.Drawing.Point(21, 128);
+            this.LC_label1.Location = new System.Drawing.Point(21, 119);
             this.LC_label1.Name = "LC_label1";
             this.LC_label1.Size = new System.Drawing.Size(450, 16);
             this.LC_label1.TabIndex = 2;
             this.LC_label1.Text = "da qui si effettuano le impostazioni di stampa delle sole copie in cassa locale:";
+            // 
+            // PrintersListCombo
+            // 
+            this.PrintersListCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.PrintersListCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.PrintersListCombo.FormattingEnabled = true;
+            this.PrintersListCombo.Location = new System.Drawing.Point(237, 612);
+            this.PrintersListCombo.Name = "PrintersListCombo";
+            this.PrintersListCombo.Size = new System.Drawing.Size(194, 21);
+            this.PrintersListCombo.TabIndex = 9;
+            // 
+            // LC_checkBoxRiepilogo
+            // 
+            this.LC_checkBoxRiepilogo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LC_checkBoxRiepilogo.AutoSize = true;
+            this.LC_checkBoxRiepilogo.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LC_checkBoxRiepilogo.Location = new System.Drawing.Point(33, 612);
+            this.LC_checkBoxRiepilogo.Name = "LC_checkBoxRiepilogo";
+            this.LC_checkBoxRiepilogo.Padding = new System.Windows.Forms.Padding(1);
+            this.LC_checkBoxRiepilogo.Size = new System.Drawing.Size(188, 20);
+            this.LC_checkBoxRiepilogo.TabIndex = 10;
+            this.LC_checkBoxRiepilogo.Text = "stampa una copia di Riepilogo";
+            this.LC_checkBoxRiepilogo.UseVisualStyleBackColor = true;
+            // 
+            // LC_label4
+            // 
+            this.LC_label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LC_label4.AutoSize = true;
+            this.LC_label4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LC_label4.Location = new System.Drawing.Point(234, 589);
+            this.LC_label4.Name = "LC_label4";
+            this.LC_label4.Size = new System.Drawing.Size(293, 16);
+            this.LC_label4.TabIndex = 11;
+            this.LC_label4.Text = "selezione della stampante per la copia di riepilogo";
+            // 
+            // BtnPrintCheck
+            // 
+            this.BtnPrintCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.BtnPrintCheck.Image = global::StandFacile.Properties.Resources.OK;
+            this.BtnPrintCheck.Location = new System.Drawing.Point(460, 612);
+            this.BtnPrintCheck.Name = "BtnPrintCheck";
+            this.BtnPrintCheck.Size = new System.Drawing.Size(27, 23);
+            this.BtnPrintCheck.TabIndex = 42;
+            this.BtnPrintCheck.UseVisualStyleBackColor = true;
+            this.BtnPrintCheck.Click += new System.EventHandler(this.BtnPrintCheck_Click);
+            // 
+            // LC_label5
+            // 
+            this.LC_label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LC_label5.AutoSize = true;
+            this.LC_label5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LC_label5.Location = new System.Drawing.Point(50, 589);
+            this.LC_label5.Name = "LC_label5";
+            this.LC_label5.Size = new System.Drawing.Size(169, 16);
+            this.LC_label5.TabIndex = 43;
+            this.LC_label5.Text = "in aggiunta alle copie Locali:";
             // 
             // PrintLocalCopiesConfigDlg
             // 
             this.AcceptButton = this.btnCancel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 654);
+            this.ClientSize = new System.Drawing.Size(539, 699);
+            this.Controls.Add(this.LC_label5);
+            this.Controls.Add(this.BtnPrintCheck);
+            this.Controls.Add(this.LC_label4);
+            this.Controls.Add(this.LC_checkBoxRiepilogo);
+            this.Controls.Add(this.PrintersListCombo);
             this.Controls.Add(this.LC_label2);
             this.Controls.Add(this.LC_label3);
             this.Controls.Add(this.LC_label1);
@@ -573,5 +634,10 @@
         private System.Windows.Forms.Label LC_labelWarn1;
         private System.Windows.Forms.CheckBox LC_checkBox_LocPrices;
         private System.Windows.Forms.Button BtnGenPrinterOptions;
+        private System.Windows.Forms.ComboBox PrintersListCombo;
+        private System.Windows.Forms.CheckBox LC_checkBoxRiepilogo;
+        private System.Windows.Forms.Label LC_label4;
+        private System.Windows.Forms.Button BtnPrintCheck;
+        private System.Windows.Forms.Label LC_label5;
     }
 }

@@ -594,7 +594,13 @@ namespace StandFacile
              ***        STAMPA COPIE LOCALI         ***
              ******************************************/
 
-            WriteLocalCopy(SF_Data, 0, sDir, sOrdineStrings);
+            WriteLocalCopy(SF_Data, 0, false, sDir, sOrdineStrings);
+
+            /******************************************
+             ***        STAMPA COPIA RIEPILOGO	    ***
+             ******************************************/
+
+            WriteLocalCopy(SF_Data, 0, true, sDir, sOrdineStrings);
 
             /*******************************************************
              *               STAMPA COPIE DI RETE

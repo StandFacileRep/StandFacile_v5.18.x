@@ -37,6 +37,7 @@ namespace StandCommonFiles
 
         static bool _bCtrlS_UnitQtyItems = false;
         static bool _bPlaceSettingsOnCopies = false;
+        static bool _bPrintSummaryCopyRequired = false;
 
 #if STANDFACILE
         static bool[] _bSelectedGroups = new bool[NUM_COPIES_GRPS];
@@ -859,7 +860,7 @@ namespace StandCommonFiles
         /// funzione che scrive la copie locali dello scontrino nel file _fPrint,<br/>
         /// prelevando i dati dalla struct dataIdParam
         /// </summary>
-        public static void WriteLocalCopy(TData dataIdParam, int iNumOfReceiptsParam, String sDirParam, TOrdineStrings sOrdineStringsParam)
+        public static void WriteLocalCopy(TData dataIdParam, int iNumOfReceiptsParam, bool bIsSummaryParam, String sDirParam, TOrdineStrings sOrdineStringsParam)
         {
             bool bLocalCopyRequested, bSingleRowItems, bUnitQtyItems;
             bool bHeaderToBePrinted, bGroupsTextToPrint, bReceiptGroups_CutRequired;
@@ -868,7 +869,7 @@ namespace StandCommonFiles
             int iNumCoperti = 0;
             int iDebug = 0;
 
-            String sTmp, sGroup, sNomeFileTicketNpPrt;
+            String sTmp, sGroup, sNomeFileTicketNpPrt, sNomeFileSummaryLocalCopy;
             String sHeader1_ToPrintBeforeCut, sHeader2_ToPrintBeforeCut;
 
             bool[] bSomethingInto_GrpToPrint = new bool[NUM_COPIES_GRPS];
@@ -897,6 +898,11 @@ namespace StandCommonFiles
             else
                 sNomeFileTicketNpPrt = String.Format(NOME_FILE_RECEIPT_NP, dataIdParam.iNumCassa, iNumOfReceiptsParam);
 
+            if (sGlbWinPrinterParams.bA4Paper)
+                sNomeFileSummaryLocalCopy = _sNomeFileReceiptPrt;
+            else
+                sNomeFileSummaryLocalCopy = String.Format(NOME_FILE_SUMMARY, dataIdParam.iNumCassa, iNumOfReceiptsParam);
+
             _ErrMsg.sNomeFile = sNomeFileTicketNpPrt;
 
             _bLocalPricesRequested = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_PRICE_PRINT_ON_COPIES_REQUIRED);
@@ -912,6 +918,8 @@ namespace StandCommonFiles
             bUnitQtyItems = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_QUANTITYONE_PRINT_REQUIRED);
 
             bReceiptGroups_CutRequired = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_PRINT_GROUPS_CUT_REQUIRED);
+
+            _bPrintSummaryCopyRequired = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_SUMMARY_COPY_REQUIRED);
 
             // GEN_PRINTER_OPTS
             _bPlaceSettingsOnCopies = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_PLACESETTS_PRINT_ON_COPIES_REQUIRED);
@@ -934,7 +942,7 @@ namespace StandCommonFiles
                 iGrpReorderPtr[i + 1] = i;
 
 
-            if (bLocalCopyRequested && !(dataIdParam.bPrevendita || IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA)))
+            if ((bLocalCopyRequested || bIsSummaryParam) && !(dataIdParam.bPrevendita || IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA)))
             {
 
                 if (sGlbWinPrinterParams.bA4Paper)
@@ -943,7 +951,12 @@ namespace StandCommonFiles
                     _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
                 }
                 else
-                    _fPrint = File.CreateText(sDirParam + sNomeFileTicketNpPrt);
+                {
+                    if (bIsSummaryParam)
+                        _fPrint = File.CreateText(sDirParam + sNomeFileSummaryLocalCopy);
+                    else
+                        _fPrint = File.CreateText(sDirParam + sNomeFileTicketNpPrt);
+                }
 
                 if (_fPrint == null)
                 {
@@ -1032,7 +1045,7 @@ namespace StandCommonFiles
                     }
 
                     // stampa #1: quantità UNO mediante Crtl+S, evita DEST_BUONI
-                    for (i = 0; i < (NUM_COPIES_GRPS - 1); i++)
+                    for (i = 0; (i < (NUM_COPIES_GRPS - 1)) && !bIsSummaryParam; i++)
                     {
                         for (j = 0; (j < MAX_ITEMS_NUM) && bSomethingInto_GrpToPrint[iGrpReorderPtr[i]]; j++)
                         {
@@ -1083,7 +1096,7 @@ namespace StandCommonFiles
                     }
 
                     // stampa #2: quantità UNO, evita DEST_BUONI
-                    for (i = 0; i < (NUM_COPIES_GRPS - 1); i++)
+                    for (i = 0; (i < (NUM_COPIES_GRPS - 1)) && !bIsSummaryParam; i++)
                     {
                         for (j = 0; (j < MAX_ITEMS_NUM) && bSomethingInto_GrpToPrint[iGrpReorderPtr[i]]; j++)
                         {
@@ -1135,7 +1148,7 @@ namespace StandCommonFiles
                     }
 
                     // stampa #3: bSingleRowItems, evita DEST_BUONI
-                    for (i = 0; i < (NUM_COPIES_GRPS - 1); i++)
+                    for (i = 0; (i < (NUM_COPIES_GRPS - 1)) && !bIsSummaryParam; i++)
                     {
                         for (j = 0; (j < MAX_ITEMS_NUM) && bSomethingInto_GrpToPrint[iGrpReorderPtr[i]]; j++)
                         {
@@ -1204,7 +1217,7 @@ namespace StandCommonFiles
                         bGroupsTextToPrint = true;
 
                         // evita il taglio con CONTATORI e DEST_TIPO1
-                        if (bReceiptGroups_CutRequired && !((iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_TIPO1) && bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_COUNTER]))
+                        if (!bIsSummaryParam && bReceiptGroups_CutRequired && !((iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_TIPO1) && bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_COUNTER]))
                             bHeaderToBePrinted = true; // consente più Headers
 
                         for (j = 0; (j < MAX_ITEMS_NUM) && bSomethingInto_GrpToPrint[iGrpReorderPtr[i]]; j++)
@@ -1215,7 +1228,7 @@ namespace StandCommonFiles
                             if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0))
                                 iDebug++;
 
-                            if ((!_bPrintSelectedOnly || _bPrintSelectedOnly && (!_bAvoidPrintOtherGroups || _bSelectedGroups[iGrpReorderPtr[i]])) &&
+                            if ((bIsSummaryParam || !_bPrintSelectedOnly || _bPrintSelectedOnly && (!_bAvoidPrintOtherGroups || _bSelectedGroups[iGrpReorderPtr[i]])) &&
                                 (dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == iGrpReorderPtr[i]))
                             {
                                 // raggruppamento per iGruppoStampa
@@ -1232,7 +1245,7 @@ namespace StandCommonFiles
 
                                 }
 
-                                if (bReceiptGroups_CutRequired && bGroupsTextToPrint)
+                                if (!bIsSummaryParam && bReceiptGroups_CutRequired && bGroupsTextToPrint)
                                 {
                                     bGroupsTextToPrint = false;
 
@@ -1255,7 +1268,7 @@ namespace StandCommonFiles
                                     bHeaderToBePrinted = false;
 
                                     // valutare se eliminare !bReceiptGroups_CutRequired
-                                    if ((iNumCoperti > 0) && (!bReceiptGroups_CutRequired && _bPlaceSettingsOnCopies || (iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_COUNTER)))
+                                    if ((iNumCoperti > 0) && (!(bIsSummaryParam || bReceiptGroups_CutRequired) && _bPlaceSettingsOnCopies || (iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_COUNTER)))
                                     {
                                         if (_bLocalPricesRequested)
                                             sTmp = String.Format(sRCP_FMT_RCPT, iNumCoperti, _COPERTO, IntToEuro(iNumCoperti * dataIdParam.Articolo[MAX_ITEMS_NUM - 1].iPrezzoUnitario));
@@ -1294,7 +1307,7 @@ namespace StandCommonFiles
                                 if (CheckLastItemToPrint_OnSameGroup(dataIdParam, iGrpReorderPtr[i], j))
                                 {
                                     // se c'è il taglio
-                                    if (bReceiptGroups_CutRequired && !((iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_COUNTER) && bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_TIPO1]))
+                                    if (!bIsSummaryParam && bReceiptGroups_CutRequired && !((iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_COUNTER) && bSomethingInto_GrpToPrint[(int)DEST_TYPE.DEST_TIPO1]))
                                     {
                                         WriteFooter(dataIdParam, _fPrint);
 
@@ -1331,15 +1344,34 @@ namespace StandCommonFiles
                  *****************************************************************************/
                 if (!CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                 {
-                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+                    if (bIsSummaryParam)
                     {
-                        if ((sConfig.iLocalCopyPrinterNumRedirect >= 0) && (sConfig.iLocalCopyPrinterNumRedirect < PrinterSettings.InstalledPrinters.Count))
-                            Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
-                        else
-                            Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
+                        // copia locale di Riepilogo
+                        if (_bPrintSummaryCopyRequired)
+                        {
+                            if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS + 1))
+                                Printer_Windows.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
+                            else
+                                Printer_Legacy.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+                        }
                     }
                     else
-                        Printer_Legacy.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                    {
+                        // copia locale standard
+                        if (bLocalCopyRequested)
+                        {
+                            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+                            {
+                                if ((sConfig.iLocalCopyPrinterNumRedirect >= 0) && (sConfig.iLocalCopyPrinterNumRedirect < PrinterSettings.InstalledPrinters.Count))
+                                    Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
+                                else
+                                    Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
+                            }
+                            else
+                                Printer_Legacy.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                        }
+
+                    }
                 }
             }
         }

@@ -17,7 +17,7 @@ namespace StandCommonFiles
 #pragma warning disable IDE0060
 
         /// <summary>versione del Programma</summary>
-        public const String RELEASE_SW = "v5.18.0a"; 
+        public const String RELEASE_SW = "v5.18.1"; 
 
         /// <summary>prefisso versione delle tabelle DB</summary>
         public const String RELEASE_DB_TBLS = "v5d";
@@ -826,7 +826,10 @@ namespace StandCommonFiles
             BIT_AVOIDPRINTGROUPS_PRINT_REQUIRED,
 
             /// <summary>bit di iLocalCopyOptions per chiedere la stampa dei prezzi anche nelle copie locali</summary>
-            BIT_PRICE_PRINT_ON_COPIES_REQUIRED
+            BIT_PRICE_PRINT_ON_COPIES_REQUIRED,
+
+            /// <summary>bit di iLocalCopyOptions per chiedere la stampa del riepilogo</summary>
+            BIT_SUMMARY_COPY_REQUIRED
 
             /*******************************************************************************************
 	            i primi 10 bit di iLocalCopyOptions sono riservati per gestione _bSelectedGroups[i]
@@ -865,6 +868,11 @@ namespace StandCommonFiles
             public String sRcpPrinterModel;
             /// <summary>modello associato alla stampante windows per lo scontrino</summary>
             public int iRcpPrinterModel;
+
+            /// <summary>modello di stampante windows per il riepilogo</summary>
+            public String sSumPrinterModel;
+            /// <summary>modello associato alla stampante windows per il riepilogo</summary>
+            public int iSumPrinterModel;
 
             /// <summary>modello di stampante windows per il messaggio</summary>
             public String sMsgPrinterModel;
@@ -927,6 +935,8 @@ namespace StandCommonFiles
                 iRcpPrinterModel = 0;
                 sMsgPrinterModel = "";
                 iMsgPrinterModel = 0;
+                sSumPrinterModel = "";
+                iSumPrinterModel = 0;
 
                 sPrinterModel = new String[NUM_SEP_PRINT_GROUPS];
                 iPrinterModel = new int[NUM_SEP_PRINT_GROUPS];

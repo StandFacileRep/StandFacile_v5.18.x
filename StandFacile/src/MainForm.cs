@@ -2623,8 +2623,6 @@ namespace StandFacile
                 {
                     oskPath = "osk.exe";
 
-                    Logger.Info("Mainform : BtnKeyb_Click PStart");
-
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = "osk.exe",
@@ -2637,8 +2635,6 @@ namespace StandFacile
 
                     if (File.Exists(oskPath))
                     {
-                        Logger.Info("Mainform : BtnKeyb_Click System32");
-
                         Process.Start(oskPath);
                     }
                     else
@@ -2647,8 +2643,6 @@ namespace StandFacile
 
                         if (File.Exists(oskPath))
                         {
-                            Logger.Info("Mainform : BtnKeyb_Click Sysnative");
-
                             Process.Start(oskPath);
                         }
                     }

@@ -35,6 +35,9 @@ namespace StandFacile
         /// <summary>registro: stringa del modello della stampante per i messaggi</summary>
         public const String WIN_MSG_PRINTER_MODEL_KEY = "sWinPrinterModel_msg";
 
+        /// <summary>registro: stringa del modello della stampante per i riepiloghi</summary>
+        public const String WIN_SUM_PRINTER_MODEL_KEY = "sWinPrinterModel_sum";
+
         /// <summary>registro: stringa del modello della stampante per le copie</summary>
         public const string WIN_CPY_PRINTER_MODEL_MKEY = "sWinPrinterModel_{0}";
 
@@ -222,8 +225,12 @@ namespace StandFacile
 
         /// <summary>formato nome dello scontrino</summary>
         public const string NOME_FILE_RECEIPT = "C{0}_TT{1:d4}.txt";
+
         /// <summary>formato nome della copia locale scontrino</summary>
         public const string NOME_FILE_RECEIPT_NP = "C{0}_TN{1:d4}.txt";
+
+        /// <summary>formato nome della copia riepilogo locale scontrino</summary>
+        public const string NOME_FILE_SUMMARY = "C{0}_TS{1:d4}.txt";
 
         /// <summary>formato nome copie</summary>
         public const string NOME_FILE_COPIE_NET = "C{0}_CT{1:d4}_G{2}.txt";

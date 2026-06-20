@@ -126,10 +126,11 @@ namespace StandCommonFiles
 
         /// <summary>
         ///  STAMPA su stampante gestita da driver windows,<br/>
-        ///  diversa per le 10 copie + scontrino principale + messaggi<br/>
+        ///  diversa per le 10 copie + scontrino principale + riepilogo + messaggi<br/>
         ///  iPrinterIndex da 0 a NUM_SEP_PRINT_GROUPS - 1   identifica stampante copie,<br/>
         ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS      identifica stampante Receipt,<br/>
-        ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1  identifica stampante Messaggi
+        ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1  identifica stampante Riepilogo
+        ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS + 2  identifica stampante Messaggi
         /// </summary>
         public static void PrintFile(String sFileToPrintParam, TWinPrinterParams sWinPrinterParams, int iPrinterIndex, string sPrinterNameParam = "")
         {
@@ -262,8 +263,10 @@ namespace StandCommonFiles
 
                     if (String.IsNullOrEmpty(sPrinterNameParam))
                     {
-                        if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1)  // stampa Messaggi
+                        if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 2)  // stampa Messaggi
                             pd.PrinterSettings.PrinterName = _sWinPrinterParams.sMsgPrinterModel;
+                        else if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1) // stampa Riepilogo
+                            pd.PrinterSettings.PrinterName = _sWinPrinterParams.sSumPrinterModel;
                         else if (iPrinterIndex == (NUM_SEP_PRINT_GROUPS)) // stampa Tickets
                             pd.PrinterSettings.PrinterName = _sWinPrinterParams.sRcpPrinterModel;
                         else

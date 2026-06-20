@@ -1,19 +1,23 @@
 ﻿/*****************************************************
  	NomeFile : PrintLocalCopiesConfigDlg.cs
-    Data	 : 01.12.2025
+    Data	 : 14.06.2026
  	Autore   : Mauro Artuso
 
  *****************************************************/
 
 using System;
+using System.Drawing.Printing;
 using System.Windows.Forms;
 
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
+using static StandCommonFiles.Printer_Legacy;
+using static StandCommonFiles.Printer_Windows;
 
 using static StandFacile.glb;
 using static StandFacile.Define;
 using static StandFacile.Config;
+
 
 namespace StandFacile
 {
@@ -40,6 +44,9 @@ namespace StandFacile
 
         static bool _bListinoModificato;
 
+        static PrinterSettings settings = new PrinterSettings();
+        static String sDefaultPrinter;
+
         /// <summary>ottiene flag di modifica listino necessaria</summary>
         public static bool GetListinoModificato() { return _bListinoModificato; }
 
@@ -58,6 +65,9 @@ namespace StandFacile
         /// <summary>costruttore</summary>
         public PrintLocalCopiesConfigDlg()
         {
+            int i = 0;
+            String sLogStr;
+
             InitializeComponent();
 
             _rPrintTckConfigDlg = this;
@@ -83,6 +93,44 @@ namespace StandFacile
                 RadioGroup_PrinterType.Visible = false;
 
                 this.Height = this.Height - printersGroupBox.Height - 20;
+            }
+
+            // stampante Windows di Default
+            sDefaultPrinter = settings.PrinterName;
+
+            //  l'ultimo elemento del vettore è la stampante messaggi, poi di riepilogo, poi la Locale ( = non quella delle copie)
+            sGlbWinPrinterParams.sSumPrinterModel = ReadRegistry(WIN_SUM_PRINTER_MODEL_KEY, sDefaultPrinter);
+            sGlbWinPrinterParams.iSumPrinterModel = 0;
+
+            PrintersListCombo.Items.Clear();
+
+            if (!CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
+                PrintersListCombo.Items.Add(_LEGACY_PRINTER);
+
+            foreach (string printer in PrinterSettings.InstalledPrinters)
+            {
+                PrintersListCombo.Items.Add(printer);
+
+                if (printer == sGlbWinPrinterParams.sSumPrinterModel)
+                {
+                    if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
+                        sGlbWinPrinterParams.iSumPrinterModel = i;
+                    else
+                        sGlbWinPrinterParams.iSumPrinterModel = i + 1;
+
+                    sLogStr = String.Format("PrintLocalCopiesConfigDlg : SumPrinter = {0}", sGlbWinPrinterParams.iSumPrinterModel);
+                    Logger.Info(sLogStr);
+                }
+
+                i++;
+            }
+
+            if (PrintersListCombo.Items.Count > 0)
+            {
+                if ((sGlbWinPrinterParams.iSumPrinterModel >= 0) && (sGlbWinPrinterParams.iSumPrinterModel < PrintersListCombo.Items.Count))
+                    PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iSumPrinterModel;
+                else
+                    PrintersListCombo.SelectedIndex = 0;
             }
 
             Init(false);
@@ -150,6 +198,8 @@ namespace StandFacile
 
             LC_checkBox_CUT.Checked = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_PRINT_GROUPS_CUT_REQUIRED);
 
+            LC_checkBoxRiepilogo.Checked = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_SUMMARY_COPY_REQUIRED);
+
             CheckBoxNoPrice_CheckedChanged(this, null);
             Timer_Tick(this, null);
 
@@ -207,6 +257,11 @@ namespace StandFacile
             LC_checkBox_CUT.Enabled = LC_checkBoxLocalCopy.Checked && (!LC_checkBox_AvoidPrintGroups.Checked || !LC_checkBoxSingleRowItems.Checked && !LC_checkBoxUnitItems.Checked);
 
             LC_checkBox_AvoidPrintGroups.Enabled = LC_checkBoxLocalCopy.Checked && LC_checkBoxSelectedOnly.Checked && (LC_checkBoxSingleRowItems.Checked || LC_checkBoxUnitItems.Checked);
+
+            PrintersListCombo.Enabled = LC_checkBoxRiepilogo.Checked;
+            BtnPrintCheck.Enabled = LC_checkBoxRiepilogo.Checked;
+            LC_label4.Enabled = LC_checkBoxRiepilogo.Checked;
+            LC_label5.Enabled = LC_checkBoxRiepilogo.Checked;
         }
 
         private void LinkLbl_Mnu_CCR_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -222,6 +277,22 @@ namespace StandFacile
         private void BtnCancel_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
+        }
+
+        private void BtnPrintCheck_Click(object sender, EventArgs e)
+        {
+            String sTmp, sFileToPrint;
+
+            sFileToPrint = BuildSampleText();
+
+            if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(PrintersListCombo.Text))
+                PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, PrintersListCombo.Text);
+            else
+                PrintFile(sFileToPrint, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+
+            sTmp = String.Format("PrintLocalCopiesConfigDlg : printSampleText({0}) {1}", PrintersListCombo.SelectedIndex, sFileToPrint);
+            Logger.Info(sTmp);
+
         }
 
         /**************************************************
@@ -254,6 +325,8 @@ namespace StandFacile
 
             iLocalCopyOptions = UpdateBit(iLocalCopyOptions, LC_checkBox_CUT.Checked, (int)LOCAL_COPIES_OPTS.BIT_PRINT_GROUPS_CUT_REQUIRED);
 
+            iLocalCopyOptions = UpdateBit(iLocalCopyOptions, LC_checkBoxRiepilogo.Checked, (int)LOCAL_COPIES_OPTS.BIT_SUMMARY_COPY_REQUIRED);
+
             // controllo _bListinoModificato per gestione della stampa QuantitàUno, salvataggio in : SF_Data[]
             if (SF_Data.iLocalCopyOptions != iLocalCopyOptions)
             {
@@ -273,6 +346,15 @@ namespace StandFacile
                 WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_SEL.STAMPANTE_LEGACY);
                 iSysPrinterType = (int)PRINTER_SEL.STAMPANTE_LEGACY;
                 prt_Legacy.Checked = true;
+            }
+
+            // memorizza se serve la stampante selezionata
+            if (sGlbWinPrinterParams.sSumPrinterModel != PrintersListCombo.Text)
+            {
+                sGlbWinPrinterParams.sSumPrinterModel = PrintersListCombo.Text;
+                sGlbWinPrinterParams.iSumPrinterModel = PrintersListCombo.SelectedIndex;
+
+                WriteRegistry(WIN_SUM_PRINTER_MODEL_KEY, sGlbWinPrinterParams.sSumPrinterModel);
             }
 
             Logger.Info("PrintLocalCopiesConfigDlg OK");

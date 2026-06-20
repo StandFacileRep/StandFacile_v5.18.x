@@ -665,7 +665,7 @@ namespace StandFacile
 
                 sDir = GetVisTicketsDir() + "\\";
 
-                WriteLocalCopy(DB_Data, iParam, sDir, sOrdineStrings);
+                WriteLocalCopy(DB_Data, iParam, false, sDir, sOrdineStrings);
 #endif
 
 #if STANDFACILE || STAND_CUCINA
