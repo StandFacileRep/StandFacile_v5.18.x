@@ -31,6 +31,16 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintNetCopiesConfigDlg));
             this.GroupBoxStampe = new System.Windows.Forms.GroupBox();
+            this.checkBoxRisp_9 = new System.Windows.Forms.CheckBox();
+            this.checkBoxRisp_8 = new System.Windows.Forms.CheckBox();
+            this.checkBoxRisp_7 = new System.Windows.Forms.CheckBox();
+            this.checkBoxRisp_6 = new System.Windows.Forms.CheckBox();
+            this.checkBoxRisp_5 = new System.Windows.Forms.CheckBox();
+            this.checkBoxRisp_4 = new System.Windows.Forms.CheckBox();
+            this.checkBoxRisp_3 = new System.Windows.Forms.CheckBox();
+            this.checkBoxRisp_2 = new System.Windows.Forms.CheckBox();
+            this.checkBoxRisp_1 = new System.Windows.Forms.CheckBox();
+            this.checkBoxRisp_0 = new System.Windows.Forms.CheckBox();
             this.checkBoxBCD_8 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.BtnPrintCheck_8 = new System.Windows.Forms.Button();
@@ -99,6 +109,16 @@
             // GroupBoxStampe
             // 
             this.GroupBoxStampe.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_9);
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_8);
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_7);
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_6);
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_5);
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_4);
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_3);
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_2);
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_1);
+            this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_0);
             this.GroupBoxStampe.Controls.Add(this.checkBoxBCD_8);
             this.GroupBoxStampe.Controls.Add(this.label1);
             this.GroupBoxStampe.Controls.Add(this.BtnPrintCheck_8);
@@ -157,6 +177,156 @@
             this.GroupBoxStampe.TabIndex = 0;
             this.GroupBoxStampe.TabStop = false;
             this.GroupBoxStampe.Text = "GRUPPI DI STAMPA COPIE SCONTRINO";
+            // 
+            // checkBoxRisp_9
+            // 
+            this.checkBoxRisp_9.AutoCheck = false;
+            this.checkBoxRisp_9.AutoSize = true;
+            this.checkBoxRisp_9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_9.Location = new System.Drawing.Point(507, 373);
+            this.checkBoxRisp_9.Name = "checkBoxRisp_9";
+            this.checkBoxRisp_9.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_9.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_9.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_9.TabIndex = 60;
+            this.checkBoxRisp_9.Text = ".risp";
+            this.checkBoxRisp_9.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
+            // 
+            // checkBoxRisp_8
+            // 
+            this.checkBoxRisp_8.AutoCheck = false;
+            this.checkBoxRisp_8.AutoSize = true;
+            this.checkBoxRisp_8.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_8.Location = new System.Drawing.Point(507, 288);
+            this.checkBoxRisp_8.Name = "checkBoxRisp_8";
+            this.checkBoxRisp_8.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_8.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_8.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_8.TabIndex = 59;
+            this.checkBoxRisp_8.Text = ".risp";
+            this.checkBoxRisp_8.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_8.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
+            // 
+            // checkBoxRisp_7
+            // 
+            this.checkBoxRisp_7.AutoCheck = false;
+            this.checkBoxRisp_7.AutoSize = true;
+            this.checkBoxRisp_7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_7.Location = new System.Drawing.Point(507, 211);
+            this.checkBoxRisp_7.Name = "checkBoxRisp_7";
+            this.checkBoxRisp_7.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_7.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_7.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_7.TabIndex = 58;
+            this.checkBoxRisp_7.Text = ".risp";
+            this.checkBoxRisp_7.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
+            // 
+            // checkBoxRisp_6
+            // 
+            this.checkBoxRisp_6.AutoCheck = false;
+            this.checkBoxRisp_6.AutoSize = true;
+            this.checkBoxRisp_6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_6.Location = new System.Drawing.Point(507, 134);
+            this.checkBoxRisp_6.Name = "checkBoxRisp_6";
+            this.checkBoxRisp_6.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_6.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_6.TabIndex = 57;
+            this.checkBoxRisp_6.Text = ".risp";
+            this.checkBoxRisp_6.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
+            // 
+            // checkBoxRisp_5
+            // 
+            this.checkBoxRisp_5.AutoCheck = false;
+            this.checkBoxRisp_5.AutoSize = true;
+            this.checkBoxRisp_5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_5.Location = new System.Drawing.Point(507, 59);
+            this.checkBoxRisp_5.Name = "checkBoxRisp_5";
+            this.checkBoxRisp_5.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_5.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_5.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_5.TabIndex = 56;
+            this.checkBoxRisp_5.Text = ".risp";
+            this.checkBoxRisp_5.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
+            // 
+            // checkBoxRisp_4
+            // 
+            this.checkBoxRisp_4.AutoCheck = false;
+            this.checkBoxRisp_4.AutoSize = true;
+            this.checkBoxRisp_4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_4.Location = new System.Drawing.Point(85, 369);
+            this.checkBoxRisp_4.Name = "checkBoxRisp_4";
+            this.checkBoxRisp_4.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_4.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_4.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_4.TabIndex = 55;
+            this.checkBoxRisp_4.Text = ".risp";
+            this.checkBoxRisp_4.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
+            // 
+            // checkBoxRisp_3
+            // 
+            this.checkBoxRisp_3.AutoCheck = false;
+            this.checkBoxRisp_3.AutoSize = true;
+            this.checkBoxRisp_3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_3.Location = new System.Drawing.Point(85, 288);
+            this.checkBoxRisp_3.Name = "checkBoxRisp_3";
+            this.checkBoxRisp_3.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_3.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_3.TabIndex = 54;
+            this.checkBoxRisp_3.Text = ".risp";
+            this.checkBoxRisp_3.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
+            // 
+            // checkBoxRisp_2
+            // 
+            this.checkBoxRisp_2.AutoCheck = false;
+            this.checkBoxRisp_2.AutoSize = true;
+            this.checkBoxRisp_2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_2.Location = new System.Drawing.Point(85, 213);
+            this.checkBoxRisp_2.Name = "checkBoxRisp_2";
+            this.checkBoxRisp_2.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_2.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_2.TabIndex = 53;
+            this.checkBoxRisp_2.Text = ".risp";
+            this.checkBoxRisp_2.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
+            // 
+            // checkBoxRisp_1
+            // 
+            this.checkBoxRisp_1.AutoCheck = false;
+            this.checkBoxRisp_1.AutoSize = true;
+            this.checkBoxRisp_1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_1.Location = new System.Drawing.Point(85, 137);
+            this.checkBoxRisp_1.Name = "checkBoxRisp_1";
+            this.checkBoxRisp_1.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_1.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_1.TabIndex = 52;
+            this.checkBoxRisp_1.Text = ".risp";
+            this.checkBoxRisp_1.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
+            // 
+            // checkBoxRisp_0
+            // 
+            this.checkBoxRisp_0.AutoCheck = false;
+            this.checkBoxRisp_0.AutoSize = true;
+            this.checkBoxRisp_0.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxRisp_0.Location = new System.Drawing.Point(85, 58);
+            this.checkBoxRisp_0.Name = "checkBoxRisp_0";
+            this.checkBoxRisp_0.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBoxRisp_0.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.checkBoxRisp_0.Size = new System.Drawing.Size(49, 19);
+            this.checkBoxRisp_0.TabIndex = 51;
+            this.checkBoxRisp_0.Text = ".risp";
+            this.checkBoxRisp_0.UseVisualStyleBackColor = true;
+            this.checkBoxRisp_0.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxRisp_MouseClick);
             // 
             // checkBoxBCD_8
             // 
@@ -968,5 +1138,15 @@
         private System.Windows.Forms.ComboBox PrintersListCombo_8;
         private System.Windows.Forms.TextBox CopiaText_8;
         private System.Windows.Forms.CheckBox checkBoxCopia_8;
+        private System.Windows.Forms.CheckBox checkBoxRisp_8;
+        private System.Windows.Forms.CheckBox checkBoxRisp_7;
+        private System.Windows.Forms.CheckBox checkBoxRisp_6;
+        private System.Windows.Forms.CheckBox checkBoxRisp_5;
+        private System.Windows.Forms.CheckBox checkBoxRisp_4;
+        private System.Windows.Forms.CheckBox checkBoxRisp_3;
+        private System.Windows.Forms.CheckBox checkBoxRisp_2;
+        private System.Windows.Forms.CheckBox checkBoxRisp_1;
+        private System.Windows.Forms.CheckBox checkBoxRisp_0;
+        private System.Windows.Forms.CheckBox checkBoxRisp_9;
     }
 }

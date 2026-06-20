@@ -1,6 +1,6 @@
 ﻿/*****************************************************
  	NomeFile : StandFacile/PrintNetCopiesConfigDlg.cs
-    Data	 : 02.06.2026
+    Data	 : 20.06.2026
  	Autore   : Mauro Artuso
  *****************************************************/
 
@@ -51,6 +51,7 @@ namespace StandFacile
         ComboBox[] _pPrintersListCombo;
         CheckBox[] _pCheckBoxCopia;
         CheckBox[] _pCheckBox_BCD;
+        CheckBox[] _pCheckBox_Risp;
         TextBox[] _pPrintCopyText;
         TextBox[] _pTextBoxColor;
 
@@ -107,6 +108,7 @@ namespace StandFacile
             _pPrintCopyText = new TextBox[NUM_SEP_PRINT_GROUPS];
             _pCheckBoxCopia = new CheckBox[NUM_SEP_PRINT_GROUPS];
             _pCheckBox_BCD = new CheckBox[NUM_SEP_PRINT_GROUPS];
+            _pCheckBox_Risp = new CheckBox[NUM_SEP_PRINT_GROUPS];
             _pPrintersListCombo = new ComboBox[NUM_SEP_PRINT_GROUPS];
 
             _pTextBoxColor = new TextBox[NUM_GROUPS_COLORS];
@@ -144,6 +146,19 @@ namespace StandFacile
             _pCheckBox_BCD[7] = checkBoxBCD_7;
             _pCheckBox_BCD[8] = checkBoxBCD_8;
             _pCheckBox_BCD[9] = checkBoxBCD_9;
+
+            _pCheckBox_Risp[0] = checkBoxRisp_0;
+            _pCheckBox_Risp[1] = checkBoxRisp_1;
+            _pCheckBox_Risp[2] = checkBoxRisp_2;
+            _pCheckBox_Risp[3] = checkBoxRisp_3;
+            _pCheckBox_Risp[4] = checkBoxRisp_4;
+            _pCheckBox_Risp[5] = checkBoxRisp_5;
+            _pCheckBox_Risp[6] = checkBoxRisp_6;
+            _pCheckBox_Risp[7] = checkBoxRisp_7;
+            _pCheckBox_Risp[8] = checkBoxRisp_8;
+            _pCheckBox_Risp[9] = checkBoxRisp_9;
+            _pCheckBox_Risp[9].Visible = false;
+
 
             _pPrintCopyText[0] = CopiaText_0;
             _pPrintCopyText[1] = CopiaText_1;
@@ -194,6 +209,7 @@ namespace StandFacile
                 _tt.SetToolTip(_pBtnPrintCheck[i], "effettua stampa di prova");
                 _tt.SetToolTip(_pCheckBox_BCD[i], "stampa il barcode nella copia");
                 _tt.SetToolTip(_pPrintersListCombo[i], "imposta la stampante per la copia");
+                _tt.SetToolTip(_pCheckBox_Risp[i], "imposta il risparmio carta per questo gruppo copie");
 
                 _pPrintCopyText[i].MaxLength = MAX_COPIES_TEXT_CHARS;
             }
@@ -277,7 +293,10 @@ namespace StandFacile
             if (bUSA_NDB())
             {
                 for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+                {
                     _pCheckBox_BCD[i].Checked = IsBitSet(SF_Data.iBarcodeRichiesto, i);
+                    _pCheckBox_Risp[i].Checked = IsBitSet(SF_Data.iBarcodeRichiesto, NUM_SEP_PRINT_GROUPS + i);
+                }
             }
 
             if (DataManager.CheckIf_CassaSec_and_NDB()) // cassa secondaria e DB
@@ -364,6 +383,7 @@ namespace StandFacile
                     {
                         // abilitato solo se CASSA_PRINCIPALE e bUSA_NDB()
                         _pCheckBox_BCD[i].Enabled = DataManager.CheckIf_CassaPri_and_NDB();
+                        _pCheckBox_Risp[i].Enabled = true;
                         _pPrintersListCombo[i].Enabled = true;
 
                         _pPrintCopyText[i].BackColor = System.Drawing.SystemColors.Window;
@@ -372,6 +392,7 @@ namespace StandFacile
                     else
                     {
                         _pCheckBox_BCD[i].Enabled = false;
+                        _pCheckBox_Risp[i].Enabled = false;
                         _pPrintersListCombo[i].Enabled = false;
 
                         _pPrintCopyText[i].BackColor = System.Drawing.Color.AntiqueWhite;
@@ -397,6 +418,9 @@ namespace StandFacile
 
                                 _pCheckBox_BCD[j].Enabled = false;
                                 _pCheckBox_BCD[j].Checked = _pCheckBox_BCD[i].Checked;
+
+                                _pCheckBox_Risp[j].Enabled = false;
+                                _pCheckBox_Risp[j].Checked = _pCheckBox_Risp[i].Checked;
 
                                 _pPrintersListCombo[j].Enabled = false;
                                 _pPrintersListCombo[j].SelectedIndex = _pPrintersListCombo[i].SelectedIndex;
@@ -483,6 +507,21 @@ namespace StandFacile
             }
         }
 
+        private void CheckBoxRisp_MouseClick(object sender, MouseEventArgs e)
+        {
+            int i, iActualIndex = 0;
+
+            for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+            {
+                if (sender == _pCheckBox_Risp[i])
+                {
+                    _pCheckBox_Risp[i].Checked = !_pCheckBox_Risp[i].Checked;
+                    iActualIndex = i;
+                    break;
+                }
+            }
+        }
+
         /**************************************************
             letture dai controlli dalle variabili per la
             scrittura nel registro
@@ -541,6 +580,9 @@ namespace StandFacile
             {
                 if (_pCheckBox_BCD[i].Checked)
                     iBarcodeRichiestoTmp += (int)Math.Pow(2, i); // 0x000003FF
+
+                if (_pCheckBox_Risp[i].Checked)
+                    iBarcodeRichiestoTmp += (int)Math.Pow(2, NUM_SEP_PRINT_GROUPS + i);
             }
 
             // controllo _bListinoModificato per barcode, salvataggio in : SF_Data[]

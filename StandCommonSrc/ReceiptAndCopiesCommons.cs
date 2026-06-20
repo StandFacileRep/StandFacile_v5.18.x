@@ -101,6 +101,21 @@ namespace StandCommonFiles
         }
 
         /// <summary>
+        /// verifica se nell'ordine sono presenti Articoli di gruppi non soggetti al risparmio carta
+        /// </summary>
+        public static bool CheckIfSavingPossible(bool[] bSomethingToPrintGrpParam, TData dataIdParam)
+        {
+            //se anche solo un gruppo ha qualcosa da stampare e non è soggetto al risparmio carta, ritorna false
+            for (int i = 0; i < NUM_EDIT_GROUPS; i++)
+            {
+                if (bSomethingToPrintGrpParam[i] && !IsBitSet(dataIdParam.iBarcodeRichiesto, NUM_SEP_PRINT_GROUPS + i))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// funzione che resetta la stampa delle copie accorpate in base al colore
         /// </summary>
         public static void ResetCopies_ToBePrintedOnce(bool[] bGroupsColorPrintedParam)
@@ -1431,6 +1446,11 @@ namespace StandCommonFiles
 #if STANDFACILE
                 if (!dataIdParam.bCopiesGroupsFlag[i])
                     continue;
+
+                // verifica risparmio carta: se tutti gli articoli da stampare sono soggetti al risparmio carta, allora non stampare il gruppo
+                if (CheckIfSavingPossible(bSomethingInto_GrpToPrint, dataIdParam))
+                    continue;
+
 #elif STAND_CUCINA
                 if (!NetConfigLightDlg.GetCopiaGroup(i))
                     continue;
