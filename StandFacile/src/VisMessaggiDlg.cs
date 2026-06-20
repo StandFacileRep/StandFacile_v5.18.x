@@ -71,7 +71,7 @@ namespace StandFacile
             // stampante Windows di Default
             sDefaultPrinter = settings.PrinterName;
 
-            //  l'ultimo elemento del vettore è la stampante messaggi, poi la Locale ( = non quella delle copie)
+            //  l'ultimo elemento del vettore è la stampante messaggi, poi di riepilogo, poi la Locale ( = non quella delle copie)
             sGlbWinPrinterParams.sMsgPrinterModel = ReadRegistry(WIN_MSG_PRINTER_MODEL_KEY, sDefaultPrinter);
             sGlbWinPrinterParams.iMsgPrinterModel = 0;
 
@@ -410,7 +410,7 @@ namespace StandFacile
                     Logger.Info("VisMessaggiDlg : stampa di " + sNomeFileMsg);
 
                     if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(PrintersListCombo.Text))
-                        Printer_Windows.PrintFile(sNomeFileMsg, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
+                        Printer_Windows.PrintFile(sNomeFileMsg, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 2);
                     else
                         Printer_Legacy.PrintFile(sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
 
