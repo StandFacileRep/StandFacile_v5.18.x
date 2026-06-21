@@ -331,7 +331,7 @@ namespace StandCommonFiles
                     break;
 
                 case WRN_STF:
-                    sWrnStr = "Stampa dello Scontrino fallita :\n\n";
+                    sWrnStr = "Stampa dello Scontrino fallita :\r\n\r\n";
                     sWrnStr += "impossibile stampare sulla " + WrnMsg.sMsg + " !\n";
                     break;
 

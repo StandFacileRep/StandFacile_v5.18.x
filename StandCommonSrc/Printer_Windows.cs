@@ -1,6 +1,6 @@
 ﻿/*****************************************************************************
 	NomeFile : StandCommonSrc/Printer_Windows.cs
-    Data	 : 12.12.2025
+    Data	 : 21.06.2026
 	Autore   : Mauro Artuso
 
 	Descrizione :
@@ -114,7 +114,7 @@ namespace StandCommonFiles
 
         const float _mm_to_gu = 0.3937f; // corrisponde a 0.1mm
 
-        static string sPrevPrinter;
+        static string sPrevPrinter, sMsgPrinter;
 
         /****************************************************
             STAMPA su stampante gestita da driver windows
@@ -275,6 +275,8 @@ namespace StandCommonFiles
                     else
                         pd.PrinterSettings.PrinterName = sPrinterNameParam; // serve alle prove di stampa
 
+                    sMsgPrinter = String.Format("{0}, index: {1}", pd.PrinterSettings.PrinterName, iPrinterIndex);
+
                     /******************************************************** 
                      *   evita errore con alcune stampanti come doPDF 10
                      ********************************************************/
@@ -288,6 +290,7 @@ namespace StandCommonFiles
 
                         if (sPrevPrinter != pd.PrinterSettings.PrinterName)
                         {
+                            sMsgPrinter = pd.PrinterSettings.PrinterName;
                             sTmp = String.Format("Printer_Windows Y0: {0}", _fH_px_to_gu);
                             Logger.Info(sTmp);
                         }
@@ -302,6 +305,7 @@ namespace StandCommonFiles
 
                         if (sPrevPrinter != pd.PrinterSettings.PrinterName)
                         {
+                            sMsgPrinter = pd.PrinterSettings.PrinterName;
                             sTmp = String.Format("Printer_Windows X0: {0}", _fV_px_to_gu);
                             Logger.Info(sTmp);
                         }
@@ -404,6 +408,7 @@ namespace StandCommonFiles
                         sTmp = String.Format("Printer_Windows : _fHZoom = {0}, _fVZoom = {1}", _fHZoom, _fVZoom);
                         Logger.Info(sTmp);
 
+                        sMsgPrinter = pd.PrinterSettings.PrinterName;
                         sTmp = String.Format("Printer_Windows nome stampante: {0}", pd.PrinterSettings.PrinterName);
                         Logger.Info(sTmp);
 
@@ -451,7 +456,7 @@ namespace StandCommonFiles
                 sTmp = String.Format("Printer_Windows : {0}", ex.ToString());
                 Logger.Info(sTmp);
 
-                _WrnMsg.sMsg = sPrevPrinter;
+                _WrnMsg.sMsg = sMsgPrinter;
                 _WrnMsg.iErrID = WRN_STF;
                 WarningManager(_WrnMsg);
             }
