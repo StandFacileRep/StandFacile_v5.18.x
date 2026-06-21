@@ -257,28 +257,28 @@ namespace StandFacile
                 uLocHashCode += Hash(sPrzRow);
 
                 //numero per gestione barcode nelle copie
-                sPrzRow = String.Format("{0}{1:X5}", "#BC", SF_Data.iBarcodeRichiesto);
+                sPrzRow = String.Format("{0}{1:X6}", "#BC", SF_Data.iBarcodeRichiesto);
 
                 fPrz.WriteLine(sPrzRow);
                 iRowIndex++;
                 uLocHashCode += Hash(sPrzRow);
 
                 //numero hex per gestione della opzioni generali
-                sPrzRow = String.Format("{0}{1:X5}", "#GO", SF_Data.iGeneralProgOptions);
+                sPrzRow = String.Format("{0}{1:X6}", "#GO", SF_Data.iGeneralProgOptions);
 
                 fPrz.WriteLine(sPrzRow);
                 iRowIndex++;
                 uLocHashCode += Hash(sPrzRow);
 
                 //numero hex per gestione della opzioni generiche di stampa
-                sPrzRow = String.Format("{0}{1:X5}", "#GP", SF_Data.iGenericPrintOptions);
+                sPrzRow = String.Format("{0}{1:X6}", "#GP", SF_Data.iGenericPrintOptions);
 
                 fPrz.WriteLine(sPrzRow);
                 iRowIndex++;
                 uLocHashCode += Hash(sPrzRow);
 
                 //numero hex per gestione delle opzioni di stampa
-                sPrzRow = String.Format("{0}{1:X5}", "#LC", SF_Data.iLocalCopyOptions);
+                sPrzRow = String.Format("{0}{1:X6}", "#LC", SF_Data.iLocalCopyOptions);
 
                 fPrz.WriteLine(sPrzRow);
                 iRowIndex++;

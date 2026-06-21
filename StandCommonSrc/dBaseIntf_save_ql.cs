@@ -740,7 +740,7 @@ namespace StandFacile_DB
 
                     sTmpSearch = "sTipo_Articolo = \'_BCD_Settings\'";
                     ordiniRows = ordiniTable.Select(sTmpSearch);
-                    sTmp = String.Format("{0}{1:X5}", "#BC", SF_Data.iBarcodeRichiesto);
+                    sTmp = String.Format("{0}{1:X6}", "#BC", SF_Data.iBarcodeRichiesto);
 
                     if (ordiniRows != null)
                         ordiniRows[0]["sText"] = sTmp;
@@ -749,7 +749,7 @@ namespace StandFacile_DB
 
                     sTmpSearch = "sTipo_Articolo = \'_GenProgOptions\'";
                     ordiniRows = ordiniTable.Select(sTmpSearch);
-                    sTmp = String.Format("{0}{1:X5}", "#GO", SF_Data.iGeneralProgOptions);
+                    sTmp = String.Format("{0}{1:X6}", "#GO", SF_Data.iGeneralProgOptions);
 
                     if (ordiniRows != null)
                         ordiniRows[0]["sText"] = sTmp;
@@ -758,7 +758,7 @@ namespace StandFacile_DB
 
                     sTmpSearch = "sTipo_Articolo = \'_GenPrintSettings\'";
                     ordiniRows = ordiniTable.Select(sTmpSearch);
-                    sTmp = String.Format("{0}{1:X5}", "#GP", SF_Data.iGenericPrintOptions);
+                    sTmp = String.Format("{0}{1:X6}", "#GP", SF_Data.iGenericPrintOptions);
 
                     if (ordiniRows != null)
                         ordiniRows[0]["sText"] = sTmp;
@@ -767,7 +767,7 @@ namespace StandFacile_DB
 
                     sTmpSearch = "sTipo_Articolo = \'_LocCopySettings\'";
                     ordiniRows = ordiniTable.Select(sTmpSearch);
-                    sTmp = String.Format("{0}{1:X5}", "#LC", SF_Data.iLocalCopyOptions);
+                    sTmp = String.Format("{0}{1:X6}", "#LC", SF_Data.iLocalCopyOptions);
 
                     if (ordiniRows != null)
                         ordiniRows[0]["sText"] = sTmp;
@@ -969,7 +969,7 @@ namespace StandFacile_DB
 
                     row["iOrdine_ID"] = 0;
                     row["sTipo_Articolo"] = "_BCD_Settings";
-                    row["sText"] = String.Format("{0}{1:X5}", "#BC", SF_Data.iBarcodeRichiesto);
+                    row["sText"] = String.Format("{0}{1:X6}", "#BC", SF_Data.iBarcodeRichiesto);
                     row["iNumCassa"] = 0;
 
                     ordiniTable.Rows.Add(row);
@@ -978,7 +978,7 @@ namespace StandFacile_DB
 
                     row["iOrdine_ID"] = 0;
                     row["sTipo_Articolo"] = "_GenProgOptions";
-                    row["sText"] = String.Format("{0}{1:X5}", "#GO", SF_Data.iGeneralProgOptions);
+                    row["sText"] = String.Format("{0}{1:X6}", "#GO", SF_Data.iGeneralProgOptions);
                     row["iNumCassa"] = 0;
 
                     ordiniTable.Rows.Add(row);
@@ -987,7 +987,7 @@ namespace StandFacile_DB
 
                     row["iOrdine_ID"] = 0;
                     row["sTipo_Articolo"] = "_GenPrintSettings";
-                    row["sText"] = String.Format("{0}{1:X5}", "#GP", SF_Data.iGenericPrintOptions);
+                    row["sText"] = String.Format("{0}{1:X6}", "#GP", SF_Data.iGenericPrintOptions);
                     row["iNumCassa"] = 0;
 
                     ordiniTable.Rows.Add(row);
@@ -996,7 +996,7 @@ namespace StandFacile_DB
 
                     row["iOrdine_ID"] = 0;
                     row["sTipo_Articolo"] = "_LocCopySettings";
-                    row["sText"] = String.Format("{0}{1:X5}", "#LC", SF_Data.iLocalCopyOptions);
+                    row["sText"] = String.Format("{0}{1:X6}", "#LC", SF_Data.iLocalCopyOptions);
                     row["iNumCassa"] = 0;
 
                     ordiniTable.Rows.Add(row);

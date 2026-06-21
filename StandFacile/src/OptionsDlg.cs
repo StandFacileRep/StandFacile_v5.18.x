@@ -320,7 +320,7 @@ namespace StandFacile
 
             WriteRegistry(PRESALE_LOAD_MODE_KEY, MO_checkBoxPresales_loadMode.Checked ? 1 : 0);
 
-            sTmp = String.Format("optionsDlg OK: {0}, {1}, {2}, {3:X5}", MO_checkBoxPlaceSett.Checked, MO_checkBoxTable.Checked, MO_checkBox_Name.Checked,
+            sTmp = String.Format("optionsDlg OK: {0}, {1}, {2}, {3:X6}", MO_checkBoxPlaceSett.Checked, MO_checkBoxTable.Checked, MO_checkBox_Name.Checked,
                                     SF_Data.iGeneralProgOptions);
             Logger.Info(sTmp);
 

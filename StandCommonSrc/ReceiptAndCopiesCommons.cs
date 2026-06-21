@@ -108,7 +108,7 @@ namespace StandCommonFiles
             //se anche solo un gruppo ha qualcosa da stampare e non è soggetto al risparmio carta, ritorna false
             for (int i = 0; i < NUM_EDIT_GROUPS; i++)
             {
-                if (bSomethingToPrintGrpParam[i] && !IsBitSet(dataIdParam.iBarcodeRichiesto, NUM_SEP_PRINT_GROUPS + i))
+                if (bSomethingToPrintGrpParam[i] && !IsBitSet(dataIdParam.iBarcodeRichiesto, 12 + i))
                     return false;
             }
 
