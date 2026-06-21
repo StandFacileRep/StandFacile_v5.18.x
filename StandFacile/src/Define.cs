@@ -249,6 +249,9 @@ namespace StandFacile
         /// <summary>QRCode di prova presente nel manuale, solo ckecksum</summary>
         public const string QRC_TEST = "{\"-10\":\"js_order_v5d\",\"-9\":\"1042\",\"-6\":\"11\",\"-5\":0,\"-4\":\"mauro\",\"-3\":\"123\",\"-2\":\"prova\",\"-1\":\"2C_#@$_EF2E\",\"400\":4,\"0\":1,\"1\":2,\"2\":3}";
 
+        /// <summary>offset per i bit di Paper Saving</summary>
+        public const int PAPER_SAVING_BIT_OFFSET = 12;
+
         /// <summary>valori massimi numero di messaggi</summary>
         public const int MAX_NUM_MSG = 999; // massimo numero di messaggi
 

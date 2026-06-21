@@ -295,7 +295,7 @@ namespace StandFacile
                 for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
                 {
                     _pCheckBox_BCD[i].Checked = IsBitSet(SF_Data.iBarcodeRichiesto, i);
-                    _pCheckBox_Risp[i].Checked = IsBitSet(SF_Data.iBarcodeRichiesto, 12 + i);
+                    _pCheckBox_Risp[i].Checked = IsBitSet(SF_Data.iBarcodeRichiesto, 12 + PAPER_SAVING_BIT_OFFSET);
                 }
             }
 
@@ -582,7 +582,7 @@ namespace StandFacile
                     iBarcodeRichiestoTmp += (int)Math.Pow(2, i); // 0x000003FF
 
                 if (_pCheckBox_Risp[i].Checked)
-                    iBarcodeRichiestoTmp += (int)Math.Pow(2, 12 + i);
+                    iBarcodeRichiestoTmp += (int)Math.Pow(2, 12 + PAPER_SAVING_BIT_OFFSET);
             }
 
             // controllo _bListinoModificato per barcode, salvataggio in : SF_Data[]

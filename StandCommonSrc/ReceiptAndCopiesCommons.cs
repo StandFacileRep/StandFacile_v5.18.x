@@ -100,6 +100,8 @@ namespace StandCommonFiles
             }
         }
 
+#if STANDFACILE
+
         /// <summary>
         /// verifica se nell'ordine sono presenti Articoli di gruppi non soggetti al risparmio carta
         /// </summary>
@@ -108,12 +110,13 @@ namespace StandCommonFiles
             //se anche solo un gruppo ha qualcosa da stampare e non è soggetto al risparmio carta, ritorna false
             for (int i = 0; i < NUM_EDIT_GROUPS; i++)
             {
-                if (bSomethingToPrintGrpParam[i] && !IsBitSet(dataIdParam.iBarcodeRichiesto, 12 + i))
+                if (bSomethingToPrintGrpParam[i] && !IsBitSet(dataIdParam.iBarcodeRichiesto, PAPER_SAVING_BIT_OFFSET + i))
                     return false;
             }
 
             return true;
         }
+#endif
 
         /// <summary>
         /// funzione che resetta la stampa delle copie accorpate in base al colore
