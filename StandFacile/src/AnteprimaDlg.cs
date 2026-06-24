@@ -66,8 +66,8 @@ namespace StandFacile
 
         /// <summary>funzione che ottiene se c'è qualcosa da stampare nel gruppo di stampa iGrpParam</summary>
         public static bool GetSomethingInto_GrpToPrint(int iGrpParam) { return _bSomethingInto_GrpToPrint[iGrpParam]; }
+        
         /// <summary>ottiene checkBoxLogoPreview</summary>
-
         public bool GetCheckBoxLogoPreview() { return checkBoxLogoPreview.Checked; }
 
         /// <summary>ottiene checkBox_PrimoPiano</summary>

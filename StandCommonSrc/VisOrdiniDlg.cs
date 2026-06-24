@@ -659,13 +659,19 @@ namespace StandFacile
                 WriteReceipt(ref DB_Data, iParam, sDir, sOrdineStrings);
 
 #if STANDFACILE
-                /************************************************
-                 ***        RICOSTRUZIONE COPIE LOCALI        ***
-                 ************************************************/
+                /******************************************
+                 ***    RICOSTRUZIONE COPIE LOCALI      ***
+                 ******************************************/
 
                 sDir = GetVisTicketsDir() + "\\";
 
                 WriteLocalCopy(DB_Data, iParam, false, sDir, sOrdineStrings);
+
+                /******************************************
+                 ***    RICOSTRUZIONE COPIA RIEPILOGO	***
+                 ******************************************/
+
+                WriteLocalCopy(DB_Data, iParam, true, sDir, sOrdineStrings);
 #endif
 
 #if STANDFACILE || STAND_CUCINA

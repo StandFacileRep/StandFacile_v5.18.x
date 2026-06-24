@@ -184,7 +184,7 @@ namespace StandCommonFiles
         /// verifica se è l'ultimo Articolo significativo da stampare utilizzando<br/>
         /// dataIdParam.Articolo[j].bLocalAlreadyPrinted = true per gli Articoli già stampati
         /// </summary>
-        public static bool CheckLastItemAndGroupToCut(TData dataIdParam, bool[] bSomethingToPrintParam)
+        public static bool CheckLastItemAndGroupToCut(TData dataIdParam, bool[] bSomethingToPrintParam, bool bIsSummaryParam = false)
         {
             bool bLast;
             int i, j, iTotaleQuantity = 0;
@@ -192,7 +192,7 @@ namespace StandCommonFiles
             // evita DEST_BUONI
             for (i = 0; i < (NUM_COPIES_GRPS - 1); i++)
             {
-                if (bSomethingToPrintParam[i] && (!_bPrintSelectedOnly || _bPrintSelectedOnly && (!_bAvoidPrintOtherGroups || _bSelectedGroups[i])))
+                if (bSomethingToPrintParam[i] && (bIsSummaryParam || !_bPrintSelectedOnly || _bPrintSelectedOnly && (!_bAvoidPrintOtherGroups || _bSelectedGroups[i])))
                 {
                     for (j = 0; j < MAX_ITEMS_NUM; j++)
                     {
@@ -1330,13 +1330,13 @@ namespace StandCommonFiles
                                         WriteFooter(dataIdParam, _fPrint);
 
                                         // se non è l'ultimo articolo in generale fai il taglio
-                                        if (!CheckLastItemAndGroupToCut(dataIdParam, bSomethingInto_GrpToPrint))
+                                        if (!CheckLastItemAndGroupToCut(dataIdParam, bSomethingInto_GrpToPrint, bIsSummaryParam))
                                             _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
                                     }
                                     else // se non c'è il taglio vediamo ...
                                     {
                                         // se è l'ultimo articolo in generale, scrivi il footer altrimenti metti il separatore
-                                        if (CheckLastItemAndGroupToCut(dataIdParam, bSomethingInto_GrpToPrint))
+                                        if (CheckLastItemAndGroupToCut(dataIdParam, bSomethingInto_GrpToPrint, bIsSummaryParam))
                                             WriteFooter(dataIdParam, _fPrint);
                                         else
                                             _fPrint.WriteLine();
