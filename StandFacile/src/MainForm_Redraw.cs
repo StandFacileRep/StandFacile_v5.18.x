@@ -1,6 +1,6 @@
 ﻿/***********************************************
   	NomeFile : StandFacile/MainForm.cs
-    Data	 : 30.05.2026
+    Data	 : 11.07.2026
   	Autore   : Mauro Artuso
  ***********************************************/
 
@@ -1179,13 +1179,19 @@ namespace StandFacile
                             var jss = new JavaScriptSerializer();
                             string sTmpJson = "";
 
+                            Logger.Info("EditStatus_QRC_KeyPress: " + sStrBarcode);
+
+                            // rimozione carattere di controllo Datalogic
+                            sStrBarcode = sStrBarcode.Replace(((char)26).ToString(), ""); 
+                            sStrBarcode = sStrBarcode.Replace(@"\000026", "");
+                            sStrBarcode = sStrBarcode.Replace("\000026", "");
+
                             // correzione tastiera Italiana 142, QRcode non produce le parentesi !
                             if ((sStrBarcode[0] != '{') && sStrBarcode.Contains(_JS_ORDER))
                                 sTmpJson = '{' + sStrBarcode + '}';
                             else
                                 sTmpJson = sStrBarcode;
 
-                            sTmpJson = sTmpJson.Replace(((char)26).ToString(), ""); // rimozione carattere di controllo Datalogic
 
                             dict = jss.Deserialize<dynamic>(sTmpJson);
 
