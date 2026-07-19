@@ -1,6 +1,6 @@
 ﻿/*********************************************************
     NomeFile : StandFacile
-    Data	 : 10.06.2026
+    Data	 : 19.07.2026
     Autore   : Mauro Artuso
 
     Avvia le classi visuali e non, nell'ordine corretto
@@ -31,7 +31,7 @@ namespace StandFacile
 
         static Assembly ResolveAssembly(object sender, ResolveEventArgs args)
         {
-            MessageBox.Show("DLL non trovata: " + args.Name + " \n");
+            // MessageBox.Show("DLL non trovata: " + args.Name + " \n");
 
             return null;
         }
@@ -111,7 +111,15 @@ namespace StandFacile
                 Printer_Legacy.Init();
             }
 
-            AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
+            //AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
+
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                // Nome dell'assembly richiesto
+                string name = new AssemblyName(args.Name).Name;
+
+                return null;
+            };
 
             // Precede tutte le classi visuali
             Application.EnableVisualStyles();
