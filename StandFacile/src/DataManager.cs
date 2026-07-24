@@ -167,7 +167,6 @@ namespace StandFacile
         {
             int i;
 
-            SF_Data.bPrevendita = false;
             SF_Data.bAnnullato = false;
             SF_Data.bScaricato = false;
             SF_Data.bStampato = false;
@@ -199,8 +198,8 @@ namespace StandFacile
             SF_Data.iTotaleReceipt = 0;
             SF_Data.iTotaleReceiptDovuto = 0;
             SF_Data.iTotaleIncasso = 0;
-            SF_Data.iTotaleIncassoCard = 0;
-            SF_Data.iTotaleIncassoSatispay = 0;
+            SF_Data.iTotaleCard = 0;
+            SF_Data.iTotaleSatispay = 0;
             SF_Data.iTotaleScontatoStd = 0;
             SF_Data.iTotaleScontatoFisso = 0;
             SF_Data.iTotaleScontatoGratis = 0;
@@ -215,10 +214,8 @@ namespace StandFacile
             SF_Data.sVersione = String.Format("StandFacile {0}", RELEASE_SW);
             SF_Data.sDateTime = GetDateTimeString();
             SF_Data.sWebDateTime = "";
-            SF_Data.sPrevDateTime = "";
             SF_Data.sListinoDateTime = GetDateTimeString();
 
-            SF_Data.iNumOrdinePrev = 0;
             SF_Data.iNumOrdineWeb = 0;
 
             for (i = 0; i < MAX_NUM_HEADERS; i++) // azzeramento
@@ -274,7 +271,6 @@ namespace StandFacile
             SF_Data.sScontoText = "";
 
             // si riparte con ordini locali
-            SF_Data.iNumOrdinePrev = 0;
             SF_Data.iNumOrdineWeb = 0;
 
             SF_Data.sTavolo = "";
@@ -549,8 +545,8 @@ namespace StandFacile
 
                 SF_Data.iTotaleIncasso = DB_Data.iTotaleIncasso;
 
-                SF_Data.iTotaleIncassoCard = DB_Data.iTotaleIncassoCard;
-                SF_Data.iTotaleIncassoSatispay = DB_Data.iTotaleIncassoSatispay;
+                SF_Data.iTotaleCard = DB_Data.iTotaleCard;
+                SF_Data.iTotaleSatispay = DB_Data.iTotaleSatispay;
             }
 
             catch (Exception)
@@ -656,8 +652,6 @@ namespace StandFacile
             SF_Data.sScontoText = "";
 
             SF_Data.sWebDateTime = "";
-            SF_Data.sPrevDateTime = "";
-            SF_Data.iNumOrdinePrev = 0;
             SF_Data.iNumOrdineWeb = 0;
 
             // per pulire l'Anteprima
@@ -725,7 +719,7 @@ namespace StandFacile
                         bServeSalvare = true;
 
                         // dbCaricaOrdine va qui per elaborare solo iNumScontrinoSec > 0
-                        bDbRead_Ok = _rdBaseIntf.dbCaricaOrdine(GetActualDate(), iNumScontrinoSec, false);
+                        bDbRead_Ok = _rdBaseIntf.dbCaricaOrdine(GetActualDate(), iNumScontrinoSec, 0);
 
                         if (bDbRead_Ok) // l'ultimo DB letto esiste
                         {
@@ -1015,7 +1009,7 @@ namespace StandFacile
                     fTxtFile.WriteLine(DB_Data.sMessaggio);
                     fTxtFile.Close();
 
-                    for (i = 0; (i < NUM_SEP_PRINT_GROUPS) && !SF_Data.bPrevendita; i++)
+                    for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
                     {
                         // evita di stampare più di una volta gruppi dello stesso colore
                         if (!CheckCopy_ToBePrintedOnce(i, bGroupsColorPrinted, SF_Data))
@@ -1165,118 +1159,6 @@ namespace StandFacile
                 sDateTime = GetDateTimeString();
 
             return sDateTime;
-        }
-
-        /// <summary>funzione per il caricamento dell'ordine in prevendita/// </summary>
-        /// <param name="sOrdiniPrevTableParam"></param>
-        /// <param name="iNumParam"></param>
-        /// <returns></returns>
-        public static bool CaricaOrdinePrev(int iNumParam, String sOrdiniPrevTableParam)
-        {
-            bool bDbRead_Ok, bMatch, bSingleWarn;
-            int i, j, iDebug;
-            String sDebug;
-            String[] sQueue_Object = new String[2];
-
-            DataManager.ClearGrid();
-
-            SF_Data.iNumOrdinePrev = iNumParam;
-
-            bDbRead_Ok = _rdBaseIntf.dbCaricaOrdine(GetActualDate(), iNumParam, false, sOrdiniPrevTableParam);
-
-            if (!bDbRead_Ok)
-            {
-                // caricamento ordine fallito
-                _WrnMsg.iErrID = WRN_DBE;
-                _WrnMsg.sMsg = String.Format("dbCaricaOrdine fallito:\n\ntabella {0} record n. {1}", sOrdiniPrevTableParam, iNumParam);
-                WarningManager(_WrnMsg);
-
-                Logger.Info("CaricaOrdinePrev : rdbCaricaOrdine");
-                return false;
-            }
-
-            // se è gia annullato
-            if (DB_Data.bAnnullato)
-            {
-                _WrnMsg.sMsg = "di prevendita n." + iNumParam.ToString();
-
-                _WrnMsg.iErrID = WRN_RAN;
-                WarningManager(_WrnMsg);
-                Logger.Info("CaricaOrdinePrev : record di Prevendita " + _WrnMsg.sMsg + " annullato !");
-
-                return false;
-            }
-            else if (DB_Data.bScaricato) // se è gia scaricato
-            {
-                _WrnMsg.sMsg = "di prevendita n." + iNumParam.ToString();
-
-                _WrnMsg.iErrID = WRN_RPS;
-                WarningManager(_WrnMsg);
-                Logger.Info("CaricaOrdinePrev : record di Prevendita " + _WrnMsg.sMsg + " già scaricato !");
-
-                return false;
-            }
-
-            /************************************
-             *		controllo di sicurezza
-             ************************************/
-            bSingleWarn = false;
-
-            for (j = 0; j < MAX_ITEMS_NUM; j++)
-            {
-                if (String.IsNullOrEmpty(DB_Data.Articolo[j].sTipo))
-                    continue;
-                else
-                {
-                    bMatch = false;
-                    sDebug = DB_Data.Articolo[j].sTipo;
-                    iDebug = DB_Data.Articolo[j].iQuantitaOrdine;
-
-                    for (i = 0; i < MAX_ITEMS_NUM; i++)
-                    {
-                        // caricamento in Articolo[], esclusi Prezzi Unitario e Scontato, iGruppo_Stampa
-                        if (SF_Data.Articolo[i].sTipo == DB_Data.Articolo[j].sTipo)
-                        {
-                            SF_Data.Articolo[i].iQuantitaOrdine = DB_Data.Articolo[j].iQuantitaOrdine;
-
-                            bMatch = true;
-                            break;
-                        }
-                    }
-
-                    // dà un solo avviso alla prima discordanza
-                    if (bDbRead_Ok && !bMatch && !bSingleWarn)
-                    {
-                        _ErrMsg.sMsg = DB_Data.Articolo[j].sTipo;
-                        _ErrMsg.iErrID = WRN_MNFL;
-                        WarningManager(_ErrMsg);
-                        bSingleWarn = true;
-                    }
-                }
-            }
-
-            SF_Data.iStatusReceipt = SetBit(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA);
-            SF_Data.sPrevDateTime = DB_Data.sDateTime;
-
-            if (IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_ASPORTO))
-                rFrmMain.BtnTakeAway_Click(null, null);
-
-            rFrmMain.SetEditCoperto(DB_Data.Articolo[MAX_ITEMS_NUM - 1].iQuantitaOrdine.ToString());
-            rFrmMain.SetEditTavolo(DB_Data.sTavolo);
-            rFrmMain.SetEditName(DB_Data.sNome);
-            rFrmMain.SetEditNota(DB_Data.sNota);
-
-            FrmMain.rFrmMain.MnuAnteprimaScontrino_Click("showPreview", null);
-
-            rFrmMain.SetAnteprima_TP();
-
-            // avvia la visualizzazione della tabella
-            sQueue_Object[0] = PREV_ORDER_LOAD_DONE;
-            sQueue_Object[1] = "";
-
-            FrmMain.EventEnqueue(sQueue_Object);
-
-            return true;
         }
 
         static int _iPrevOrder = 0;

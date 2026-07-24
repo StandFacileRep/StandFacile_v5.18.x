@@ -592,13 +592,7 @@ namespace StandCommonFiles
             String sTmp, sDati;
 
             sTmp = dateTimeParam.ToString("yyMMdd");
-
-#if STANDFACILE
-            if (SF_Data.bPrevendita)
-                sDati = String.Format("{0}_c{1}_{2}", _dbPreDataTablePrefix, iNumCassaParam, sTmp);
-            else
-#endif
-                sDati = String.Format("{0}_c{1}_{2}", _dbDataTablePrefix, iNumCassaParam, sTmp);
+            sDati = String.Format("{0}_c{1}_{2}", _dbDataTablePrefix, iNumCassaParam, sTmp);
 
             return sDati;
         }
@@ -609,13 +603,7 @@ namespace StandCommonFiles
             String sTmp, sOrdini;
 
             sTmp = dateTimeParam.ToString("yyMMdd");
-
-#if STANDFACILE
-            if (SF_Data.bPrevendita)
-                sOrdini = String.Format("{0}_{1}", _dbPreOrdersTablePrefix, sTmp);
-            else
-#endif
-                sOrdini = String.Format("{0}_{1}", _dbOrdersTablePrefix, sTmp);
+            sOrdini = String.Format("{0}_{1}", _dbOrdersTablePrefix, sTmp);
 
             return sOrdini;
         }

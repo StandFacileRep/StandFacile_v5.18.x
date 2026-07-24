@@ -174,11 +174,7 @@ namespace StandCommonFiles
             {
 #if STANDFACILE || STAND_MONITOR
                 // gruppi in fase di emissione ordine
-                if (SF_Data.bPrevendita)
-                {
-                    _iGruppoStampa = NUM_PRE_SALE_GRP;
-                }
-                else if (IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
+                if (IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
                 {
                     _iGruppoStampa = NUM_WEB_SALE_GRP;
                 }

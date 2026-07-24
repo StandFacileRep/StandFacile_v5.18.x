@@ -586,8 +586,6 @@ namespace StandFacile
                         /*************************************************
                          *	inserimento Prevendita richiesto Flag, SET
                          *************************************************/
-                        SF_Data.bPrevendita = true;
-
                         continue;
                     }
                     else if (sInStr.StartsWith("#PVC") || (sInStr.StartsWith("#PC") && !sInStr.StartsWith("#PCP"))) // compatibilità ver. prec.
@@ -595,8 +593,6 @@ namespace StandFacile
                         /******************************************************
                          *	inserimento Prevendita non richiesto Flag, CLEAR
                          ******************************************************/
-
-                        SF_Data.bPrevendita = false;
 
                         continue;
                     }

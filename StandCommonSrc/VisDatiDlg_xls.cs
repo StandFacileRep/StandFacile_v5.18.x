@@ -1,6 +1,6 @@
 ﻿/********************************************************************
     NomeFile : StandCommonSrc/VisDatiDlg_xls.cs
-    Data	 : 02.05.2026
+    Data	 : 22.07.2026
     Autore   : Mauro Artuso
 
     Classe di visualizzazione dei files Dati o Prezzi
@@ -8,14 +8,13 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
-
-using static StandFacile.glb;
 using static StandFacile.dBaseIntf;
-
+using static StandFacile.glb;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace StandFacile
@@ -28,10 +27,8 @@ namespace StandFacile
     {
 #pragma warning disable IDE0060
 
-        /// <summary>
-        /// Esportazione dei dati di riepilogo giornaliero
-        /// </summary>
-        private void Xls_Export()
+        /// <summary>Esportazione dei dati di riepilogo giornaliero</summary>
+        private void Xls_DataExport()
         {
             bool bMatch;
             int i, j, iRow, iLastItemRow, iColumn, iUpperLimit, iCAP_lastRow;
@@ -162,27 +159,27 @@ namespace StandFacile
                             iUpperLimit = CheckLastArticoloIndexP1();
 
                             sTmp = String.Format("{0}", DB_Data.sVersione);
-                            xlsWorkSheet.Cells[iRow++, iColumn + 2] = sTmp;
+                            xlsWorkSheet.Cells[iRow++, 2] = sTmp;
 
-                            xlsWorkSheet.Cells[iRow++, iColumn + 2] = Text.Trim(); // Caption
+                            xlsWorkSheet.Cells[iRow++, 2] = Text.Trim(); // Caption
 
                             iRow++;
 
-                            xlsWorkSheet.Cells[iRow++, iColumn + 2] = DB_Data.sHeaders[0];
-                            xlsWorkSheet.Cells[iRow++, iColumn + 2] = DB_Data.sHeaders[1];
+                            xlsWorkSheet.Cells[iRow++, 2] = DB_Data.sHeaders[0];
+                            xlsWorkSheet.Cells[iRow++, 2] = DB_Data.sHeaders[1];
 
-                            xlsWorkSheet.Cells[iRow++, iColumn + 2] = "Num. Scontrini emessi";
+                            xlsWorkSheet.Cells[iRow++, 2] = "Num. Scontrini emessi";
 
-                            xlsWorkSheet.Cells[iRow++, iColumn + 2] = "Num. Scontrini Web";
+                            xlsWorkSheet.Cells[iRow++, 2] = "Num. Scontrini Web";
 
                             //if (DB_Data.iNumAnnullati > 0)
-                            xlsWorkSheet.Cells[iRow++, iColumn + 2] = "Num. Scontr. annullati e valore";
+                            xlsWorkSheet.Cells[iRow++, 2] = "Num. Scontr. annullati e valore";
                             //else
                             //    xlsWorkSheet.Cells[iRow++, iColumn + 2] = "Num. Scontr. annullati";
 
                             // recupera l'ora dalla CASSA_PRINCIPALE
-                            xlsWorkSheet.Cells[iRow++, iColumn + 2] = DB_Data.sDateTime;
-                            xlsWorkSheet.Cells[iRow, iColumn + 2] = "articolo";
+                            xlsWorkSheet.Cells[iRow++, 2] = DB_Data.sDateTime;
+                            xlsWorkSheet.Cells[iRow, 2] = "articolo";
                             xlsWorkSheet.Cells[iRow + 1, iColumn + 3] = "prz. unitario";
 
                         } // end if
@@ -353,19 +350,19 @@ namespace StandFacile
                                                                             DB_Data.iTotaleScontatoFisso - DB_Data.iTotaleScontatoGratis) / 100.0f;
                             }
 
-                            //if ((DB_Data.iTotaleIncassoCard > 0) || (DB_Data.iTotaleIncassoSatispay > 0))
+                            //if ((DB_Data.iTotaleCard > 0) || (DB_Data.iTotaleSatispay > 0))
                             {
                                 iRow++;
 
                                 xlsWorkSheet.Cells[iRow, 4] = "PAGAM. CARD";
-                                xlsWorkSheet.Cells[iRow++, iColumn + 5] = (DB_Data.iTotaleIncassoCard) / 100.0f;
+                                xlsWorkSheet.Cells[iRow++, iColumn + 5] = (DB_Data.iTotaleCard) / 100.0f;
 
                                 xlsWorkSheet.Cells[iRow, 4] = "PAGAM. SATISPAY";
-                                xlsWorkSheet.Cells[iRow++, iColumn + 5] = (DB_Data.iTotaleIncassoSatispay) / 100.0f;
+                                xlsWorkSheet.Cells[iRow++, iColumn + 5] = (DB_Data.iTotaleSatispay) / 100.0f;
 
                                 xlsWorkSheet.Cells[iRow, 4] = "PAGAM. CONT.";
                                 xlsWorkSheet.Cells[iRow++, iColumn + 5] = (DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati - DB_Data.iTotaleScontatoStd - DB_Data.iTotaleScontatoFisso -
-                                                                            DB_Data.iTotaleScontatoGratis - DB_Data.iTotaleIncassoCard - DB_Data.iTotaleIncassoSatispay) / 100.0f;
+                                                                            DB_Data.iTotaleScontatoGratis - DB_Data.iTotaleCard - DB_Data.iTotaleSatispay) / 100.0f;
                             }
 
                             // ************************ FORMATTAZIONE ************************
@@ -424,7 +421,7 @@ namespace StandFacile
 
                             // ************************ CAP ************************
 #if STANDFACILE
-                            if(OptionsDlg.Get_CAP_ShowFlag())
+                            if (OptionsDlg.Get_CAP_ShowFlag())
                             {
                                 iRow++;
 
@@ -523,5 +520,411 @@ namespace StandFacile
             }
         }
 
+
+        /// <summary>Esportazione xlsx degli ordini</summary>
+        private void Xls_OrdersExport()
+        {
+            bool bOrdineCaricato, bOnce, bBuoniApplicati, bBuoniApplicatiParz;
+            int i, j, k, iRow, iUpperLimit;
+            int iWS_Index, iDebugNumOfItems;
+
+            // non si riferiscono a nessun ordine in particolare
+            int iTotaleParz, iTotaleReceipt, iBuoniApplicatiReceipt, iBuoniApplicatiParz, iTotaleReceiptDovuto;
+            int iStatusScontoReceipt, iScontoStdReceipt, iScontoFissoReceipt, iScontoGratisReceipt;
+
+            String sNomeFile, sDataDir, sTmp;
+            String sDebugTipo;
+            DateTime columnDay;
+
+            BtnExport.Enabled = false;
+
+            bool[] bScontoGruppo = new bool[NUM_SEP_PRINT_GROUPS];
+
+            Excel.Application xlApp = null;
+            Excel.Workbook xlsWorkBook = null;
+            //Excel.Worksheet xlsWorkSheet = null;
+            Excel.Range xlsRange;
+
+            object missValue = System.Reflection.Missing.Value;
+
+            var ordiniWS = new List<Excel.Worksheet>();
+
+            Logger.Info("FrmVisDati : Xls prima di Excel.Application()");
+
+            try
+            {
+#if STANDFACILE
+                sDataDir = DataManager.GetDataDir() + "\\";
+#else
+                sDataDir = sRootDir + "\\";
+#endif
+
+                xlApp = new Excel.Application();
+                xlsWorkBook = xlApp.Workbooks.Add(missValue);
+
+                if (VD_CheckBoxCashUnion.Checked)
+                    sNomeFile = "Ordini_";
+                else
+                    sNomeFile = String.Format("Ordini_C{0}_", _iNumCassa);
+
+                if (_SelRange == null)
+                    _SelRange = new SelectionRange(GetActualDate(), GetActualDate());
+
+                // se _sNomeTabella == "" selezionato un range di date, altrimenti si arriva da EsploraDB_Dlg
+                if (String.IsNullOrEmpty(_sNomeTabella))
+                {
+                    if (_SelRange.Start == _SelRange.End)
+                    {
+                        _SelRange = new SelectionRange(_SelDate, _SelDate);
+                        sNomeFile += _SelDate.ToString("yyMMdd'.xlsx'");
+                    }
+                    else
+                        sNomeFile += (_SelRange.Start.ToString("yyMMdd") + _SelRange.End.ToString("_yyMMdd'.xlsx'"));
+                }
+                else
+                    sNomeFile = _sNomeTabella + ".xlsx";
+
+                if (File.Exists(sDataDir + sNomeFile))
+                    File.Delete(sDataDir + sNomeFile);
+
+                _iLastArticoloIndexP1 = MAX_ITEMS_NUM; // successivamente potrebbe incrementare
+
+                iWS_Index = -1;
+                iUpperLimit = 0;
+                columnDay = _SelRange.Start;
+
+                while (columnDay <= _SelRange.End)
+                {
+                    /***************** punto di caricamento dati DB ****************/
+
+                    //  _sNomeTabella è usato solo da EsploraDB_Dlg
+                    if (String.IsNullOrEmpty(_sNomeTabella))
+                    {
+                        if (VD_CheckBoxCashUnion.Checked)
+                            // iNumCassaParam == 0 legge senza filtro per cassa
+                            _rdBaseIntf.dbCaricaDatidaOrdini(columnDay, 0);
+                        else
+                            _rdBaseIntf.dbCaricaDatidaOrdini(columnDay, _iNumCassa);
+                    }
+
+                    if (DB_Data.iActualNumOfReceipts <= 0)
+                    {
+                        columnDay = columnDay.AddDays(+1);
+                        continue;
+                    }
+
+                    iWS_Index++;
+
+
+                    if (iWS_Index > 0)
+                    {
+                        Excel.Worksheet last_WS = (Excel.Worksheet)xlsWorkBook.Worksheets[xlsWorkBook.Worksheets.Count - 1];
+                        ordiniWS.Add(xlsWorkBook.Worksheets.Add(After: last_WS));
+                    }
+                    else
+                        ordiniWS.Add(xlsWorkBook.Worksheets.Add());
+
+
+                    if (VD_CheckBoxCashUnion.Checked)
+                    {
+                        ordiniWS[iWS_Index].Name = String.Format("Ordini_{0}", columnDay.ToString("yyMMdd"));
+                    }
+                    else
+                    {
+                        ordiniWS[iWS_Index].Name = String.Format("Ordini_{0}_C{1}", columnDay.ToString("yyMMdd"), _iNumCassa);
+                    }
+
+                    // Headers
+                    iRow = 2;
+                    j = 0;
+
+                    // calcolo ultimo indice anche in date passate, no DataManager.CheckLastArticoloIndexP1()
+                    iUpperLimit = CheckLastArticoloIndexP1();
+
+                    sTmp = String.Format("{0}", DB_Data.sVersione);
+                    ordiniWS[iWS_Index].Cells[iRow++, 2] = sTmp;
+
+                    ordiniWS[iWS_Index].Cells[iRow++, 2] = Text.Trim(); // Caption
+
+                    ordiniWS[iWS_Index].Cells[iRow++, 2] = DB_Data.sHeaders[0];
+                    ordiniWS[iWS_Index].Cells[iRow++, 2] = DB_Data.sHeaders[1];
+                    iRow++;
+
+                    ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = "numero Scontrino";
+                    ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "articolo";
+                    ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = "prezzo unitario";
+                    ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 4] = "quantità venduta";
+                    ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 5] = "parziale";
+                    ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 6] = "Totale Scontrino";
+                    ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = "note";
+
+                    iRow++;
+
+                    ordersProgressBar.Maximum = DB_Data.iActualNumOfReceipts;
+                    VD_CheckBoxOrders.Text = "Esporta Ordini " + columnDay.ToString("dd/MM");
+                    VD_CheckBoxOrders.Refresh();
+
+                    // loop principale
+
+                    for (k = 1; k <= DB_Data.iNumOfLastReceipt; k++)
+                    {
+                        bOnce = true;
+                        ordersProgressBar.Value = k;
+
+                        // non si riferiscono a nessun ordine in particolare
+                        bBuoniApplicatiParz = false;
+                        bBuoniApplicati = false;
+                        iTotaleReceipt = 0;
+                        iStatusScontoReceipt = 0;
+                        iScontoStdReceipt = 0;
+                        iScontoFissoReceipt = 0;
+                        iScontoGratisReceipt = 0;
+                        iBuoniApplicatiReceipt = 0;
+                        iBuoniApplicatiParz = 0;
+                        iTotaleReceiptDovuto = 0;
+
+                        if (VD_CheckBoxCashUnion.Checked)
+                            bOrdineCaricato = _rdBaseIntf.dbCaricaOrdine(columnDay, k, 0);
+                        else
+                            bOrdineCaricato = _rdBaseIntf.dbCaricaOrdine(columnDay, k, _iNumCassa);
+
+                        iDebugNumOfItems = DB_Data.iNumOfReceiptItems;
+
+                        // scontrino emesso da altra cassa
+                        if (DB_Data.iNumOfReceiptItems == 0)
+                            continue;
+
+                        for (j = 0; j < DB_Data.iNumOfReceiptItems; j++)
+                        {
+                            sDebugTipo = DB_Data.Articolo[j].sTipo;
+
+                            if (bOnce)
+                            {
+                                iStatusScontoReceipt = DB_Data.iStatusSconto;
+
+                                for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+                                    bScontoGruppo[i] = IsBitSet(DB_Data.iStatusSconto, 4 + i);
+
+                                if (IsBitSet(DB_Data.iStatusSconto, BIT_SCONTO_STD))
+                                    iScontoStdReceipt = DB_Data.iScontoStdReceipt;
+                                else if (IsBitSet(DB_Data.iStatusSconto, BIT_SCONTO_FISSO))
+                                    iScontoFissoReceipt = DB_Data.iScontoFissoReceipt;
+                                else if (IsBitSet(DB_Data.iStatusSconto, BIT_SCONTO_GRATIS))
+                                    iScontoGratisReceipt = DB_Data.iScontoGratisReceipt;
+
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET] = DB_Data.sDateTime;
+                                bOnce = false;
+                            }
+
+                            if (DB_Data.Articolo[j].iQuantitaOrdine > 0)
+                            {
+                                iTotaleParz = DB_Data.Articolo[j].iPrezzoUnitario * DB_Data.Articolo[j].iQuantitaOrdine;
+
+                                if (DB_Data.Articolo[j].iGruppoStampa == (int)DEST_TYPE.DEST_BUONI)
+                                {
+                                    bBuoniApplicati = true;
+
+                                    iBuoniApplicatiParz = iTotaleParz;
+                                    iBuoniApplicatiReceipt += iTotaleParz;
+                                    iTotaleReceipt -= iTotaleParz;
+                                }
+                                else
+                                    iTotaleReceipt += iTotaleParz;
+
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = DB_Data.Articolo[j].sTipo;
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = DB_Data.Articolo[j].iPrezzoUnitario / 100.0f;
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 4] = DB_Data.Articolo[j].iQuantitaOrdine;
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 5] = iTotaleParz / 100.0f;
+
+                                if (!String.IsNullOrEmpty(DB_Data.Articolo[j].sNotaArt))
+                                    ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = DB_Data.Articolo[j].sNotaArt;
+
+                                iRow++;
+                            }
+                        } // end for
+
+                        if (!String.IsNullOrEmpty(DB_Data.sNota))
+                        {
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** NOTA ***";
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = DB_Data.sNota;
+                            DB_Data.sNota = "";
+
+                            iRow++;
+                        }
+
+                        if (IsBitSet(iStatusScontoReceipt, BIT_SCONTO_STD) && StandCommonFiles.ReceiptAndCopies.TicketScontatoStdIsGood(DB_Data, bScontoGruppo))
+                        {
+                            iTotaleReceiptDovuto = iTotaleReceipt - iScontoStdReceipt;
+
+                            if (iTotaleReceiptDovuto < 0)
+                            {
+                                iTotaleReceiptDovuto = 0;
+                                iScontoStdReceipt = iTotaleReceipt;
+                            }
+                            
+                            //double fScontoStdReceipt = Math.Round(iScontoStdReceipt / 100.0f, 2);
+
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** SCONTO ***";
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = Math.Round(iScontoStdReceipt / 100.0f, 2);
+                            iRow++;
+
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** TOTALE ***";
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = Math.Round(iTotaleReceipt / 100.0f, 2);
+                            iRow++;
+
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** DIFF. DOVUTA ***";
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 6] = Math.Round(iTotaleReceiptDovuto / 100.0f, 2);
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = DB_Data.sScontoText;
+                            iRow++;
+                        }
+                        else if (IsBitSet(iStatusScontoReceipt, BIT_SCONTO_FISSO))
+                        {
+                            iTotaleReceiptDovuto = iTotaleReceipt - iScontoFissoReceipt;
+
+                            if (iTotaleReceiptDovuto < 0)
+                            {
+                                iTotaleReceiptDovuto = 0;
+                                iScontoFissoReceipt = iTotaleReceipt;
+                            }
+
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** SCONTO ***";
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = iScontoFissoReceipt / 100.0f;
+                            iRow++;
+
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** TOTALE ***";
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = iTotaleReceipt / 100.0f;
+                            iRow++;
+
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** DIFF. DOVUTA ***";
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 6] = iTotaleReceiptDovuto / 100.0f;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = DB_Data.sScontoText;
+                            iRow++;
+                        }
+                        else if (IsBitSet(iStatusScontoReceipt, BIT_SCONTO_GRATIS))
+                        {
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** TOTALE ***";
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = iTotaleReceipt / 100.0f;
+                            iRow++;
+
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** DOVUTO ***";
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 6] = 0;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = DB_Data.sScontoText;
+                            iRow++;
+
+                            iTotaleReceiptDovuto = 0;
+                            iScontoGratisReceipt = iTotaleReceipt;
+                        }
+                        else
+                        {
+                            iTotaleReceiptDovuto = iTotaleReceipt;
+
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
+
+                            if (DB_Data.bAnnullato)
+                            {
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** ANNULLATO ***";
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = iTotaleReceipt / 100.0f;
+                            }
+                            else
+                            {
+                                // causa presenza buoni è sempre possibile !
+                                if ((iTotaleReceipt < 0) && bBuoniApplicati)
+                                {
+                                    // iBuoniApplicatiReceipt dimuisce dato che dataIdParam.iTotaleReceipt < 0
+                                    iBuoniApplicatiParz += iTotaleReceipt;
+                                    iBuoniApplicatiReceipt += iTotaleReceipt;
+
+                                    bBuoniApplicatiParz = true;
+                                    iTotaleReceipt = 0;
+                                }
+
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** TOTALE ***";
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 6] = iTotaleReceipt / 100.0f;
+
+                                if (bBuoniApplicatiParz)
+                                    ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = "*** applicato valore ridotto ***";
+                            }
+
+                            iRow++;
+                        }
+                    }
+
+                    // ************************ FORMATTAZIONE ************************
+                    // eseguito solo una volta, imposta larghezza B, C
+                    String sFormat = String.Format("B1:B{0}", iRow + 100);
+                    xlsRange = ordiniWS[iWS_Index].get_Range(sFormat, Type.Missing);
+                    xlsRange.EntireColumn.ColumnWidth = 30;
+
+                    sFormat = String.Format("C1:C{0}", iRow + 100);
+                    xlsRange = ordiniWS[iWS_Index].get_Range(sFormat, Type.Missing);
+                    xlsRange.EntireColumn.ColumnWidth = 20;
+                    xlsRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+
+                    sFormat = String.Format("D1:D{0}", iRow + 100);
+                    xlsRange = ordiniWS[iWS_Index].get_Range(sFormat, Type.Missing);
+                    xlsRange.EntireColumn.ColumnWidth = 25;
+                    xlsRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+
+                    sFormat = String.Format("E1:E{0}", iRow + 100);
+                    xlsRange = ordiniWS[iWS_Index].get_Range(sFormat, Type.Missing);
+                    xlsRange.EntireColumn.ColumnWidth = 14;
+                    xlsRange.NumberFormat = NUMERIC_CELL_FORMAT;
+
+                    sFormat = String.Format("F1:F{0}", iRow + 100);
+                    xlsRange = ordiniWS[iWS_Index].get_Range(sFormat, Type.Missing);
+                    xlsRange.EntireColumn.ColumnWidth = 14;
+
+                    sFormat = String.Format("G1:G{0}", iRow + 100);
+                    xlsRange = ordiniWS[iWS_Index].get_Range(sFormat, Type.Missing);
+                    xlsRange.EntireColumn.ColumnWidth = 12;
+                    xlsRange.NumberFormat = NUMERIC_CELL_FORMAT;
+
+                    sFormat = String.Format("H1:H{0}", iRow + 100);
+                    xlsRange = ordiniWS[iWS_Index].get_Range(sFormat, Type.Missing);
+                    xlsRange.EntireColumn.ColumnWidth = 16;
+                    xlsRange.NumberFormat = NUMERIC_CELL_FORMAT;
+
+                    sFormat = String.Format("I1:I{0}", iRow + 100);
+                    xlsRange = ordiniWS[iWS_Index].get_Range(sFormat, Type.Missing);
+                    xlsRange.EntireColumn.ColumnWidth = 32;
+                    xlsRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+
+                    // aggiornamento indici
+                    columnDay = columnDay.AddDays(+1);
+                } // end while (columnDay <= _SelRange.End)
+
+                Logger.Info("VisDatiDlg : EsportaOrdini");
+
+                xlsWorkBook.SaveAs(sDataDir + sNomeFile);
+                xlsWorkBook.Close(true, missValue, missValue);
+                xlApp.Quit();
+
+
+                if (VD_CheckBoxExport.Checked)
+                    System.Diagnostics.Process.Start(sDataDir + sNomeFile);
+
+                //Marshal.ReleaseComObject(xlsWorkSheet);
+                Marshal.ReleaseComObject(xlsWorkBook);
+                Marshal.ReleaseComObject(xlApp);
+
+                BtnExport.Enabled = true;
+            }
+            catch (Exception)
+            {
+                BtnExport.Enabled = true;
+                _WrnMsg.iErrID = WRN_EXN;
+                WarningManager(_WrnMsg);
+            }
+        }
     }
 }

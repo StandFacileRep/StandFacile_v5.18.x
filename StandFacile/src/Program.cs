@@ -1,6 +1,6 @@
 ﻿/*********************************************************
     NomeFile : StandFacile
-    Data	 : 19.07.2026
+    Data	 : 22.07.2026
     Autore   : Mauro Artuso
 
     Avvia le classi visuali e non, nell'ordine corretto
@@ -31,7 +31,7 @@ namespace StandFacile
 
         static Assembly ResolveAssembly(object sender, ResolveEventArgs args)
         {
-            // MessageBox.Show("DLL non trovata: " + args.Name + " \n");
+            //MessageBox.Show("DLL non trovata: " + args.Name + " \n");
 
             return null;
         }
@@ -91,11 +91,11 @@ namespace StandFacile
             if (iNDbMode == (int)DB_MODE.SQLITE)
                 _rBdBaseIntf_ql = new StandFacile_DB.dBaseIntf_ql();
             else
-            if (iNDbMode == (int)DB_MODE.MYSQL)
-                _rBdBaseIntf_my = new StandFacile_DB.dBaseIntf_my();
-            else
-            if (iNDbMode == (int)DB_MODE.POSTGRES)
-                _rBdBaseIntf_pg = new StandFacile_DB.dBaseIntf_pg();
+                if (iNDbMode == (int)DB_MODE.MYSQL)
+                    _rBdBaseIntf_my = new StandFacile_DB.dBaseIntf_my();
+                else
+                    if (iNDbMode == (int)DB_MODE.POSTGRES)
+                        _rBdBaseIntf_pg = new StandFacile_DB.dBaseIntf_pg();
 
             dBaseIntf rBdBaseIntf = new dBaseIntf();
 
@@ -117,6 +117,10 @@ namespace StandFacile
             {
                 // Nome dell'assembly richiesto
                 string name = new AssemblyName(args.Name).Name;
+
+                // esclude false DLL
+                if (!args.Name.Contains("StandFacile.resources"))
+                    MessageBox.Show("DLL non trovata: " + args.Name + " \n");
 
                 return null;
             };

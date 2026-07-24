@@ -17,7 +17,7 @@ namespace StandCommonFiles
 #pragma warning disable IDE0060
 
         /// <summary>versione del Programma</summary>
-        public const String RELEASE_SW = "v5.18.3";
+        public const String RELEASE_SW = "v5.18.4";
 
         /// <summary>prefisso versione delle tabelle DB</summary>
         public const String RELEASE_DB_TBLS = "v5d";
@@ -49,21 +49,15 @@ namespace StandCommonFiles
         /// <summary>prefisso tabella degli ordini</summary>
         public const string _dbOrdersTablePrefix = RELEASE_DB_TBLS + "_ordini";
 
-        /// <summary>prefisso tabella degli ordini in prevendita</summary>
-        public const string _dbPreOrdersTablePrefix = RELEASE_DB_TBLS + "_ordini_prev";
-
         /// <summary>prefisso tabella dei dati</summary>
         public const string _dbDataTablePrefix = RELEASE_DB_TBLS + "_dati";
-
-        /// <summary>prefisso tabella dei dati di prevendita</summary>
-        public const string _dbPreDataTablePrefix = RELEASE_DB_TBLS + "_dati_prev";
 
 
         /// <summary>mnemonici eventi UDP</summary>
         public struct UDP_EVENTS
         {
-            /// <summary>evento di emissione scontrino da cassa principale</summary>
-            public const string CASHDESK_PING_EVENT = "CashDeskPingEvent";
+            /// <summary>evento di segnalazione presenza cassa</summary>
+            public const string CASHDESK_UP_PING_EVENT = "CashDeskPingEvent";
 
             /// <summary>evento di emissione scontrino da cassa principale</summary>
             public const string PRI_CASHDESK_TICKET_EVENT = "primaryCashDeskTicketEvent";
@@ -135,15 +129,12 @@ namespace StandCommonFiles
             /// <summary>menuItem_ID per memorizzazione del numero dell'ordine da web nella tabella ordini_YYmmdd</summary>
             public const String _NUM_ORD_WEB = "_NumWebOrd" + SHMAGIC;
 
-            /// <summary>menuItem_ID per memorizzazione del numero dell'ordine in prevendita nella tabella ordini_YYmmdd</summary>
-            public const String _NUM_ORD_PREV = "_NumOrdPrevendita" + SHMAGIC;
-
             /// <summary>menuItem_ID per memorizzazione checksum nella tabella ordini web</summary>
             public const String _PRICE_LIST_CHECKSUM = "_PriceListChecksum" + SHMAGIC;
 
             /// <summary>array per la ricerca di una stringa</summary>
             public static readonly String[] sArray = new String[] { _START_OF_ORDER, _TAVOLO, _NAME, _CAP, _NOTE, _DISCOUNT,
-                                                                        _BUONI, _NUM_ORD_WEB, _NUM_ORD_PREV };
+                                                                        _BUONI, _NUM_ORD_WEB };
         }
 
         /// <summary>mnemonico per il numero della cassa nelle stampe con Zoom numero scontrino</summary>
@@ -154,9 +145,6 @@ namespace StandCommonFiles
 
         /// <summary>mnemonico per il numero dello scontrino nelle stampe senza Zoom numero scontrino</summary>
         public const String _TICK_NUM_NZ = "Scontrino num.";
-
-        /// <summary>mnemonico per il numero dello scontrino di prevendita nelle stampe</summary>
-        public const String _PREV_NUM = "prevNum =";
 
         /// <summary>mnemonico per il numero dello scontrino di pre-ordine web nelle stampe</summary>
         public const String _WEB_NUM = "webNum =";
@@ -345,9 +333,6 @@ namespace StandCommonFiles
 
         /// <summary>chiave per la gestione del dialogo disponibilità</summary>
         public const string DISP_DLG_MNG_KEY = "bDispMngDlg";
-
-        /// <summary>chiave per la gestione del caricamento della Prevendita</summary>
-        public const string PRESALE_LOAD_MODE_KEY = "bPreSaleLoadMode";
 
         /// <summary>chiave per la visualizzazione dello scontrino precedente</summary>
         public const string VIEW_PREV_RECEIPT_KEY = "bShowPrevReceipt";
@@ -1141,8 +1126,6 @@ namespace StandCommonFiles
         [Serializable()]
         public struct TData
         {
-            /// <summary>flag per gestione del modo Prevendita attiva, salvato nel Listino</summary>
-            public bool bPrevendita;
             /// <summary>flag di stato = scaricato usato con MySQL, PostGreSQL</summary>
             public bool bScaricato;
             /// <summary>flag di stato = stampato usato per ordini web</summary>
@@ -1167,6 +1150,8 @@ namespace StandCommonFiles
             public int iBuoniApplicatiReceipt;
             /// <summary>numero hex i cui bit rappresentano lo stato degli sconti</summary>
             public int iStatusSconto;
+            /// <summary>numero di articoli presenti nell'ordine</summary>
+            public int iNumOfReceiptItems;
             /// <summary>testo dello sconto applicato</summary>
             public String sScontoText;
             /// <summary>numero hex per gestione barcode nelle copie</summary>
@@ -1200,9 +1185,9 @@ namespace StandCommonFiles
             /// <summary>incasso totale</summary>
             public int iTotaleIncasso;
             /// <summary>incasso totale CARD</summary>
-            public int iTotaleIncassoCard;
+            public int iTotaleCard;
             /// <summary>incasso totale Satispay</summary>
-            public int iTotaleIncassoSatispay;
+            public int iTotaleSatispay;
             /// <summary>somma importo degli scontrini scontati in percentuale</summary>
             public int iTotaleScontatoStd;
             /// <summary>somma importo degli scontrini con sconto fisso</summary>
@@ -1227,8 +1212,6 @@ namespace StandCommonFiles
             public String sVersione;
             /// <summary>stringa di data ed ora</summary>
             public String sDateTime;
-            /// <summary>stringa di data ed ora per la Prevendita</summary>
-            public String sPrevDateTime;
             /// <summary>stringa di data ed ora per gli ordini web</summary>
             public String sWebDateTime;
             /// <summary>stringa di data ed ora letta dal Listino</summary>
@@ -1251,9 +1234,6 @@ namespace StandCommonFiles
             /// <summary>testo per la stampa delle copie in base ai colori</summary>
             public String[] sColorGroupsText;
 
-            /// <summary>numero dell'ordine in prevendita</summary>
-            public int iNumOrdinePrev;
-
             /// <summary>numero dell'ordine remoto</summary>
             public int iNumOrdineWeb;
 
@@ -1265,7 +1245,6 @@ namespace StandCommonFiles
             {
                 iDataStruct_ID = iParam;
 
-                bPrevendita = false;
                 bScaricato = false;
                 bStampato = false;
                 bAnnullato = false;
@@ -1277,6 +1256,7 @@ namespace StandCommonFiles
                 iScontoGratisReceipt = 0;
                 iBuoniApplicatiReceipt = 0;
                 iStatusSconto = 0;
+                iNumOfReceiptItems = 0;
                 sScontoText = "";
                 iBarcodeRichiesto = 0;
                 iGeneralProgOptions = 0;
@@ -1292,8 +1272,8 @@ namespace StandCommonFiles
                 iTotaleReceipt = 0;
                 iTotaleReceiptDovuto = 0;
                 iTotaleIncasso = 0;
-                iTotaleIncassoCard = 0;
-                iTotaleIncassoSatispay = 0;
+                iTotaleCard = 0;
+                iTotaleSatispay = 0;
                 iTotaleScontatoStd = 0;
                 iTotaleScontatoFisso = 0;
                 iTotaleScontatoGratis = 0;
@@ -1308,7 +1288,6 @@ namespace StandCommonFiles
                 sMessaggio = "";
                 sVersione = "";
                 sDateTime = "";
-                sPrevDateTime = "";
                 sWebDateTime = "";
                 sListinoDateTime = "";
                 sPL_Checksum = "";
@@ -1321,7 +1300,6 @@ namespace StandCommonFiles
 
                 iGroupsColor = new int[NUM_EDIT_GROUPS];
                 sColorGroupsText = new String[NUM_GROUPS_COLORS - 1];
-                iNumOrdinePrev = 0;
                 iNumOrdineWeb = 0;
 
                 Articolo = new TArticolo[MAX_ITEMS_NUM + EXTRA_ITEMS_NUM];
@@ -1492,14 +1470,6 @@ namespace StandCommonFiles
             "###########################"
         };
 
-        /// <summary>testo descrittivo della Prevendita</summary>
-        public static readonly String[] sConst_Presale =
-        {
-            "########################",
-            "####  PRE-VENDITA   ####",
-            "########################"
-        };
-
         /// <summary>testo descrittivo del tipo di pagamento CARD</summary>
         public static readonly String sConst_Pagamento_da_EFFETTUARE = "@@@ PAGAM. DA EFFETTUARE @@@";
 
@@ -1569,8 +1539,6 @@ namespace StandCommonFiles
             public String sNome;
             /// <summary>numero dell'ordine Web</summary>
             public String sOrdNumWeb;
-            /// <summary>numero dell'ordine ni Prevendita</summary>
-            public String sOrdNumPrev;
         }
 
         /// <summary>struct per gestione configurazione da File</summary>

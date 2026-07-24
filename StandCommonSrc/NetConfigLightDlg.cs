@@ -234,7 +234,7 @@ namespace StandFacile
             // carica iGlbNumOfTickets, iGlbNumOfMessages, _Versione, _Header, _HeaderText
             // solo se non è la prima esecuzione
             if (!String.IsNullOrEmpty(ReadRegistry(DBASE_SERVER_NAME_KEY, "")))
-                _rdBaseIntf.dbCaricaOrdine(GetActualDate(), 0, false);
+                _rdBaseIntf.dbCaricaOrdine(GetActualDate(), 0, 0);
 
             for (i = 0; i < NUM_EDIT_GROUPS; i++)
             {

@@ -316,7 +316,7 @@ namespace StandFacile
                     iDebug1 = iGlbCurrentOffline_TicketNum;
 
                     bThereIsSomethingToPrint = false;
-                    _rdBaseIntf.dbCaricaOrdine(GetActualDate(), iGlbCurrentOffline_TicketNum, false);
+                    _rdBaseIntf.dbCaricaOrdine(GetActualDate(), iGlbCurrentOffline_TicketNum, 0);
                     iDebug2 = DB_Data.iStatusReceipt;
 
                     CheckSomethingToPrint(_bSomethingInto_GrpToPrint, _bSomethingInto_ClrToPrint, DB_Data);
@@ -370,7 +370,7 @@ namespace StandFacile
                     iDebug = iGlbCurrentOffline_TicketNum;
 
                     bThereIsSomethingToPrint = false;
-                    _rdBaseIntf.dbCaricaOrdine(GetActualDate(), iGlbCurrentOffline_TicketNum, false);
+                    _rdBaseIntf.dbCaricaOrdine(GetActualDate(), iGlbCurrentOffline_TicketNum, 0);
                     CheckSomethingToPrint(_bSomethingInto_GrpToPrint, _bSomethingInto_ClrToPrint, DB_Data);
 
                     for (int i = 0; i < NUM_EDIT_GROUPS; i++)
@@ -697,7 +697,7 @@ namespace StandFacile
 
         private void MnuNetConfig_Click(object sender, EventArgs e)
         {
-            _rdBaseIntf.dbCaricaOrdine(GetActualDate(), 0, false);
+            _rdBaseIntf.dbCaricaOrdine(GetActualDate(), 0, 0);
 
             rNetConfigLightDlg.Init(true);
         }
@@ -957,7 +957,7 @@ namespace StandFacile
 
             ulStart = (ulong)Environment.TickCount;
 
-            if (_rdBaseIntf.dbCaricaOrdine(GetActualDate(), iTicketNumParam, false))
+            if (_rdBaseIntf.dbCaricaOrdine(GetActualDate(), iTicketNumParam, 0))
                 _rViewOrdersDlg.ReceiptRebuild(GetActualDate(), iTicketNumParam); // sola chiamata
 
             CheckSomethingToPrint(_bSomethingInto_GrpToPrint, _bSomethingInto_ClrToPrint, DB_Data);

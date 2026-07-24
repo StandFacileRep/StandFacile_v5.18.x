@@ -417,8 +417,8 @@ namespace StandFacile
                     iFlagSconto = ToInt32(sTmp);
                 }
 
-                if ((_iNumCassa == SF_Data.iNumCassa) && !SF_Data.bPrevendita)
-                    
+                if (_iNumCassa == SF_Data.iNumCassa)
+
                     SetSconto(iFlagSconto);
 
                 _iCounter = 1;

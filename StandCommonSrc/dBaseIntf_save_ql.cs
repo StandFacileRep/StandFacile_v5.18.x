@@ -1184,24 +1184,6 @@ namespace StandFacile_DB
                         ordiniTable.Rows.Add(row);
                     }
 
-                    if (IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA))
-                    {
-                        row = ordiniTable.NewRow();
-
-                        row["iOrdine_ID"] = SF_Data.iNumOfLastReceipt;
-                        row["sTipo_Articolo"] = ORDER_CONST._NUM_ORD_PREV;
-                        row["iPrezzo_Unitario"] = SF_Data.iNumOrdinePrev;
-                        //row["iQuantita_Ordine"] = 0;
-                        //row["iIndex_Listino"] = 0;
-                        //row["iGruppo_Stampa"] = 0;
-                        row["sText"] = SF_Data.sPrevDateTime;
-                        row["iNumCassa"] = SF_Data.iNumCassa;
-                        row["iScaricato"] = 0;
-                        row["iAnnullato"] = 0;
-
-                        ordiniTable.Rows.Add(row);
-                    }
-
                     for (i = 0; i < MAX_ITEMS_NUM; i++)
                     {
                         if (SF_Data.Articolo[i].iQuantitaOrdine > 0)

@@ -1,6 +1,6 @@
 ﻿/*****************************************************************************************
 	NomeFile : StandCommonSrc/dBaseIntf.cs
-	Data	 : 24.04.2026
+	Data	 : 24.07.2026
 	Autore   : Mauro Artuso
 
  *****************************************************************************************/
@@ -357,8 +357,8 @@ namespace StandFacile
             DB_Data.iNumOfWebReceipts = 0;
             DB_Data.iNumAnnullati = 0;
             DB_Data.iTotaleIncasso = 0;
-            DB_Data.iTotaleIncassoCard = 0;
-            DB_Data.iTotaleIncassoSatispay = 0;
+            DB_Data.iTotaleCard = 0;
+            DB_Data.iTotaleSatispay = 0;
             DB_Data.iTotaleScontatoStd = 0;
             DB_Data.iTotaleScontatoFisso = 0;
             DB_Data.iTotaleScontatoGratis = 0;
@@ -408,6 +408,7 @@ namespace StandFacile
             dataIdParam.iScontoGratisReceipt = 0;
             dataIdParam.iBuoniApplicatiReceipt = 0;
             dataIdParam.iStatusSconto = 0;
+            dataIdParam.iNumOfReceiptItems = 0;
             dataIdParam.sScontoText = "";
             dataIdParam.bAnnullato = false;
             dataIdParam.bScaricato = false;
@@ -419,10 +420,8 @@ namespace StandFacile
             dataIdParam.sNota = "";
             dataIdParam.sDateTime = GetDateTimeString();
             dataIdParam.sWebDateTime = "";
-            dataIdParam.sPrevDateTime = "";
             dataIdParam.sMessaggio = "";
 
-            dataIdParam.iNumOrdinePrev = 0;
             dataIdParam.iNumOrdineWeb = 0;
 
             for (i = 0; i < MAX_ITEMS_NUM + EXTRA_ITEMS_NUM; i++) // azzeramento
@@ -741,22 +740,23 @@ namespace StandFacile
 
         /// <summary>
         /// carica l'ordine iParam nella variabile DB_Articolo[], <br/>
-        /// se però iParam == 0 carica _Version, _Header, _HeaderText <br/> <br/>
+        /// se però iParam == 0 carica _Version, _Header, _HeaderText <br/>
+        /// se iNumCassaParam != 0 filtra per cassa<br/> <br/>
         /// 
         /// ritorna true se ha successo, <br/>
         /// utilizzata da FrmVisOrdiniDlg, DataManager.AggiornaDisponibilità
         /// </summary>
-        public bool dbCaricaOrdine(DateTime dateParam, int iParam, bool bFiltraPerCassa, String sNomeTabellaParam = "")
+        public bool dbCaricaOrdine(DateTime dateParam, int iParam, int iNumCassaParam, String sNomeTabellaParam = "")
         {
 #if STANDFACILE
             if (_iNDbMode == (int)DB_MODE.SQLITE)
-                return _rdBaseIntf_ql.dbCaricaOrdine(dateParam, iParam, bFiltraPerCassa, sNomeTabellaParam);
+                return _rdBaseIntf_ql.dbCaricaOrdine(dateParam, iParam, iNumCassaParam, sNomeTabellaParam);
             else
 #endif
                 if (_iNDbMode == (int)DB_MODE.MYSQL)
-                    return _rdBaseIntf_my.dbCaricaOrdine(dateParam, iParam, bFiltraPerCassa, sNomeTabellaParam);
+                    return _rdBaseIntf_my.dbCaricaOrdine(dateParam, iParam, iNumCassaParam, sNomeTabellaParam);
                 else
-                    return _rdBaseIntf_pg.dbCaricaOrdine(dateParam, iParam, bFiltraPerCassa, sNomeTabellaParam);
+                    return _rdBaseIntf_pg.dbCaricaOrdine(dateParam, iParam, iNumCassaParam, sNomeTabellaParam);
         }
 
         /// <summary>
@@ -1038,17 +1038,6 @@ namespace StandFacile
             return;
         }
 
-        /// <summary>contrassegna come scaricato uno scontrino dalla tabella delle Prevendite/// </summary>
-        public bool dbScaricaOrdinePrevendita(int iOrderID, String sPrevTableParam)
-        {
-            if (_iNDbMode == (int)DB_MODE.SQLITE)
-                return _rdBaseIntf_ql.dbScaricaOrdinePrevendita(iOrderID, sPrevTableParam);
-            else
-                if (_iNDbMode == (int)DB_MODE.MYSQL)
-                    return _rdBaseIntf_my.dbScaricaOrdinePrevendita(iOrderID, sPrevTableParam);
-                else
-                    return _rdBaseIntf_pg.dbScaricaOrdinePrevendita(iOrderID, sPrevTableParam);
-        }
 #endif
 
         /// <summary>funzione di modifica dello stato con i vari flag, iOrderIDParam >= 0 per i Tickets, &lt; 0 per i messaggi</summary>

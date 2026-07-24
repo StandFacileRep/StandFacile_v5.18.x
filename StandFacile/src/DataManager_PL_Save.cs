@@ -246,16 +246,6 @@ namespace StandFacile
                 fPrz.WriteLine(";\n; flag vari");
                 iRowIndex += 2;
 
-                // Flag Prevendita richiesto Set/Clear
-                if (SF_Data.bPrevendita)
-                    sPrzRow = "#PVS"; // Set
-                else
-                    sPrzRow = "#PVC"; // Clear
-
-                fPrz.WriteLine(sPrzRow);
-                iRowIndex++;
-                uLocHashCode += Hash(sPrzRow);
-
                 //numero per gestione barcode nelle copie
                 sPrzRow = String.Format("{0}{1:X6}", "#BC", SF_Data.iBarcodeRichiesto);
 
@@ -426,7 +416,7 @@ namespace StandFacile
         /// <summary>Funzione di salvataggio dei dati di riepilogo giornaliero</summary>
         public static void SalvaDati(TData dataIdParam, bool bTutteCasseParam = false)
         {
-            int i, iQuantitaVenduta, iIncassoParz;
+            int i, iQuantitaVenduta, iTotaleParz;
             String sDir, sNomeFileDati, sNomeFileDatiBak;
             String sTmp, sDataRow, sDisp, sParz;
             StreamWriter fData;
@@ -534,8 +524,8 @@ namespace StandFacile
                     {
                         iQuantitaVenduta = dataIdParam.Articolo[i].iQuantitaVenduta;
 
-                        iIncassoParz = dataIdParam.Articolo[i].iPrezzoUnitario * iQuantitaVenduta;
-                        sParz = IntToEuro(iIncassoParz);
+                        iTotaleParz = dataIdParam.Articolo[i].iPrezzoUnitario * iQuantitaVenduta;
+                        sParz = IntToEuro(iTotaleParz);
 
                         // 123456789012345678 999.00 8888 9876.00 OK
                         // eventuali superamenti del formato non precludono i conti ma solo l'impaginazione
@@ -553,7 +543,7 @@ namespace StandFacile
                                     IntToEuro(dataIdParam.Articolo[i].iPrezzoUnitario), iQuantitaVenduta, sParz, sDisp);
                         }
 
-                        iTotaleTeorico += (ulong)iIncassoParz;
+                        iTotaleTeorico += (ulong)iTotaleParz;
 
                         fData.WriteLine(sDataRow);
                     }
@@ -588,18 +578,18 @@ namespace StandFacile
                     fData.WriteLine(sDAT_FMT_TOT, "TOTALE NETTO", IntToEuro(dataIdParam.iTotaleIncasso - dataIdParam.iTotaleBuoniApplicati
                                         - dataIdParam.iTotaleScontatoStd - dataIdParam.iTotaleScontatoFisso - dataIdParam.iTotaleScontatoGratis));
 
-                    if ((dataIdParam.iTotaleIncassoCard > 0) || (dataIdParam.iTotaleIncassoSatispay > 0))
+                    if ((dataIdParam.iTotaleCard > 0) || (dataIdParam.iTotaleSatispay > 0))
                     {
                         fData.WriteLine("");
 
-                        sTmp = String.Format(sDAT_FMT_TOT, "PAGAM. CARD    ", IntToEuro(dataIdParam.iTotaleIncassoCard));
+                        sTmp = String.Format(sDAT_FMT_TOT, "PAGAM. CARD    ", IntToEuro(dataIdParam.iTotaleCard));
                         fData.WriteLine(sTmp);
 
-                        sTmp = String.Format(sDAT_FMT_TOT, "PAGAM. SATISPAY", IntToEuro(dataIdParam.iTotaleIncassoSatispay));
+                        sTmp = String.Format(sDAT_FMT_TOT, "PAGAM. SATISPAY", IntToEuro(dataIdParam.iTotaleSatispay));
                         fData.WriteLine(sTmp);
 
                         sTmp = String.Format(sDAT_FMT_TOT, "PAGAM. CONT.   ", IntToEuro(dataIdParam.iTotaleIncasso - dataIdParam.iTotaleBuoniApplicati - dataIdParam.iTotaleScontatoStd -
-                                                       dataIdParam.iTotaleScontatoFisso - dataIdParam.iTotaleScontatoGratis - dataIdParam.iTotaleIncassoCard - dataIdParam.iTotaleIncassoSatispay));
+                                                       dataIdParam.iTotaleScontatoFisso - dataIdParam.iTotaleScontatoGratis - dataIdParam.iTotaleCard - dataIdParam.iTotaleSatispay));
                         fData.WriteLine(sTmp);
                     }
                 }

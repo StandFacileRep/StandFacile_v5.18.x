@@ -107,23 +107,8 @@ namespace StandFacile_DB
 
                     if (!String.IsNullOrEmpty(sNomeTabellaParam))
                     {
-                        // gestione estensioni da chiusura cassa ricavate dalla tabella dati e/o ordini in prevendita
-                        // prefisso
-                        if (sNomeTabellaParam.Contains(_dbPreDataTablePrefix))
-                        {
-                            sData = sNomeTabellaParam.Remove(0, _dbPreDataTablePrefix.Length + 3);
-                            sTmp = sData.Insert(0, _dbPreOrdersTablePrefix);
-                            _sDBTNameOrdini = sTmp;
-                        }
-                        else if (sNomeTabellaParam.Contains(_dbPreOrdersTablePrefix))
-                        {
-                            sData = sNomeTabellaParam.Remove(0, _dbPreOrdersTablePrefix.Length);
-                            sTmp = sData.Insert(0, String.Format("_c{0}", CASSA_PRINCIPALE));
-                            sTmp = sTmp.Insert(0, _dbPreDataTablePrefix);
-                            _sDBTNameDati = sTmp;
-                        }
                         // gestione estensioni da chiusura cassa ricavate dalla tabella dati e/o ordini
-                        else if ((sNomeTabellaParam.Length >= (_sDBTNameOrdini.Length)) && sNomeTabellaParam.Contains(_dbOrdersTablePrefix))
+                        if ((sNomeTabellaParam.Length >= (_sDBTNameOrdini.Length)) && sNomeTabellaParam.Contains(_dbOrdersTablePrefix))
                         {
                             if (sNomeTabellaParam.Length > (_sDBTNameOrdini.Length))
                             {
@@ -164,10 +149,10 @@ namespace StandFacile_DB
                     sDebugDati = _sDBTNameDati;
                     sDebugOrdini = _sDBTNameOrdini;
 
-                    if (sNomeTabellaParam.Contains(_dbOrdersTablePrefix) || sNomeTabellaParam.Contains(_dbPreOrdersTablePrefix))
+                    if (sNomeTabellaParam.Contains(_dbOrdersTablePrefix))
                         _sDBTNameOrdini = sNomeTabellaParam;
 
-                    if (sNomeTabellaParam.Contains(_dbDataTablePrefix) || sNomeTabellaParam.Contains(_dbPreDataTablePrefix))
+                    if (sNomeTabellaParam.Contains(_dbDataTablePrefix))
                         _sDBTNameDati = sNomeTabellaParam;
 
                     SQLiteConnectionStringBuilder dbCSB = new SQLiteConnectionStringBuilder()

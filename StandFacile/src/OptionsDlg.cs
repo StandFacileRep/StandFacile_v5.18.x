@@ -35,9 +35,6 @@ namespace StandFacile
         /// <summary>ottiene flag di visualizzazione totale scontrino precedente</summary>
         public bool GetShowPrevReceipt() { return MO_checkBoxShowPrevReceipt.Checked; }
 
-        /// <summary>ottiene flag di modo caricamento Prevendita per gestione Focus</summary>
-        public bool GetPresales_LoadMode() { return MO_checkBoxPresales_loadMode.Checked; }
-
         /// <summary>ottiene flag di avvio stampa Scontrino con il tasto Enter</summary>
         public bool GetEnterPrintReceipt() { return MO_checkBox_Enter.Checked; }
 
@@ -123,8 +120,6 @@ namespace StandFacile
             MO_checkBox_Show_OSKeyb.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_TOUCH_KEYB_BUTTON);
             MO_checkBox_Show_CAP.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_CAP_EDIT);
 
-            MO_checkBoxPresale_workMode.Checked = SF_Data.bPrevendita; //  passato dal Listino
-
             if (DataManager.CheckIf_CassaSec_and_NDB()) // cassa secondaria e DB
             {
                 MO_checkBox_InitialAvailabilityDlg.Enabled = false;
@@ -137,13 +132,8 @@ namespace StandFacile
                 MO_checkBoxPrivacy.Enabled = false;
                 MO_checkBox_Enter.Enabled = false;
                 MO_checkBox_ZeroPriceItems.Enabled = false;
-                MO_checkBoxPresale_workMode.Enabled = false;
 
                 panelShowHideButtons.Enabled = false;
-
-                // il modo prevendita impedisce il caricamento ordini nelle casse secondarie
-                if (SF_Data.bPrevendita)
-                    MO_checkBoxPresales_loadMode.Enabled = false;
             }
             else
             {
@@ -159,15 +149,12 @@ namespace StandFacile
                 MO_checkBoxPrivacy.Enabled = true;
                 MO_checkBox_Enter.Enabled = true;
                 MO_checkBox_ZeroPriceItems.Enabled = true;
-                MO_checkBoxPresale_workMode.Enabled = true;
 
                 panelShowHideButtons.Enabled = true;
             }
 
             // letto dal Registry
             MO_checkBoxShowPrevReceipt.Checked = (ReadRegistry(VIEW_PREV_RECEIPT_KEY, 0) == 1);
-
-            MO_checkBoxPresales_loadMode.Checked = (ReadRegistry(PRESALE_LOAD_MODE_KEY, 0) == 1);
 
             _iColorThemeIndex = ReadRegistry(COLOR_THEME_KEY, 1);
 
@@ -180,20 +167,6 @@ namespace StandFacile
 
             if (bShow)
                 ShowDialog();
-        }
-
-        /// <summary>le 2 checkbox possono essere entrambe deselezionate</summary>
-        private void CheckBoxPresaleMode_CheckedChanged(object sender, EventArgs e)
-        {
-            if (MO_checkBoxPresale_workMode.Checked)
-                MO_checkBoxPresales_loadMode.Checked = false;
-        }
-
-        /// <summary>le 2 checkbox possono essere entrambe deselezionate</summary>
-        private void CheckBoxLoadPresale_CheckedChanged(object sender, EventArgs e)
-        {
-            if (MO_checkBoxPresales_loadMode.Checked)
-                MO_checkBoxPresale_workMode.Checked = false;
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -214,9 +187,6 @@ namespace StandFacile
             MO_checkBoxPrivacy.Checked = false;
             MO_checkBox_InitialAvailabilityDlg.Checked = false;
             MO_checkBoxShowPrevReceipt.Checked = false;
-
-            MO_checkBoxPresale_workMode.Checked = false;
-            MO_checkBoxPresales_loadMode.Checked = false;
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
@@ -293,14 +263,6 @@ namespace StandFacile
                 SF_Data.iGeneralProgOptions = iGeneralProgOptionsCopy;
             }
 
-            if (SF_Data.bPrevendita != MO_checkBoxPresale_workMode.Checked)
-            {
-                _bListinoModificato = true;
-
-                SF_Data.bPrevendita = MO_checkBoxPresale_workMode.Checked;
-                bRiavvio = true;
-            }
-
             if (MO_checkBox_InitialAvailabilityDlg.Checked)
                 _iDispMngStatus = SetBit(0, BIT_SHOW_DISP_DLG);
             else
@@ -318,8 +280,6 @@ namespace StandFacile
 
             WriteRegistry(VIEW_PREV_RECEIPT_KEY, MO_checkBoxShowPrevReceipt.Checked ? 1 : 0);
 
-            WriteRegistry(PRESALE_LOAD_MODE_KEY, MO_checkBoxPresales_loadMode.Checked ? 1 : 0);
-
             sTmp = String.Format("optionsDlg OK: {0}, {1}, {2}, {3:X6}", MO_checkBoxPlaceSett.Checked, MO_checkBoxTable.Checked, MO_checkBox_Name.Checked,
                                     SF_Data.iGeneralProgOptions);
             Logger.Info(sTmp);
@@ -328,7 +288,7 @@ namespace StandFacile
             {
                 MessageBox.Show("Il modo di vendita è cambiato,\nil programma verrà riavviato !", "Attenzione !", MessageBoxButtons.OK);
 
-                sTmp = String.Format("OptionsDlg, Tipo di database = {0}, funzione di Cassa = {1}", (ReadRegistry(DB_MODE_KEY, 0) > 0), SF_Data.bPrevendita);
+                sTmp = String.Format("OptionsDlg, Tipo di database = {0}", ReadRegistry(DB_MODE_KEY, 0) > 0);
                 Logger.Info(sTmp);
 
                 ErrorManager(ERR_CDB);

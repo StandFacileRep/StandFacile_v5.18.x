@@ -136,9 +136,6 @@ namespace StandFacile
                     Directory.Delete(sNomeDirTmp, true);
             }
 
-            if (_dataIdentifierParam.bPrevendita || sNomeTabellaParam.Contains(_dbPreOrdersTablePrefix))
-                VO_ckBoxAllCashDesk.Checked = true;
-
             // carica il numero di Tickets in caso di altra data
             if (GetActualDate().ToString("dd/MM/yy") == dateParam.ToString("dd/MM/yy") && !_sNomeTabella.Contains(_dbOrdersTablePrefix))
                 _iUpperLimit = DataManager.GetNumOfOrders();
@@ -219,7 +216,7 @@ namespace StandFacile
                 VO_labelPayMethod.Visible = false;
 
                 BtnPrt.Enabled = true;
-                
+
                 VO_lbl_Info.Visible = bUSA_NDB();
                 VO_lbl_Info.Top = BtnPrev.Top + 46;
 
@@ -256,7 +253,7 @@ namespace StandFacile
                 _iNum = iNumParam;
 
             // carica _Versione, _Header, _HeaderText
-            _rdBaseIntf.dbCaricaOrdine(dateParam, 0, false, _sNomeTabella);
+            _rdBaseIntf.dbCaricaOrdine(dateParam, 0, 0, _sNomeTabella);
 
             Logger.Info("ViewOrdersDlg : Init");
 
@@ -386,7 +383,7 @@ namespace StandFacile
             {
                 _iNum -= 1;
 
-                _rdBaseIntf.dbCaricaOrdine(GetActualDate(), _iNum, false);
+                _rdBaseIntf.dbCaricaOrdine(GetActualDate(), _iNum, 0);
 
                 bSomePayment_IsPresent = IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CASH) ||
                     IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD) || IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY);
@@ -409,7 +406,7 @@ namespace StandFacile
             do
             {
                 _iNum += 1;
-                _rdBaseIntf.dbCaricaOrdine(GetActualDate(), _iNum, false);
+                _rdBaseIntf.dbCaricaOrdine(GetActualDate(), _iNum, 0);
 
                 bSomePayment_IsPresent = IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CASH) ||
                     IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD) || IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY);
@@ -583,7 +580,10 @@ namespace StandFacile
              **********************************************************/
 
             // va dopo dbAnnulloOrdine che entrambi azzerano DB_Data
-            _bOrdineCaricato = _rdBaseIntf.dbCaricaOrdine(dateParam, iParam, !VO_ckBoxAllCashDesk.Checked, _sNomeTabella);
+            if (VO_ckBoxAllCashDesk.Checked)
+                _bOrdineCaricato = _rdBaseIntf.dbCaricaOrdine(dateParam, iParam, 0, _sNomeTabella);
+            else
+                _bOrdineCaricato = _rdBaseIntf.dbCaricaOrdine(dateParam, iParam, SF_Data.iNumCassa, _sNomeTabella);
 
             bSomePayment_IsPresent = IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CASH) ||
                     IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD) || IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY);

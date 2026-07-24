@@ -20,9 +20,6 @@ using static StandFacile.Define;
 using static StandFacile.Config;
 using static StandFacile.dBaseIntf;
 
-using System.IO;
-using System.Drawing.Printing;
-
 namespace StandFacile
 {
     /// <summary>

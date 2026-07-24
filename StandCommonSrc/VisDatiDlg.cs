@@ -30,6 +30,7 @@ namespace StandFacile
 
         /// <summary>offset di inizio articoli del listino</summary>
         const int XLS_VOFFSET = 13;
+        const int XLS_H_OFFSET = 2;
 
         // facilita la chiusura della form che altrimenti potrebbe aprirsi più volte
         bool _bVisCambioData, _InitCompletato;
@@ -186,16 +187,13 @@ namespace StandFacile
             }
 
 #if STANDFACILE
-            if (SF_Data.bPrevendita)
-                VD_CheckBoxCashUnion.Checked = true;
-            else
-                VD_CheckBoxCashUnion.Checked = false;
+            VD_CheckBoxCashUnion.Checked = false;
 #else
             VD_CheckBoxCashUnion.Checked = true;
 #endif
 
             _tt.SetToolTip(BtnExport, "avvia esportazione in formato Excel MS (richiede Office installato nel PC)\r\n" +
-                                        "oppure FreeExport XLS, oppure FreeExport ODS");
+                                        "oppure Free_DataExport XLS, oppure Free_DataExport ODS");
             _tt.SetToolTip(BtnDate, "seleziona una data, o con Shift + le frecce in intervallo di date");
 
             _InitCompletato = true;
@@ -245,15 +243,12 @@ namespace StandFacile
 
             _bChars33 = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
 
-            if (sNomeTabellaParam.Contains(_dbPreDataTablePrefix))
-                VD_CheckBoxCashUnion.Checked = true;
-
             Logger.Info("FrmVisDati : entra in VisDati");
 
             // ripristina il corretto tipo di file
             if (iTipoFileParam == (int)FILE_TO_SHOW.FILE_AUTO)
             {
-                if (sNomeTabellaParam.Contains(_dbDataTablePrefix) || sNomeTabellaParam.Contains(_dbPreDataTablePrefix))
+                if (sNomeTabellaParam.Contains(_dbDataTablePrefix))
                     _iTipoFile = (int)FILE_TO_SHOW.FILE_DATI;
                 else if (sNomeTabellaParam.Contains(dBaseIntf.NOME_LISTINO_DBTBL)) // listino
                     _iTipoFile = (int)FILE_TO_SHOW.FILE_PREZZI;
@@ -314,10 +309,7 @@ namespace StandFacile
                 }
                 else
                 {
-                    if (_sNomeTabella.Contains(_dbPreDataTablePrefix))
-                        iPos = _dbPreDataTablePrefix.Length + 2;
-                    else
-                        iPos = _dbDataTablePrefix.Length + 2;
+                    iPos = _dbDataTablePrefix.Length + 2;
 
                     sNomeFile = _sNomeTabella;
                     _iNumCassa = _sNomeTabella[iPos] - '0';
@@ -367,17 +359,6 @@ namespace StandFacile
                     {
                         sTmp = String.Format(" {0}\r\n", DB_Data.sHeaders[1]);
                         textEditDati.AppendText(sTmp);
-                    }
-
-                    // dati correnti o da VisDati che filtra in base a bPrevendita || dati da Esplora_DB
-                    if (SF_Data.bPrevendita && String.IsNullOrEmpty(_sNomeTabella) || _sNomeTabella.Contains(_dbPreDataTablePrefix))
-                    {
-                        sTmp = CenterJustify(sConst_Presale[0], iMAX_RECEIPT_CHARS);
-                        textEditDati.AppendText(String.Format("\r\n{0}\r\n", sTmp));
-                        sTmp = CenterJustify(sConst_Presale[1], iMAX_RECEIPT_CHARS);
-                        textEditDati.AppendText(String.Format("{0}\r\n", sTmp));
-                        sTmp = CenterJustify(sConst_Presale[2], iMAX_RECEIPT_CHARS);
-                        textEditDati.AppendText(String.Format("{0}\r\n", sTmp));
                     }
 
                     textEditDati.AppendText("\r\n");
@@ -697,20 +678,20 @@ namespace StandFacile
 
                     if ((GetReport() == 0) || (GetPaymentReportBit() == (int)STATUS_FLAGS.BIT_PAGAM_CARD))
                     {
-                        sTmp = String.Format(sFormat + "{1,10}\r\n", "PAGAM. CARD    ", IntToEuro(DB_Data.iTotaleIncassoCard));
+                        sTmp = String.Format(sFormat + "{1,10}\r\n", "PAGAM. CARD    ", IntToEuro(DB_Data.iTotaleCard));
                         textEditDati.AppendText(sTmp);
                     }
 
                     if ((GetReport() == 0) || (GetPaymentReportBit() == (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY))
                     {
-                        sTmp = String.Format(sFormat + "{1,10}\r\n", "PAGAM. SATISPAY", IntToEuro(DB_Data.iTotaleIncassoSatispay));
+                        sTmp = String.Format(sFormat + "{1,10}\r\n", "PAGAM. SATISPAY", IntToEuro(DB_Data.iTotaleSatispay));
                         textEditDati.AppendText(sTmp);
                     }
 
                     if ((GetReport() == 0) || (GetPaymentReportBit() == (int)STATUS_FLAGS.BIT_PAGAM_CASH))
                     {
                         sTmp = String.Format(sFormat + "{1,10}\r\n", "PAGAM. CONT.   ", IntToEuro(DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati - DB_Data.iTotaleScontatoStd -
-                                                       DB_Data.iTotaleScontatoFisso - DB_Data.iTotaleScontatoGratis - DB_Data.iTotaleIncassoCard - DB_Data.iTotaleIncassoSatispay));
+                                                       DB_Data.iTotaleScontatoFisso - DB_Data.iTotaleScontatoGratis - DB_Data.iTotaleCard - DB_Data.iTotaleSatispay));
                         textEditDati.AppendText(sTmp);
                     }
 
@@ -968,16 +949,35 @@ namespace StandFacile
         /// </summary>
         private void BtnXls_Click(object sender, EventArgs e)
         {
+            ordersProgressBar.Value = 0;
+
             switch (VD_ComboExpFormat.SelectedIndex)
             {
                 case 0:
-                    Xls_Export();
+                    Xls_DataExport();
+
+                    if (VD_CheckBoxOrders.Checked)
+                    {
+                        Xls_OrdersExport();
+                    }
                     break;
                 case 1:
-                    FreeExport(true);
+
+                    if (VD_CheckBoxOrders.Checked)
+                    {
+                        ordersProgressBar.Value = 4;
+                        Free_DataExport(true);
+                        Free_OrdersExport(true);
+                    }
                     break;
                 case 2:
-                    FreeExport(false);
+
+                    if (VD_CheckBoxOrders.Checked)
+                    {
+                        ordersProgressBar.Value = 4;
+                        Free_DataExport(false);
+                        Free_OrdersExport(false);
+                    }
                     break;
             }
         }

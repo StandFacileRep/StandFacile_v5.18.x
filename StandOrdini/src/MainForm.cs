@@ -162,7 +162,7 @@ namespace StandFacile
 
             Logger.Info("FrmMain : Init");
 
-            _rdBaseIntf.dbCaricaOrdine(GetActualDate(), 0, false);
+            _rdBaseIntf.dbCaricaOrdine(GetActualDate(), 0, 0);
         }
 
         private void CancelBtn_Click(object sender, EventArgs e)

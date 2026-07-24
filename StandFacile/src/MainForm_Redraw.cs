@@ -249,17 +249,8 @@ namespace StandFacile
 
                 comboCashPos.Enabled = true;
 
-                // per sicurezza accettazione BarCode non con la prevendita in corso
-                if (SF_Data.bPrevendita)
-                {
-                    EditStatus_QRC.Enabled = false;
-                    MF_lblReadQrc.Enabled = false;
-                }
-                else
-                {
-                    EditStatus_QRC.Enabled = true;
-                    MF_lblReadQrc.Enabled = true;
-                }
+                EditStatus_QRC.Enabled = true;
+                MF_lblReadQrc.Enabled = true;
 
                 if (MnuExpert.Checked)
                 {
@@ -272,21 +263,14 @@ namespace StandFacile
                         MnuSessionClose.Enabled = false;
                         MnuSetupHeader.Enabled = false;
                         MnuSetupTabsGrid.Enabled = false;
-
-                        if (SF_Data.bPrevendita)
-                            MnuSetupOptions.Enabled = false;
-                        else
-                            // per poter eliminare il Flag
-                            MnuSetupOptions.Enabled = true;
-
+                        MnuSetupOptions.Enabled = true;
                         MnuSetupPricelist.Enabled = false;
                     }
                     else
                     {
                         MnuExportPricelist.Enabled = true;
                         MnuImportPricelist.Enabled = true;
-                        // altrimenti con la Prevendita è troppo complessa la gestione dei nomi delle tabelle
-                        MnuSessionClose.Enabled = !SF_Data.bPrevendita;
+                        MnuSessionClose.Enabled = true;
                         MnuSetupHeader.Enabled = true;
                         MnuSetupTabsGrid.Enabled = true;
                         MnuSetupOptions.Enabled = true;
@@ -394,10 +378,7 @@ namespace StandFacile
                 BtnTakeAway.Enabled = true;
 
                 //BtnAsporto.Checked = false;
-                if (SF_Data.bPrevendita)
-                    BtnSconto.Enabled = false;
-                else
-                    BtnSconto.Enabled = true;
+                BtnSconto.Enabled = true;
 
                 // ripristina lo stato dopo che si sono consultati i prezzi
                 if ((SF_Data.iStatusSconto & 0x0000000F) != 0)
@@ -1182,7 +1163,7 @@ namespace StandFacile
                             Logger.Info("EditStatus_QRC_KeyPress: " + sStrBarcode);
 
                             // rimozione carattere di controllo Datalogic
-                            sStrBarcode = sStrBarcode.Replace(((char)26).ToString(), ""); 
+                            sStrBarcode = sStrBarcode.Replace(((char)26).ToString(), "");
                             sStrBarcode = sStrBarcode.Replace(@"\000026", "");
                             sStrBarcode = sStrBarcode.Replace("\000026", "");
 
@@ -1319,18 +1300,6 @@ namespace StandFacile
 
                             iNumScontrino = Convert.ToInt32(sStrNum);
                             iGruppo = Convert.ToInt32(sStrGruppo);
-
-                            if (iGruppo == NUM_PRE_SALE_GRP) // sicurezza
-                            {
-                                _sOrdiniPrevDBTable = String.Format("{0}_{1}", _dbPreOrdersTablePrefix, sStrDay);
-                                bResult = DataManager.CaricaOrdinePrev(iNumScontrino, _sOrdiniPrevDBTable);
-
-                                if (!bResult)
-                                    EditStatus_QRC.Text = ""; // pulizia
-
-                                sLog = String.Format("Mainform : barcode prevendita = {0}, {1}, {2}", _sOrdiniPrevDBTable, sStrNum, bResult);
-                                Logger.Info(sLog);
-                            }
 
                             if (CheckService(Define.CFG_SERVICE_STRINGS._AUTO_QRCODE_TEST))
                             {

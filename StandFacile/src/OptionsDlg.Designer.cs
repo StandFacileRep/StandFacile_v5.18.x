@@ -34,9 +34,6 @@
             this.MO_checkBox_InitialAvailabilityDlg = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.panelPresale = new System.Windows.Forms.Panel();
-            this.MO_checkBoxPresales_loadMode = new System.Windows.Forms.CheckBox();
-            this.MO_checkBoxPresale_workMode = new System.Windows.Forms.CheckBox();
             this.MO_checkBoxPayment = new System.Windows.Forms.CheckBox();
             this.MO_checkBoxPrivacy = new System.Windows.Forms.CheckBox();
             this.comboColorTheme = new System.Windows.Forms.ComboBox();
@@ -55,7 +52,6 @@
             this.MO_checkBox_CAP = new System.Windows.Forms.CheckBox();
             this.MO_checkBox_Name = new System.Windows.Forms.CheckBox();
             this.MO_ckBoxExternalPreview = new System.Windows.Forms.CheckBox();
-            this.panelPresale.SuspendLayout();
             this.panelShowHideButtons.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -119,41 +115,6 @@
             this.btnCancel.Text = "Annulla";
             this.btnCancel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // panelPresale
-            // 
-            this.panelPresale.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelPresale.Controls.Add(this.MO_checkBoxPresales_loadMode);
-            this.panelPresale.Controls.Add(this.MO_checkBoxPresale_workMode);
-            this.panelPresale.Location = new System.Drawing.Point(358, 338);
-            this.panelPresale.Name = "panelPresale";
-            this.panelPresale.Size = new System.Drawing.Size(312, 90);
-            this.panelPresale.TabIndex = 17;
-            // 
-            // MO_checkBoxPresales_loadMode
-            // 
-            this.MO_checkBoxPresales_loadMode.AutoSize = true;
-            this.MO_checkBoxPresales_loadMode.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBoxPresales_loadMode.Location = new System.Drawing.Point(11, 53);
-            this.MO_checkBoxPresales_loadMode.Name = "MO_checkBoxPresales_loadMode";
-            this.MO_checkBoxPresales_loadMode.Size = new System.Drawing.Size(249, 18);
-            this.MO_checkBoxPresales_loadMode.TabIndex = 1;
-            this.MO_checkBoxPresales_loadMode.Text = "modalità caricamento ordini in prevendita";
-            this.MO_checkBoxPresales_loadMode.UseVisualStyleBackColor = true;
-            this.MO_checkBoxPresales_loadMode.CheckedChanged += new System.EventHandler(this.CheckBoxLoadPresale_CheckedChanged);
-            // 
-            // MO_checkBoxPresale_workMode
-            // 
-            this.MO_checkBoxPresale_workMode.AutoSize = true;
-            this.MO_checkBoxPresale_workMode.Enabled = false;
-            this.MO_checkBoxPresale_workMode.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBoxPresale_workMode.Location = new System.Drawing.Point(11, 19);
-            this.MO_checkBoxPresale_workMode.Name = "MO_checkBoxPresale_workMode";
-            this.MO_checkBoxPresale_workMode.Size = new System.Drawing.Size(291, 18);
-            this.MO_checkBoxPresale_workMode.TabIndex = 0;
-            this.MO_checkBoxPresale_workMode.Text = "modalità giorno di prevendita (riavvio necessario)";
-            this.MO_checkBoxPresale_workMode.UseVisualStyleBackColor = true;
-            this.MO_checkBoxPresale_workMode.CheckedChanged += new System.EventHandler(this.CheckBoxPresaleMode_CheckedChanged);
             // 
             // MO_checkBoxPayment
             // 
@@ -235,23 +196,22 @@
             // 
             // panelShowHideButtons
             // 
-            this.panelShowHideButtons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelShowHideButtons.Controls.Add(this.MO_checkBox_Show_CAP);
             this.panelShowHideButtons.Controls.Add(this.MO_checkBox_ShowDiscount);
             this.panelShowHideButtons.Controls.Add(this.MO_checkBox_ShowSendMsg);
             this.panelShowHideButtons.Controls.Add(this.MO_checkBox_ShowTakeAway);
             this.panelShowHideButtons.Controls.Add(this.MO_checkBox_Show_DB_Check);
             this.panelShowHideButtons.Controls.Add(this.MO_checkBox_Show_OSKeyb);
-            this.panelShowHideButtons.Location = new System.Drawing.Point(358, 69);
+            this.panelShowHideButtons.Location = new System.Drawing.Point(386, 106);
             this.panelShowHideButtons.Name = "panelShowHideButtons";
-            this.panelShowHideButtons.Size = new System.Drawing.Size(312, 245);
+            this.panelShowHideButtons.Size = new System.Drawing.Size(284, 290);
             this.panelShowHideButtons.TabIndex = 16;
             // 
             // MO_checkBox_Show_CAP
             // 
             this.MO_checkBox_Show_CAP.AutoSize = true;
             this.MO_checkBox_Show_CAP.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_Show_CAP.Location = new System.Drawing.Point(11, 206);
+            this.MO_checkBox_Show_CAP.Location = new System.Drawing.Point(11, 251);
             this.MO_checkBox_Show_CAP.Name = "MO_checkBox_Show_CAP";
             this.MO_checkBox_Show_CAP.Size = new System.Drawing.Size(156, 18);
             this.MO_checkBox_Show_CAP.TabIndex = 5;
@@ -262,7 +222,7 @@
             // 
             this.MO_checkBox_ShowDiscount.AutoSize = true;
             this.MO_checkBox_ShowDiscount.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_ShowDiscount.Location = new System.Drawing.Point(11, 92);
+            this.MO_checkBox_ShowDiscount.Location = new System.Drawing.Point(11, 110);
             this.MO_checkBox_ShowDiscount.Name = "MO_checkBox_ShowDiscount";
             this.MO_checkBox_ShowDiscount.Size = new System.Drawing.Size(154, 18);
             this.MO_checkBox_ShowDiscount.TabIndex = 2;
@@ -284,7 +244,7 @@
             // 
             this.MO_checkBox_ShowTakeAway.AutoSize = true;
             this.MO_checkBox_ShowTakeAway.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_ShowTakeAway.Location = new System.Drawing.Point(11, 54);
+            this.MO_checkBox_ShowTakeAway.Location = new System.Drawing.Point(11, 63);
             this.MO_checkBox_ShowTakeAway.Name = "MO_checkBox_ShowTakeAway";
             this.MO_checkBox_ShowTakeAway.Size = new System.Drawing.Size(160, 18);
             this.MO_checkBox_ShowTakeAway.TabIndex = 1;
@@ -295,7 +255,7 @@
             // 
             this.MO_checkBox_Show_DB_Check.AutoSize = true;
             this.MO_checkBox_Show_DB_Check.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_Show_DB_Check.Location = new System.Drawing.Point(11, 130);
+            this.MO_checkBox_Show_DB_Check.Location = new System.Drawing.Point(11, 157);
             this.MO_checkBox_Show_DB_Check.Name = "MO_checkBox_Show_DB_Check";
             this.MO_checkBox_Show_DB_Check.Size = new System.Drawing.Size(168, 18);
             this.MO_checkBox_Show_DB_Check.TabIndex = 3;
@@ -306,7 +266,7 @@
             // 
             this.MO_checkBox_Show_OSKeyb.AutoSize = true;
             this.MO_checkBox_Show_OSKeyb.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_Show_OSKeyb.Location = new System.Drawing.Point(11, 168);
+            this.MO_checkBox_Show_OSKeyb.Location = new System.Drawing.Point(11, 204);
             this.MO_checkBox_Show_OSKeyb.Name = "MO_checkBox_Show_OSKeyb";
             this.MO_checkBox_Show_OSKeyb.Size = new System.Drawing.Size(218, 18);
             this.MO_checkBox_Show_OSKeyb.TabIndex = 4;
@@ -355,11 +315,11 @@
             this.MO_ckBoxExternalPreview.AutoSize = true;
             this.MO_ckBoxExternalPreview.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MO_ckBoxExternalPreview.ForeColor = System.Drawing.Color.Blue;
-            this.MO_ckBoxExternalPreview.Location = new System.Drawing.Point(420, 24);
+            this.MO_ckBoxExternalPreview.Location = new System.Drawing.Point(398, 68);
             this.MO_ckBoxExternalPreview.Name = "MO_ckBoxExternalPreview";
-            this.MO_ckBoxExternalPreview.Size = new System.Drawing.Size(176, 20);
+            this.MO_ckBoxExternalPreview.Size = new System.Drawing.Size(180, 20);
             this.MO_ckBoxExternalPreview.TabIndex = 2;
-            this.MO_ckBoxExternalPreview.Text = "mostra Anteprima esterna";
+            this.MO_ckBoxExternalPreview.Text = "mostra Anteprima flottante";
             this.MO_ckBoxExternalPreview.UseVisualStyleBackColor = true;
             // 
             // OptionsDlg
@@ -379,7 +339,6 @@
             this.Controls.Add(this.comboColorTheme);
             this.Controls.Add(this.MO_checkBoxPrivacy);
             this.Controls.Add(this.MO_checkBoxPayment);
-            this.Controls.Add(this.panelPresale);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.MO_checkBox_InitialAvailabilityDlg);
@@ -392,8 +351,6 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Opzioni varie";
-            this.panelPresale.ResumeLayout(false);
-            this.panelPresale.PerformLayout();
             this.panelShowHideButtons.ResumeLayout(false);
             this.panelShowHideButtons.PerformLayout();
             this.ResumeLayout(false);
@@ -408,9 +365,6 @@
         private System.Windows.Forms.CheckBox MO_checkBox_InitialAvailabilityDlg;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Panel panelPresale;
-        private System.Windows.Forms.CheckBox MO_checkBoxPresales_loadMode;
-        private System.Windows.Forms.CheckBox MO_checkBoxPresale_workMode;
         private System.Windows.Forms.CheckBox MO_checkBoxPayment;
         private System.Windows.Forms.CheckBox MO_checkBoxPrivacy;
         private System.Windows.Forms.ComboBox comboColorTheme;
@@ -419,15 +373,15 @@
         private System.Windows.Forms.CheckBox MO_checkBoxShowPrevReceipt;
         private System.Windows.Forms.CheckBox MO_checkBox_ZeroPriceItems;
         private System.Windows.Forms.Panel panelShowHideButtons;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.CheckBox MO_checkBox_CAP;
+        private System.Windows.Forms.CheckBox MO_checkBox_Name;
+        private System.Windows.Forms.CheckBox MO_ckBoxExternalPreview;
+        private System.Windows.Forms.CheckBox MO_checkBox_Show_CAP;
         private System.Windows.Forms.CheckBox MO_checkBox_ShowDiscount;
         private System.Windows.Forms.CheckBox MO_checkBox_ShowSendMsg;
         private System.Windows.Forms.CheckBox MO_checkBox_ShowTakeAway;
         private System.Windows.Forms.CheckBox MO_checkBox_Show_DB_Check;
         private System.Windows.Forms.CheckBox MO_checkBox_Show_OSKeyb;
-        private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.CheckBox MO_checkBox_Show_CAP;
-        private System.Windows.Forms.CheckBox MO_checkBox_CAP;
-        private System.Windows.Forms.CheckBox MO_checkBox_Name;
-        private System.Windows.Forms.CheckBox MO_ckBoxExternalPreview;
     }
 }

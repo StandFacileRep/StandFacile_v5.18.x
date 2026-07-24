@@ -1,6 +1,6 @@
 ﻿/*************************************************************************************************
 	 NomeFile : StandCommonSrc/dBaseIntf_pg.cs
-	 Data	  : 05.05.2026
+	 Data	  : 24.07.2026
 	 Autore   : Mauro Artuso
 
     nelle assegnazioni :
@@ -173,7 +173,7 @@ namespace StandFacile_DB
 
             // non si riferiscono a nessun ordine in particolare
             int iPrezzoUnitario, iQuantitaOrdine, iGruppoStampa;
-            int iTotaleReceipt, iBuoniApplicatiReceipt;
+            int iTotaleReceipt;
             int iStatusScontoReceipt, iScontoStdReceipt, iScontoFissoReceipt, iScontoGratisReceipt;
 
             int iLastArticoloDBIndexP1;
@@ -511,7 +511,6 @@ namespace StandFacile_DB
                     iScontoStdReceipt = 0;
                     iScontoFissoReceipt = 0;
                     iScontoGratisReceipt = 0;
-                    iBuoniApplicatiReceipt = 0;
 
                     try
                     {
@@ -573,13 +572,13 @@ namespace StandFacile_DB
                             }
                             else if (sTipo == ORDER_CONST._BUONI)
                             {
-                                iBuoniApplicatiReceipt = readerOrdine.GetInt32("iPrezzo_Unitario");
+                                DB_Data.iBuoniApplicatiReceipt = readerOrdine.GetInt32("iPrezzo_Unitario");
 
                                 if (bRigaAnnullata)
                                     // come per gli sconti i Buoni Applicati potrebbero essere parziali
-                                    DB_Data.iTotaleAnnullato -= iBuoniApplicatiReceipt;
+                                    DB_Data.iTotaleAnnullato -= DB_Data.iBuoniApplicatiReceipt;
                                 else
-                                    DB_Data.iTotaleBuoniApplicati += iBuoniApplicatiReceipt;
+                                    DB_Data.iTotaleBuoniApplicati += DB_Data.iBuoniApplicatiReceipt;
                             }
                             else
                             {
@@ -739,14 +738,14 @@ namespace StandFacile_DB
 
                         if (IsBitSet(iStatus, (int)STATUS_FLAGS.BIT_PAGAM_CARD))
                         {
-                            DB_Data.iTotaleIncassoCard += iTotaleReceipt - iScontoStdReceipt - iScontoFissoReceipt - iScontoGratisReceipt;
-                            iDebug = DB_Data.iTotaleIncassoCard;
+                            DB_Data.iTotaleCard += iTotaleReceipt - iScontoStdReceipt - iScontoFissoReceipt - iScontoGratisReceipt;
+                            iDebug = DB_Data.iTotaleCard;
                         }
 
                         if (IsBitSet(iStatus, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY))
                         {
-                            DB_Data.iTotaleIncassoSatispay += iTotaleReceipt - iScontoStdReceipt - iScontoFissoReceipt - iScontoGratisReceipt;
-                            iDebug = DB_Data.iTotaleIncassoSatispay;
+                            DB_Data.iTotaleSatispay += iTotaleReceipt - iScontoStdReceipt - iScontoFissoReceipt - iScontoGratisReceipt;
+                            iDebug = DB_Data.iTotaleSatispay;
                         }
                     }
                     catch (Exception e)
@@ -872,12 +871,13 @@ namespace StandFacile_DB
 
         /// <summary>
         /// carica l'ordine iParam nella variabile DB_Articolo[], <br/>
-        /// se però iParam == 0 carica _Version, _Header, _HeaderText <br/> <br/>
+        /// se però iParam == 0 carica _Version, _Header, _HeaderText <br/>
+        /// se iNumCassaParam != 0 filtra per cassa<br/> <br/>
         /// 
         /// ritorna true se ha successo, <br/>
         /// utilizzata da FrmVisOrdiniDlg, DataManager.AggiornaDisponibilità
         /// </summary>
-        public bool dbCaricaOrdine(DateTime dateParam, int iParam, bool bFiltraPerCassa, String sNomeTabellaParam = "")
+        public bool dbCaricaOrdine(DateTime dateParam, int iParam, int iNumCassaParam, String sNomeTabellaParam = "")
         {
             bool bTrovato, bNoProblem = true;
             int i, iStatus, iCount;
@@ -1028,10 +1028,10 @@ namespace StandFacile_DB
                 else // carica l'ordine vero e proprio
                 {
                     // filtraggio più o meno specifico
-                    if (bFiltraPerCassa)
-                        sFilterText = String.Format(" WHERE (\"iOrdine_ID\" = {0}) AND (\"iNumCassa\" = {1})", iParam, SF_Data.iNumCassa);
-                    else
+                    if (iNumCassaParam == 0)
                         sFilterText = String.Format(" WHERE (\"iOrdine_ID\" = {0})", iParam);
+                    else
+                        sFilterText = String.Format(" WHERE (\"iOrdine_ID\" = {0}) AND (\"iNumCassa\" = {1})", iParam, iNumCassaParam);
 
                     cmd.CommandText = "SELECT * FROM " + _sDBTNameOrdini + sFilterText;
 
@@ -1115,11 +1115,10 @@ namespace StandFacile_DB
                             continue;
                         }
 
-                        // numero Ordine in Prevendita
-                        else if (sInStr == ORDER_CONST._NUM_ORD_PREV)
+                        // Buoni applicati
+                        else if (sInStr == ORDER_CONST._BUONI)
                         {
-                            DB_Data.iNumOrdinePrev = readerOrdine.GetInt32("iPrezzo_Unitario");
-                            DB_Data.sPrevDateTime = readerOrdine.GetString("sText");
+                            DB_Data.iBuoniApplicatiReceipt = readerOrdine.GetInt32("iPrezzo_Unitario");
 
                             continue;
                         }
@@ -1137,6 +1136,7 @@ namespace StandFacile_DB
                             if (!string.IsNullOrEmpty(sTmp) && (sTmp.Length > MAX_LEG_ART_CHAR))
                                 _iDBArticoliLength_Is33 = true;
 
+                            DB_Data.iNumOfReceiptItems++;
                             iCount++;
                         }
                     }

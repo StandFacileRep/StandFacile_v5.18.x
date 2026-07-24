@@ -166,7 +166,7 @@ namespace StandFacile
         {
             bool bCassaInline, bBuoniApplicatiParz, bLogo;
             int i, j;
-            int iIncassoParz, iBuoniApplicatiParz, iScontoStdTicket, iScontoFissoTicket;
+            int iTotaleParz, iBuoniApplicatiParz, iScontoStdTicket, iScontoFissoTicket;
             String sTmp, sIncassoParz, sCashdeskAndReceiptNum;
 
             bBuoniApplicatiParz = false;
@@ -325,12 +325,6 @@ namespace StandFacile
                 PrintCanvas(pg, "");
             }
 
-            if (IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA))
-            {
-                PrintCanvas(pg, sOrdineStrings.sOrdNumPrev);
-                PrintCanvas(pg, "");
-            }
-
             CheckSomethingToPrint(_bSomethingInto_GrpToPrint, _bSomethingInto_ClrToPrint, SF_Data);
 
             double fPerc = ((SF_Data.iStatusSconto & 0x00FF0000) >> 16) / 100.0f;
@@ -351,9 +345,9 @@ namespace StandFacile
                     {
                         if (SF_Data.Articolo[j].sTipo == _COPERTO)
                         {
-                            iIncassoParz = SF_Data.Articolo[j].iQuantitaOrdine * SF_Data.Articolo[j].iPrezzoUnitario;
-                            _iTotaleReceipt += iIncassoParz;
-                            sIncassoParz = IntToEuro(iIncassoParz);
+                            iTotaleParz = SF_Data.Articolo[j].iQuantitaOrdine * SF_Data.Articolo[j].iPrezzoUnitario;
+                            _iTotaleReceipt += iTotaleParz;
+                            sIncassoParz = IntToEuro(iTotaleParz);
                         }
                         else
                             sIncassoParz = "";
@@ -385,9 +379,9 @@ namespace StandFacile
                             if (IsBitSet(SF_Data.iStatusSconto, BIT_SCONTO_STD) && _bScontoGruppo[i])
                                 iScontoStdTicket += (int)Math.Round(SF_Data.Articolo[j].iQuantitaOrdine * SF_Data.Articolo[j].iPrezzoUnitario * fPerc);
 
-                            iIncassoParz = SF_Data.Articolo[j].iQuantitaOrdine * SF_Data.Articolo[j].iPrezzoUnitario;
-                            _iTotaleReceipt += iIncassoParz;
-                            sIncassoParz = IntToEuro(iIncassoParz);
+                            iTotaleParz = SF_Data.Articolo[j].iQuantitaOrdine * SF_Data.Articolo[j].iPrezzoUnitario;
+                            _iTotaleReceipt += iTotaleParz;
+                            sIncassoParz = IntToEuro(iTotaleParz);
 
                             // larghezza 28
                             sTmp = String.Format(sRCP_FMT_RCPT, SF_Data.Articolo[j].iQuantitaOrdine, SF_Data.Articolo[j].sTipo, sIncassoParz);

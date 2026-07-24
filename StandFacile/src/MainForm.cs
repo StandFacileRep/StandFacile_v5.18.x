@@ -92,7 +92,6 @@ namespace StandFacile
         String _sEditTavolo, _sEditNome, _sEdit_CAP, _sEditCoperti, _sEditContante, _sEditNota;
         String _sCopertiPrev;
 
-        String _sOrdiniPrevDBTable;
         String _sEditNoteCopy;
         string _sShortDBType;
 
@@ -665,10 +664,10 @@ namespace StandFacile
          *  la risosta dal server NSC (Rosso)
          *****************************************************************/
 
-        static bool bFlash = false, bPrevFlash = false, bFocusFlash = false;
+        static bool bFlash = false, bFocusFlash = false;
         static bool bOrderProcessingRunning = false;
 
-        static int iPrevFlash = 0, iFocusFlash = 0;
+        static int iFocusFlash = 0;
 
         private void MainFormTimer_Tick(object sender, EventArgs e)
         {
@@ -712,22 +711,6 @@ namespace StandFacile
             {
                 if (iFocusFlash > 0)
                     iFocusFlash--;
-            }
-
-            if ((iPrevFlash == 0) && SF_Data.bPrevendita)
-            {
-                iPrevFlash = 5;
-                bPrevFlash = !bPrevFlash;
-
-                if (bPrevFlash && SF_Data.bPrevendita)
-                    Text = TITLE + String.Format("{0,42}", sConst_Presale[1]);
-                else
-                    Text = String.Format("{0} {1} {2} {1} webcks Listino = {3}   {4}", TITLE, "   ", RELEASE_SW, DataManager.GetWebListinoChecksum(), _sShortDBType);
-            }
-            else
-            {
-                if (iPrevFlash > 0)
-                    iPrevFlash--;
             }
 
             // mette a posto il bottone di stampa
@@ -793,7 +776,7 @@ namespace StandFacile
                 }
             }
 
-            if ((iFocus_QRC_Timeout > 0) && (OptionsDlg._rOptionsDlg.GetPresales_LoadMode() || _bQRCodeRunning))
+            if ((iFocus_QRC_Timeout > 0) && _bQRCodeRunning)
             {
                 iFocus_QRC_Timeout--;
 
@@ -878,7 +861,7 @@ namespace StandFacile
                 else
                 {
                     _iDBPingTimeout = _REFRESH_PING;
-                    UdpBroadcastService.rUdpService.SendFromClient(String.Format("{0} {1}: {2}", UDP_EVENTS.CASHDESK_PING_EVENT, SF_Data.iNumCassa, Dns.GetHostName()));
+                    UdpBroadcastService.rUdpService.SendFromClient(String.Format("{0} {1}: {2}", UDP_EVENTS.CASHDESK_UP_PING_EVENT, SF_Data.iNumCassa, Dns.GetHostName()));
                 }
 
                 if (_iDBDispTimeout > 0) // 1min
@@ -1353,8 +1336,6 @@ namespace StandFacile
             // ripetuto per sicurezza
             SF_Data.iStatusReceipt = UpdateBit(SF_Data.iStatusReceipt, BtnTakeAway.Checked, (int)STATUS_FLAGS.BIT_ASPORTO);
 
-            SF_Data.iStatusReceipt = UpdateBit(SF_Data.iStatusReceipt, SF_Data.bPrevendita, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA);
-
             // non deve passarci quando è emesso direttamente dal WEB oppure quando è presente qualche forma di pagamento,
             // è scontato che si pagano gli ordini emessi dalle casse
             if (!(IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_ORDINE_DIRETTO_DA_WEB) || IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD) ||
@@ -1452,10 +1433,7 @@ namespace StandFacile
             // comboCashPos.Text = ""; // inutile cambio SelectedIndex lo reimposta
             comboCashPos.SelectedIndex = sConst_PaymentType.Length - 2; // esclude "da effettuare"
 
-            if (OptionsDlg._rOptionsDlg.GetPresales_LoadMode())
-                EditStatus_QRC.Focus();
-            else
-                MainGrid.Focus(); // evita inserimenti indesiderati del tavolo
+            MainGrid.Focus(); // evita inserimenti indesiderati del tavolo
 
             Logger.Info("ResetBtnScontrino");
         }
@@ -2327,9 +2305,6 @@ namespace StandFacile
                 // dopo ogni scontrino valuta subito lo scarico di ordini web
                 dBaseTunnel_my.EventEnqueue(sQueue_Object);
 
-                if (IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA))
-                    _rdBaseIntf.dbScaricaOrdinePrevendita(SF_Data.iNumOrdinePrev, _sOrdiniPrevDBTable);
-
                 _bPrintTimeoutEnabled = true;
                 _iPrintTimeout = TIMEOUT_PRINT_RESET; // 5s
 
@@ -2385,9 +2360,6 @@ namespace StandFacile
                 BtnScontrino.Enabled = true;
 
                 EditStatus_QRC.Text = "";
-
-                if (OptionsDlg._rOptionsDlg.GetPresales_LoadMode())
-                    EditStatus_QRC.Focus();
             }
 
             // invio dell'avviso UDP a seguito missione scontrino

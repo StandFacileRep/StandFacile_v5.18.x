@@ -94,21 +94,23 @@ namespace StandCommonFiles
 #elif STANDFACILE
             // DataManager.AggiornaDisponibilità(); // chiamata diretta genera eccezione cross thread, 
             // bisogna usare il timer di FrmMain per aggiornare i dati di disponibilità e vendita
-            if (msg.Contains(UDP_EVENTS.CASHDESK_PING_EVENT))
+            if (msg.Contains(UDP_EVENTS.CASHDESK_UP_PING_EVENT))
             {
                 int iPos = msg.IndexOf(':');
                 string sHost = msg.Substring(iPos + 1).Trim();
                 string sPing = msg.Substring(0, iPos);
 
+                // se il PC è diverso
                 if (sHost != Dns.GetHostName())
-                { 
-                   if (sPing == String.Format("{0} {1}", UDP_EVENTS.CASHDESK_PING_EVENT, glb.SF_Data.iNumCassa))
-                   {
+                {
+                    // se il numero della CASSA è il medesimo ... errore
+                    if (sPing == String.Format("{0} {1}", UDP_EVENTS.CASHDESK_UP_PING_EVENT, glb.SF_Data.iNumCassa))
+                    {
                         WrnMsg.iErrID = WRN_CDCLS;
-                        WrnMsg.sMsg = msg.Substring(iPos-2, 2);
+                        WrnMsg.sMsg = msg.Substring(iPos - 2, 2);
 
                         WarningManager(WrnMsg);
-                        
+
                         Logger.Info(String.Format($"UDP-PING: {sPing} from {sHost}"));
                     }
                 }

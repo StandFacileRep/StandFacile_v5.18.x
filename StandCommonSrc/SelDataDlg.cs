@@ -78,10 +78,7 @@ namespace StandFacile
             if (_rdBaseIntf != null) // per StandMonitor
                 iDB_StringsCount = _rdBaseIntf.dbElencoTabelle(sElencoStrings);
 
-            if (SF_Data.bPrevendita)
-                sPrefix = _dbPreDataTablePrefix;
-            else
-                sPrefix = _dbDataTablePrefix;
+            sPrefix = _dbDataTablePrefix;
 
             for (i = 0; i < iDB_StringsCount; i++)
             {
@@ -103,10 +100,6 @@ namespace StandFacile
                     // aggiunge date alla lista
                     int iPos, iAnno, iMese, iGiorno;
                     string sTmp;
-
-                    // protezione quando _dbDataTablePrefix è contenuta in _dbPreDataTablePrefix
-                    if (sCell.Contains(_dbPreDataTablePrefix) && !SF_Data.bPrevendita)
-                        continue;
 
                     try
                     {
