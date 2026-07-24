@@ -1,31 +1,30 @@
 ﻿/***********************************************
   	NomeFile : StandFacile/MainForm.cs
-    Data	 : 07.06.2026
+    Data	 : 12.07.2026
   	Autore   : Mauro Artuso
  ***********************************************/
 
 // #define FONT_CHECK
 
+using StandCommonFiles;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Threading;
 using System.Windows.Forms;
-
-using StandCommonFiles;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
 using static StandCommonFiles.Printer_Legacy;
-
-using static StandFacile.glb;
-using static StandFacile.Define;
 using static StandFacile.Config;
-using static StandFacile.OptionsDlg;
 using static StandFacile.dBaseIntf;
 using static StandFacile.dBaseTunnel_my;
+using static StandFacile.Define;
+using static StandFacile.glb;
+using static StandFacile.OptionsDlg;
 
 namespace StandFacile
 {
@@ -63,7 +62,7 @@ namespace StandFacile
         bool bPageDxProximity;
         bool bPageSxProximity;
 
-        static int _iDBDispTimeout;
+        static int _iDBDispTimeout, _iDBPingTimeout;
         static int _iToolStripTop_MarginTotal;
         static int _iButtonStatus;
         static int _iPreviewStatus, _iInitialPreviewStatus;
@@ -516,6 +515,7 @@ namespace StandFacile
             MF_lblStatusTickNum.Text = "Num. Ordini : " + _iNumOfOrders.ToString();
 
             _iDBDispTimeout = _REFRESH_DISP_SHORT;
+            _iDBPingTimeout = _REFRESH_PING_SHORT;
 
             MainGrid.CurrentCell = MainGrid.Rows[0].Cells[0];
 
@@ -873,6 +873,14 @@ namespace StandFacile
             // aggiornamento disponibilità
             if (bUSA_NDB())
             {
+                if (_iDBPingTimeout > 0) // 1min
+                    _iDBPingTimeout--;
+                else
+                {
+                    _iDBPingTimeout = _REFRESH_PING;
+                    UdpBroadcastService.rUdpService.SendFromClient(String.Format("{0} {1}: {2}", UDP_EVENTS.CASHDESK_PING_EVENT, SF_Data.iNumCassa, Dns.GetHostName()));
+                }
+
                 if (_iDBDispTimeout > 0) // 1min
                     _iDBDispTimeout--;
                 else

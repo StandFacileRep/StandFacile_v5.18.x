@@ -205,6 +205,11 @@ namespace StandFacile
         /// <summary>refresh di sService * 250ms circa in StandFacile, 200 in StandClient</summary>
         public const int REFRESH_SSERVICE = 4 * 60;
 
+        /// <summary>timer breve di refresh della messaggio di Ping</summary>
+        public const int _REFRESH_PING_SHORT = 4 * 8;
+        /// <summary>timer di refresh della messaggio di Ping</summary>
+        public const int _REFRESH_PING = 4 * 25;
+
         /// <summary>timer di refresh della disponibilità</summary>
         public const int _REFRESH_DISP = 4 * 40;
         /// <summary>timer breve di refresh della disponibilità</summary>

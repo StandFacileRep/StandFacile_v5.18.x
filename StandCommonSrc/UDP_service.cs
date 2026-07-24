@@ -1,6 +1,6 @@
 ﻿/**********************************************************************
     NomeFile : StandFacile/Udp_Service.cs
-    Data	 : 24.04.2026
+    Data	 : 12.07.2026
     Autore   : Mauro Artuso
 
     gestione delle notifiche UDP tra le postazioni:
@@ -37,6 +37,9 @@ namespace StandCommonFiles
         public static UdpBroadcastService rUdpService;
 
         static Random _iRandDelay = new Random();
+
+        TErrMsg WrnMsg;
+
 
         /// <summary>Costruttore</summary>
         public UdpBroadcastService()
@@ -91,7 +94,26 @@ namespace StandCommonFiles
 #elif STANDFACILE
             // DataManager.AggiornaDisponibilità(); // chiamata diretta genera eccezione cross thread, 
             // bisogna usare il timer di FrmMain per aggiornare i dati di disponibilità e vendita
-            if (msg.Contains(UDP_EVENTS.SEC_CASHDESK_TICKET_EVENT) && (glb.SF_Data.iNumCassa == CASSA_PRINCIPALE))
+            if (msg.Contains(UDP_EVENTS.CASHDESK_PING_EVENT))
+            {
+                int iPos = msg.IndexOf(':');
+                string sHost = msg.Substring(iPos + 1).Trim();
+                string sPing = msg.Substring(0, iPos);
+
+                if (sHost != Dns.GetHostName())
+                { 
+                   if (sPing == String.Format("{0} {1}", UDP_EVENTS.CASHDESK_PING_EVENT, glb.SF_Data.iNumCassa))
+                   {
+                        WrnMsg.iErrID = WRN_CDCLS;
+                        WrnMsg.sMsg = msg.Substring(iPos-2, 2);
+
+                        WarningManager(WrnMsg);
+                        
+                        Logger.Info(String.Format($"UDP-PING: {sPing} from {sHost}"));
+                    }
+                }
+            }
+            else if (msg.Contains(UDP_EVENTS.SEC_CASHDESK_TICKET_EVENT) && (glb.SF_Data.iNumCassa == CASSA_PRINCIPALE))
             {
                 FrmMain.SetShortDispUpdateTimeout(2);
             }

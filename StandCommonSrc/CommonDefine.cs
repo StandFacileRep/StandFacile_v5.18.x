@@ -1,6 +1,6 @@
 ﻿/************************************************************
     NomeFile : StandCommonSrc/CommonDefine.cs
-    Data	 : 20.06.2026
+    Data	 : 12.07.2026
     Autore	 : Mauro Artuso
  ************************************************************/
 
@@ -17,7 +17,7 @@ namespace StandCommonFiles
 #pragma warning disable IDE0060
 
         /// <summary>versione del Programma</summary>
-        public const String RELEASE_SW = "v5.18.2a";
+        public const String RELEASE_SW = "v5.18.3";
 
         /// <summary>prefisso versione delle tabelle DB</summary>
         public const String RELEASE_DB_TBLS = "v5d";
@@ -62,6 +62,9 @@ namespace StandCommonFiles
         /// <summary>mnemonici eventi UDP</summary>
         public struct UDP_EVENTS
         {
+            /// <summary>evento di emissione scontrino da cassa principale</summary>
+            public const string CASHDESK_PING_EVENT = "CashDeskPingEvent";
+
             /// <summary>evento di emissione scontrino da cassa principale</summary>
             public const string PRI_CASHDESK_TICKET_EVENT = "primaryCashDeskTicketEvent";
 

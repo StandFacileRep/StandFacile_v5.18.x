@@ -1,9 +1,9 @@
 ﻿/*****************************************************
  	NomeFile : StandCommonSrc/Common_wrn_err_CL.cs
-    Data	 : 24.04.2026
+    Data	 : 12.07.2026
  	Autore	 : Mauro Artuso
 
-	Classi statiche di uso comune
+	Classi per gestione Errori e Warnings
  *****************************************************/
 
 using System;
@@ -247,6 +247,9 @@ namespace StandCommonFiles
 
         /// <summary>listino modificato</summary>
         public const int WRN_PRLM = 1090;
+
+        /// <summary>collisione casse</summary>
+        public const int WRN_CDCLS = 1100;
 
         static bool _bControlledExit = false;
 
@@ -589,12 +592,12 @@ namespace StandCommonFiles
                     break;
 
                 case WRN_C23: // Stringa Troppo Lunga
-                        sWrnStr = "Stringa troppo lunga nel File:   " + WrnMsg.sNomeFile + "\r\n\r\n alla riga: " + WrnMsg.iRiga + ",   Articolo: " + WrnMsg.sMsg +
-                                "\r\n\r\nsi passa a 23 caratteri per max lunghezza Articolo !";
+                    sWrnStr = "Stringa troppo lunga nel File:   " + WrnMsg.sNomeFile + "\r\n\r\n alla riga: " + WrnMsg.iRiga + ",   Articolo: " + WrnMsg.sMsg +
+                            "\r\n\r\nsi passa a 23 caratteri per max lunghezza Articolo !";
                     break;
 
                 case WRN_CFSTL:
-                        sWrnStr = " Attenzione !\r\n\r\n Stringa troppo lunga nel File di \"config.ini\", \r\n\r\ncorreggere e riavviare !";
+                    sWrnStr = " Attenzione !\r\n\r\n Stringa troppo lunga nel File di \"config.ini\", \r\n\r\ncorreggere e riavviare !";
                     break;
 
                 case WRN_NQZ:
@@ -610,6 +613,12 @@ namespace StandCommonFiles
                 case WRN_PRLM:
                     bModal = true;
                     sWrnStr = " Attenzione !\r\n\r\n Listino modificato: \r\n\r\nSi consiglia di riavviare il programma.";
+                    break;
+
+                case WRN_CDCLS:
+                    bModal = true;
+                    sWrnStr = " Attenzione !\r\n\r\n Rilevate nella rete casse con lo stesso numero: " + WrnMsg.sMsg + "\r\n\r\n" +
+                                "Verificare la configurazione delle impostazioni di rete.";
                     break;
 #endif
 
@@ -634,24 +643,24 @@ namespace StandCommonFiles
 
 #endif
 
-//#if STANDFACILE
-//            if (!_bControlledExit)
-//            {
-//                sCaptionBuf = String.Format("Avviso {0} : {1}", WrnMsg.iErrID, TITLE);
-//                sWrnStr += "\r\n\r\nSi richiede di riavviare il programma.";
-//                MessageBox.Show(sWrnStr, sCaptionBuf, MessageBoxButtons.OK);
+            //#if STANDFACILE
+            //            if (!_bControlledExit)
+            //            {
+            //                sCaptionBuf = String.Format("Avviso {0} : {1}", WrnMsg.iErrID, TITLE);
+            //                sWrnStr += "\r\n\r\nSi richiede di riavviare il programma.";
+            //                MessageBox.Show(sWrnStr, sCaptionBuf, MessageBoxButtons.OK);
 
-//                if (bApplicationRuns)
-//                    Application.Exit();
-//                else
-//                    Environment.Exit(0);
-//            }
-//            else
-//            {
-//                FrmMain.rFrmMain.Close();
-//                Application.Exit();
-//            }
-//#endif
+            //                if (bApplicationRuns)
+            //                    Application.Exit();
+            //                else
+            //                    Environment.Exit(0);
+            //            }
+            //            else
+            //            {
+            //                FrmMain.rFrmMain.Close();
+            //                Application.Exit();
+            //            }
+            //#endif
 
 
 
