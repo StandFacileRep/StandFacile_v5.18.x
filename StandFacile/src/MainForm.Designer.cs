@@ -109,6 +109,7 @@
             this.p9 = new System.Windows.Forms.ToolStripMenuItem();
             this.p10 = new System.Windows.Forms.ToolStripMenuItem();
             this.p20 = new System.Windows.Forms.ToolStripMenuItem();
+            this.p40 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.z1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -171,7 +172,6 @@
             this.panelGrip = new System.Windows.Forms.Panel();
             this.picBox = new System.Windows.Forms.PictureBox();
             this.checkBoxLogoPreview = new System.Windows.Forms.CheckBox();
-            this.p40 = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.StatusBar_Upper.SuspendLayout();
             this.TabSet.SuspendLayout();
@@ -666,10 +666,10 @@
             this.TabSet.Controls.Add(this.tabPage4);
             this.TabSet.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TabSet.HotTrack = true;
-            this.TabSet.ItemSize = new System.Drawing.Size(63, 25);
+            this.TabSet.ItemSize = new System.Drawing.Size(63, 32);
             this.TabSet.Location = new System.Drawing.Point(5, 70);
             this.TabSet.Name = "TabSet";
-            this.TabSet.Padding = new System.Drawing.Point(4, 3);
+            this.TabSet.Padding = new System.Drawing.Point(4, 2);
             this.TabSet.SelectedIndex = 0;
             this.TabSet.Size = new System.Drawing.Size(481, 28);
             this.TabSet.TabIndex = 6;
@@ -680,7 +680,7 @@
             // tabPage0
             // 
             this.tabPage0.BackColor = System.Drawing.SystemColors.Menu;
-            this.tabPage0.Location = new System.Drawing.Point(4, 29);
+            this.tabPage0.Location = new System.Drawing.Point(4, 36);
             this.tabPage0.Name = "tabPage0";
             this.tabPage0.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage0.Size = new System.Drawing.Size(473, 0);
@@ -690,7 +690,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Menu;
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Location = new System.Drawing.Point(4, 36);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(473, 0);
@@ -700,7 +700,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Menu;
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Location = new System.Drawing.Point(4, 36);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Size = new System.Drawing.Size(473, 0);
             this.tabPage2.TabIndex = 2;
@@ -709,7 +709,7 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Menu;
-            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Location = new System.Drawing.Point(4, 36);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(473, 0);
             this.tabPage3.TabIndex = 3;
@@ -718,7 +718,7 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.SystemColors.Menu;
-            this.tabPage4.Location = new System.Drawing.Point(4, 29);
+            this.tabPage4.Location = new System.Drawing.Point(4, 36);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(473, 0);
             this.tabPage4.TabIndex = 4;
@@ -801,94 +801,101 @@
             this.m5,
             this.m10});
             this.MainGridContextMenu.Name = "MainGridMenu";
-            this.MainGridContextMenu.Size = new System.Drawing.Size(181, 440);
+            this.MainGridContextMenu.Size = new System.Drawing.Size(98, 418);
             // 
             // p1
             // 
             this.p1.Name = "p1";
-            this.p1.Size = new System.Drawing.Size(180, 22);
+            this.p1.Size = new System.Drawing.Size(97, 22);
             this.p1.Text = "+ 1";
             this.p1.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p2
             // 
             this.p2.Name = "p2";
-            this.p2.Size = new System.Drawing.Size(180, 22);
+            this.p2.Size = new System.Drawing.Size(97, 22);
             this.p2.Text = "+ 2";
             this.p2.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p3
             // 
             this.p3.Name = "p3";
-            this.p3.Size = new System.Drawing.Size(180, 22);
+            this.p3.Size = new System.Drawing.Size(97, 22);
             this.p3.Text = "+ 3";
             this.p3.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p4
             // 
             this.p4.Name = "p4";
-            this.p4.Size = new System.Drawing.Size(180, 22);
+            this.p4.Size = new System.Drawing.Size(97, 22);
             this.p4.Text = "+ 4";
             this.p4.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p5
             // 
             this.p5.Name = "p5";
-            this.p5.Size = new System.Drawing.Size(180, 22);
+            this.p5.Size = new System.Drawing.Size(97, 22);
             this.p5.Text = "+ 5";
             this.p5.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p6
             // 
             this.p6.Name = "p6";
-            this.p6.Size = new System.Drawing.Size(180, 22);
+            this.p6.Size = new System.Drawing.Size(97, 22);
             this.p6.Text = "+ 6";
             this.p6.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p7
             // 
             this.p7.Name = "p7";
-            this.p7.Size = new System.Drawing.Size(180, 22);
+            this.p7.Size = new System.Drawing.Size(97, 22);
             this.p7.Text = "+ 7";
             this.p7.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p8
             // 
             this.p8.Name = "p8";
-            this.p8.Size = new System.Drawing.Size(180, 22);
+            this.p8.Size = new System.Drawing.Size(97, 22);
             this.p8.Text = "+ 8";
             this.p8.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p9
             // 
             this.p9.Name = "p9";
-            this.p9.Size = new System.Drawing.Size(180, 22);
+            this.p9.Size = new System.Drawing.Size(97, 22);
             this.p9.Text = "+ 9";
             this.p9.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p10
             // 
             this.p10.Name = "p10";
-            this.p10.Size = new System.Drawing.Size(180, 22);
+            this.p10.Size = new System.Drawing.Size(97, 22);
             this.p10.Text = "+ 10";
             this.p10.Click += new System.EventHandler(this.MPx_Click);
             // 
             // p20
             // 
             this.p20.Name = "p20";
-            this.p20.Size = new System.Drawing.Size(180, 22);
+            this.p20.Size = new System.Drawing.Size(97, 22);
             this.p20.Text = "+ 20";
             this.p20.Click += new System.EventHandler(this.MPx_Click);
+            // 
+            // p40
+            // 
+            this.p40.Name = "p40";
+            this.p40.Size = new System.Drawing.Size(97, 22);
+            this.p40.Text = "+ 40";
+            this.p40.Click += new System.EventHandler(this.MPx_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(94, 6);
             // 
             // z1
             // 
             this.z1.Name = "z1";
-            this.z1.Size = new System.Drawing.Size(180, 22);
+            this.z1.Size = new System.Drawing.Size(97, 22);
             this.z1.Text = "= 0";
             this.z1.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.z1.Click += new System.EventHandler(this.MPx_Click);
@@ -896,45 +903,45 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(94, 6);
             // 
             // m1
             // 
             this.m1.Name = "m1";
-            this.m1.Size = new System.Drawing.Size(180, 22);
+            this.m1.Size = new System.Drawing.Size(97, 22);
             this.m1.Text = "- 1";
             this.m1.Click += new System.EventHandler(this.MPx_Click);
             // 
             // m2
             // 
             this.m2.Name = "m2";
-            this.m2.Size = new System.Drawing.Size(180, 22);
+            this.m2.Size = new System.Drawing.Size(97, 22);
             this.m2.Text = "- 2";
             this.m2.Click += new System.EventHandler(this.MPx_Click);
             // 
             // m3
             // 
             this.m3.Name = "m3";
-            this.m3.Size = new System.Drawing.Size(180, 22);
+            this.m3.Size = new System.Drawing.Size(97, 22);
             this.m3.Text = "- 3";
             this.m3.Click += new System.EventHandler(this.MPx_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(94, 6);
             // 
             // m5
             // 
             this.m5.Name = "m5";
-            this.m5.Size = new System.Drawing.Size(180, 22);
+            this.m5.Size = new System.Drawing.Size(97, 22);
             this.m5.Text = "- 5";
             this.m5.Click += new System.EventHandler(this.MPx_Click);
             // 
             // m10
             // 
             this.m10.Name = "m10";
-            this.m10.Size = new System.Drawing.Size(180, 22);
+            this.m10.Size = new System.Drawing.Size(97, 22);
             this.m10.Text = "- 10";
             this.m10.Click += new System.EventHandler(this.MPx_Click);
             // 
@@ -1677,13 +1684,6 @@
             this.checkBoxLogoPreview.Text = "visualizza il logo";
             this.checkBoxLogoPreview.UseVisualStyleBackColor = true;
             this.checkBoxLogoPreview.Click += new System.EventHandler(this.checkBoxLogoPreview_Click);
-            // 
-            // p40
-            // 
-            this.p40.Name = "p40";
-            this.p40.Size = new System.Drawing.Size(180, 22);
-            this.p40.Text = "+ 40";
-            this.p40.Click += new System.EventHandler(this.MPx_Click);
             // 
             // FrmMain
             // 

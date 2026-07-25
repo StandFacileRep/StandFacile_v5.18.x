@@ -1,6 +1,6 @@
 ﻿/********************************************************************
     NomeFile : StandCommonSrc/VisDatiDlg_ods.cs
-    Data	 : 22.07.2026
+    Data	 : 25.07.2026
     Autore : Mauro Artuso
 
     https://www.nuget.org/packages/FreeDataExports
@@ -79,13 +79,13 @@ namespace StandFacile
 
                 if (VD_CheckBoxCashUnion.Checked)
                 {
-                    sNomeFile = "Dati_";
+                    sNomeFile = "Dati_FreeDataExp_";
                     xlsWorkSheet = xls_WorkBook.AddWorksheet("Dati_");
                     odsWorkSheet = ods_WorkBook.AddWorksheet("Dati_");
                 }
                 else
                 {
-                    sNomeFile = String.Format("Dati_FreeExp_C{0}_", _iNumCassa);
+                    sNomeFile = String.Format("Dati_FreeDataExp_C{0}_", _iNumCassa);
                     xlsWorkSheet = xls_WorkBook.AddWorksheet(String.Format("Dati_C{0}", _iNumCassa));
                     odsWorkSheet = ods_WorkBook.AddWorksheet(String.Format("Dati_C{0}", _iNumCassa));
                 }
@@ -633,9 +633,9 @@ namespace StandFacile
                 ods_WorkBook.CreatedBy = "StandFacile.org";
 
                 if (VD_CheckBoxCashUnion.Checked)
-                    sNomeFile = "Ordini_FreeXls_";
+                    sNomeFile = "Ordini_FreeDataExp_";
                 else
-                    sNomeFile = String.Format("Ordini_C{0}_FreeXls_", _iNumCassa);
+                    sNomeFile = String.Format("Ordini_C{0}_FreeDataExp_", _iNumCassa);
 
                 if (_SelRange == null)
                     _SelRange = new SelectionRange(GetActualDate(), GetActualDate());

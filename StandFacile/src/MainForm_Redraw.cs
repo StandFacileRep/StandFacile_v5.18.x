@@ -1355,7 +1355,9 @@ namespace StandFacile
 
             if (GetTouchModeEnabled())
             {
-                TabSet.Height = 34;
+                TabSet.Height = 44;
+                TabSet.Font = new Font("Tahoma", 11.25f);
+
                 topPanel.Height = 60;
                 toolStripTop.Left = 6;
                 toolStripTop.Width = topPanel.Width - 2 * toolStripTop.Left - 20;
@@ -1364,7 +1366,9 @@ namespace StandFacile
             }
             else
             {
-                TabSet.Height = 28;
+                TabSet.Height = 32;
+                TabSet.Font = new Font("Tahoma", 12);
+
                 topPanel.Height = 42;
                 toolStripTop.Left = 60;
                 toolStripTop.Width = topPanel.Width - 2 * toolStripTop.Left - 20;

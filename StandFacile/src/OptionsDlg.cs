@@ -1,6 +1,6 @@
 ﻿/***************************************************
 	NomeFile : StandFacile\OptionsDlg.cs
-    Data	 : 30.05.2026
+    Data	 : 25.07.2026
 	Autore   : Mauro Artuso
  ***************************************************/
 
@@ -131,6 +131,7 @@ namespace StandFacile
                 MO_checkBoxPayment.Enabled = false;
                 MO_checkBoxPrivacy.Enabled = false;
                 MO_checkBox_Enter.Enabled = false;
+                MO_checkBox_CAP.Enabled = false;
                 MO_checkBox_ZeroPriceItems.Enabled = false;
 
                 panelShowHideButtons.Enabled = false;
@@ -148,6 +149,7 @@ namespace StandFacile
                 MO_checkBoxPayment.Enabled = true;
                 MO_checkBoxPrivacy.Enabled = true;
                 MO_checkBox_Enter.Enabled = true;
+                MO_checkBox_CAP.Enabled = true;
                 MO_checkBox_ZeroPriceItems.Enabled = true;
 
                 panelShowHideButtons.Enabled = true;
@@ -176,6 +178,7 @@ namespace StandFacile
             MO_checkBox_Name.Enabled = false;
             MO_checkBoxPayment.Checked = false;
             MO_checkBox_ZeroPriceItems.Checked = false;
+            MO_checkBox_CAP.Checked = false;
             MO_checkBox_Enter.Checked = false;
 
             MO_checkBox_ShowSendMsg.Checked = true;
@@ -191,7 +194,6 @@ namespace StandFacile
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            bool bRiavvio = false;
             int iGeneralProgOptionsCopy;
             String sTmp;
 
@@ -255,12 +257,14 @@ namespace StandFacile
             if (MO_checkBox_Show_CAP.Checked)
                 iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_CAP_EDIT);
 
-            // controllo _bListinoModificato a gruppi, salvataggio in : SF_Data[]
+            // controllo _bListinoModificato
             if (SF_Data.iGeneralProgOptions != iGeneralProgOptionsCopy)
             {
-                _bListinoModificato = true;
-
                 SF_Data.iGeneralProgOptions = iGeneralProgOptionsCopy;
+
+                // solo CASSA_PRINCIPALE può salvare nel Listino
+                if (SF_Data.iNumCassa == CASSA_PRINCIPALE)
+                    _bListinoModificato = true;
             }
 
             if (MO_checkBox_InitialAvailabilityDlg.Checked)
@@ -283,16 +287,6 @@ namespace StandFacile
             sTmp = String.Format("optionsDlg OK: {0}, {1}, {2}, {3:X6}", MO_checkBoxPlaceSett.Checked, MO_checkBoxTable.Checked, MO_checkBox_Name.Checked,
                                     SF_Data.iGeneralProgOptions);
             Logger.Info(sTmp);
-
-            if (bRiavvio)
-            {
-                MessageBox.Show("Il modo di vendita è cambiato,\nil programma verrà riavviato !", "Attenzione !", MessageBoxButtons.OK);
-
-                sTmp = String.Format("OptionsDlg, Tipo di database = {0}", ReadRegistry(DB_MODE_KEY, 0) > 0);
-                Logger.Info(sTmp);
-
-                ErrorManager(ERR_CDB);
-            }
 
             Close();
         }

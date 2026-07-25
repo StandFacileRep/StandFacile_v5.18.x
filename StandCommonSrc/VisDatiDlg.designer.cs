@@ -167,8 +167,8 @@
             this.VD_ComboExpFormat.FormattingEnabled = true;
             this.VD_ComboExpFormat.Items.AddRange(new object[] {
             "XLS MS Office",
-            "XLS Free Export",
-            "ODS Free Export"});
+            "XLS FreeData Export",
+            "ODS FreeData Export"});
             this.VD_ComboExpFormat.Location = new System.Drawing.Point(259, 383);
             this.VD_ComboExpFormat.Name = "VD_ComboExpFormat";
             this.VD_ComboExpFormat.Size = new System.Drawing.Size(105, 21);
