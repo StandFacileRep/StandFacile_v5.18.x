@@ -1,6 +1,6 @@
 ﻿/******************************************************************
  	NomeFile : StandFacile/NetConfigDlg.cs
-    Data	 : 07.04.2026
+    Data	 : 25.07.2026
  	Autore   : Mauro Artuso
 
  ******************************************************************/
@@ -153,7 +153,12 @@ namespace StandFacile
                     link_QRcode.Text = String.Format("http://localhost/wa/standfacile_{0}_php/{1}/index.php", sConfig.sWebUrlVersion, Edit_WebService_Page.Text);
                 else
                 {
-                    if ((!String.IsNullOrEmpty(Edit_WebService_Page.Text)) && Edit_WebServiceDBaseName.Text.Contains(PREFIX_DB_SERVER1))
+                    if (!String.IsNullOrEmpty(sConfig.sWebAppHttpServerName) && !String.IsNullOrEmpty(sConfig.sWebApp_DB_HostName) &&
+                        !String.IsNullOrEmpty(sConfig.sWebApp_DB_UserName) && !String.IsNullOrEmpty(sConfig.sCypherKey))
+                    {
+                        link_QRcode.Text = String.Format("{0}/standfacile_{1}_php/{2}/index.php", sConfig.sWebAppHttpServerName, sConfig.sWebUrlVersion, Edit_WebService_Page.Text);
+                    }
+                    else if ((!String.IsNullOrEmpty(Edit_WebService_Page.Text)) && Edit_WebServiceDBaseName.Text.Contains(PREFIX_DB_SERVER1))
                     {
                         link_QRcode.Text = String.Format("{0}/standfacile_{1}_php/{2}/index.php", URL_WEBAPP1, sConfig.sWebUrlVersion, Edit_WebService_Page.Text);
                     }

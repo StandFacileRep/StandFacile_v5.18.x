@@ -364,8 +364,8 @@ namespace StandFacile
             String sTunnel_URL, sEncryptedHost, sComposeUserName;
 
             // legge le impostazioni da config.ini ignorando i dati di firma: i relativi controlli di edit vanno disabilitati !
-            if (!String.IsNullOrEmpty(sConfig.sWebAppHttpServerName) && !String.IsNullOrEmpty(sConfig.sWebApp_DB_HostName)
-                && !String.IsNullOrEmpty(sConfig.sWebApp_DB_UserName) && !String.IsNullOrEmpty(sConfig.sCypherKey))
+            if (!String.IsNullOrEmpty(sConfig.sWebAppHttpServerName) && !String.IsNullOrEmpty(sConfig.sWebApp_DB_HostName) && 
+                !String.IsNullOrEmpty(sConfig.sWebApp_DB_UserName) && !String.IsNullOrEmpty(sConfig.sCypherKey))
             {
                 sTunnel_URL = String.Format("{0}/standfacile_{1}_php/{2}?", sConfig.sWebAppHttpServerName, sConfig.sWebUrlVersion, _MYSQL_TUNNEL);
 

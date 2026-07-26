@@ -57,6 +57,7 @@
             this.MnuVisOrdini = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuImpostazioni = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuEsperto = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuImpostazioniStampaComuni = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuConfigurazioneStampe = new System.Windows.Forms.ToolStripMenuItem();
             this.N5 = new System.Windows.Forms.ToolStripSeparator();
             this.MnuDBServer = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,7 +69,6 @@
             this.BtnImgList = new System.Windows.Forms.ImageList(this.components);
             this.lblElapsedTime = new System.Windows.Forms.Label();
             this.btnAnt = new System.Windows.Forms.Button();
-            this.MnuImpostazioniStampaComuni = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.DBGrid)).BeginInit();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
@@ -289,7 +289,7 @@
             this.MnuVisGruppi.Font = new System.Drawing.Font("Tahoma", 9F);
             this.MnuVisGruppi.Name = "MnuVisGruppi";
             this.MnuVisGruppi.Size = new System.Drawing.Size(237, 22);
-            this.MnuVisGruppi.Text = "Visualizza &Colonna ID Gruppi";
+            this.MnuVisGruppi.Text = "&Colonna ID Gruppi";
             this.MnuVisGruppi.Click += new System.EventHandler(this.MnuVisGruppi_Click);
             // 
             // MnuVisOrdini
@@ -297,7 +297,7 @@
             this.MnuVisOrdini.Font = new System.Drawing.Font("Tahoma", 9F);
             this.MnuVisOrdini.Name = "MnuVisOrdini";
             this.MnuVisOrdini.Size = new System.Drawing.Size(237, 22);
-            this.MnuVisOrdini.Text = "Visualizza tabella scarico &Ordini";
+            this.MnuVisOrdini.Text = "Tabella scarico &Ordini";
             this.MnuVisOrdini.Click += new System.EventHandler(this.MnuVisOrdini_Click);
             // 
             // MnuImpostazioni
@@ -321,6 +321,13 @@
             this.MnuEsperto.Size = new System.Drawing.Size(244, 22);
             this.MnuEsperto.Text = "&Modo Esperto";
             this.MnuEsperto.Click += new System.EventHandler(this.MnuEspertoClick);
+            // 
+            // MnuImpostazioniStampaComuni
+            // 
+            this.MnuImpostazioniStampaComuni.Name = "MnuImpostazioniStampaComuni";
+            this.MnuImpostazioniStampaComuni.Size = new System.Drawing.Size(244, 22);
+            this.MnuImpostazioniStampaComuni.Text = "Opzioni Comuni di Stampa ...";
+            this.MnuImpostazioniStampaComuni.Click += new System.EventHandler(this.MnuImpostazioniStampaComuni_Click);
             // 
             // MnuConfigurazioneStampe
             // 
@@ -414,13 +421,6 @@
             this.btnAnt.TabIndex = 4;
             this.btnAnt.UseVisualStyleBackColor = false;
             this.btnAnt.Click += new System.EventHandler(this.BtnAnt_Click);
-            // 
-            // MnuImpostazioniStampaComuni
-            // 
-            this.MnuImpostazioniStampaComuni.Name = "MnuImpostazioniStampaComuni";
-            this.MnuImpostazioniStampaComuni.Size = new System.Drawing.Size(244, 22);
-            this.MnuImpostazioniStampaComuni.Text = "Opzioni Comuni di Stampa ...";
-            this.MnuImpostazioniStampaComuni.Click += new System.EventHandler(this.MnuImpostazioniStampaComuni_Click);
             // 
             // FrmMain
             // 
