@@ -216,10 +216,6 @@ namespace StandCommonFiles
             _bTicketNumFound = true;
 
 #if STANDFACILE || STAND_MONITOR
-            int iDebug1, iDebug2;
-
-            iDebug1 = DB_Data.iStatusReceipt; // 4 BIT_CARICATO_DA_PREVENDITA
-            iDebug2 = SF_Data.iStatusReceipt; // 2 BIT_EMESSO_IN_PREVENDITA
 
             //numero di colonne ridotto -> font più grande
             if (_sFileToPrintParam.Contains(NOME_FILE_STAMPA_LOC_TMP) || _sFileToPrintParam.Contains(NOME_FILE_STAMPA_LOC_RID_TMP) ||

@@ -175,12 +175,12 @@ namespace StandFacile
                             //if (DB_Data.iNumAnnullati > 0)
                             xlsWorkSheet.Cells[iRow++, 2] = "Num. Scontr. annullati e valore";
                             //else
-                            //    xlsWorkSheet.Cells[iRow++, iColumn + 2] = "Num. Scontr. annullati";
+                            //    xlsWorkSheet.Cells[iRow++, 2] = "Num. Scontr. annullati";
 
                             // recupera l'ora dalla CASSA_PRINCIPALE
                             xlsWorkSheet.Cells[iRow++, 2] = DB_Data.sDateTime;
                             xlsWorkSheet.Cells[iRow, 2] = "articolo";
-                            xlsWorkSheet.Cells[iRow + 1, iColumn + 3] = "prz. unitario";
+                            xlsWorkSheet.Cells[iRow + 1, 3] = "prz. unitario";
 
                         } // end if
                         else

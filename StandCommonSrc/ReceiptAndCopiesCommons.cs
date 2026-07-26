@@ -937,7 +937,7 @@ namespace StandCommonFiles
                 iGrpReorderPtr[i + 1] = i;
 
 
-            if ((bLocalCopyRequested || bIsSummaryParam) && !(IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA)))
+            if (bLocalCopyRequested || bIsSummaryParam)
             {
 
                 if (sGlbWinPrinterParams.bA4Paper)
@@ -1411,7 +1411,7 @@ namespace StandCommonFiles
 
             ResetCopies_ToBePrintedOnce(bGroupsColorPrinted);
 
-            for (i = 0; (i < NUM_EDIT_GROUPS) && !(IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA)); i++)
+            for (i = 0; i < NUM_EDIT_GROUPS; i++)
             {
                 // evita di stampare più di una volta gruppi dello stesso colore
                 if (!CheckCopy_ToBePrintedOnce(i, bGroupsColorPrinted, dataIdParam))
@@ -1708,9 +1708,7 @@ namespace StandCommonFiles
                             iEqRowsNumber += 2;
                         }
 
-                        if ((IsBitSet(SF_Data.iBarcodeRichiesto, i) && dBaseIntf.bUSA_NDB()) ||
-                        // OK verificato
-                        (IsBitSet(dBaseIntf.DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA))
+                        if (IsBitSet(SF_Data.iBarcodeRichiesto, i) && dBaseIntf.bUSA_NDB()
 
 #if STAND_CUCINA
                             || (ReadRegistry(STAMPA_BARCODE_KEY, 0) == 1)
@@ -1763,7 +1761,7 @@ namespace StandCommonFiles
 
 #if STANDFACILE
 
-            for (i = 0; (i < MAX_ITEMS_NUM) && !(IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_EMESSO_IN_PREVENDITA) && !IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_PREVENDITA)); i++)
+            for (i = 0; i < MAX_ITEMS_NUM; i++)
             {
                 // evita le stampe attualmente non richieste
                 if (!SF_Data.bCopiesGroupsFlag[NUM_EDIT_GROUPS])

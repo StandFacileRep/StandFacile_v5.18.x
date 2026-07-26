@@ -119,6 +119,8 @@ namespace StandFacile
             // impostazione della directory di default per operazioni sui dati
             sRootDir = Directory.GetCurrentDirectory();
 
+            Logger.Info("Program: Start");
+
             sTmpStr = String.Format("FrmMain : iRefreshTimer = {0}", Define.REFRESH_TIMER);
             Logger.Info(sTmpStr);
 

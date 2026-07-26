@@ -97,6 +97,8 @@ namespace StandFacile
             // impostazione della directory di default per operazioni sui dati
             sRootDir = Directory.GetCurrentDirectory();
 
+            Logger.Info("Program: Start");
+
             CheckMenuItems();
             FormResize(this, null);
 

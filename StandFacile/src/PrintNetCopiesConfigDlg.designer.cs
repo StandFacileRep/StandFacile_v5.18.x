@@ -987,6 +987,7 @@
             this.textBox_ColorsInfo.ReadOnly = true;
             this.textBox_ColorsInfo.Size = new System.Drawing.Size(534, 72);
             this.textBox_ColorsInfo.TabIndex = 1;
+            this.textBox_ColorsInfo.TabStop = false;
             this.textBox_ColorsInfo.Text = resources.GetString("textBox_ColorsInfo.Text");
             // 
             // groupBoxColors
@@ -1011,6 +1012,7 @@
             this.textBoxColor_3.Name = "textBoxColor_3";
             this.textBoxColor_3.Size = new System.Drawing.Size(194, 22);
             this.textBoxColor_3.TabIndex = 3;
+            this.textBoxColor_3.TabStop = false;
             this.textBoxColor_3.Text = "##### COPIA GEN 4 #####";
             this.textBoxColor_3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1022,6 +1024,7 @@
             this.textBoxColor_2.Name = "textBoxColor_2";
             this.textBoxColor_2.Size = new System.Drawing.Size(194, 22);
             this.textBoxColor_2.TabIndex = 2;
+            this.textBoxColor_2.TabStop = false;
             this.textBoxColor_2.Text = "##### COPIA GEN 3 #####";
             this.textBoxColor_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1033,6 +1036,7 @@
             this.textBoxColor_1.Name = "textBoxColor_1";
             this.textBoxColor_1.Size = new System.Drawing.Size(194, 22);
             this.textBoxColor_1.TabIndex = 1;
+            this.textBoxColor_1.TabStop = false;
             this.textBoxColor_1.Text = "##### COPIA BIBITE #####";
             this.textBoxColor_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -1044,6 +1048,7 @@
             this.textBoxColor_0.Name = "textBoxColor_0";
             this.textBoxColor_0.Size = new System.Drawing.Size(194, 22);
             this.textBoxColor_0.TabIndex = 0;
+            this.textBoxColor_0.TabStop = false;
             this.textBoxColor_0.Text = "##### COPIA CUCINA #####";
             this.textBoxColor_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
