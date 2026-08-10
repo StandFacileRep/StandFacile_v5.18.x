@@ -393,7 +393,7 @@ namespace StandFacile
                 rFrmMain.StartPosition = FormStartPosition.WindowsDefaultLocation;
 
             // larghezza del pannello di anteprima
-            _iStorePreviewSizeX = ReadRegistry(PREVIEW_PANEL_SIZE_X, PREV_MIN_WIDTH);
+            _iStorePreviewSizeX = ReadRegistry(PREVIEW_INT_PANEL_SIZE_X, PREV_MIN_WIDTH);
 
             if (_iStorePreviewSizeX < PREV_MIN_WIDTH)
                 _iStorePreviewSizeX = PREV_MIN_WIDTH;
@@ -2199,7 +2199,7 @@ namespace StandFacile
             {
                 BtnViewPricelist.Checked = true;
 
-                String sTmp = " Per modificare il Listino prezzi fare doppio click sulla voce che interessa.\n\n\n" +
+                String sTmp = " Per modificare il Listino prezzi fare doppio click sull'Articolo che interessa.\n\n\n" +
                     " E'possibile riorganizzare la disposizione degli Articoli con i seguenti tasti:\n\n " +
                     "  Ins, Del: inserisce/elimina spazi vuoti all'interno della griglia visualizzata,\n\n" +
                     "  Ctrl+Ins, Ctrl+Del: inserisce/elimina spazi vuoti oltre la griglia visualizzata,\n\n" +
@@ -2889,7 +2889,7 @@ namespace StandFacile
                 DataManager.SalvaDati(DB_Data, false);
 
             if (!CheckService(Define.CFG_SERVICE_STRINGS._AUTO_RECEIPT_GEN) && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && 
-                !CheckService(Define.CFG_SERVICE_STRINGS._KEEP_TXT_FILES))
+                !CheckService(Define.CFG_SERVICE_STRINGS._KEEP_FILES_AND_TABLES))
             {
                 // ***** puliza finale *****
                 try
@@ -2992,7 +2992,7 @@ namespace StandFacile
                 WriteRegistry(MAIN_WIN_SIZE_Y, rFrmMain.Size.Height);
 
             if ((_iStorePreviewSizeX != previewLeftPanel.Width) && previewLeftPanel.Visible)
-                WriteRegistry(PREVIEW_PANEL_SIZE_X, previewLeftPanel.Width);
+                WriteRegistry(PREVIEW_INT_PANEL_SIZE_X, previewLeftPanel.Width);
 
             WriteRegistry(R_BUTTONS_KEY, _iButtonStatus);
 

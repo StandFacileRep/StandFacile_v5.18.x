@@ -1536,7 +1536,7 @@ namespace StandFacile_DB
 
             bDBConnection_Ok = dbInit(GetActualDate(), SF_Data.iNumCassa, true);
 
-            // sicurezza : si prosegue solo se è CASSA_PRINCIPALE e c'è la connessione a MySQL
+            // sicurezza : si prosegue solo se è CASSA_PRINCIPALE e c'è la connessione a PostGreSQL
             if (!((SF_Data.iNumCassa == CASSA_PRINCIPALE) && bDBConnection_Ok))
                 return;
 

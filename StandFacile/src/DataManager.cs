@@ -1,6 +1,6 @@
 /**********************************************************************
     NomeFile : StandFacile/DataManager.cs
-	Data	 : 30.05.2026
+	Data	 : 10.08.2026
     Autore   : Mauro Artuso
 
      nb: DB_Data compare sempre a destra nelle assegnazioni
@@ -427,11 +427,24 @@ namespace StandFacile
                 SF_Data.iNumOfLastReceipt = _rdBaseIntf.dbCaricaDatidaOrdini(GetActualDate(), SF_Data.iNumCassa, true);
 
                 SF_Data.iActualNumOfReceipts = DB_Data.iActualNumOfReceipts;
-                SF_Data.iStartingNumOfReceipts = sConfig.iReceiptStartNumber - 1;
 
-                // nel caso in cui la tabella _sDBTNameOrdini non esiste (SF_Data.iNumOfLastReceipt == -1)
-                if ((SF_Data.iNumOfLastReceipt < 0) || (SF_Data.iNumOfLastReceipt < (sConfig.iReceiptStartNumber - 1)))
-                    SF_Data.iNumOfLastReceipt = sConfig.iReceiptStartNumber - 1;
+                // ha senso solo per la CASSA_PRINCIPALE, deve essere azzerato per le SECONDARIE
+                if (SF_Data.iNumCassa == CASSA_PRINCIPALE)
+                {
+                    SF_Data.iStartingNumOfReceipts = sConfig.iReceiptStartNumber - 1;
+
+                    // nel caso in cui la tabella _sDBTNameOrdini non esiste (SF_Data.iNumOfLastReceipt == -1)
+                    if ((SF_Data.iNumOfLastReceipt < 0) || (SF_Data.iNumOfLastReceipt < (sConfig.iReceiptStartNumber - 1)))
+                        SF_Data.iNumOfLastReceipt = sConfig.iReceiptStartNumber - 1;
+                }
+                else
+                {
+                    SF_Data.iStartingNumOfReceipts = 0;
+
+                    // nel caso in cui la tabella _sDBTNameOrdini non esiste (SF_Data.iNumOfLastReceipt == -1)
+                    if (SF_Data.iNumOfLastReceipt < 0)
+                        SF_Data.iNumOfLastReceipt = 0;
+                }
 
                 SF_Data.iNumOfMessages = DB_Data.iNumOfMessages;
 

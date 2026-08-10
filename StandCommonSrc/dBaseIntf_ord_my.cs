@@ -109,7 +109,7 @@ namespace StandFacile_DB
                 //    iOrderID, 1, ORDER_CONST._START_OF_ORDER, (int) DEST_TYPE.DEST_COUNTER);
 
                 // riempie con tutti i record di ordini da scaricare
-                sQuery = "select * FROM " + _sDBTNameOrdini + " WHERE " + sFilter + " ;";
+                sQuery = "SELECT * FROM " + _sDBTNameOrdini + " WHERE " + sFilter + " ;";
 
                 dbOrdiniAdapterSelect = new MySqlDataAdapter(sQuery, _Connection);
                 iCountOrdini = dbOrdiniAdapterSelect.Fill(ordiniTable);
@@ -213,7 +213,7 @@ namespace StandFacile_DB
                     // *********** predispone per aggiornamento quantità scaricata dati ************
 
                     // riempie dataTable con tutte le colonne
-                    sQuery = "select * FROM " + _sDBTNameDati + ";";
+                    sQuery = "SELECT * FROM " + _sDBTNameDati + ";";
                     dbDataAdapterSelect = new MySqlDataAdapter(sQuery, _Connection);
                     iContDati = dbDataAdapterSelect.Fill(dataTable);
                     dataTable.PrimaryKey = new DataColumn[] { dataTable.Columns["sTipo_Articolo"] };

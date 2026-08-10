@@ -68,22 +68,22 @@ namespace StandFacile
         /// <summary>dimensione y della finestra principale</summary>
         public const String MAIN_WIN_SIZE_Y = "iMainFrmSize_y";
 
-        /// <summary>posizione x della finestra  di anteprima</summary>
+        /// <summary>posizione x della finestra di anteprima</summary>
         public const String PREVIEW_WIN_POS_X = "iPreviewFrmPos_x";
 
-        /// <summary>posizione y della finestra  di anteprima</summary>
+        /// <summary>posizione y della finestra di anteprima</summary>
         public const String PREVIEW_WIN_POS_Y = "iPreviewFrmPos_y";
 
-        /// <summary>dimensione x della finestra  di anteprima</summary>
+        /// <summary>dimensione x della finestra di anteprima</summary>
         public const String PREVIEW_WIN_SIZE_X = "iPreviewFrmSize_x";
 
-        /// <summary>dimensione y della finestra  di anteprima</summary>
+        /// <summary>dimensione y della finestra di anteprima</summary>
         public const String PREVIEW_WIN_SIZE_Y = "iPreviewFrmSize_y";
 
-        /// <summary>dimensione y della finestra  di anteprima</summary>
-        public const String PREVIEW_PANEL_SIZE_X = "iPreviewPanelSize_x";
+        /// <summary>dimensione x della finestra di anteprima interna a MainForm</summary>
+        public const String PREVIEW_INT_PANEL_SIZE_X = "iPreviewIntPanelSize_x";
 
-        /// <summary>dimensione y della finestra  di anteprima</summary>
+        /// <summary>stato della finestra di anteprima</summary>
         public const String PREVIEW_WIN_STATUS_KEY = "iPreviewFrmStatus";
 
         /// <summary>larghezza minima del pannello di anteprima</summary>
@@ -180,8 +180,8 @@ namespace StandFacile
             /// </summary>
             public const string _AUTO_SEQ_TEST = "seqTest"; // _C1
 
-            /// <summary>mantiene i files Receipt e copie</summary>
-            public const String _KEEP_TXT_FILES = "KeepTextFiles";
+            /// <summary>alla chiusura mantiene sempre i files Receipt, le copie e le tabelle del database che altrimenti vengono eliminate</summary>
+            public const String _KEEP_FILES_AND_TABLES = "Keep_Files_and_Tables";
 
             /// <summary>serviceStrings: generazione automatica scontrini mediante qrcode per test</summary>
             public const string _AUTO_QRCODE_TEST = "qrcodeTest";

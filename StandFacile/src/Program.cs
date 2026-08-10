@@ -152,7 +152,7 @@ namespace StandFacile
             // inizializza la form di selezione data dei reports
             SelDataDlg rSelDataDlg = new SelDataDlg();
 
-            // inizializza i parametri di stampa Windows, va messo dopo rDataManager.Init()
+            // inizializza i parametri di stampa Windows
             WinPrinterDlg rWinPrinterDlg = new WinPrinterDlg();
 
             // Avvio della Form di verifica iniziale della data, va messo dopo WinPrinterDlg

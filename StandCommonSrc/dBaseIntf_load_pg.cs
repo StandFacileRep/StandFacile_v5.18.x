@@ -108,14 +108,14 @@ namespace StandFacile_DB
             PgSqlDataReader readerTest;
 
 #if STANDFACILE
-            // sicurezza : si prosegue solo se è CASSA_SECONDARIA && bUsaMySQL_db
-            if (!DataManager.CheckIf_CassaSec_and_NDB()) // cassa secondaria e MySQL
+            // sicurezza : si prosegue solo se è CASSA_SECONDARIA && bUSA_NDB()
+            if (!DataManager.CheckIf_CassaSec_and_NDB()) // cassa secondaria e PostGreSQL
                 return 0;
 #endif
 
             bDBConnection_Ok = dbInit(GetActualDate(), SF_Data.iNumCassa);
 
-            // sicurezza : si prosegue solo se c'è la connessione a MySQL
+            // sicurezza : si prosegue solo se c'è la connessione a PostGreSQL
             if (!bDBConnection_Ok)
                 return 0;
 

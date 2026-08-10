@@ -105,7 +105,7 @@ namespace StandFacile_DB
             MySqlDataReader readerTest;
 
 #if STANDFACILE
-            // sicurezza : si prosegue solo se è CASSA_SECONDARIA && bUsaMySQL_db
+            // sicurezza : si prosegue solo se è CASSA_SECONDARIA && bUSA_NDB()
             if (!DataManager.CheckIf_CassaSec_and_NDB()) // cassa secondaria e MySQL
                 return 0;
 #endif

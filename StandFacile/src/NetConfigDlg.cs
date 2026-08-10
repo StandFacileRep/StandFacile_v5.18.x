@@ -177,7 +177,7 @@ namespace StandFacile
             else
                 NC_textBoxCash.Text = "La cassa secondaria riceve dal database Listino, Disponibilità ed impostazioni di stampa delle copie.";
 
-
+            // si può scegliere il numero della cassa solo con Database di rete, non con SQLite
             if (combo_TipoDBase.SelectedIndex > 0)
             {
                 Combo_NumCassa.Enabled = true;

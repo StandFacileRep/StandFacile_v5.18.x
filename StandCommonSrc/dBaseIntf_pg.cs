@@ -725,7 +725,7 @@ namespace StandFacile_DB
                 if (bModeParamStandard)
                     cmd.CommandText = "SELECT \"iOrdine_ID\" FROM " + NOME_NSC_DBTBL + " ORDER BY \"iOrdine_ID\" DESC LIMIT 1";
                 else
-                    cmd.CommandText = "select \"iOrdine_ID\" FROM " + _sDBTNameOrdini + " WHERE \"iOrdine_ID\" > 0 ORDER BY \"iOrdine_ID\" DESC LIMIT 1";
+                    cmd.CommandText = "SELECT \"iOrdine_ID\" FROM " + _sDBTNameOrdini + " WHERE \"iOrdine_ID\" > 0 ORDER BY \"iOrdine_ID\" DESC LIMIT 1";
 
                 readerOrdine = cmd.ExecuteReader();
 
@@ -788,7 +788,7 @@ namespace StandFacile_DB
                 }
                 else
                 {
-                    cmd.CommandText = "select \"iOrdine_ID\" FROM " + _sDBTNameOrdini + " WHERE \"iOrdine_ID\" < 0 ORDER BY \"iOrdine_ID\" ASC LIMIT 1";
+                    cmd.CommandText = "SELECT \"iOrdine_ID\" FROM " + _sDBTNameOrdini + " WHERE \"iOrdine_ID\" < 0 ORDER BY \"iOrdine_ID\" ASC LIMIT 1";
                     iNum = -int.Parse(cmd.ExecuteScalar() + "");
                 }
 
@@ -958,7 +958,7 @@ namespace StandFacile_DB
 
             bDBConnection_Ok = dbInit(GetActualDate(), SF_Data.iNumCassa, true);
 
-            // sicurezza : si prosegue solo se c'è la connessione a MySQL
+            // sicurezza : si prosegue solo se c'è la connessione a PostGreSQL
             // o se la Cassa secondaria non richiede il prelievo di un ordine dalla lista
             if (!bDBConnection_Ok && ((SF_Data.iNumCassa != CASSA_PRINCIPALE) && bClearOrdiniParam))
                 return 0;
@@ -1062,7 +1062,7 @@ namespace StandFacile_DB
 
             bDBConnection_Ok = dbInitWeb();
 
-            // sicurezza : si prosegue solo se c'è la connessione a MySQL
+            // sicurezza : si prosegue solo se c'è la connessione a PostGreSQL
             // o se la Cassa secondaria non richiede il prelievo di un ordine dalla lista
             if (!bDBConnection_Ok && (SF_Data.iNumCassa != CASSA_PRINCIPALE))
                 return false;
