@@ -1,6 +1,6 @@
 ﻿/*********************************************************
     NomeFile : StandFacile
-    Data	 : 22.07.2026
+    Data	 : 11.08.2026
     Autore   : Mauro Artuso
 
     Avvia le classi visuali e non, nell'ordine corretto
@@ -155,7 +155,8 @@ namespace StandFacile
             // inizializza i parametri di stampa Windows
             WinPrinterDlg rWinPrinterDlg = new WinPrinterDlg();
 
-            // Avvio della Form di verifica iniziale della data, va messo dopo WinPrinterDlg
+            // Avvio della Form di verifica iniziale della data,
+            // va messo dopo WinPrinterDlg, rDataManager.Init()
             StartDlg rStartDlg = new StartDlg();
 
             GenPrinterDlg rGenericPrintDlg = new GenPrinterDlg();

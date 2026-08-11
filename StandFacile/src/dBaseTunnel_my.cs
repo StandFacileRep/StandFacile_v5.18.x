@@ -1,6 +1,6 @@
 ﻿/*****************************************************************************************
 	NomeFile : StandFacile/dBaseTunnel_my.cs
-    Data	 : 18.04.2026
+    Data	 : 11.08.2026
 	Autore   : Mauro Artuso
 
     Classe per la lettura degli ordini in remoto, utilizza HTTP tunneling
@@ -586,57 +586,60 @@ namespace StandFacile
 
                 Logger.Info(String.Format("rdbCaricaTabellaOrdini : sResponse lenght={0}", sResponseFromServer.Length));
 
-                // ottiene la tabella dell'output JSON
-                var jss = new JavaScriptSerializer();
-                var dict = jss.Deserialize<dynamic>(sResponseFromServer);
-                var sTable = dict["rows"];
-
-                iTableRow = 0;
-                iIndex = 0;
-                _sWebOrdersList.Clear();
-
-                Logger.Info(String.Format("rdbCaricaTabellaOrdini : sTable lenght={0}", sTable.Length));
-
-                if (sTable.Length > 0)
-                    iPrevOrder = Convert.ToInt32(sTable[iTableRow][0]["1"]);
-
-                while (iTableRow < sTable.Length)
+                if (sResponseFromServer.Length > 0)
                 {
-                    sInStr = sTable[iTableRow][2]["3"];
-                    iNumOrdine = Convert.ToInt32(sTable[iTableRow][0]["1"]);
+                    // ottiene la tabella dell'output JSON
+                    var jss = new JavaScriptSerializer();
+                    var dict = jss.Deserialize<dynamic>(sResponseFromServer);
+                    var sTable = dict["rows"];
 
-                    if (iPrevOrder != iNumOrdine)
+                    iTableRow = 0;
+                    iIndex = 0;
+                    _sWebOrdersList.Clear();
+
+                    Logger.Info(String.Format("rdbCaricaTabellaOrdini : sTable lenght={0}", sTable.Length));
+
+                    if (sTable.Length > 0)
+                        iPrevOrder = Convert.ToInt32(sTable[iTableRow][0]["1"]);
+
+                    while (iTableRow < sTable.Length)
                     {
-                        iPrevOrder = iNumOrdine;
-                        sOrdineTmp = new TWebOrder(0);
-                        iIndex = 0;
+                        sInStr = sTable[iTableRow][2]["3"];
+                        iNumOrdine = Convert.ToInt32(sTable[iTableRow][0]["1"]);
+
+                        if (iPrevOrder != iNumOrdine)
+                        {
+                            iPrevOrder = iNumOrdine;
+                            sOrdineTmp = new TWebOrder(0);
+                            iIndex = 0;
+                        }
+
+                        if (sInStr == ORDER_CONST._START_OF_ORDER)
+                        {
+                            sOrdineTmp.iNumOrdine = Convert.ToInt32(sTable[iTableRow][0]["1"]);
+                            sOrdineTmp.iStatus = Convert.ToInt32(sTable[iTableRow][8]["9"]);
+                            sOrdineTmp.sCliente = sTable[iTableRow][1]["2"];
+                            sOrdineTmp.sDateTime = sTable[iTableRow][6]["7"];
+                            sOrdineTmp.iTotaleReceipt = Convert.ToInt32(sTable[iTableRow][3]["4"]);
+
+                            if (int.TryParse(sTable[iTableRow][4]["5"], out iNumCoperti) == true)
+                                sOrdineTmp.iNumCoperti = iNumCoperti;
+
+                            iIndex++;
+                        }
+                        else if (sInStr == ORDER_CONST._PRICE_LIST_CHECKSUM)
+                        {
+                            sOrdineTmp.sChecksum = sTable[iTableRow][6]["7"];
+
+                            iIndex++;
+                        }
+
+                        // fine analisi intestazioni ordine
+                        if (iIndex == 2)
+                            _sWebOrdersList.Add(sOrdineTmp);
+
+                        iTableRow++;
                     }
-
-                    if (sInStr == ORDER_CONST._START_OF_ORDER)
-                    {
-                        sOrdineTmp.iNumOrdine = Convert.ToInt32(sTable[iTableRow][0]["1"]);
-                        sOrdineTmp.iStatus = Convert.ToInt32(sTable[iTableRow][8]["9"]);
-                        sOrdineTmp.sCliente = sTable[iTableRow][1]["2"];
-                        sOrdineTmp.sDateTime = sTable[iTableRow][6]["7"];
-                        sOrdineTmp.iTotaleReceipt = Convert.ToInt32(sTable[iTableRow][3]["4"]);
-
-                        if (int.TryParse(sTable[iTableRow][4]["5"], out iNumCoperti) == true)
-                            sOrdineTmp.iNumCoperti = iNumCoperti;
-
-                        iIndex++;
-                    }
-                    else if (sInStr == ORDER_CONST._PRICE_LIST_CHECKSUM)
-                    {
-                        sOrdineTmp.sChecksum = sTable[iTableRow][6]["7"];
-
-                        iIndex++;
-                    }
-
-                    // fine analisi intestazioni ordine
-                    if (iIndex == 2)
-                        _sWebOrdersList.Add(sOrdineTmp);
-
-                    iTableRow++;
                 }
             }
             catch (Exception)
@@ -646,7 +649,7 @@ namespace StandFacile
                 _WrnMsg.sMsg = "dBaseTunnel load Table";
                 WarningManager(_WrnMsg);
 
-                Logger.Info("dBaseTunnel : rdbCaricaTabella");
+                Logger.Info("dBaseTunnel : rdbCaricaTabellaOrdini Exception");
             }
 
             // completa la visualizzazione della tabella

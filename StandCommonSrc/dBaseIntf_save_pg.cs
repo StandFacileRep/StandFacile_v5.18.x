@@ -1,6 +1,6 @@
 ﻿/*************************************************************************************************
 	NomeFile : StandCommonSrc/dBaseIntf_save_pg.cs
-    Data	 : 05.05.2026
+    Data	 : 10.08.2026
 	Autore   : Mauro Artuso
 
     nelle assegnazioni :
@@ -1252,6 +1252,7 @@ namespace StandFacile_DB
                             row["sTipo_Articolo"] = TestManager.sFakeItem[0].sItem;
                             row["iNumCassa"] = SF_Data.iNumCassa;
                             row["iGruppo_Stampa"] = DEST_TYPE.DEST_TIPO1;
+                            row["sText"] = "";
                             row["iQuantita_Ordine"] = TestManager.sFakeItem[0].iQuantity;
                             row["iIndex_Listino"] = MAX_ITEMS_NUM - 1;
                             row["iPrezzo_Unitario"] = TestManager.sFakeItem[0].iUnitPrice;

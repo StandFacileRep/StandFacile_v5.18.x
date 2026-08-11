@@ -150,10 +150,6 @@ namespace StandFacile
 
             AzzeraDati();
 
-
-            // recupera solo la data
-            CaricaListino(true);
-
             _iLastArticoloIndex = MAX_ITEMS_NUM;
 
             _bListinoModificato = false;

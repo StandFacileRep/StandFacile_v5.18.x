@@ -1,6 +1,6 @@
 /**********************************************************************
     NomeFile : StandFacile/DataManager.cs
-	Data	 : 01.12.2025
+	Data	 : 11.08.2026
     Autore   : Mauro Artuso
 
      nb: DB_Data compare sempre a destra nelle assegnazioni
@@ -108,7 +108,7 @@ namespace StandFacile
 
              Non sono ammesse ripetizioni dello stesso 'tipo di Articolo'
          ***************************************************************************/
-        private bool CaricaListino(bool bGetDataParam = false)
+        private bool CaricaListino()
         {
             bool bChecksumTrovato = false;
             bool bForce_maxChars_33 = false;
@@ -286,9 +286,6 @@ namespace StandFacile
                         // ****	Data ed ora ****
 
                         SF_Data.sListinoDateTime = sInStr.Substring(4);
-
-                        if (bGetDataParam)
-                            return true;
 
                         continue;
                     }

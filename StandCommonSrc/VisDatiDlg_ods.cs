@@ -1,6 +1,6 @@
 ﻿/********************************************************************
     NomeFile : StandCommonSrc/VisDatiDlg_ods.cs
-    Data	 : 25.07.2026
+    Data	 : 10.08.2026
     Autore : Mauro Artuso
 
     https://www.nuget.org/packages/FreeDataExports
@@ -603,7 +603,7 @@ namespace StandFacile
             int iStatusScontoReceipt, iScontoStdReceipt, iScontoFissoReceipt, iScontoGratisReceipt;
 
             String sNomeFile, sDataDir, sTmp;
-            String sDateTime, sDebugTipo;
+            String sDateTime, sDebugTipo, sDebugString;
             DateTime columnDay;
 
             BtnExport.Enabled = false;
@@ -821,6 +821,7 @@ namespace StandFacile
                         for (j = 0; j < DB_Data.iNumOfReceiptItems; j++)
                         {
                             sDebugTipo = DB_Data.Articolo[j].sTipo;
+                            sDebugString = DB_Data.Articolo[j].sNotaArt;
                             sDateTime = "";
 
                             if (bOnce)

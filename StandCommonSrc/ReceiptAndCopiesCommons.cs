@@ -1,6 +1,6 @@
 ﻿/*********************************************************************************
  	NomeFile : StandCommonSrc/ReceiptAndCopiesCommons.cs
-    Data	 : 14.06.2026
+    Data	 : 11.08.2026
  	Autore	 : Mauro Artuso
 
 	Classi di uso comune a DataManager.Receipt(), ViewOrdersDlg.ReceiptRebuild()<br/>
@@ -308,7 +308,7 @@ namespace StandCommonFiles
                 sOrdineStringsTmp.sOrdineNum += String.Format(sFmt_QM, _TICK_NUM, i);
 
             if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
-                sOrdineStringsTmp.sOrdNumWeb = String.Format("* {0} {1}, {2} *", _WEB_NUM, dataIdParam.iNumOrdineWeb, dataIdParam.sWebDateTime.Substring(4, 8));
+                sOrdineStringsTmp.sOrdNumWeb = String.Format("* {0} {1}, {2} *", _WEB_NUM, dataIdParam.iNumOrdineWeb, dataIdParam.sWebDateTime.Substring(3, 11));
             else
                 sOrdineStringsTmp.sOrdNumWeb = "";
 
