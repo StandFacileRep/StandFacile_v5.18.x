@@ -1,6 +1,6 @@
 ﻿/***********************************************
   	NomeFile : StandFacile/MainForm.cs
-    Data	 : 11.07.2026
+    Data	 : 14.08.2026
   	Autore   : Mauro Artuso
  ***********************************************/
 
@@ -408,8 +408,17 @@ namespace StandFacile
                 sStatusText = "Pronto";
             }
 
-            FormResize(null, null);
-            MainGrid_Redraw(this, null);
+            // minimizza transizioni grafiche
+            if (BtnViewPricelist.Checked)
+            {
+                FormResize(null, null);
+                MainGrid_Redraw(this, null);
+            }
+            else
+            {
+                MainGrid_Redraw(this, null);
+                FormResize(null, null);
+            }
         }
 
         /*****************************************
@@ -640,7 +649,7 @@ namespace StandFacile
                 // stampa copia locale scontrino normale
                 case 'A':
                     if (e.Modifiers == Keys.Control)
-                        SF_Data.Articolo[_iCellPt].iOptionsFlags = ClearBit(SF_Data.Articolo[_iCellPt].iOptionsFlags, BIT_STAMPA_SINGOLA_NELLA_COPIA_RECEIPT);
+                        SF_Data.Articolo[_iCellPt].iOptionsFlags = ClearBit(SF_Data.Articolo[_iCellPt].iOptionsFlags, BIT_STAMPA_SINGOLA_NELLA_LOCAL_COPY);
                     break;
 
                 // Elimina tutti dati del giorno
@@ -696,7 +705,7 @@ namespace StandFacile
                 // stampa copia locale scontrino singola
                 case 'S':
                     if ((e.Modifiers == Keys.Control) && PrintLocalCopiesConfigDlg.GetTicketNoPriceCopy())
-                        SF_Data.Articolo[_iCellPt].iOptionsFlags = SetBit(SF_Data.Articolo[_iCellPt].iOptionsFlags, BIT_STAMPA_SINGOLA_NELLA_COPIA_RECEIPT);
+                        SF_Data.Articolo[_iCellPt].iOptionsFlags = SetBit(SF_Data.Articolo[_iCellPt].iOptionsFlags, BIT_STAMPA_SINGOLA_NELLA_LOCAL_COPY);
                     break;
 
                 default:
@@ -1839,7 +1848,7 @@ namespace StandFacile
         {
             bool bTouchRequired;
             int i, j, k, h;
-            String sTipoTmp, sTickQty, sDispQty, sPrzTmp, sCellText;
+            String sTipoTmp, sTickQty, sDispQty, sPrzTmp, sGrpTmp, sCellText;
             String sToolTip;
 
             // prepara la stringa visualizzata nelle celle
@@ -1850,7 +1859,7 @@ namespace StandFacile
 
                 h = k + iArrayOffset;
 
-                if (!String.IsNullOrEmpty(SF_Data.Articolo[h].sTipo) && IsBitSet(SF_Data.Articolo[h].iOptionsFlags, BIT_STAMPA_SINGOLA_NELLA_COPIA_RECEIPT))
+                if (!String.IsNullOrEmpty(SF_Data.Articolo[h].sTipo) && IsBitSet(SF_Data.Articolo[h].iOptionsFlags, BIT_STAMPA_SINGOLA_NELLA_LOCAL_COPY))
                     sTipoTmp = SF_Data.Articolo[h].sTipo.Insert(0, "$ ");
                 else
                     sTipoTmp = SF_Data.Articolo[h].sTipo;
@@ -1869,90 +1878,22 @@ namespace StandFacile
 
                 bTouchRequired = GetTouchModeEnabled();
 
-                if ((MnuSetupPricelist.Checked || BtnViewPricelist.Checked) && !String.IsNullOrEmpty(SF_Data.Articolo[h].sTipo))
+                if (MnuSetupPricelist.Checked || BtnViewPricelist.Checked)
                 {
 
                     sPrzTmp = IntToEuro(SF_Data.Articolo[h].iPrezzoUnitario);
 
-                    switch (SF_Data.Articolo[h].iGruppoStampa)
-                    {
+                    sGrpTmp = sConstGruppiShort[SF_Data.Articolo[h].iGruppoStampa];
 
-                        // ******** allineamento *******
-                        // 89 123456789012345678 9876.00
-                        // fPrint.WriteLine("{0,2} {1,-18} {2,5}", // width=28
-                        case (int)DEST_TYPE.DEST_TIPO1:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "G1", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "G1", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_TIPO2:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "G2", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "G2", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_TIPO3:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "G3", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "G3", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_TIPO4:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "G4", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "G4", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_TIPO5:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "G5", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "G5", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_TIPO6:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "G6", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "G6", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_TIPO7:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "G7", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "G7", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_TIPO8:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "G8", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "G8", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_TIPO9_NOWEB:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "G9", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "G9", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_SINGLE:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "CS", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "CS", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_COUNTER:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "CN", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "CN", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                        case (int)DEST_TYPE.DEST_BUONI:
-                            if (bTouchRequired)
-                                sCellText = String.Format(sGRD_FMT_TCH, "BS", sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
-                            else
-                                sCellText = String.Format(sGRD_FMT_STD, "BS", SF_Data.Articolo[h].sTipo, sPrzTmp);
-                            break;
-                    }
+                    // ******** allineamento *******
+                    // 89 123456789012345678 9876.00
+                    // fPrint.WriteLine("{0,2} {1,-18} {2,5}", // width=28
+                    if (String.IsNullOrEmpty(SF_Data.Articolo[h].sTipo))
+                        sCellText = "";
+                    else if (bTouchRequired)
+                        sCellText = String.Format(sGRD_FMT_TCH, sGrpTmp, sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
+                    else
+                        sCellText = String.Format(sGRD_FMT_STD, sGrpTmp, SF_Data.Articolo[h].sTipo, sPrzTmp);
 
                     // impostazione dei ToolTip di cella
                     if (String.IsNullOrEmpty(SF_Data.Articolo[h].sTipo))

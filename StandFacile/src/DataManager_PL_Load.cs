@@ -1,6 +1,6 @@
 /**********************************************************************
     NomeFile : StandFacile/DataManager.cs
-	Data	 : 11.08.2026
+	Data	 : 14.08.2026
     Autore   : Mauro Artuso
 
      nb: DB_Data compare sempre a destra nelle assegnazioni
@@ -673,8 +673,7 @@ namespace StandFacile
 
                         iLineFeed = ToInt32(sTmp);
 
-                        for (i = 0; i < iLineFeed; i++)
-                            iRiga++;
+                        iRiga += iLineFeed;
 
                         continue;
                     }

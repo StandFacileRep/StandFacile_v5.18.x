@@ -45,6 +45,7 @@
             this.VO_labelPayMethod = new System.Windows.Forms.Label();
             this.VO_checkBoxNotPaid = new System.Windows.Forms.CheckBox();
             this.VO_lbl_Info = new System.Windows.Forms.Label();
+            this.VO_labelBrowse = new System.Windows.Forms.Label();
             this.VisTicketStatusBar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,26 +80,26 @@
             this.VisTicketStatusBar.Stretch = false;
             this.VisTicketStatusBar.TabIndex = 8;
             // 
-            // toolStripNumTicket
+            // VO_toolStripNumTicket
             // 
             this.VO_toolStripNumTicket.AutoSize = false;
-            this.VO_toolStripNumTicket.Name = "toolStripNumTicket";
+            this.VO_toolStripNumTicket.Name = "VO_toolStripNumTicket";
             this.VO_toolStripNumTicket.Size = new System.Drawing.Size(120, 17);
             this.VO_toolStripNumTicket.Text = "Scontrino : 100";
             this.VO_toolStripNumTicket.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // toolStripTotaleOrdine
+            // VO_toolStripTotalOrders
             // 
             this.VO_toolStripTotalOrders.AutoSize = false;
-            this.VO_toolStripTotalOrders.Name = "toolStripTotaleOrdine";
+            this.VO_toolStripTotalOrders.Name = "VO_toolStripTotalOrders";
             this.VO_toolStripTotalOrders.Size = new System.Drawing.Size(80, 17);
             this.VO_toolStripTotalOrders.Text = "Totali : 100";
             this.VO_toolStripTotalOrders.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // toolStripCassa
+            // VO_toolStripCashDesk
             // 
             this.VO_toolStripCashDesk.AutoSize = false;
-            this.VO_toolStripCashDesk.Name = "toolStripCassa";
+            this.VO_toolStripCashDesk.Name = "VO_toolStripCashDesk";
             this.VO_toolStripCashDesk.Size = new System.Drawing.Size(140, 17);
             this.VO_toolStripCashDesk.Text = "Cassa n.1  Principale";
             this.VO_toolStripCashDesk.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -107,7 +108,7 @@
             // 
             this.VO_ckBoxAllCashDesk.AutoSize = true;
             this.VO_ckBoxAllCashDesk.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VO_ckBoxAllCashDesk.Location = new System.Drawing.Point(29, 483);
+            this.VO_ckBoxAllCashDesk.Location = new System.Drawing.Point(21, 482);
             this.VO_ckBoxAllCashDesk.Name = "VO_ckBoxAllCashDesk";
             this.VO_ckBoxAllCashDesk.Size = new System.Drawing.Size(129, 18);
             this.VO_ckBoxAllCashDesk.TabIndex = 2;
@@ -120,7 +121,7 @@
             this.OKBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OKBtn.Image = global::StandFacile.Properties.Resources.OK;
             this.OKBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.OKBtn.Location = new System.Drawing.Point(308, 546);
+            this.OKBtn.Location = new System.Drawing.Point(303, 546);
             this.OKBtn.Name = "OKBtn";
             this.OKBtn.Size = new System.Drawing.Size(70, 35);
             this.OKBtn.TabIndex = 3;
@@ -132,7 +133,7 @@
             // 
             this.VO_btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("VO_btnCancel.Image")));
             this.VO_btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.VO_btnCancel.Location = new System.Drawing.Point(29, 546);
+            this.VO_btnCancel.Location = new System.Drawing.Point(21, 545);
             this.VO_btnCancel.Name = "VO_btnCancel";
             this.VO_btnCancel.Size = new System.Drawing.Size(113, 35);
             this.VO_btnCancel.TabIndex = 4;
@@ -145,7 +146,7 @@
             // 
             this.BtnPrev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.BtnPrev.Image = global::StandFacile.Properties.Resources.ArrowSLeft;
-            this.BtnPrev.Location = new System.Drawing.Point(211, 477);
+            this.BtnPrev.Location = new System.Drawing.Point(206, 477);
             this.BtnPrev.Name = "BtnPrev";
             this.BtnPrev.Size = new System.Drawing.Size(70, 35);
             this.BtnPrev.TabIndex = 5;
@@ -157,7 +158,7 @@
             // 
             this.BtnNext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.BtnNext.Image = global::StandFacile.Properties.Resources.ArrowSRight;
-            this.BtnNext.Location = new System.Drawing.Point(308, 477);
+            this.BtnNext.Location = new System.Drawing.Point(303, 477);
             this.BtnNext.Name = "BtnNext";
             this.BtnNext.Size = new System.Drawing.Size(70, 35);
             this.BtnNext.TabIndex = 6;
@@ -168,7 +169,7 @@
             // BtnPrt
             // 
             this.BtnPrt.Image = global::StandFacile.Properties.Resources.printer_s;
-            this.BtnPrt.Location = new System.Drawing.Point(211, 546);
+            this.BtnPrt.Location = new System.Drawing.Point(206, 546);
             this.BtnPrt.Name = "BtnPrt";
             this.BtnPrt.Size = new System.Drawing.Size(70, 35);
             this.BtnPrt.TabIndex = 7;
@@ -179,7 +180,7 @@
             // 
             this.VO_labelPrint.AutoSize = true;
             this.VO_labelPrint.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VO_labelPrint.Location = new System.Drawing.Point(198, 524);
+            this.VO_labelPrint.Location = new System.Drawing.Point(193, 524);
             this.VO_labelPrint.Name = "VO_labelPrint";
             this.VO_labelPrint.Size = new System.Drawing.Size(110, 13);
             this.VO_labelPrint.TabIndex = 9;
@@ -195,7 +196,7 @@
             "CARD",
             "SATYSPAY",
             "   "});
-            this.VO_comboPaymentType.Location = new System.Drawing.Point(29, 518);
+            this.VO_comboPaymentType.Location = new System.Drawing.Point(21, 517);
             this.VO_comboPaymentType.Name = "VO_comboPaymentType";
             this.VO_comboPaymentType.Size = new System.Drawing.Size(113, 21);
             this.VO_comboPaymentType.TabIndex = 25;
@@ -205,7 +206,7 @@
             // 
             this.VO_labelPayMethod.AutoSize = true;
             this.VO_labelPayMethod.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VO_labelPayMethod.Location = new System.Drawing.Point(28, 500);
+            this.VO_labelPayMethod.Location = new System.Drawing.Point(18, 501);
             this.VO_labelPayMethod.Name = "VO_labelPayMethod";
             this.VO_labelPayMethod.Size = new System.Drawing.Size(147, 13);
             this.VO_labelPayMethod.TabIndex = 26;
@@ -215,7 +216,7 @@
             // 
             this.VO_checkBoxNotPaid.AutoSize = true;
             this.VO_checkBoxNotPaid.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VO_checkBoxNotPaid.Location = new System.Drawing.Point(29, 458);
+            this.VO_checkBoxNotPaid.Location = new System.Drawing.Point(21, 457);
             this.VO_checkBoxNotPaid.Name = "VO_checkBoxNotPaid";
             this.VO_checkBoxNotPaid.Size = new System.Drawing.Size(154, 18);
             this.VO_checkBoxNotPaid.TabIndex = 27;
@@ -226,7 +227,7 @@
             // 
             this.VO_lbl_Info.BackColor = System.Drawing.Color.MediumAquamarine;
             this.VO_lbl_Info.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VO_lbl_Info.Location = new System.Drawing.Point(42, 526);
+            this.VO_lbl_Info.Location = new System.Drawing.Point(34, 525);
             this.VO_lbl_Info.Name = "VO_lbl_Info";
             this.VO_lbl_Info.Padding = new System.Windows.Forms.Padding(2);
             this.VO_lbl_Info.Size = new System.Drawing.Size(88, 20);
@@ -235,12 +236,23 @@
             this.VO_lbl_Info.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.VO_lbl_Info.Click += new System.EventHandler(this.Lbl_Info_Click);
             // 
+            // VO_labelBrowse
+            // 
+            this.VO_labelBrowse.AutoSize = true;
+            this.VO_labelBrowse.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VO_labelBrowse.Location = new System.Drawing.Point(208, 457);
+            this.VO_labelBrowse.Name = "VO_labelBrowse";
+            this.VO_labelBrowse.Size = new System.Drawing.Size(165, 13);
+            this.VO_labelBrowse.TabIndex = 29;
+            this.VO_labelBrowse.Text = "usare anche frecce, PgUp, PgDw";
+            // 
             // ViewOrdersDlg
             // 
             this.AcceptButton = this.OKBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(400, 594);
+            this.Controls.Add(this.VO_labelBrowse);
             this.Controls.Add(this.VO_lbl_Info);
             this.Controls.Add(this.VO_checkBoxNotPaid);
             this.Controls.Add(this.VO_labelPayMethod);
@@ -289,5 +301,6 @@
         private System.Windows.Forms.Label VO_labelPayMethod;
         private System.Windows.Forms.CheckBox VO_checkBoxNotPaid;
         private System.Windows.Forms.Label VO_lbl_Info;
+        private System.Windows.Forms.Label VO_labelBrowse;
     }
 }

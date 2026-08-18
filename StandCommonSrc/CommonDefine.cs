@@ -969,7 +969,7 @@ namespace StandCommonFiles
         /// bit di iOptionsFlags che indica la richiesta di stampa singola nella<br/>
         /// copia locale dello scontrino
         /// </summary>
-        public const int BIT_STAMPA_SINGOLA_NELLA_COPIA_RECEIPT = 0;
+        public const int BIT_STAMPA_SINGOLA_NELLA_LOCAL_COPY = 0;
 
         /****************************************************************
          *                   Flags gestione sconti                      *

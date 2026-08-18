@@ -96,8 +96,6 @@
             // EA_ckBoxSkipEmpty
             // 
             this.EA_ckBoxSkipEmpty.AutoSize = true;
-            this.EA_ckBoxSkipEmpty.Checked = true;
-            this.EA_ckBoxSkipEmpty.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EA_ckBoxSkipEmpty.Font = new System.Drawing.Font("Tahoma", 9.75F);
             this.EA_ckBoxSkipEmpty.Location = new System.Drawing.Point(264, 338);
             this.EA_ckBoxSkipEmpty.Name = "EA_ckBoxSkipEmpty";

@@ -139,6 +139,9 @@ namespace StandFacile
         /// </summary>
         public static void SetLastArticoloIndex(int iParam) { _iLastArticoloIndex = iParam; }
 
+        /// <summary>ottiene _iLastArticoloIndex</summary>
+        public static int GetLastArticoloIndex() { return _iLastArticoloIndex; }
+
         /// <summary>Costruttore</summary>
         public DataManager()
         {

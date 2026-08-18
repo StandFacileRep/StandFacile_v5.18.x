@@ -265,7 +265,7 @@ namespace StandCommonFiles
         public static TOrdineStrings SetupHeaderStrings(TData dataIdParam, int iNumOfReceiptsParam, Graphics pgParam = null)
         {
             int i;
-            string sFmt_QM;
+            string sTmpDateTime, sFmt_QM;
 
             TOrdineStrings sOrdineStringsTmp = new TOrdineStrings();
 
@@ -307,8 +307,16 @@ namespace StandCommonFiles
             else
                 sOrdineStringsTmp.sOrdineNum += String.Format(sFmt_QM, _TICK_NUM, i);
 
+            sTmpDateTime = dataIdParam.sWebDateTime;
+
+            // gestisce 2 formati diversi
+            if (sTmpDateTime.Length > 18)
+                sTmpDateTime = sTmpDateTime.Substring(4, 8);
+            else
+                sTmpDateTime = sTmpDateTime.Substring(3, 11);
+
             if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
-                sOrdineStringsTmp.sOrdNumWeb = String.Format("* {0} {1}, {2} *", _WEB_NUM, dataIdParam.iNumOrdineWeb, dataIdParam.sWebDateTime.Substring(3, 11));
+                sOrdineStringsTmp.sOrdNumWeb = String.Format("* {0} {1}, {2} *", _WEB_NUM, dataIdParam.iNumOrdineWeb, sTmpDateTime);
             else
                 sOrdineStringsTmp.sOrdNumWeb = "";
 
@@ -1039,7 +1047,7 @@ namespace StandCommonFiles
                     {
                         for (j = 0; (j < MAX_ITEMS_NUM) && bSomethingInto_GrpToPrint[iGrpReorderPtr[i]]; j++)
                         {
-                            if (IsBitSet(dataIdParam.Articolo[j].iOptionsFlags, BIT_STAMPA_SINGOLA_NELLA_COPIA_RECEIPT) && (dataIdParam.Articolo[j].iGruppoStampa == iGrpReorderPtr[i]))
+                            if (IsBitSet(dataIdParam.Articolo[j].iOptionsFlags, BIT_STAMPA_SINGOLA_NELLA_LOCAL_COPY) && (dataIdParam.Articolo[j].iGruppoStampa == iGrpReorderPtr[i]))
                             {
                                 _bCtrlS_UnitQtyItems = true;
 

@@ -867,7 +867,7 @@ namespace StandFacile
                                      .AddCell(DB_Data.Articolo[j].iPrezzoUnitario / 100.0f, DataType.Currency)
                                      .AddCell(DB_Data.Articolo[j].iQuantitaOrdine, DataType.Number)
                                      .AddCell(iTotaleParz / 100.0f, DataType.Currency)
-                                     .AddCell("", DataType.Currency)
+                                     .AddCell("", DataType.String)
                                      .AddCell(DB_Data.Articolo[j].sNotaArt, DataType.String);
                                 }
                                 else
@@ -880,7 +880,7 @@ namespace StandFacile
                                          .AddCell(DB_Data.Articolo[j].iPrezzoUnitario / 100.0f, DataType.Number)
                                          .AddCell(DB_Data.Articolo[j].iQuantitaOrdine, DataType.Number)
                                          .AddCell(iTotaleParz / 100.0f, DataType.Number)
-                                         .AddCell("", DataType.Number)
+                                         .AddCell("", DataType.String)
                                          .AddCell(DB_Data.Articolo[j].sNotaArt, DataType.String);
                                 }
                             }
@@ -930,7 +930,7 @@ namespace StandFacile
                                  .AddCell(iScontoStdReceipt / 100.0f, DataType.Currency)
                                  .AddCell("", DataType.String)
                                  .AddCell("", DataType.String)
-                                 .AddCell("", DataType.Number)
+                                 .AddCell("", DataType.String)
                                  .AddCell("", DataType.String);
 
                             ordini_xls[iWS_Index].AddRow()
@@ -941,7 +941,7 @@ namespace StandFacile
                                  .AddCell(iTotaleReceipt / 100.0f, DataType.Currency)
                                  .AddCell("", DataType.String)
                                  .AddCell("", DataType.String)
-                                 .AddCell("", DataType.Number)
+                                 .AddCell("", DataType.String)
                                  .AddCell("", DataType.String);
 
                             ordini_xls[iWS_Index].AddRow()
@@ -964,7 +964,7 @@ namespace StandFacile
                                  .AddCell(iScontoStdReceipt / 100.0f, DataType.Number)
                                  .AddCell("", DataType.String)
                                  .AddCell("", DataType.String)
-                                 .AddCell("", DataType.Number)
+                                 .AddCell("", DataType.String)
                                  .AddCell("", DataType.String);
 
                             ordini_ods[iWS_Index].AddRow()
@@ -975,7 +975,7 @@ namespace StandFacile
                                  .AddCell(iTotaleReceipt / 100.0f, DataType.Number)
                                  .AddCell("", DataType.String)
                                  .AddCell("", DataType.String)
-                                 .AddCell("", DataType.Number)
+                                 .AddCell("", DataType.String)
                                  .AddCell("", DataType.String);
 
                             ordini_ods[iWS_Index].AddRow()
@@ -1007,7 +1007,7 @@ namespace StandFacile
                                   .AddCell(iScontoFissoReceipt / 100.0f, DataType.Currency)
                                   .AddCell("", DataType.String)
                                   .AddCell("", DataType.String)
-                                  .AddCell("", DataType.Number)
+                                  .AddCell("", DataType.String)
                                   .AddCell("", DataType.String);
 
                             ordini_xls[iWS_Index].AddRow()
@@ -1018,7 +1018,7 @@ namespace StandFacile
                                  .AddCell(iTotaleReceipt / 100.0f, DataType.Currency)
                                  .AddCell("", DataType.String)
                                  .AddCell("", DataType.String)
-                                 .AddCell("", DataType.Number)
+                                 .AddCell("", DataType.String)
                                  .AddCell("", DataType.String);
 
                             ordini_xls[iWS_Index].AddRow()
@@ -1041,7 +1041,7 @@ namespace StandFacile
                                   .AddCell(iScontoFissoReceipt / 100.0f, DataType.Number)
                                   .AddCell("", DataType.String)
                                   .AddCell("", DataType.String)
-                                  .AddCell("", DataType.Number)
+                                  .AddCell("", DataType.String)
                                   .AddCell("", DataType.String);
 
                             ordini_ods[iWS_Index].AddRow()
@@ -1052,7 +1052,7 @@ namespace StandFacile
                                  .AddCell(iTotaleReceipt / 100.0f, DataType.Number)
                                  .AddCell("", DataType.String)
                                  .AddCell("", DataType.String)
-                                 .AddCell("", DataType.Number)
+                                 .AddCell("", DataType.String)
                                  .AddCell("", DataType.String);
 
                             ordini_ods[iWS_Index].AddRow()
@@ -1076,7 +1076,7 @@ namespace StandFacile
                                  .AddCell(iTotaleReceipt / 100.0f, DataType.Currency)
                                  .AddCell("", DataType.String)
                                  .AddCell("", DataType.String)
-                                 .AddCell("", DataType.Number)
+                                 .AddCell("", DataType.String)
                                  .AddCell("", DataType.String);
 
                             ordini_xls[iWS_Index].AddRow()
@@ -1098,7 +1098,7 @@ namespace StandFacile
                                  .AddCell(iTotaleReceipt / 100.0f, DataType.Number)
                                  .AddCell("", DataType.String)
                                  .AddCell("", DataType.String)
-                                 .AddCell("", DataType.Number)
+                                 .AddCell("", DataType.String)
                                  .AddCell("", DataType.String);
 
                             ordini_ods[iWS_Index].AddRow()

@@ -486,7 +486,7 @@ namespace StandFacile
 
                 SF_Data.iStatusSconto = _scontoTmp.iStatusSconto;
 
-                // SF_Data.iScontoStdReceipt = _Sconto.iStatusSconto non serve
+                // SF_Data.iScontoStdReceipt = _Sconto.iScontoValStd non serve
                 // dato che viene ricalcolato a partire dalla % dentro a SF_Data.iStatusSconto
                 SF_Data.iScontoFissoReceipt = _scontoTmp.iScontoValFisso;
 

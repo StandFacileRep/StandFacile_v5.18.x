@@ -521,21 +521,22 @@ namespace StandCommonFiles
                     break;
 
                 case WRN_FPI:
-                    sWrnStr = " Attenzione !\r\n\r\nQuesta è una Cassa Secondaria che usa il DataBase: il file Prezzi locale verrà ignorato." +
+                    sWrnStr = "Attenzione !\r\n\r\nQuesta è una Cassa Secondaria che usa il DataBase: il file Prezzi locale verrà ignorato." +
                             "\r\n\r\nListino, Disponibilità, impostazioni Griglia, Gruppi di stampa, verranno caricati dalla Cassa Principale !" +
                             "\r\n\r\nAvviare per prima la Cassa Principale e successivamente le Secondarie !";
                     break;
 
                 case WRN_TKP: // Token presenti
-                    sWrnStr = "Sono presenti caratteri  \'# ;\'  non ammessi, correggere !";
+                    sWrnStr = "Attenzione !\r\n\r\nSono presenti caratteri  \'# ;\'  non ammessi, correggere !";
                     break;
 
                 case WRN_NVD: // Numero Voci Eccessivo
-                    sWrnStr = "Numero eccessivo di voci nel DB : " + WrnMsg.sMsg + " !";
+                    sWrnStr = "Attenzione !\r\n\r\nNumero eccessivo di voci nel DB : " + WrnMsg.sMsg + " !";
                     break;
 
                 case WRN_DNA:
-                    sWrnStr = " Attenzione !\r\n\r\nDate tra le casse non allineate :\r\n\r\n" + WrnMsg.sMsg;
+                    sWrnStr = "Attenzione !\r\n\r\nDate tra le casse non allineate :\r\n\r\n" + WrnMsg.sMsg;
+                    sWrnStr += "\r\n\r\nAvviare prima la CASSA PRINCIPALE !\r\n";
                     break;
 
                 case WRN_TNFF:

@@ -1,6 +1,6 @@
 ﻿/***************************************************
     NomeFile : StandFacile/EditArticoloDlg.cs
-	Data	 : 30.07.2025
+	Data	 : 14.08.2026
     Autore   : Mauro Artuso
  ***************************************************/
 using System;
@@ -22,7 +22,7 @@ namespace StandFacile
     public partial class EditArticoloDlg : Form
     {
         bool _bTipoEdit_OK, _bPrzEdit_OK;
-        int _iPt, _iPrevTab;
+        int _iPt, _iPrevTab, _iLastArticoloIndex;
 
         static bool _bListinoModificato;    // Flag per la gestione del salvataggio Listino
 
@@ -57,6 +57,8 @@ namespace StandFacile
             _bPrzEdit_OK = true;
             _bTipoEdit_OK = true;
             _iPrevTab = 0;
+
+            _iLastArticoloIndex = DataManager.GetLastArticoloIndex();
 
             TipoEdit.MaxLength = iMAX_ART_CHAR; // 18
 
@@ -293,13 +295,13 @@ namespace StandFacile
         /// <summary>click freccia dx</summary>
         private void BtnNavRight_Click(object sender, EventArgs e)
         {
-            if ((_iPt < MAX_ITEMS_NUM - 2) && CheckModifiche())
+            if ((_iPt < _iLastArticoloIndex - 1) && CheckModifiche())
             {
                 do
                 {
                     _iPt++;
                 }
-                while (EA_ckBoxSkipEmpty.Checked && String.IsNullOrEmpty(SF_Data.Articolo[_iPt].sTipo) && (_iPt < MAX_ITEMS_NUM - 2));
+                while (EA_ckBoxSkipEmpty.Checked && String.IsNullOrEmpty(SF_Data.Articolo[_iPt].sTipo) && (_iPt < _iLastArticoloIndex - 1));
 
                 Init(_iPt, true);
             }
@@ -384,13 +386,13 @@ namespace StandFacile
 
                     case Keys.Up:
                     case Keys.Right:
-                        if (_iPt < MAX_ITEMS_NUM - 2)
+                        if (_iPt < _iLastArticoloIndex - 1)
                         {
                             do
                             {
                                 _iPt++;
                             }
-                            while (EA_ckBoxSkipEmpty.Checked && String.IsNullOrEmpty(SF_Data.Articolo[_iPt].sTipo) && (_iPt < MAX_ITEMS_NUM - 2));
+                            while (EA_ckBoxSkipEmpty.Checked && String.IsNullOrEmpty(SF_Data.Articolo[_iPt].sTipo) && (_iPt < _iLastArticoloIndex - 1));
                         }
                         break;
 
@@ -424,7 +426,7 @@ namespace StandFacile
                     _iPt = 0;
                     break;
                 case KEY_END:
-                    _iPt = MAX_ITEMS_NUM - 2;
+                    _iPt = _iLastArticoloIndex - 1;
                     break;
 
                 case KEY_MINUS:
@@ -436,7 +438,7 @@ namespace StandFacile
                     break;
                 case KEY_PLUS:
                 case KEY_PLUS_NUM:
-                    if (_iPt < MAX_ITEMS_NUM - 2)
+                    if (_iPt < _iLastArticoloIndex - 1)
                     {
                         _iPt++;
                     }
