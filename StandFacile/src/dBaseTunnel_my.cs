@@ -929,7 +929,7 @@ namespace StandFacile
 
                     // connessione non possibile al database remoto
                     _WrnMsg.iErrID = WRN_DBR;
-                    _WrnMsg.sMsg = "rdb CheckListino priceList";
+                    _WrnMsg.sMsg = "rdb rdbLogWriteVersion";
                     WarningManager(_WrnMsg);
 
                     return false;

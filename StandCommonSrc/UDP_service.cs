@@ -1,6 +1,6 @@
 ﻿/**********************************************************************
     NomeFile : StandFacile/Udp_Service.cs
-    Data	 : 12.07.2026
+    Data	 : 18.08.2026
     Autore   : Mauro Artuso
 
     gestione delle notifiche UDP tra le postazioni:
@@ -92,9 +92,7 @@ namespace StandCommonFiles
             }
 
 #elif STANDFACILE
-            // DataManager.AggiornaDisponibilità(); // chiamata diretta genera eccezione cross thread, 
-            // bisogna usare il timer di FrmMain per aggiornare i dati di disponibilità e vendita
-            if (msg.Contains(UDP_EVENTS.CASHDESK_UP_PING_EVENT))
+            if (msg.Contains(UDP_EVENTS.CASHDESK_UP_PING_EVENT) && dBaseIntf.bUSA_NDB())
             {
                 int iPos = msg.IndexOf(':');
                 string sHost = msg.Substring(iPos + 1).Trim();
@@ -115,6 +113,8 @@ namespace StandCommonFiles
                     }
                 }
             }
+            // DataManager.AggiornaDisponibilità(); // chiamata diretta genera eccezione cross thread, 
+            // bisogna usare il timer di FrmMain per aggiornare i dati di disponibilità e vendita
             else if (msg.Contains(UDP_EVENTS.SEC_CASHDESK_TICKET_EVENT) && (glb.SF_Data.iNumCassa == CASSA_PRINCIPALE))
             {
                 FrmMain.SetShortDispUpdateTimeout(2);

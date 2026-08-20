@@ -1,6 +1,6 @@
 ﻿/***********************************************
   	NomeFile : StandFacile/DataCheckDlg.cs
-    Data	 : 30.05.2026
+    Data	 : 18.08.2026
   	Autore   : Mauro Artuso
  ***********************************************/
 
@@ -131,10 +131,12 @@ namespace StandFacile
         /// </summary>       
         void UpdateDataCheckParams()
         {
-            rFrmMain.SetEditCoperto(DC_EditCoperti.Text.Trim());
-            rFrmMain.SetEditTavolo(DC_EditTavolo.Text.Trim());
-            rFrmMain.SetEditName(DC_EditName.Text.Trim());
-            rFrmMain.SetEditCAP(DC_Edit_CAP.Text.Trim());
+            // altrimenti rallenta troppo la gestione del dialogo
+
+            //rFrmMain.SetEditCoperto(DC_EditCoperti.Text.Trim());
+            //rFrmMain.SetEditTavolo(DC_EditTavolo.Text.Trim());
+            //rFrmMain.SetEditName(DC_EditName.Text.Trim());
+            //rFrmMain.SetEditCAP(DC_Edit_CAP.Text.Trim());
 
             DC_lbl_Cash.ForeColor = SystemColors.ControlDark;
 
@@ -181,6 +183,11 @@ namespace StandFacile
             // avvia la stampa dell'ordine
             String[] sQueue_Object = new String[2] { ORDER_PRINT_START, "" };
 
+            rFrmMain.SetEditCoperto(DC_EditCoperti.Text.Trim());
+            rFrmMain.SetEditTavolo(DC_EditTavolo.Text.Trim());
+            rFrmMain.SetEditName(DC_EditName.Text.Trim());
+            rFrmMain.SetEditCAP(DC_Edit_CAP.Text.Trim());
+            
             UpdateDataCheckParams();
 
             if ((!GetTable_MandatoryFlag() || !String.IsNullOrEmpty(DC_EditTavolo.Text.Trim())) &&
@@ -196,6 +203,11 @@ namespace StandFacile
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
+            rFrmMain.SetEditCoperto(DC_EditCoperti.Text.Trim());
+            rFrmMain.SetEditTavolo(DC_EditTavolo.Text.Trim());
+            rFrmMain.SetEditName(DC_EditName.Text.Trim());
+            rFrmMain.SetEditCAP(DC_Edit_CAP.Text.Trim());
+
             UpdateDataCheckParams();
 
             if ((!GetTable_MandatoryFlag() || !String.IsNullOrEmpty(DC_EditTavolo.Text.Trim())) &&
