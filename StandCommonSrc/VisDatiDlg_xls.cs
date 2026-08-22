@@ -735,7 +735,7 @@ namespace StandFacile
                                 ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = DB_Data.Articolo[j].sTipo;
                                 ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = DB_Data.Articolo[j].iPrezzoUnitario / 100.0f;
                                 ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 4] = DB_Data.Articolo[j].iQuantitaOrdine;
-                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 5] = iTotaleParz / 100.0f;
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 5] = (bBuoniApplicati ? -iTotaleParz : iTotaleParz) / 100.0f;
 
                                 if (!String.IsNullOrEmpty(DB_Data.Articolo[j].sNotaArt))
                                     ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = DB_Data.Articolo[j].sNotaArt;

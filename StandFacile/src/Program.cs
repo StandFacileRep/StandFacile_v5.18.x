@@ -71,9 +71,6 @@ namespace StandFacile
             // Inizializza le directories dopo che è definita la data
             DataManager rDataManager = new DataManager();
 
-            // Caricamento configurazione
-            Config rConfig = new Config();
-
             LoggerNLog.ConfigureAppender();
             LogManager.Configuration = LoggerNLog.config;
 
@@ -85,6 +82,9 @@ namespace StandFacile
             sTmp += "******************************";
 
             CommonCl.Logger.Info(sTmp);
+
+            // Caricamento configurazione
+            Config rConfig = new Config();
 
             iNDbMode = ReadRegistry(DB_MODE_KEY, (int)DB_MODE.SQLITE);
 

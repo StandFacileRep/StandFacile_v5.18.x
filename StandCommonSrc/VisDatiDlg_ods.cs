@@ -866,7 +866,7 @@ namespace StandFacile
                                      .AddCell(DB_Data.Articolo[j].sTipo, DataType.String)
                                      .AddCell(DB_Data.Articolo[j].iPrezzoUnitario / 100.0f, DataType.Currency)
                                      .AddCell(DB_Data.Articolo[j].iQuantitaOrdine, DataType.Number)
-                                     .AddCell(iTotaleParz / 100.0f, DataType.Currency)
+                                     .AddCell((bBuoniApplicati ? -iTotaleParz : iTotaleParz) / 100.0f, DataType.Currency)
                                      .AddCell("", DataType.String)
                                      .AddCell(DB_Data.Articolo[j].sNotaArt, DataType.String);
                                 }
@@ -879,7 +879,7 @@ namespace StandFacile
                                          .AddCell(DB_Data.Articolo[j].sTipo, DataType.String)
                                          .AddCell(DB_Data.Articolo[j].iPrezzoUnitario / 100.0f, DataType.Number)
                                          .AddCell(DB_Data.Articolo[j].iQuantitaOrdine, DataType.Number)
-                                         .AddCell(iTotaleParz / 100.0f, DataType.Number)
+                                         .AddCell((bBuoniApplicati ? -iTotaleParz : iTotaleParz) / 100.0f, DataType.Number)
                                          .AddCell("", DataType.String)
                                          .AddCell(DB_Data.Articolo[j].sNotaArt, DataType.String);
                                 }

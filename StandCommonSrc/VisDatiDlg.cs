@@ -963,19 +963,21 @@ namespace StandFacile
                     break;
                 case 1:
 
+                    Free_DataExport(true);
+
                     if (VD_CheckBoxOrders.Checked)
                     {
                         ordersProgressBar.Value = 4;
-                        Free_DataExport(true);
                         Free_OrdersExport(true);
                     }
                     break;
                 case 2:
 
+                    Free_DataExport(false);
+
                     if (VD_CheckBoxOrders.Checked)
                     {
                         ordersProgressBar.Value = 4;
-                        Free_DataExport(false);
                         Free_OrdersExport(false);
                     }
                     break;
