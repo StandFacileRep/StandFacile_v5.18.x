@@ -1,6 +1,6 @@
 ﻿/***************************************************************************
 	NomeFile : StandCommonSrc/ViewOrdersDlg.cs
-	Data	 : 01.12.2025
+	Data	 : 26.08.2026
 	Autore	 : Mauro Artuso 
 	 
  ***************************************************************************/
@@ -671,7 +671,8 @@ namespace StandFacile
                  ***    RICOSTRUZIONE COPIA RIEPILOGO	***
                  ******************************************/
 
-                WriteLocalCopy(DB_Data, iParam, true, sDir, sOrdineStrings);
+                if (IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_SUMMARY_COPY_REQUIRED))
+                    WriteLocalCopy(DB_Data, iParam, true, sDir, sOrdineStrings);
 #endif
 
 #if STANDFACILE || STAND_CUCINA

@@ -1,6 +1,6 @@
 /**********************************************************************
     NomeFile : StandFacile/DataManager.cs
-	Data	 : 10.08.2026
+	Data	 : 26.08.2026
     Autore   : Mauro Artuso
 
      nb: DB_Data compare sempre a destra nelle assegnazioni
@@ -608,7 +608,8 @@ namespace StandFacile
              ***        STAMPA COPIA RIEPILOGO	    ***
              ******************************************/
 
-            WriteLocalCopy(SF_Data, 0, true, sDir, sOrdineStrings);
+            if (IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_SUMMARY_COPY_REQUIRED))
+                WriteLocalCopy(SF_Data, 0, true, sDir, sOrdineStrings);
 
             /*******************************************************
              *               STAMPA COPIE DI RETE
