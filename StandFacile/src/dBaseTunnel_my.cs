@@ -1,6 +1,6 @@
 ﻿/*****************************************************************************************
 	NomeFile : StandFacile/dBaseTunnel_my.cs
-    Data	 : 11.08.2026
+    Data	 : 27.08.2026
 	Autore   : Mauro Artuso
 
     Classe per la lettura degli ordini in remoto, utilizza HTTP tunneling
@@ -48,6 +48,13 @@ namespace StandFacile
         private static readonly string _NO_DB_ERRORS = "\"errornumber\":\"0\",\"errordescr\":\"";
 
         private const string _MYSQL_TUNNEL = "mysqlTunnel.php";
+
+        /// <summary>
+        /// URL di debug per localhost, da modificare in caso di necessità, vale:<br/>
+        /// http://localhost/standfacile_       php 7.4.33<br/>
+        /// http://localhost/wa/standfacile_    php 8.2.xx
+        /// </summary>
+        private const string _DEBUG_URL = "http://localhost/standfacile_"; 
 
         static bool _bStartReadRemTable, _bWebServiceRequested, _bPrimaVolta_o_ForzaCaricamentoListino, _bPrimaVoltaLog;
 
@@ -181,7 +188,7 @@ namespace StandFacile
             }
             else // server di debug "standfacile_rdb"
             {
-                _sTunnel_URL = String.Format("http://localhost/wa/standfacile_{0}_php/{1}?", sConfig.sWebUrlVersion, _MYSQL_TUNNEL);
+                _sTunnel_URL = String.Format("{0}{1}_php/{2}?", _DEBUG_URL, sConfig.sWebUrlVersion, _MYSQL_TUNNEL);
                 _sHost = "localhost";
 
                 sComposeUserName = _sWebServerParams.sWeb_DBaseName;
@@ -395,7 +402,7 @@ namespace StandFacile
             }
             else // server di debug "standfacile_rdb"
             {
-                sTunnel_URL = String.Format("http://localhost/wa/standfacile_{0}_php/{1}?", sConfig.sWebUrlVersion, _MYSQL_TUNNEL);
+                sTunnel_URL = String.Format("{0}{1}_php/{2}?", _DEBUG_URL, sConfig.sWebUrlVersion, _MYSQL_TUNNEL);
                 sEncryptedHost = Encrypt_WS("localhost");
 
                 sComposeUserName = sWeb_DBaseNameParam;
@@ -1039,7 +1046,7 @@ namespace StandFacile
         /// Funzione di upload nel database MySQL remoto del listino <br/>
         /// da parte della cassa primaria, a disposizione poi degli ordini web
         /// </summary>
-        static bool rdbUploadListino(bool bForceUpload)
+        static bool rdbUploadListino(bool bForceUploadPrm)
         {
             bool bHostConnection_Ok;
 
@@ -1059,7 +1066,7 @@ namespace StandFacile
                 bHostConnection_Ok = rdbPing();
 
                 // sicurezza : si prosegue solo se c'è la connessione all' rDB
-                if (!bHostConnection_Ok || !(_bWebServiceRequested || bForceUpload) || (SF_Data.iNumCassa != CASSA_PRINCIPALE))
+                if (!bHostConnection_Ok || !(_bWebServiceRequested || bForceUploadPrm) || (SF_Data.iNumCassa != CASSA_PRINCIPALE))
                     return false;
 
                 if (String.IsNullOrEmpty(_sWebServerParams.sWeb_DBaseName))

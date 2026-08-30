@@ -1871,7 +1871,7 @@ namespace StandFacile
         {
             String sTmp;
 
-            if (DataManager.GetNumOfLocalOrders() == 0)
+            if (DataManager.GetNumOfOrders() == 0)
             {
                 WrnMsg.iErrID = WRN_DNP;
                 WarningManager(WRN_DNP);
