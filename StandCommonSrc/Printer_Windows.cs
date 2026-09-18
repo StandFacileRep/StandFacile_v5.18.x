@@ -1,6 +1,6 @@
 ﻿/*****************************************************************************
 	NomeFile : StandCommonSrc/Printer_Windows.cs
-    Data	 : 21.06.2026
+    Data	 : 18.09.2026
 	Autore   : Mauro Artuso
 
 	Descrizione :
@@ -253,6 +253,8 @@ namespace StandCommonFiles
                     pd.DocumentName = Path.GetFileName(_sFileToPrintParam);
                     pd.DefaultPageSettings.Margins = margins;
 
+                    Logger.Info("Printer_Windows : dopo new PrintDocument()");
+
                     if (String.IsNullOrEmpty(sPrinterNameParam))
                     {
                         if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 2)  // stampa Messaggi
@@ -416,10 +418,12 @@ namespace StandCommonFiles
                     {
                         pd.PrintPage += new PrintPageEventHandler(pd_PrintPage);
 
-                        Logger.Info("Printer_Windows : PrintPage");
+                        Logger.Info("Printer_Windows : prima di PrintPage");
 
                         // stampa
                         pd.Print();
+
+                        Logger.Info("Printer_Windows : dopo PrintPage");
                     }
                 } // end while()
 

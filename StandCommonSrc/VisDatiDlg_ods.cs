@@ -1,21 +1,10 @@
-﻿/********************************************************************
-    NomeFile : StandCommonSrc/VisDatiDlg_ods.cs
-    Data	 : 10.08.2026
-    Autore : Mauro Artuso
-
-    https://www.nuget.org/packages/FreeDataExports
-    https://www.nuget.org/packages/FreeDataExports/1.1.14#excel-export-xlsx-2019
-
-    Classe di visualizzazione dei files Dati o Prezzi
- ********************************************************************/
-using FreeDataExports;
-using Microsoft.Office.Interop.Excel;
+﻿using FreeDataExports;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Globalization;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
 using static StandFacile.dBaseIntf;
@@ -388,9 +377,9 @@ namespace StandFacile
 
                             // ************************ CAP ************************
 #if STANDFACILE
-                            if (OptionsDlg.Get_CAP_ShowFlag())
+                            if ((CAP_list != null) && (CAP_list.Count > 0))
                             {
-                                iRow++;
+                                iRow++; iRow++;
 
                                 if (iColumn == 0)
                                 {
@@ -463,9 +452,8 @@ namespace StandFacile
 
                 // predisposizione tabella esportazione e formattazione
 
-                const int iPRE_COL_TEXT = 12; // posizione di inizio dati fascia centrale
-
                 String sCellContent = "";
+                bool bIsInteger, bIsCurrency;
 
                 // Array per formattazione larghezza delle colonne ma solo per xls
                 String[] sXlsColumnWidth = new String[100];
@@ -484,13 +472,12 @@ namespace StandFacile
 
                 for (i = 0; i < 100; i += 2)
                 {
-                    sOdsColumnWidth[i] = "16mm";
-                    sOdsColumnWidth[i + 1] = "26mm";
+                    sOdsColumnWidth[i] = "20mm";
+                    sOdsColumnWidth[i + 1] = "36mm";
                 }
 
                 sOdsColumnWidth[1] = "60mm"; // Articoli
-                sOdsColumnWidth[2] = "24mm"; // prz. unitario
-                sOdsColumnWidth[3] = "55mm"; // quant. venduta
+                sOdsColumnWidth[2] = "30mm"; // prz. unitario
 
                 try
                 {
@@ -500,55 +487,33 @@ namespace StandFacile
                         {
                             sCellContent = sDataArray[i, j];
 
-                            // dati prima di iPRE_COL_TEXT
-                            if ((i < iPRE_COL_TEXT - 2) && (j > 2))
+                            if (String.IsNullOrEmpty(sCellContent))
+                            {
+                                bIsInteger = false;
+                                bIsCurrency = false;
+                            }
+                            else
+                            {
+                                bIsInteger = int.TryParse(sCellContent + "", out int value_i);
+
+                                bIsCurrency = decimal.TryParse(sCellContent, NumberStyles.Currency, CultureInfo.GetCultureInfo("en-US"), out decimal value_c1);
+                                bIsCurrency |= decimal.TryParse(sCellContent, NumberStyles.Currency, CultureInfo.GetCultureInfo("it-IT"), out decimal value_c2);
+                                bIsCurrency |= decimal.TryParse(sCellContent, NumberStyles.Currency, CultureInfo.GetCultureInfo("fr-FR"), out decimal value_c3);
+                                bIsCurrency |= decimal.TryParse(sCellContent, NumberStyles.Currency, CultureInfo.GetCultureInfo("de-DE"), out decimal value_c4);
+                            }
+
+                            if (bIsInteger)
                             {
                                 xlsWorkSheet.AddCell(sCellContent, DataType.Number);
                                 odsWorkSheet.AddCell(sCellContent, DataType.Number);
                             }
-
-                            // dati fascia centrale esportazione
-                            else if ((i > iPRE_COL_TEXT) && (i <= _iLastArticoloIndexP1 + iPRE_COL_TEXT))
+                            else if (bIsCurrency)
                             {
-                                if ((j == 0) || (j == 1) || ((j == 5) && sCellContent == "OK"))
-                                {
-                                    xlsWorkSheet.AddCell(sCellContent + "", DataType.String);
-                                    odsWorkSheet.AddCell(sCellContent + "", DataType.String);
-                                }
-                                else if ((j == 2) || (j == 4))
-                                {
-                                    xlsWorkSheet.AddCell(sCellContent, DataType.Currency);
-                                    odsWorkSheet.AddCell(sCellContent, DataType.Number);
-                                }
-                                else
-                                {
-                                    xlsWorkSheet.AddCell(sCellContent, DataType.Number);
-                                    odsWorkSheet.AddCell(sCellContent, DataType.Number);
-                                }
-                            }
+                                //sCellContent = NormalizeCurrency(sCellContent);
 
-                            // dati finali esportazione
-                            else if ((i > _iLastArticoloIndexP1 + iPRE_COL_TEXT) && (j >= 4))
-                            {
-                                if ((sCellContent == null) || sCellContent.Contains("---"))
-                                {
-                                    xlsWorkSheet.AddCell(sCellContent + "", DataType.String);
-                                    odsWorkSheet.AddCell(sCellContent + "", DataType.String);
-                                }
-                                else
-                                {
-                                    xlsWorkSheet.AddCell(sCellContent, DataType.Currency);
-                                    odsWorkSheet.AddCell(sCellContent, DataType.Number);
-                                }
+                                xlsWorkSheet.AddCell(sCellContent, DataType.Currency);
+                                odsWorkSheet.AddCell(sCellContent, DataType.Number);
                             }
-
-                            // dati CAP
-                            else if ((i > _iCAP_vertPosStart) && (i <= _iCAP_vertPosStop))
-                            {
-                                xlsWorkSheet.AddCell(sCellContent + "", DataType.Number);
-                                odsWorkSheet.AddCell(sCellContent + "", DataType.Number);
-                            }
-
                             else
                             {
                                 xlsWorkSheet.AddCell(sCellContent + "", DataType.String);
@@ -556,16 +521,17 @@ namespace StandFacile
                             }
                         }
 
-                        xlsWorkSheet.ColumnWidths(sXlsColumnWidth);
                         xlsWorkSheet.AddRow();
 
-                        odsWorkSheet.ColumnWidths(sOdsColumnWidth);
                         odsWorkSheet.AddRow();
                     }
+
+                    odsWorkSheet.ColumnWidths(sOdsColumnWidth);
+                    xlsWorkSheet.ColumnWidths(sXlsColumnWidth);
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("i,j,sDataArray[i, j]: {0}, {1}, {2}", i, j, sDataArray[i, j]);
+                    Console.WriteLine("Free_DataExport: i,j,sDataArray[i, j]: {0}, {1}, {2}", i, j, sDataArray[i, j]);
                 }
 
                 sTmp = ods_WorkBook.GetErrors();

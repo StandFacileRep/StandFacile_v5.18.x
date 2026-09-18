@@ -1,6 +1,6 @@
 ﻿/********************************************************************
     NomeFile : StandCommonSrc/VisDatiDlg_xls.cs
-    Data	 : 22.07.2026
+    Data	 : 05.09.2026
     Autore   : Mauro Artuso
 
     Classe di visualizzazione dei files Dati o Prezzi
@@ -376,7 +376,7 @@ namespace StandFacile
 
                                 sFormat = String.Format("B{0}:B500", iRow); // dopo iRow
                                 xlsRange = xlsWorkSheet.get_Range(sFormat, Type.Missing);
-                                xlsRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+                                xlsRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
 
                                 sFormat = String.Format("C12:C{0}", iRow - 1); // fino ad iRow
                                 xlsRange = xlsWorkSheet.get_Range(sFormat, Type.Missing);
@@ -421,9 +421,9 @@ namespace StandFacile
 
                             // ************************ CAP ************************
 #if STANDFACILE
-                            if (OptionsDlg.Get_CAP_ShowFlag())
+                            if ((CAP_list != null) && (CAP_list.Count > 0))
                             {
-                                iRow++;
+                                iRow++; iRow++;
 
                                 if (iColumn == 0)
                                 {
@@ -763,7 +763,7 @@ namespace StandFacile
                                 iTotaleReceiptDovuto = 0;
                                 iScontoStdReceipt = iTotaleReceipt;
                             }
-                            
+
                             //double fScontoStdReceipt = Math.Round(iScontoStdReceipt / 100.0f, 2);
 
                             ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
@@ -799,12 +799,12 @@ namespace StandFacile
 
                             ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
                             ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** TOTALE ***";
-                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = iTotaleReceipt / 100.0f;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = Math.Round(iTotaleReceipt / 100.0f, 2);
                             iRow++;
 
                             ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
                             ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** DIFF. DOVUTA ***";
-                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 6] = iTotaleReceiptDovuto / 100.0f;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 6] = Math.Round(iTotaleReceiptDovuto / 100.0f, 2);
                             ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = DB_Data.sScontoText;
                             iRow++;
                         }
@@ -812,7 +812,7 @@ namespace StandFacile
                         {
                             ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
                             ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** TOTALE ***";
-                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = iTotaleReceipt / 100.0f;
+                            ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = Math.Round(iTotaleReceipt / 100.0f, 2);
                             iRow++;
 
                             ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 1] = k;
@@ -833,7 +833,7 @@ namespace StandFacile
                             if (DB_Data.bAnnullato)
                             {
                                 ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** ANNULLATO ***";
-                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = iTotaleReceipt / 100.0f;
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 3] = Math.Round(iTotaleReceipt / 100.0f, 2);
                             }
                             else
                             {
@@ -849,7 +849,7 @@ namespace StandFacile
                                 }
 
                                 ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 2] = "*** TOTALE ***";
-                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 6] = iTotaleReceipt / 100.0f;
+                                ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 6] = Math.Round(iTotaleReceipt / 100.0f, 2);
 
                                 if (bBuoniApplicatiParz)
                                     ordiniWS[iWS_Index].Cells[iRow, XLS_H_OFFSET + 7] = "*** applicato valore ridotto ***";

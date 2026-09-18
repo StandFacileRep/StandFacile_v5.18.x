@@ -695,27 +695,33 @@ namespace StandFacile
                         textEditDati.AppendText(sTmp);
                     }
 
-                    // ************************************* CAP ***********************************************
-                    textEditDati.AppendText("\r\n");
-
-                    sTmp = String.Format(sDAT_FMT_REP_RED + "\r\n", "CAP   ", "", "");
-                    textEditDati.AppendText(sTmp);
-
-                    var CAP_list_Ord = CAP_list.OrderBy(c => c.sCAP_ID).ToList();
-
-                    foreach (var cap in CAP_list_Ord)
+                    if (GetReport() == 0)
                     {
-                        sTmp = String.Format(sDAT_FMT_REP_RED + "\r\n", cap.sCAP_ID, cap.iCAP_count, "");
-                        textEditDati.AppendText(sTmp);
-                    }
-                }
-                else
-                {
-                    bErrors = true;
+                        // ************************************* CAP ***********************************************
+                        if ((CAP_list != null) && (CAP_list.Count > 0))
+                        {
+                            textEditDati.AppendText("\r\n");
 
-                    _WrnMsg.sMsg = sNomeFile;
-                    _WrnMsg.iErrID = WRN_TNP;
-                    WarningManager(_WrnMsg);
+                            sTmp = String.Format(sDAT_FMT_REP_RED + "\r\n", "CAP:", "", "");
+                            textEditDati.AppendText(sTmp);
+
+                            var CAP_list_Ord = CAP_list.OrderBy(c => c.sCAP_ID).ToList();
+
+                            foreach (var cap in CAP_list_Ord)
+                            {
+                                sTmp = String.Format(sDAT_FMT_REP_RED + "\r\n", cap.sCAP_ID, cap.iCAP_count, "");
+                                textEditDati.AppendText(sTmp);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        bErrors = true;
+
+                        _WrnMsg.sMsg = sNomeFile;
+                        _WrnMsg.iErrID = WRN_TNP;
+                        WarningManager(_WrnMsg);
+                    }
                 }
 
                 //textEditDati.ScrollBars = ScrollBars.Vertical;
