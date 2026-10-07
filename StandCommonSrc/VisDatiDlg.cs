@@ -34,11 +34,8 @@ namespace StandFacile
 
         // facilita la chiusura della form che altrimenti potrebbe aprirsi più volte
         bool _bVisCambioData, _InitCompletato;
-        static bool _bChars33;
-
         int _iTipoFile, _iNumCassa;
         int _iLastArticoloIndexP1;
-        int _iCAP_vertPosStart = 0, _iCAP_vertPosStop = 0;
 
         static int _iReportIndex;
 
@@ -241,8 +238,6 @@ namespace StandFacile
             VD_CheckBoxExport.Enabled = true;
             VD_lblCashDesk.Enabled = true;
 
-            _bChars33 = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
-
             Logger.Info("FrmVisDati : entra in VisDati");
 
             // ripristina il corretto tipo di file
@@ -323,8 +318,6 @@ namespace StandFacile
                 else
                     _rdBaseIntf.dbCaricaDatidaOrdini(_SelDate, _iNumCassa, false, _sNomeTabella, iReportParam);
 
-                InitFormatStrings(dbGetLengthArticoli());
-
                 /*************** fine punto di caricamento dati DB ******************/
 
                 //textEditDati.ScrollBars = ScrollBars.None;
@@ -364,9 +357,9 @@ namespace StandFacile
                     textEditDati.AppendText("\r\n");
 
                     if (VD_CheckBoxRedColumns.Checked)
-                        sFormat = _bChars33 ? "{0,31}" : "{0,26}";
+                        sFormat = "{0,30}";
                     else
-                        sFormat = _bChars33 ? "{0,33}" : "{0,28}";
+                        sFormat = "{0,32}";
 
                     sTmp = String.Format(sFormat + "{1,4}\r\n", "Numero Scontrini emessi = ", DB_Data.iActualNumOfReceipts);
                     textEditDati.AppendText(sTmp);
@@ -423,12 +416,12 @@ namespace StandFacile
                                 if (DB_Data.Articolo[i].iGruppoStampa == (int)DEST_TYPE.DEST_BUONI)
                                 {
                                     sParz = "-" + sParz;
-                                    sInStr = String.Format(sDAT_FMT_DAT + " (*)\r\n", DB_Data.Articolo[i].sTipo,
+                                    sInStr = String.Format(_DAT_FMT_32_DAT + " (*)\r\n", DB_Data.Articolo[i].sTipo,
                                         IntToEuro(DB_Data.Articolo[i].iPrezzoUnitario), DB_Data.Articolo[i].iQuantitaVenduta, sParz, sDisp);
                                 }
                                 else
                                 {
-                                    sInStr = String.Format(sDAT_FMT_DAT + "\r\n", DB_Data.Articolo[i].sTipo,
+                                    sInStr = String.Format(_DAT_FMT_32_DAT + "\r\n", DB_Data.Articolo[i].sTipo,
                                         IntToEuro(DB_Data.Articolo[i].iPrezzoUnitario), DB_Data.Articolo[i].iQuantitaVenduta, sParz, sDisp);
                                 }
 
@@ -438,10 +431,10 @@ namespace StandFacile
 
                         if (GetReport() == 0)
                         {
-                            sTmp = String.Format(sDAT_FMT_DSH + "\r\n", "--------");
+                            sTmp = String.Format(_DAT_FMT_32_DSH + "\r\n", "--------");
                             textEditDati.AppendText(sTmp);
 
-                            sTmp = String.Format(sDAT_FMT_TOT + "\r\n", "TOTALE", IntToEuro(DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati));
+                            sTmp = String.Format(_DAT_FMT_32_TOT + "\r\n", "TOTALE", IntToEuro(DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati));
                             textEditDati.AppendText(sTmp);
                         }
                     }
@@ -485,12 +478,12 @@ namespace StandFacile
                                 if (DB_Data.Articolo[i].iGruppoStampa == (int)DEST_TYPE.DEST_BUONI)
                                 {
                                     sParz = "-" + sParz;
-                                    sInStr = String.Format(sDAT_FMT_DAT + " (*)\r\n", DB_Data.Articolo[i].sTipo,
+                                    sInStr = String.Format(_DAT_FMT_32_DAT + " (*)\r\n", DB_Data.Articolo[i].sTipo,
                                         IntToEuro(DB_Data.Articolo[i].iPrezzoUnitario), DB_Data.Articolo[i].iQuantitaVenduta, sParz, sDisp);
                                 }
                                 else
                                 {
-                                    sInStr = String.Format(sDAT_FMT_DAT + "\r\n", DB_Data.Articolo[i].sTipo,
+                                    sInStr = String.Format(_DAT_FMT_32_DAT + "\r\n", DB_Data.Articolo[i].sTipo,
                                         IntToEuro(DB_Data.Articolo[i].iPrezzoUnitario), DB_Data.Articolo[i].iQuantitaVenduta, sParz, sDisp);
                                 }
 
@@ -500,10 +493,10 @@ namespace StandFacile
 
                         if (GetReport() == 0)
                         {
-                            sTmp = String.Format(sDAT_FMT_DSH + "\r\n", "--------");
+                            sTmp = String.Format(_DAT_FMT_32_DSH + "\r\n", "--------");
                             textEditDati.AppendText(sTmp);
 
-                            sTmp = String.Format(sDAT_FMT_TOT + "\r\n", "TOTALE", IntToEuro(DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati));
+                            sTmp = String.Format(_DAT_FMT_32_TOT + "\r\n", "TOTALE", IntToEuro(DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati));
                             textEditDati.AppendText(sTmp);
                         }
                     }
@@ -545,10 +538,10 @@ namespace StandFacile
                                 if (DB_Data.Articolo[i].iGruppoStampa == (int)DEST_TYPE.DEST_BUONI)
                                 {
                                     sParz = "-" + sParz;
-                                    sInStr = String.Format(sDAT_FMT_REP_RED + " (*)\r\n", DB_Data.Articolo[i].sTipo, DB_Data.Articolo[i].iQuantitaVenduta, sParz);
+                                    sInStr = String.Format(_DAT_FMT_32_REP_RED + " (*)\r\n", DB_Data.Articolo[i].sTipo, DB_Data.Articolo[i].iQuantitaVenduta, sParz);
                                 }
                                 else
-                                    sInStr = String.Format(sDAT_FMT_REP_RED + "\r\n", DB_Data.Articolo[i].sTipo, DB_Data.Articolo[i].iQuantitaVenduta, sParz);
+                                    sInStr = String.Format(_DAT_FMT_32_REP_RED + "\r\n", DB_Data.Articolo[i].sTipo, DB_Data.Articolo[i].iQuantitaVenduta, sParz);
 
                                 textEditDati.AppendText(sInStr);
                             }
@@ -556,10 +549,10 @@ namespace StandFacile
 
                         if (GetReport() == 0)
                         {
-                            sTmp = String.Format(sDAT_FMT_DSH_RED + "\r\n", "--------");
+                            sTmp = String.Format(_DAT_FMT_32_DSH_RED + "\r\n", "--------");
                             textEditDati.AppendText(sTmp);
 
-                            sTmp = String.Format(sDAT_FMT_TOT_RED + "\r\n", "TOTALE", IntToEuro(DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati));
+                            sTmp = String.Format(_DAT_FMT_32_TOT_RED + "\r\n", "TOTALE", IntToEuro(DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati));
                             textEditDati.AppendText(sTmp);
                         }
                     }
@@ -601,10 +594,10 @@ namespace StandFacile
                                 if (DB_Data.Articolo[i].iGruppoStampa == (int)DEST_TYPE.DEST_BUONI)
                                 {
                                     sParz = "-" + sParz;
-                                    sInStr = String.Format(sDAT_FMT_REP_RED + " (*)\r\n", DB_Data.Articolo[i].sTipo, DB_Data.Articolo[i].iQuantitaVenduta, sParz);
+                                    sInStr = String.Format(_DAT_FMT_32_REP_RED + " (*)\r\n", DB_Data.Articolo[i].sTipo, DB_Data.Articolo[i].iQuantitaVenduta, sParz);
                                 }
                                 else
-                                    sInStr = String.Format(sDAT_FMT_REP_RED + "\r\n", DB_Data.Articolo[i].sTipo, DB_Data.Articolo[i].iQuantitaVenduta, sParz);
+                                    sInStr = String.Format(_DAT_FMT_32_REP_RED + "\r\n", DB_Data.Articolo[i].sTipo, DB_Data.Articolo[i].iQuantitaVenduta, sParz);
 
                                 textEditDati.AppendText(sInStr);
                             }
@@ -612,21 +605,22 @@ namespace StandFacile
 
                         if (GetReport() == 0)
                         {
-                            sTmp = String.Format(sDAT_FMT_DSH_RED + "\r\n", "--------");
+                            sTmp = String.Format(_DAT_FMT_32_DSH_RED + "\r\n", "--------");
                             textEditDati.AppendText(sTmp);
 
-                            sTmp = String.Format(sDAT_FMT_TOT_RED + "\r\n", "TOTALE", IntToEuro(DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati));
+                            sTmp = String.Format(_DAT_FMT_32_TOT_RED + "\r\n", "TOTALE", IntToEuro(DB_Data.iTotaleIncasso - DB_Data.iTotaleBuoniApplicati));
                             textEditDati.AppendText(sTmp);
                         }
                     }
 
                     if (VD_CheckBoxRedColumns.Checked)
-                        sFormat = _bChars33 ? "{0,28}" : "{0,23}";
+                        sFormat = "{0,28}";
                     else
-                        sFormat = _bChars33 ? "{0,36}" : "{0,31}";
+                        sFormat = "{0,36}";
 
                     textEditDati.AppendText("\r\n");
 
+                    Logger.Info(String.Format("VisDatiDlg : iTotaleIncasso = {0}", DB_Data.iTotaleIncasso));
                     Logger.Info(String.Format("VisDatiDlg : iTotaleBuoniApplicati = {0}", DB_Data.iTotaleBuoniApplicati));
 
                     Logger.Info(String.Format("VisDatiDlg : iTotaleScontatoGratis = {0}", DB_Data.iTotaleScontatoGratis));
@@ -702,14 +696,14 @@ namespace StandFacile
                         {
                             textEditDati.AppendText("\r\n");
 
-                            sTmp = String.Format(sDAT_FMT_REP_RED + "\r\n", "CAP:", "", "");
+                            sTmp = String.Format(_DAT_FMT_32_REP_RED + "\r\n", "CAP:", "", "");
                             textEditDati.AppendText(sTmp);
 
                             var CAP_list_Ord = CAP_list.OrderBy(c => c.sCAP_ID).ToList();
 
                             foreach (var cap in CAP_list_Ord)
                             {
-                                sTmp = String.Format(sDAT_FMT_REP_RED + "\r\n", cap.sCAP_ID, cap.iCAP_count, "");
+                                sTmp = String.Format(_DAT_FMT_32_REP_RED + "\r\n", cap.sCAP_ID, cap.iCAP_count, "");
                                 textEditDati.AppendText(sTmp);
                             }
                         }

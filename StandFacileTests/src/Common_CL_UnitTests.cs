@@ -6,17 +6,13 @@
 	Classe per Unit Tests
  *****************************************************/
 
-using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using static StandFacile.Define;
+using StandFacile;
+using System;
+using System.Windows.Forms;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
-using static StandCommonFiles.ReceiptAndCopies;
-using StandFacile;
-using System.IO;
-using System.Collections.Generic;
-using System;
+using static StandFacile.Define;
 
 
 namespace StandFacileTests
@@ -82,7 +78,7 @@ namespace StandFacileTests
 
         [TestMethod]
         [DataRow("sconto bambini", 28, "       sconto bambini")]
-        [DataRow("sconto bambini", 33, "          sconto bambini")]
+        [DataRow("sconto bambini", 32, "          sconto bambini")]
         public void CenterJustify_ReturnsTrue(string SValParam, int iWidthParam, string sExpResultParam)
         {
             // Arrange
@@ -96,7 +92,7 @@ namespace StandFacileTests
 
         [TestMethod]
         [DataRow("sconto bambini", 28, "  **   sconto bambini   **")]
-        [DataRow("sconto bambini", 33, "  *****   sconto bambini   *****")]
+        [DataRow("sconto bambini", 32, "  *****   sconto bambini   *****")]
         public void CenterJustifyStars_ReturnsTrue(string SValParam, int iWidthParam, string sExpResultParam)
         {
             // Arrange

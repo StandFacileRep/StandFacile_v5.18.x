@@ -60,7 +60,7 @@ namespace StandFacile
 
             _iLastArticoloIndex = DataManager.GetLastArticoloIndex();
 
-            TipoEdit.MaxLength = iMAX_ART_CHAR; // 18
+            TipoEdit.MaxLength = MAX_ART_CHAR; // 18
 
             groupsCombo.Items.Clear();
 
@@ -212,12 +212,12 @@ namespace StandFacile
         private void TipoEdit_TextChanged(object sender, EventArgs e)
         {
             int i;
-            LblMaxChar.Text = "(max " + iMAX_ART_CHAR.ToString() + " caratteri)";
+            LblMaxChar.Text = "(max " + MAX_ART_CHAR.ToString() + " caratteri)";
 
             // no Trim() altrimenti non si possono più gestire gli spazi tra stringhe
             // TipoEdit.Text = TipoEdit.Text.Trim();
 
-            i = iMAX_ART_CHAR - TipoEdit.Text.Length;
+            i = MAX_ART_CHAR - TipoEdit.Text.Length;
             if (i < 0)
                 i = 0;
 
@@ -509,7 +509,7 @@ namespace StandFacile
                     iPrz = -1;
                 }
                 // stringa troppo lunga tipoArticolo
-                else if (TipoEdit.Text.Length > iMAX_ART_CHAR)
+                else if (TipoEdit.Text.Length > MAX_ART_CHAR)
                 {
                     iPrz = -1;
 

@@ -111,7 +111,6 @@ namespace StandFacile
         private bool CaricaListino()
         {
             bool bChecksumTrovato = false;
-            bool bForce_maxChars_33 = false;
 
             int s_pos; // posizione della semicolon
             int i, j, iPrzTmp, iDest;
@@ -121,7 +120,6 @@ namespace StandFacile
             int hIndex;     // scandisce le righe di Header
             int iPageNum;
             int iLineFeed;
-            int iMaxWrnCount = 3;
 
             uint uWebHashCode = 0, uLocHashCode = 0;
 
@@ -301,8 +299,8 @@ namespace StandFacile
                         {
                             SF_Data.sHeaders[hIndex] = sInStr.Substring(5);
 
-                            // iMAX_RECEIPT_CHARS viene caricato successivamente !
-                            if (SF_Data.sHeaders[hIndex].Length > MAX_ABS_RECEIPT_CHARS)
+                            // MAX_RECEIPT_CHARS viene caricato successivamente !
+                            if (SF_Data.sHeaders[hIndex].Length > MAX_RECEIPT_CHARS)
                             {
                                 _ErrMsg.iErrID = WRN_STL;
                                 WarningManager(_ErrMsg);  // stringa troppo lunga
@@ -645,11 +643,6 @@ namespace StandFacile
 
                         SF_Data.iGenericPrintOptions = i;
 
-                        bool bChars33 = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
-
-                        iMAX_RECEIPT_CHARS = bChars33 ? MAX_ABS_RECEIPT_CHARS : MAX_LEG_RECEIPT_CHARS;
-                        iMAX_ART_CHAR = bChars33 ? MAX_ABS_ART_CHAR : MAX_LEG_ART_CHAR;
-
                         continue;
                     }
                     else if (sInStr.StartsWith("#TN") || sInStr.StartsWith("#LC")) // compatibilità
@@ -763,24 +756,10 @@ namespace StandFacile
                     sArticoloStr = sInStr.Substring(0, s_pos);
                     sArticoloStr = sArticoloStr.Trim();
 
-                    if (sArticoloStr.Length > MAX_ABS_ART_CHAR)
+                    if (sArticoloStr.Length > MAX_ART_CHAR + 1)
                     {
                         _ErrMsg.iErrID = ERR_STL;
                         ErrorManager(_ErrMsg);  // stringa troppo lunga con errore
-                    }
-                    else if ((sArticoloStr.Length > iMAX_ART_CHAR) && (sArticoloStr.Length <= MAX_ABS_ART_CHAR))
-                    {
-                        if (iMaxWrnCount > 0)
-                        {
-                            iMaxWrnCount--;
-
-                            _ErrMsg.iErrID = WRN_C23;
-                            _ErrMsg.sMsg = sArticoloStr;
-                            WarningManager(_ErrMsg);  // stringa troppo lunga con warning
-
-                            if (!IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED))
-                                bForce_maxChars_33 = true;
-                        }
                     }
 
                     SF_Data.Articolo[iRiga].sTipo = sArticoloStr;
@@ -854,17 +833,6 @@ namespace StandFacile
 
                     iRiga++; // ********* riga successiva *********
                 } // end for
-
-                // se è stato trovato un articolo con più di 18 caratteri si passa a 23
-                if (bForce_maxChars_33)
-                {
-                    SF_Data.iGenericPrintOptions = SetBit(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
-
-                    iMAX_RECEIPT_CHARS = MAX_ABS_RECEIPT_CHARS;
-                    iMAX_ART_CHAR = MAX_ABS_ART_CHAR;
-
-                    _bListinoModificato = true;
-                }
 
                 /*********************************************************
                  *	controllo coerenza TouchMode e numero di righe

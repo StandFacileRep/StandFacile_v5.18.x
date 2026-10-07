@@ -39,7 +39,7 @@ namespace StandFacile
         public const String WIN_SUM_PRINTER_MODEL_KEY = "sWinPrinterModel_sum";
 
         /// <summary>registro: stringa del modello della stampante per le copie</summary>
-        public const string WIN_CPY_PRINTER_MODEL_MKEY = "sWinPrinterModel_{0}";
+        public const string WIN_CPY_PRINTER_MODEL_KEY = "sWinPrinterModel_{0}";
 
         /// <summary>registro: chiave per gestione disponibilità iniziale dei gruppi di Articoli</summary>
         public const string DISP_GROUP_KEY = "iDispGroups";

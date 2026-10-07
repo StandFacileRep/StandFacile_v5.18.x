@@ -1,6 +1,6 @@
 ﻿/*****************************************************************************
     NomeFile : StandCommonSrc/Printer_Legacy.cs
-    Data	 : 06.12.2024
+    Data	 : 24.09.2026
     Autore   : Mauro Artuso
  ******************************************************************************/
 
@@ -123,45 +123,15 @@ namespace StandCommonFiles
         }
 
         /// <summary>
-        /// funzione di stampa stringa con ritardo variabile richiesto da alcune stampanti
-        /// </summary>
-        public static void PrintLine(String sTextToPrint, int iDelay = 0)
-        {
-
-            if (_LegacyPrinterParams.sPort.Contains("COM"))
-            {
-                if (serialPort.IsOpen)
-                    serialPort.WriteLine(sTextToPrint);
-
-                if (_LegacyPrinterParams.iFlowCtrl == (int)LegacyPrinterDlg.FLOW_CONTROL.FLOW_NONE)
-                {
-                    if (iDelay > 0)
-                        Thread.Sleep(iDelay);
-                    else
-                        Thread.Sleep(50); // 50 = delay di default
-                }
-            }
-            else // LPT
-            {
-                Byte[] buffer = System.Text.Encoding.UTF8.GetBytes(sTextToPrint + "\n");
-
-                if (LPT_IsOpen())
-                    lptStream.Write(buffer, 0, buffer.Length);
-            }
-
-            iCloseDelay = CLOSE_DELAY;
-        }
-
-        /// <summary>
         /// ATTENZIONE : PrintLine(char *pChTextToPrint, int iDelay, int iCount)
         /// non può essere fatta con AnsiString a causa dei bytes 0x00 inviati
         /// </summary>
-        public static void PrintBuffer(char[] textToPrint, int iCount, int iDelay = 0)
+        public static void PrintBuffer(byte[] bytesToPrint, int iDelay = 0)
         {
             if (_LegacyPrinterParams.sPort.Contains("COM"))
             {
                 if (serialPort.IsOpen)
-                    serialPort.Write(textToPrint, 0, iCount);
+                    serialPort.Write(bytesToPrint, 0, bytesToPrint.Length);
 
                 if (_LegacyPrinterParams.iFlowCtrl == (int)LegacyPrinterDlg.FLOW_CONTROL.FLOW_NONE)
                 {
@@ -173,10 +143,8 @@ namespace StandCommonFiles
             }
             else
             {
-                Byte[] buffer = System.Text.Encoding.UTF8.GetBytes(textToPrint);
-
                 if (LPT_IsOpen())
-                    lptStream.Write(buffer, 0, iCount);
+                    lptStream.Write(bytesToPrint, 0, bytesToPrint.Length);
             }
 
             iCloseDelay = CLOSE_DELAY;
@@ -202,7 +170,6 @@ namespace StandCommonFiles
                 // verifica se la coda è vuota
                 if (printQueue.Count > 0)
                 {
-
                     if (!((String.IsNullOrEmpty(_LegacyPrinterParams.sPort) || _LegacyPrinterParams.sPort.Contains("COM")) ? COM_PortIsOpen() : LPT_PortIsOpen()))
                     {
                         // Open fallita!
@@ -220,7 +187,6 @@ namespace StandCommonFiles
                     }
                     else
                     {
-
                         // altrimenti lo switch viene percorso durante la chiusura
                         while (bRunning && (printQueue.Count > 0))
                         {
@@ -242,7 +208,7 @@ namespace StandCommonFiles
                             {
                                 case (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_T88_SER:
                                 case (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_L90_LPT:
-                                    TPrinter_TM_POS.PrintFile(sFileToPrint);
+                                    PrintBuffer(Printer_ESCPOS.PrintFile(sFileToPrint, false));
                                     break;
                             }
 
@@ -250,7 +216,6 @@ namespace StandCommonFiles
                         }
 
                         sFileToPrint = "";
-
                     }
                 }
 
@@ -613,46 +578,6 @@ namespace StandCommonFiles
         }
 
 
-        /// <summary>Autotest</summary>
-        public static void PrintAutoTest()
-        {
-
-            if (!(_LegacyPrinterParams.sPort.Contains("COM") ? COM_PortIsOpen() : LPT_PortIsOpen()))
-            {
-                WarningManager(WRN_TSF);
-                return;
-            }
-
-            switch (_LegacyPrinterParams.iPrinterModel)
-            {
-                case (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_T88_SER:
-                case (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_L90_LPT:
-                    TPrinter_TM_POS.PrintAutoTest();
-                    break;
-            }
-
-            PortClose();
-        }
-
-        /// <summary>Info</summary>
-        public static void PrintInfo()
-        {
-            if (!(_LegacyPrinterParams.sPort.Contains("COM") ? COM_PortIsOpen() : LPT_PortIsOpen()))
-            {
-                WarningManager(WRN_TSF);
-                return;
-            }
-
-            switch (_LegacyPrinterParams.iPrinterModel)
-            {
-                case (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_T88_SER:
-                case (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_L90_LPT:
-                    break;
-            }
-
-            PortClose();
-        }
-
         /// <summary>
         /// test di esempio di stampa
         /// </summary>
@@ -662,7 +587,7 @@ namespace StandCommonFiles
 
             _LegacyPrinterParams = sLegacyPrinterParams;
 
-            sFileToPrint = BuildSampleText();
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_LEGACY);
 
             sTmp = String.Format("Printer_Legacy : PrintSampleText() {0}", sFileToPrint);
             Logger.Info(sTmp);

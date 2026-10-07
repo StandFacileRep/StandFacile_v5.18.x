@@ -71,6 +71,7 @@
             this.LC_label4 = new System.Windows.Forms.Label();
             this.BtnPrintCheck = new System.Windows.Forms.Button();
             this.LC_label5 = new System.Windows.Forms.Label();
+            this.checkBox_escpos = new System.Windows.Forms.CheckBox();
             this.RadioGroup_PrinterType.SuspendLayout();
             this.printersGroupBox.SuspendLayout();
             this.LC_panelLocalCopies.SuspendLayout();
@@ -82,9 +83,9 @@
             this.RadioGroup_PrinterType.Controls.Add(this.prt_Legacy);
             this.RadioGroup_PrinterType.Controls.Add(this.prt_Windows);
             this.RadioGroup_PrinterType.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.RadioGroup_PrinterType.Location = new System.Drawing.Point(312, 14);
+            this.RadioGroup_PrinterType.Location = new System.Drawing.Point(324, 14);
             this.RadioGroup_PrinterType.Name = "RadioGroup_PrinterType";
-            this.RadioGroup_PrinterType.Size = new System.Drawing.Size(211, 94);
+            this.RadioGroup_PrinterType.Size = new System.Drawing.Size(209, 94);
             this.RadioGroup_PrinterType.TabIndex = 1;
             this.RadioGroup_PrinterType.TabStop = false;
             this.RadioGroup_PrinterType.Text = "tipo di Stampante dello Scontrino";
@@ -92,7 +93,7 @@
             // prt_Legacy
             // 
             this.prt_Legacy.AutoSize = true;
-            this.prt_Legacy.Location = new System.Drawing.Point(128, 50);
+            this.prt_Legacy.Location = new System.Drawing.Point(19, 61);
             this.prt_Legacy.Name = "prt_Legacy";
             this.prt_Legacy.Size = new System.Drawing.Size(69, 18);
             this.prt_Legacy.TabIndex = 1;
@@ -103,12 +104,12 @@
             // prt_Windows
             // 
             this.prt_Windows.AutoSize = true;
-            this.prt_Windows.Location = new System.Drawing.Point(19, 50);
+            this.prt_Windows.Location = new System.Drawing.Point(19, 29);
             this.prt_Windows.Name = "prt_Windows";
-            this.prt_Windows.Size = new System.Drawing.Size(85, 18);
+            this.prt_Windows.Size = new System.Drawing.Size(142, 18);
             this.prt_Windows.TabIndex = 0;
             this.prt_Windows.TabStop = true;
-            this.prt_Windows.Text = "WINDOWS";
+            this.prt_Windows.Text = "WINDOWS, ESC/POS";
             this.prt_Windows.UseVisualStyleBackColor = true;
             // 
             // printersGroupBox
@@ -117,12 +118,12 @@
             this.printersGroupBox.Controls.Add(this.BtnLegacy);
             this.printersGroupBox.Controls.Add(this.BtnWin);
             this.printersGroupBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.printersGroupBox.Location = new System.Drawing.Point(30, 14);
+            this.printersGroupBox.Location = new System.Drawing.Point(16, 14);
             this.printersGroupBox.Name = "printersGroupBox";
-            this.printersGroupBox.Size = new System.Drawing.Size(260, 94);
+            this.printersGroupBox.Size = new System.Drawing.Size(290, 94);
             this.printersGroupBox.TabIndex = 0;
             this.printersGroupBox.TabStop = false;
-            this.printersGroupBox.Text = "Impostazione stampanti Windows e Legacy";
+            this.printersGroupBox.Text = "Imposta stampanti Windows, ESC/POS e Legacy";
             // 
             // BtnGenPrinterOptions
             // 
@@ -166,7 +167,7 @@
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancel.Location = new System.Drawing.Point(163, 655);
+            this.btnCancel.Location = new System.Drawing.Point(163, 682);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 28);
@@ -181,7 +182,7 @@
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOK.Image = global::StandFacile.Properties.Resources.OK;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOK.Location = new System.Drawing.Point(299, 655);
+            this.btnOK.Location = new System.Drawing.Point(299, 682);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 28);
@@ -507,7 +508,7 @@
             this.PrintersListCombo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.PrintersListCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PrintersListCombo.FormattingEnabled = true;
-            this.PrintersListCombo.Location = new System.Drawing.Point(237, 612);
+            this.PrintersListCombo.Location = new System.Drawing.Point(237, 613);
             this.PrintersListCombo.Name = "PrintersListCombo";
             this.PrintersListCombo.Size = new System.Drawing.Size(194, 21);
             this.PrintersListCombo.TabIndex = 9;
@@ -517,7 +518,7 @@
             this.LC_checkBoxRiepilogo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_checkBoxRiepilogo.AutoSize = true;
             this.LC_checkBoxRiepilogo.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_checkBoxRiepilogo.Location = new System.Drawing.Point(33, 612);
+            this.LC_checkBoxRiepilogo.Location = new System.Drawing.Point(33, 613);
             this.LC_checkBoxRiepilogo.Name = "LC_checkBoxRiepilogo";
             this.LC_checkBoxRiepilogo.Padding = new System.Windows.Forms.Padding(1);
             this.LC_checkBoxRiepilogo.Size = new System.Drawing.Size(188, 20);
@@ -530,7 +531,7 @@
             this.LC_label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label4.AutoSize = true;
             this.LC_label4.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_label4.Location = new System.Drawing.Point(234, 589);
+            this.LC_label4.Location = new System.Drawing.Point(234, 587);
             this.LC_label4.Name = "LC_label4";
             this.LC_label4.Size = new System.Drawing.Size(293, 16);
             this.LC_label4.TabIndex = 11;
@@ -540,7 +541,7 @@
             // 
             this.BtnPrintCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.BtnPrintCheck.Image = global::StandFacile.Properties.Resources.OK;
-            this.BtnPrintCheck.Location = new System.Drawing.Point(460, 612);
+            this.BtnPrintCheck.Location = new System.Drawing.Point(460, 613);
             this.BtnPrintCheck.Name = "BtnPrintCheck";
             this.BtnPrintCheck.Size = new System.Drawing.Size(27, 23);
             this.BtnPrintCheck.TabIndex = 42;
@@ -552,18 +553,32 @@
             this.LC_label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label5.AutoSize = true;
             this.LC_label5.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_label5.Location = new System.Drawing.Point(50, 589);
+            this.LC_label5.Location = new System.Drawing.Point(52, 587);
             this.LC_label5.Name = "LC_label5";
             this.LC_label5.Size = new System.Drawing.Size(169, 16);
             this.LC_label5.TabIndex = 43;
             this.LC_label5.Text = "in aggiunta alle copie Locali:";
+            // 
+            // checkBox_escpos
+            // 
+            this.checkBox_escpos.AutoSize = true;
+            this.checkBox_escpos.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos.Location = new System.Drawing.Point(34, 647);
+            this.checkBox_escpos.Name = "checkBox_escpos";
+            this.checkBox_escpos.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos.Size = new System.Drawing.Size(253, 20);
+            this.checkBox_escpos.TabIndex = 83;
+            this.checkBox_escpos.Text = "utilizza per il riepilogo la stampa ESC/POS ";
+            this.checkBox_escpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos.UseVisualStyleBackColor = true;
             // 
             // PrintLocalCopiesConfigDlg
             // 
             this.AcceptButton = this.btnCancel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(539, 699);
+            this.ClientSize = new System.Drawing.Size(544, 726);
+            this.Controls.Add(this.checkBox_escpos);
             this.Controls.Add(this.LC_label5);
             this.Controls.Add(this.BtnPrintCheck);
             this.Controls.Add(this.LC_label4);
@@ -639,5 +654,6 @@
         private System.Windows.Forms.Label LC_label4;
         private System.Windows.Forms.Button BtnPrintCheck;
         private System.Windows.Forms.Label LC_label5;
+        private System.Windows.Forms.CheckBox checkBox_escpos;
     }
 }

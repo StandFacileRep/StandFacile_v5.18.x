@@ -91,31 +91,25 @@ namespace StandFacile
 
             LogoBmpCombo.Items.Clear();
             LogoBmpCombo.Items.Add("no Logo");
+            LogoBmpCombo.Items.Add("graphic Logo");
             LogoBmpCombo.Items.Add("Logo bmp 1");
             LogoBmpCombo.Items.Add("Logo bmp 2");
             LogoBmpCombo.Items.Add("Logo bmp 3");
             LogoBmpCombo.Items.Add("Logo bmp 4");
 
-            FontTypeCombo.Items.Clear();
-            FontTypeCombo.Items.Add("TM-T88 : Font B  9x17 x2");
-            FontTypeCombo.Items.Add("TM-T88 : Font A 12x24 x1");
-
             Init(false);
         }
 
-         /// <summary>
-         /// Inizializzazione con lettura dal Registro
-         /// </summary>
+        /// <summary>
+        /// Inizializzazione con lettura dal Registro
+        /// </summary>
         public void Init(bool bShow)
         {
             // 8
             sGlbLegacyPrinterParams.iPrinterModel = ReadRegistry(LEGACY_PRINTER_MODEL_KEY, 0);
             sGlbLegacyPrinterParams.iLogoBmp = ReadRegistry("iLegacyLogoBmp", 0);
-            sGlbLegacyPrinterParams.iFontType = ReadRegistry("iLegacyFontType", 0);
             sGlbLegacyPrinterParams.iFlowCtrl = ReadRegistry("iLegacyFlowCtrl", (int)FLOW_CONTROL.FLOW_NONE);
             sGlbLegacyPrinterParams.iPaperSize = ReadRegistry("iLegacyPaperSize", 1);
-            sGlbLegacyPrinterParams.iPaperSpeed = ReadRegistry("iLegacyPaperSpeed", 0);
-            sGlbLegacyPrinterParams.iDensity = ReadRegistry("iLegacyDensity", 0);
             sGlbLegacyPrinterParams.sPort = ReadRegistry("sLegacyPort", "COM1");
 
             // *** copia locale ***
@@ -133,11 +127,6 @@ namespace StandFacile
                 LogoBmpCombo.SelectedIndex = sGlbLegacyPrinterParams.iLogoBmp;
             else
                 LogoBmpCombo.SelectedIndex = 0;
-
-            if (sGlbLegacyPrinterParams.iFontType < FontTypeCombo.Items.Count) // controllo sul range
-                FontTypeCombo.SelectedIndex = sGlbLegacyPrinterParams.iFontType;
-            else
-                FontTypeCombo.SelectedIndex = 0;
 
             if (PrinterTypeCombo.SelectedIndex == (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_T88_SER)
                 TP_flow_XON_XOFF.Enabled = true;
@@ -170,31 +159,6 @@ namespace StandFacile
                     break;
             }
 
-            switch (sGlbLegacyPrinterParams.iPaperSpeed)
-            {
-                case (int)RANGE.LOW:
-                    TP_speedLow.Checked = true;
-                    break;
-                case (int)RANGE.HIGH:
-                    TP_speedHigh.Checked = true;
-                    break;
-                default:
-                    TP_speedMedium.Checked = true;
-                    break;
-            }
-
-            switch (sGlbLegacyPrinterParams.iDensity)
-            {
-                case (int)RANGE.LOW:
-                    TP_densityLow.Checked = true;
-                    break;
-                case (int)RANGE.HIGH:
-                    TP_densityHigh.Checked = true;
-                    break;
-                default:
-                    TP_densityMedium.Checked = true;
-                    break;
-            }
 
             FindPorts();
 
@@ -205,7 +169,7 @@ namespace StandFacile
 
             AggiornaAspettoControlli();
 
-            if ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) || bShow)
+            if ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) || bShow)
             {
                 if (!Printer_Legacy.PortVerify(sGlbLegacyPrinterParams))
                 {
@@ -223,15 +187,14 @@ namespace StandFacile
             return;
         }
 
-         /// <summary>
-         /// funzione che inposta tutti i parametri necessari
-         /// alla classe prelevandoli dai controlli e non dal Registro
-         /// </summary>
+        /// <summary>
+        /// funzione che inposta tutti i parametri necessari
+        /// alla classe prelevandoli dai controlli e non dal Registro
+        /// </summary>
         public void UpdateLegacyPrinterParam()
         {
             _sLegacyPrinterParamsCopy.iPrinterModel = PrinterTypeCombo.SelectedIndex;
             _sLegacyPrinterParamsCopy.iLogoBmp = LogoBmpCombo.SelectedIndex;
-            _sLegacyPrinterParamsCopy.iFontType = FontTypeCombo.SelectedIndex;
 
             _sLegacyPrinterParamsCopy.sPort = PORT_Combo.Text;
 
@@ -246,20 +209,6 @@ namespace StandFacile
                 _sLegacyPrinterParamsCopy.iPaperSize = (int)PAPER_SIZE.S57MM;
             else
                 _sLegacyPrinterParamsCopy.iPaperSize = (int)PAPER_SIZE.S80MM;
-
-            if (TP_speedLow.Checked)
-                _sLegacyPrinterParamsCopy.iPaperSpeed = (int)RANGE.LOW;
-            else if (TP_speedHigh.Checked)
-                _sLegacyPrinterParamsCopy.iPaperSpeed = (int)RANGE.HIGH;
-            else
-                _sLegacyPrinterParamsCopy.iPaperSpeed = (int)RANGE.MEDIUM;
-
-            if (TP_densityLow.Checked)
-                _sLegacyPrinterParamsCopy.iDensity = (int)RANGE.LOW;
-            else if (TP_densityHigh.Checked)
-                _sLegacyPrinterParamsCopy.iDensity = (int)RANGE.HIGH;
-            else
-                _sLegacyPrinterParamsCopy.iDensity = (int)RANGE.MEDIUM;
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
@@ -273,11 +222,8 @@ namespace StandFacile
             // 8 scritture nel registro
             WriteRegistry(LEGACY_PRINTER_MODEL_KEY, sGlbLegacyPrinterParams.iPrinterModel);
             WriteRegistry("iLegacyLogoBmp", sGlbLegacyPrinterParams.iLogoBmp);
-            WriteRegistry("iLegacyFontType", sGlbLegacyPrinterParams.iFontType);
             WriteRegistry("iLegacyFlowCtrl", sGlbLegacyPrinterParams.iFlowCtrl);
             WriteRegistry("iLegacyPaperSize", sGlbLegacyPrinterParams.iPaperSize);
-            WriteRegistry("iLegacyPaperSpeed", sGlbLegacyPrinterParams.iPaperSpeed);
-            WriteRegistry("iLegacyDensity", sGlbLegacyPrinterParams.iDensity);
             WriteRegistry("sLegacyPort", sGlbLegacyPrinterParams.sPort);
 
             if (!PortVerify(sGlbLegacyPrinterParams))
@@ -314,15 +260,6 @@ namespace StandFacile
                     TP_PaperSizeGroupBox.Enabled = false;
 
                     LogoBmpCombo.Enabled = true;
-                    FontTypeCombo.Enabled = true;
-
-                    if (!FontTypeCombo.SelectedItem.ToString().Contains("TM-T88"))
-                    {
-                        FontTypeCombo.Items.Clear();
-                        FontTypeCombo.Items.Add("TM-T88 : Font B  9x17 x2");
-                        FontTypeCombo.Items.Add("TM-T88 : Font A 12x24 x1");
-                        FontTypeCombo.SelectedIndex = 0;
-                    }
 
                     if (PrinterTypeCombo.SelectedIndex == (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_T88_SER)
                     {
@@ -353,15 +290,6 @@ namespace StandFacile
                         TP_flow_XON_XOFF.Enabled = false;
                     }
 
-                    TP_speedGroupBox.Enabled = false;
-                    TP_speedMedium.Checked = true;
-
-                    TP_densityGroupBox.Enabled = false;
-                    TP_densityMedium.Checked = true;
-
-                    TP_btnInfo.Enabled = false;
-                    TP_btnAutotest.Enabled = true;
-
                     break;
 
                 default:
@@ -373,11 +301,6 @@ namespace StandFacile
                     TP_PaperSizeGroupBox.Enabled = false;
                     LogoBmpCombo.Enabled = false;
 
-                    TP_speedGroupBox.Enabled = false;
-                    TP_densityGroupBox.Enabled = false;
-
-                    TP_btnInfo.Enabled = false;
-                    TP_btnAutotest.Enabled = false;
                     break;
             }
         }
@@ -387,10 +310,6 @@ namespace StandFacile
         {
             if (!_bInitComplete)
                 return;
-
-            FontTypeCombo.Items.Clear();
-            FontTypeCombo.Items.Add("FONT RESET");
-            FontTypeCombo.SelectedIndex = 0;
 
             UpdateLegacyPrinterParam();
 
@@ -403,25 +322,11 @@ namespace StandFacile
                 PORT_Combo.SelectedIndex = 0;
         }
 
-        private void BtnAutotest_Click(object sender, EventArgs e)
-        {
-            UpdateLegacyPrinterParam();
-
-            Printer_Legacy.PrintAutoTest();
-        }
-
         private void BtnTestoProva_Click(object sender, EventArgs e)
         {
             UpdateLegacyPrinterParam();
 
             Printer_Legacy.PrintSampleText(_sLegacyPrinterParamsCopy);
-        }
-
-        private void BtnInfo_Click(object sender, EventArgs e)
-        {
-            UpdateLegacyPrinterParam();
-
-            Printer_Legacy.PrintInfo();
         }
 
         private void FindPorts()
@@ -478,6 +383,7 @@ namespace StandFacile
         {
             Hide();
         }
+
     }
 }
 

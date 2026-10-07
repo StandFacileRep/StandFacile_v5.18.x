@@ -182,9 +182,6 @@ namespace StandFacile_DB
 
             _WrnMsg.iErrID = 0; // resetta errori in altra data
 
-#if !STAND_ORDINI
-            _iDBArticoliLength_Is33 = IsBitSet(DB_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
-#endif
             // *** sicurezza ***
             if (!bUSA_NDB()) return -1;
 
@@ -320,9 +317,6 @@ namespace StandFacile_DB
                                 DB_Data.Articolo[i].sTipo = "";
                             else
                                 DB_Data.Articolo[i].sTipo = sTmp;
-
-                            if (!string.IsNullOrEmpty(sTmp) && (sTmp.Length > MAX_LEG_ART_CHAR))
-                                _iDBArticoliLength_Is33 = true;
 
                             DB_Data.Articolo[i].iGruppoStampa = readerDati.GetInt32("iGruppo_Stampa");
                             DB_Data.Articolo[i].iPrezzoUnitario = readerDati.GetInt32("iPrezzo_Unitario");
@@ -695,8 +689,12 @@ namespace StandFacile_DB
                                 else
                                 {
                                     DB_Data.Articolo[iLastArticoloDBIndexP1].iQuantitaVenduta += iQuantitaOrdine;
-                                    DB_Data.iTotaleIncasso += iPrezzoUnitario * iQuantitaOrdine;
-                                    iTotaleReceipt += iPrezzoUnitario * iQuantitaOrdine;
+
+                                    if (DB_Data.Articolo[iLastArticoloDBIndexP1].iGruppoStampa != (int)DEST_TYPE.DEST_BUONI)
+                                    {
+                                        DB_Data.iTotaleIncasso += iPrezzoUnitario * iQuantitaOrdine;
+                                        iTotaleReceipt += iPrezzoUnitario * iQuantitaOrdine;
+                                    }
 
                                     if (IsBitSet(iStatus, (int)STATUS_FLAGS.BIT_ASPORTO))
                                         DB_Data.Articolo[iLastArticoloDBIndexP1].iQtaEsportata += iQuantitaOrdine;
@@ -892,9 +890,6 @@ namespace StandFacile_DB
             // dbAzzeraDatiGen() va più sotto
             dbAzzeraDatiOrdine(ref DB_Data);
 
-#if !STAND_ORDINI
-            _iDBArticoliLength_Is33 = IsBitSet(DB_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
-#endif
             try
             {
                 cmd.Connection = _Connection;
@@ -1133,8 +1128,6 @@ namespace StandFacile_DB
                             DB_Data.Articolo[iCount].iOptionsFlags = readerOrdine.GetInt32("iStatus");
 
                             sTmp = readerOrdine.GetString("sTipo_Articolo");
-                            if (!string.IsNullOrEmpty(sTmp) && (sTmp.Length > MAX_LEG_ART_CHAR))
-                                _iDBArticoliLength_Is33 = true;
 
                             DB_Data.iNumOfReceiptItems++;
                             iCount++;

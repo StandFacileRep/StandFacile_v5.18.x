@@ -27,7 +27,7 @@ namespace StandFacile
             InitializeComponent();
             rDispDlg = this;
 
-            EAA_TipoEdit.MaxLength = iMAX_ART_CHAR;
+            EAA_TipoEdit.MaxLength = MAX_ART_CHAR;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace StandFacile
             _iPt = iPt;
 
             EAA_TipoEdit.Text = SF_Data.Articolo[_iPt].sTipo;
-            EAA_TipoEdit.Text = CenterJustify(EAA_TipoEdit.Text, iMAX_RECEIPT_CHARS);
+            EAA_TipoEdit.Text = CenterJustify(EAA_TipoEdit.Text, MAX_RECEIPT_CHARS);
 
             i = SF_Data.Articolo[_iPt].iGruppoStampa;
             EAA_lblDescGruppo.Text = sConstGruppi[i].ToUpper();

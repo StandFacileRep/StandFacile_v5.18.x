@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 	NomeFile : StandCommonSrc/WinPrinterDlg.cs
-    Data	 : 10.09.2025
+    Data	 : 28.09.2026
 	Autore   : Mauro Artuso
 
 	Descrizione : classe per la gestione della Form per l'impostazione dei
@@ -131,6 +131,12 @@ namespace StandFacile
 
             // stampante Windows di Default
             sDefaultPrinter = settings.PrinterName;
+
+            // inizializzazione stampanti ESC POS
+            iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
+
+            checkBox_escpos.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS);
+            checkBox_CashDrawer.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 3);
 
             //	letto anche dalla classe TFrmPrintConfig() così non ci sono problemi di ordine della
             //	instanziazione delle classi
@@ -364,7 +370,11 @@ namespace StandFacile
             AggiornaAspettoControlli();
 
             Logger.Info("WinPrinterDlg : SampleTextBtnClick");
-            Printer_Windows.PrintSampleText(_sWinPrinterParamsCopy);
+
+            if (checkBox_escpos.Checked)
+                Printer_ESCPOS.PrintSampleText(_sWinPrinterParamsCopy);
+            else
+                Printer_Windows.PrintSampleText(_sWinPrinterParamsCopy);
 
         }
 
@@ -497,6 +507,28 @@ namespace StandFacile
             }
             else
                 WP_lblLogoPreview.Text = "Anteprima Logo :";
+
+            // abilita/disabilita alcuni controlli se è selezionata la stampante ESC POS
+            WP_labelCenterLogo.Enabled = !checkBox_escpos.Checked;
+            numUpDown_LogoCenter.Enabled = !checkBox_escpos.Checked;
+            
+            WP_btnRcpFontSelect.Enabled = !checkBox_escpos.Checked;
+            WP_labelZoomRcp.Enabled = !checkBox_escpos.Checked;
+            numUpDownRcpZoom.Enabled = !checkBox_escpos.Checked;
+
+            WP_btnRepFontSelect.Enabled = !checkBox_escpos.Checked;
+            WP_labelZoomRep.Enabled = !checkBox_escpos.Checked;
+            numUpDownRepZoom.Enabled = !checkBox_escpos.Checked;
+
+            WP_lblRecap.Enabled = !checkBox_escpos.Checked;
+            Memo.Enabled = !checkBox_escpos.Checked;
+
+            checkBox_CashDrawer.Enabled = checkBox_escpos.Checked;
+
+            if (checkBox_escpos.Checked)
+                PrintersListCombo.DropDownStyle = ComboBoxStyle.DropDown; // editabile
+            else
+                PrintersListCombo.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         private void BtnTicketsFontSelect_Click(object sender, EventArgs e)
@@ -779,6 +811,11 @@ namespace StandFacile
             AggiornaAspettoControlli();
         }
 
+        private void checkBox_escpos_Click(object sender, EventArgs e)
+        {
+            AggiornaAspettoControlli();
+        }
+
         private void BtnOK_Click(object sender, EventArgs e)
         {
             UpdateWinPrinterParam();
@@ -812,6 +849,10 @@ namespace StandFacile
             WriteRegistry(LOGO_WIN_ZOOM_KEY, sGlbWinPrinterParams.iLogoZoomValue);
 
             WriteRegistry(LOGO_WIN_CENTER_KEY, sGlbWinPrinterParams.iLogoCenter);
+
+            iEscPosPrinterType = UpdateBit(iEscPosPrinterType, checkBox_escpos.Checked, NUM_SEP_PRINT_GROUPS);
+            iEscPosPrinterType = UpdateBit(iEscPosPrinterType, checkBox_CashDrawer.Checked, NUM_SEP_PRINT_GROUPS + 3);
+            WriteRegistry(WIN_ESC_POS_MODEL_KEY, iEscPosPrinterType);
 
             Logger.Info("WinPrinterDlg : OKBtnClick");
         }

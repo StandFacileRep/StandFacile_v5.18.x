@@ -55,9 +55,9 @@ namespace StandFacile
                 Lbl_DB.Text = String.Format("DB_SQLite, {0}", sCassa);
 
             //lettura stampante windows o Legacy
-            iPrinterType = ReadRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_SEL.STAMPANTE_WINDOWS);
+            iPrinterType = ReadRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
 
-            if (iPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS)
+            if (iPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH)
                 sTmp = String.Format("Stampante windows : {0}", sGlbWinPrinterParams.sRcpPrinterModel);
             else
                 sTmp = String.Format("Stampante legacy : {0}, {1}, {2}", sConstLegacyModels[sGlbLegacyPrinterParams.iPrinterModel],

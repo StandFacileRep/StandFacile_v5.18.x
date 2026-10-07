@@ -58,6 +58,8 @@
             this.WP_lblLogoPreview = new System.Windows.Forms.Label();
             this.RadioBtnLogo_B = new System.Windows.Forms.RadioButton();
             this.RadioBtnLogo_T = new System.Windows.Forms.RadioButton();
+            this.checkBox_escpos = new System.Windows.Forms.CheckBox();
+            this.checkBox_CashDrawer = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.WP_logoImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownRcpZoom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownRepZoom)).BeginInit();
@@ -103,7 +105,7 @@
             // WP_btnLogoFileSelect
             // 
             this.WP_btnLogoFileSelect.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WP_btnLogoFileSelect.Location = new System.Drawing.Point(26, 426);
+            this.WP_btnLogoFileSelect.Location = new System.Drawing.Point(26, 413);
             this.WP_btnLogoFileSelect.Name = "WP_btnLogoFileSelect";
             this.WP_btnLogoFileSelect.Size = new System.Drawing.Size(141, 23);
             this.WP_btnLogoFileSelect.TabIndex = 10;
@@ -128,7 +130,7 @@
             this.WP_btnDeleteLogo.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.WP_btnDeleteLogo.Image = global::StandFacile.Properties.Resources.Cancel;
             this.WP_btnDeleteLogo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.WP_btnDeleteLogo.Location = new System.Drawing.Point(26, 469);
+            this.WP_btnDeleteLogo.Location = new System.Drawing.Point(26, 456);
             this.WP_btnDeleteLogo.Name = "WP_btnDeleteLogo";
             this.WP_btnDeleteLogo.Size = new System.Drawing.Size(141, 23);
             this.WP_btnDeleteLogo.TabIndex = 11;
@@ -139,7 +141,7 @@
             // WP_btnSampleText
             // 
             this.WP_btnSampleText.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WP_btnSampleText.Location = new System.Drawing.Point(26, 511);
+            this.WP_btnSampleText.Location = new System.Drawing.Point(26, 498);
             this.WP_btnSampleText.Name = "WP_btnSampleText";
             this.WP_btnSampleText.Size = new System.Drawing.Size(141, 23);
             this.WP_btnSampleText.TabIndex = 13;
@@ -166,7 +168,7 @@
             this.btnCancel.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.Image = global::StandFacile.Properties.Resources.Cancel;
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancel.Location = new System.Drawing.Point(152, 584);
+            this.btnCancel.Location = new System.Drawing.Point(152, 628);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(81, 28);
@@ -183,7 +185,7 @@
             this.btnOK.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOK.Image = global::StandFacile.Properties.Resources.OK;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOK.Location = new System.Drawing.Point(302, 586);
+            this.btnOK.Location = new System.Drawing.Point(302, 630);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(72, 28);
@@ -298,7 +300,7 @@
             0,
             0,
             0});
-            this.numUpDownLogoZoom.Location = new System.Drawing.Point(181, 382);
+            this.numUpDownLogoZoom.Location = new System.Drawing.Point(181, 369);
             this.numUpDownLogoZoom.Maximum = new decimal(new int[] {
             140,
             0,
@@ -344,7 +346,7 @@
             // 
             this.WP_labelZoomLogo.AutoSize = true;
             this.WP_labelZoomLogo.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WP_labelZoomLogo.Location = new System.Drawing.Point(23, 383);
+            this.WP_labelZoomLogo.Location = new System.Drawing.Point(23, 370);
             this.WP_labelZoomLogo.Name = "WP_labelZoomLogo";
             this.WP_labelZoomLogo.Size = new System.Drawing.Size(140, 16);
             this.WP_labelZoomLogo.TabIndex = 30;
@@ -354,7 +356,7 @@
             // 
             this.WP_labelCenterLogo.AutoSize = true;
             this.WP_labelCenterLogo.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WP_labelCenterLogo.Location = new System.Drawing.Point(19, 344);
+            this.WP_labelCenterLogo.Location = new System.Drawing.Point(19, 331);
             this.WP_labelCenterLogo.Name = "WP_labelCenterLogo";
             this.WP_labelCenterLogo.Size = new System.Drawing.Size(152, 14);
             this.WP_labelCenterLogo.TabIndex = 8;
@@ -415,7 +417,7 @@
             0,
             0,
             0});
-            this.numUpDown_LogoCenter.Location = new System.Drawing.Point(181, 342);
+            this.numUpDown_LogoCenter.Location = new System.Drawing.Point(181, 329);
             this.numUpDown_LogoCenter.Maximum = new decimal(new int[] {
             200,
             0,
@@ -435,7 +437,7 @@
             // BtnDefaults
             // 
             this.BtnDefaults.Image = global::StandFacile.Properties.Resources.Cancel1;
-            this.BtnDefaults.Location = new System.Drawing.Point(470, 519);
+            this.BtnDefaults.Location = new System.Drawing.Point(478, 510);
             this.BtnDefaults.Name = "BtnDefaults";
             this.BtnDefaults.Size = new System.Drawing.Size(35, 26);
             this.BtnDefaults.TabIndex = 78;
@@ -447,7 +449,7 @@
             // 
             this.labelDefault.AutoSize = true;
             this.labelDefault.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDefault.Location = new System.Drawing.Point(273, 525);
+            this.labelDefault.Location = new System.Drawing.Point(281, 516);
             this.labelDefault.Name = "labelDefault";
             this.labelDefault.Size = new System.Drawing.Size(181, 14);
             this.labelDefault.TabIndex = 79;
@@ -499,12 +501,41 @@
             this.RadioBtnLogo_T.UseVisualStyleBackColor = true;
             this.RadioBtnLogo_T.Click += new System.EventHandler(this.RadioBtnLogo_Click);
             // 
+            // checkBox_escpos
+            // 
+            this.checkBox_escpos.AutoSize = true;
+            this.checkBox_escpos.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos.Location = new System.Drawing.Point(26, 546);
+            this.checkBox_escpos.Name = "checkBox_escpos";
+            this.checkBox_escpos.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos.Size = new System.Drawing.Size(252, 20);
+            this.checkBox_escpos.TabIndex = 82;
+            this.checkBox_escpos.Text = "utilizza la stampa con protocollo ESC/POS";
+            this.checkBox_escpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos.UseVisualStyleBackColor = true;
+            this.checkBox_escpos.Click += new System.EventHandler(this.checkBox_escpos_Click);
+            // 
+            // checkBox_CashDrawer
+            // 
+            this.checkBox_CashDrawer.AutoSize = true;
+            this.checkBox_CashDrawer.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_CashDrawer.Location = new System.Drawing.Point(26, 582);
+            this.checkBox_CashDrawer.Name = "checkBox_CashDrawer";
+            this.checkBox_CashDrawer.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_CashDrawer.Size = new System.Drawing.Size(254, 20);
+            this.checkBox_CashDrawer.TabIndex = 83;
+            this.checkBox_CashDrawer.Text = "comanda apertura cassetto con ESC/POS";
+            this.checkBox_CashDrawer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_CashDrawer.UseVisualStyleBackColor = true;
+            // 
             // WinPrinterDlg
             // 
             this.AcceptButton = this.btnCancel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 625);
+            this.ClientSize = new System.Drawing.Size(543, 669);
+            this.Controls.Add(this.checkBox_CashDrawer);
+            this.Controls.Add(this.checkBox_escpos);
             this.Controls.Add(this.WP_groupBoxLogoChoice);
             this.Controls.Add(this.labelDefault);
             this.Controls.Add(this.BtnDefaults);
@@ -539,7 +570,7 @@
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Impostazioni stampante Scontrino Windows";
+            this.Text = "Impostazioni stampante Scontrino Windows o ESC/POS";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WinPrinterDlg_FormClosing);
             this.Click += new System.EventHandler(this.NumUpDown_Click);
             ((System.ComponentModel.ISupportInitialize)(this.WP_logoImage)).EndInit();
@@ -588,5 +619,7 @@
         private System.Windows.Forms.RadioButton RadioBtnLogo_T;
         private System.Windows.Forms.Label WP_lblLogoPreview;
         private System.Windows.Forms.RadioButton RadioBtnLogo_B;
+        private System.Windows.Forms.CheckBox checkBox_escpos;
+        private System.Windows.Forms.CheckBox checkBox_CashDrawer;
     }
 }

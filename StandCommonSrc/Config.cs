@@ -159,7 +159,7 @@ namespace StandFacile
 
                             // i gruppi vanno da 1 a 11 per l'utente, 0 - 10 per il programma
                             if ((iVal > 0) && (iVal <= NUM_SEP_PRINT_GROUPS + 1))
-                                sConfig.iLocalCopyPrinterNumRedirect = iVal - 1; 
+                                sConfig.iLocalCopyPrinterNumRedirect = iVal - 1;
                         }
                         catch (Exception)
                         {
@@ -302,8 +302,8 @@ namespace StandFacile
                             {
                                 sTmp = sInStr.Substring(3).Trim();
 
-                                // iMAX_RECEIPT_CHARS viene caricato successivamente !
-                                if (sTmp.Length > MAX_ABS_RECEIPT_CHARS)
+                                // MAX_RECEIPT_CHARS viene caricato successivamente !
+                                if (sTmp.Length > MAX_RECEIPT_CHARS)
                                 {
                                     _ErrMsg.iErrID = WRN_CFSTL;
                                     WarningManager(_ErrMsg);  // stringa troppo lunga

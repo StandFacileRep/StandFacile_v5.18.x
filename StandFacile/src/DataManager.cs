@@ -1,6 +1,6 @@
 /**********************************************************************
     NomeFile : StandFacile/DataManager.cs
-	Data	 : 26.08.2026
+	Data	 : 26.09.2026
     Autore   : Mauro Artuso
 
      nb: DB_Data compare sempre a destra nelle assegnazioni
@@ -43,8 +43,6 @@ namespace StandFacile
 
         static bool _bListinoModificato;
         static bool _bChecksumListinoCoerente;
-        static bool _bChars33;
-
         static bool[] _bSomethingInto_GrpToPrint = new bool[NUM_COPIES_GRPS];
         static bool[] _bSomethingInto_ClrToPrint = new bool[NUM_COPIES_GRPS];
 
@@ -363,9 +361,6 @@ namespace StandFacile
             bool bListinoOk;
             String sTmp;
 
-            iMAX_RECEIPT_CHARS = MAX_LEG_RECEIPT_CHARS;
-            iMAX_ART_CHAR = MAX_LEG_ART_CHAR;
-
             // test di connessione, se fallisce si evita di pedere tempo qui di seguito
             _bDB_InitialConnectionOk = _rdBaseIntf.dbInit(GetActualDate(), CASSA_PRINCIPALE, true);
 
@@ -402,11 +397,8 @@ namespace StandFacile
             else
                 Logger.Info("Datamanager Init !WebOrderEnabled");
 
-            sTmp = String.Format("Datamanager Init: iMAX_RECEIPT_CHARS = {0}", iMAX_RECEIPT_CHARS);
+            sTmp = String.Format("Datamanager Init: MAX_RECEIPT_CHARS = {0}", MAX_RECEIPT_CHARS);
             Logger.Info(sTmp);
-
-            _bChars33 = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
-            InitFormatStrings(_bChars33);
         }
 
         /// <summary>
@@ -586,9 +578,6 @@ namespace StandFacile
             TOrdineStrings sOrdineStrings = new TOrdineStrings();
 
             sOrdineStrings = SetupHeaderStrings(SF_Data, 0);
-
-            _bChars33 = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
-            InitFormatStrings(_bChars33);
 
             /**************************************
              ***        STAMPA SCONTRINO        ***
@@ -1031,7 +1020,12 @@ namespace StandFacile
                         if (_bSomethingInto_ClrToPrint[i])
                         {
                             if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(i))
-                                Printer_Windows.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
+                            {
+                                if (IsBitSet(iEscPosPrinterType, i))
+                                    Printer_ESCPOS.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
+                                else
+                                    Printer_Windows.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
+                            }
                             else
                                 Printer_Legacy.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
                         }

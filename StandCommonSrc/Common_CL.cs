@@ -1,6 +1,6 @@
 ﻿/*****************************************************
  	NomeFile : StandCommonSrc/CommonFunc.cs
-    Data	 : 11.12.2025
+    Data	 : 26.09.2026
  	Autore	 : Mauro Artuso
 
 	Classi statiche di uso comune
@@ -307,7 +307,7 @@ namespace StandCommonFiles
             String sLine = "";
             for (int i = 0; i < length; i++)
                 sLine += star;
-                
+
             return sLine;
         }
 
@@ -351,12 +351,12 @@ namespace StandCommonFiles
         }
 
         /// <summary>costruzione file di test stampa</summary>
-        public static String BuildSampleText()
+        public static String BuildSampleText(PRINTER_TYPE ePrinterTypeParam)
         {
-            const String _LEFT_MARGIN_FMT = "  {0}";
+            const String _LEFT_MARGIN_FMT = " {0}";
 
             int i, j, ich;
-            int iMaxChars = 24;
+            const int iMaxChars = MAX_RECEIPT_CHARS - 1; // consente di avere uno spazio a sinistra
 
             String sTmp;
             StreamWriter fData;
@@ -369,10 +369,6 @@ namespace StandCommonFiles
 
 #if STAND_MONITOR
             sDir = sRootDir + "\\";
-#endif
-
-#if !STAND_ORDINI
-            iMaxChars = (IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED) ? 33 : 28) - 4;
 #endif
 
             File.Delete(sDir + NOME_FILE_SAMPLE_TEXT);
@@ -389,8 +385,8 @@ namespace StandCommonFiles
 
 #if STANDFACILE || STAND_MONITOR
 
-                if (((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                    ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0)))
+                if (((ePrinterTypeParam == PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                    ((ePrinterTypeParam == PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0)))
                 {
                     sTmp = CenterJustify(_LOGO_T, iMaxChars);
                     sTmp = String.Format(_LEFT_MARGIN_FMT, sTmp);
@@ -469,7 +465,7 @@ namespace StandCommonFiles
                 if (!String.IsNullOrEmpty(SF_Data.sHeaders[MAX_NUM_HEADERS - 1]))
                     fData.WriteLine(sTmp + "\n");
 
-                if ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B))
+                if ((ePrinterTypeParam == PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B))
                 {
                     sTmp = CenterJustify(_LOGO_B, iMaxChars);
 
@@ -477,7 +473,7 @@ namespace StandCommonFiles
                     fData.WriteLine(sTmp + "\n");
                 }
 
-                if (iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS)
+                if (ePrinterTypeParam == PRINTER_TYPE.STAMPANTE_USB_ETH)
                 {
                     sTmp = CenterJustify(_BARCODE, iMaxChars);
 
@@ -514,7 +510,12 @@ namespace StandCommonFiles
 #else
             if (PrintConfigLightDlg.GetPrinterTypeIsWindows())
 #endif
-                Printer_Windows.PrintFile(sFileToPrintParm);
+            {
+                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                    Printer_ESCPOS.PrintFile(sFileToPrintParm);
+                else
+                    Printer_Windows.PrintFile(sFileToPrintParm);
+            }
             else
                 Printer_Legacy.PrintFile(sFileToPrintParm);
         }
@@ -769,47 +770,6 @@ namespace StandCommonFiles
             return iPrz;
         }
 
-#if ! STAND_ORDINI
-
-        /// <summary>inizializzazione delle stringhe di formattazione</summary>
-        public static void InitFormatStrings(bool bChars33Param)
-        {
-            iMAX_RECEIPT_CHARS = bChars33Param ? MAX_ABS_RECEIPT_CHARS : MAX_LEG_RECEIPT_CHARS;
-            iMAX_ART_CHAR = bChars33Param ? MAX_ABS_ART_CHAR : MAX_LEG_ART_CHAR;
-
-            iCenterOrderNum = bChars33Param ? MAX_ABS_RECEIPT_CHARS - 10 : MAX_LEG_RECEIPT_CHARS - 4;
-
-            sRCP_FMT_RCPT = bChars33Param ? _RCP_FMT_33_RCPT : _RCP_FMT_28_RCPT;
-            sRCP_FMT_CPY = bChars33Param ? _RCP_FMT_33_CPY : _RCP_FMT_28_CPY;
-            sRCP_FMT_DSC = bChars33Param ? _RCP_FMT_33_DSC : _RCP_FMT_28_DSC;
-            sRCP_FMT_DIF = bChars33Param ? _RCP_FMT_33_DIF : _RCP_FMT_28_DIF;
-            sRCP_FMT_TOT = bChars33Param ? _RCP_FMT_33_TOT : _RCP_FMT_28_TOT;
-            sRCP_FMT_DSH = bChars33Param ? _RCP_FMT_33_DSH : _RCP_FMT_28_DSH;
-            sRCP_FMT_NOTE = bChars33Param ? _RCP_FMT_33_NOTE : _RCP_FMT_28_NOTE;
-
-            sDAT_FMT_PRL = bChars33Param ? _DAT_FMT_33_PRL : _DAT_FMT_28_PRL;
-            sDAT_FMT_DAT = bChars33Param ? _DAT_FMT_33_DAT : _DAT_FMT_28_DAT;
-            sDAT_FMT_TOT = bChars33Param ? _DAT_FMT_33_TOT : _DAT_FMT_28_TOT;
-            sDAT_FMT_DSH = bChars33Param ? _DAT_FMT_33_DSH : _DAT_FMT_28_DSH;
-            sDAT_FMT_HED = bChars33Param ? _DAT_FMT_33_HED : _DAT_FMT_28_HED;
-
-            sDAT_FMT_REP_RED = bChars33Param ? _DAT_FMT_33_REP_RED : _DAT_FMT_28_REP_RED;
-            sDAT_FMT_DSH_RED = bChars33Param ? _DAT_FMT_33_DSH_RED : _DAT_FMT_28_DSH_RED;
-            sDAT_FMT_TOT_RED = bChars33Param ? _DAT_FMT_33_TOT_RED : _DAT_FMT_28_TOT_RED;
-
-#if STANDFACILE
-            // formattazione della griglia
-            sGRD_FMT_STD = bChars33Param ? _GRD_FMT_33_STD : _GRD_FMT_28_STD;
-            sGRD_FMT_TCH = bChars33Param ? _GRD_FMT_33_TCH : _GRD_FMT_28_TCH;
-
-            sGRDW_FMT_STD = bChars33Param ? _GRDW_FMT_33_STD : _GRDW_FMT_28_STD;
-            sGRDZ_FMT_TCH = bChars33Param ? _GRDZ_FMT_33_TCH : _GRDZ_FMT_28_TCH;
-            sGRDW_FMT_TCH = bChars33Param ? _GRDW_FMT_33_TCH : _GRDW_FMT_28_TCH;
-#endif
-        }
-
-#endif
-
         /// <summary>funzione per l'arrotondamento ai 10c,<br/>
         /// agisce su valori * 100, sempio 10.08 è rappresentato come 1008
         /// </summary>
@@ -1015,7 +975,7 @@ namespace StandCommonFiles
         /// <summary>ottiene un intero con il bit in posizione bitPosParam aggiornato al valore di bValueParam</summary>     
         public static int UpdateBit(int intParam, bool bValueParam, int bitPosParam)
         {
-            if(bValueParam)
+            if (bValueParam)
                 return SetBit(intParam, bitPosParam);
             else
                 return ClearBit(intParam, bitPosParam);

@@ -31,6 +31,16 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintNetCopiesConfigDlg));
             this.GroupBoxStampe = new System.Windows.Forms.GroupBox();
+            this.checkBox_escpos_9 = new System.Windows.Forms.CheckBox();
+            this.checkBox_escpos_8 = new System.Windows.Forms.CheckBox();
+            this.checkBox_escpos_7 = new System.Windows.Forms.CheckBox();
+            this.checkBox_escpos_6 = new System.Windows.Forms.CheckBox();
+            this.checkBox_escpos_5 = new System.Windows.Forms.CheckBox();
+            this.checkBox_escpos_4 = new System.Windows.Forms.CheckBox();
+            this.checkBox_escpos_3 = new System.Windows.Forms.CheckBox();
+            this.checkBox_escpos_2 = new System.Windows.Forms.CheckBox();
+            this.checkBox_escpos_1 = new System.Windows.Forms.CheckBox();
+            this.checkBox_escpos_0 = new System.Windows.Forms.CheckBox();
             this.checkBoxRisp_9 = new System.Windows.Forms.CheckBox();
             this.checkBoxRisp_8 = new System.Windows.Forms.CheckBox();
             this.checkBoxRisp_7 = new System.Windows.Forms.CheckBox();
@@ -109,6 +119,16 @@
             // GroupBoxStampe
             // 
             this.GroupBoxStampe.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_9);
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_8);
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_7);
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_6);
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_5);
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_4);
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_3);
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_2);
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_1);
+            this.GroupBoxStampe.Controls.Add(this.checkBox_escpos_0);
             this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_9);
             this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_8);
             this.GroupBoxStampe.Controls.Add(this.checkBoxRisp_7);
@@ -173,17 +193,167 @@
             this.GroupBoxStampe.Location = new System.Drawing.Point(15, 15);
             this.GroupBoxStampe.Name = "GroupBoxStampe";
             this.GroupBoxStampe.Padding = new System.Windows.Forms.Padding(1);
-            this.GroupBoxStampe.Size = new System.Drawing.Size(828, 405);
+            this.GroupBoxStampe.Size = new System.Drawing.Size(856, 405);
             this.GroupBoxStampe.TabIndex = 0;
             this.GroupBoxStampe.TabStop = false;
             this.GroupBoxStampe.Text = "GRUPPI DI STAMPA COPIE SCONTRINO";
+            // 
+            // checkBox_escpos_9
+            // 
+            this.checkBox_escpos_9.AutoCheck = false;
+            this.checkBox_escpos_9.AutoSize = true;
+            this.checkBox_escpos_9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_9.Location = new System.Drawing.Point(792, 370);
+            this.checkBox_escpos_9.Name = "checkBox_escpos_9";
+            this.checkBox_escpos_9.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_9.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_9.TabIndex = 70;
+            this.checkBox_escpos_9.Text = "escpos";
+            this.checkBox_escpos_9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_9.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
+            // 
+            // checkBox_escpos_8
+            // 
+            this.checkBox_escpos_8.AutoCheck = false;
+            this.checkBox_escpos_8.AutoSize = true;
+            this.checkBox_escpos_8.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_8.Location = new System.Drawing.Point(792, 288);
+            this.checkBox_escpos_8.Name = "checkBox_escpos_8";
+            this.checkBox_escpos_8.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_8.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_8.TabIndex = 69;
+            this.checkBox_escpos_8.Text = "escpos";
+            this.checkBox_escpos_8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_8.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_8.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
+            // 
+            // checkBox_escpos_7
+            // 
+            this.checkBox_escpos_7.AutoCheck = false;
+            this.checkBox_escpos_7.AutoSize = true;
+            this.checkBox_escpos_7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_7.Location = new System.Drawing.Point(792, 210);
+            this.checkBox_escpos_7.Name = "checkBox_escpos_7";
+            this.checkBox_escpos_7.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_7.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_7.TabIndex = 68;
+            this.checkBox_escpos_7.Text = "escpos";
+            this.checkBox_escpos_7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_7.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
+            // 
+            // checkBox_escpos_6
+            // 
+            this.checkBox_escpos_6.AutoCheck = false;
+            this.checkBox_escpos_6.AutoSize = true;
+            this.checkBox_escpos_6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_6.Location = new System.Drawing.Point(792, 134);
+            this.checkBox_escpos_6.Name = "checkBox_escpos_6";
+            this.checkBox_escpos_6.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_6.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_6.TabIndex = 67;
+            this.checkBox_escpos_6.Text = "escpos";
+            this.checkBox_escpos_6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_6.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
+            // 
+            // checkBox_escpos_5
+            // 
+            this.checkBox_escpos_5.AutoCheck = false;
+            this.checkBox_escpos_5.AutoSize = true;
+            this.checkBox_escpos_5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_5.Location = new System.Drawing.Point(792, 58);
+            this.checkBox_escpos_5.Name = "checkBox_escpos_5";
+            this.checkBox_escpos_5.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_5.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_5.TabIndex = 66;
+            this.checkBox_escpos_5.Text = "escpos";
+            this.checkBox_escpos_5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_5.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
+            // 
+            // checkBox_escpos_4
+            // 
+            this.checkBox_escpos_4.AutoCheck = false;
+            this.checkBox_escpos_4.AutoSize = true;
+            this.checkBox_escpos_4.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_4.Location = new System.Drawing.Point(364, 369);
+            this.checkBox_escpos_4.Name = "checkBox_escpos_4";
+            this.checkBox_escpos_4.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_4.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_4.TabIndex = 65;
+            this.checkBox_escpos_4.Text = "escpos";
+            this.checkBox_escpos_4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_4.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
+            // 
+            // checkBox_escpos_3
+            // 
+            this.checkBox_escpos_3.AutoCheck = false;
+            this.checkBox_escpos_3.AutoSize = true;
+            this.checkBox_escpos_3.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_3.Location = new System.Drawing.Point(364, 288);
+            this.checkBox_escpos_3.Name = "checkBox_escpos_3";
+            this.checkBox_escpos_3.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_3.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_3.TabIndex = 64;
+            this.checkBox_escpos_3.Text = "escpos";
+            this.checkBox_escpos_3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_3.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
+            // 
+            // checkBox_escpos_2
+            // 
+            this.checkBox_escpos_2.AutoCheck = false;
+            this.checkBox_escpos_2.AutoSize = true;
+            this.checkBox_escpos_2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_2.Location = new System.Drawing.Point(364, 212);
+            this.checkBox_escpos_2.Name = "checkBox_escpos_2";
+            this.checkBox_escpos_2.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_2.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_2.TabIndex = 63;
+            this.checkBox_escpos_2.Text = "escpos";
+            this.checkBox_escpos_2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_2.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
+            // 
+            // checkBox_escpos_1
+            // 
+            this.checkBox_escpos_1.AutoCheck = false;
+            this.checkBox_escpos_1.AutoSize = true;
+            this.checkBox_escpos_1.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_1.Location = new System.Drawing.Point(364, 138);
+            this.checkBox_escpos_1.Name = "checkBox_escpos_1";
+            this.checkBox_escpos_1.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_1.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_1.TabIndex = 62;
+            this.checkBox_escpos_1.Text = "escpos";
+            this.checkBox_escpos_1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_1.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
+            // 
+            // checkBox_escpos_0
+            // 
+            this.checkBox_escpos_0.AutoCheck = false;
+            this.checkBox_escpos_0.AutoSize = true;
+            this.checkBox_escpos_0.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos_0.Location = new System.Drawing.Point(364, 58);
+            this.checkBox_escpos_0.Name = "checkBox_escpos_0";
+            this.checkBox_escpos_0.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos_0.Size = new System.Drawing.Size(61, 19);
+            this.checkBox_escpos_0.TabIndex = 61;
+            this.checkBox_escpos_0.Text = "escpos";
+            this.checkBox_escpos_0.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos_0.UseVisualStyleBackColor = true;
+            this.checkBox_escpos_0.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CheckBoxEscPos_MouseClick);
             // 
             // checkBoxRisp_9
             // 
             this.checkBoxRisp_9.AutoCheck = false;
             this.checkBoxRisp_9.AutoSize = true;
             this.checkBoxRisp_9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxRisp_9.Location = new System.Drawing.Point(507, 373);
+            this.checkBoxRisp_9.Location = new System.Drawing.Point(513, 370);
             this.checkBoxRisp_9.Name = "checkBoxRisp_9";
             this.checkBoxRisp_9.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxRisp_9.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -198,7 +368,7 @@
             this.checkBoxRisp_8.AutoCheck = false;
             this.checkBoxRisp_8.AutoSize = true;
             this.checkBoxRisp_8.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxRisp_8.Location = new System.Drawing.Point(507, 288);
+            this.checkBoxRisp_8.Location = new System.Drawing.Point(513, 288);
             this.checkBoxRisp_8.Name = "checkBoxRisp_8";
             this.checkBoxRisp_8.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxRisp_8.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -213,7 +383,7 @@
             this.checkBoxRisp_7.AutoCheck = false;
             this.checkBoxRisp_7.AutoSize = true;
             this.checkBoxRisp_7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxRisp_7.Location = new System.Drawing.Point(507, 211);
+            this.checkBoxRisp_7.Location = new System.Drawing.Point(513, 211);
             this.checkBoxRisp_7.Name = "checkBoxRisp_7";
             this.checkBoxRisp_7.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxRisp_7.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -228,7 +398,7 @@
             this.checkBoxRisp_6.AutoCheck = false;
             this.checkBoxRisp_6.AutoSize = true;
             this.checkBoxRisp_6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxRisp_6.Location = new System.Drawing.Point(507, 134);
+            this.checkBoxRisp_6.Location = new System.Drawing.Point(513, 134);
             this.checkBoxRisp_6.Name = "checkBoxRisp_6";
             this.checkBoxRisp_6.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxRisp_6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -243,7 +413,7 @@
             this.checkBoxRisp_5.AutoCheck = false;
             this.checkBoxRisp_5.AutoSize = true;
             this.checkBoxRisp_5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxRisp_5.Location = new System.Drawing.Point(507, 59);
+            this.checkBoxRisp_5.Location = new System.Drawing.Point(513, 59);
             this.checkBoxRisp_5.Name = "checkBoxRisp_5";
             this.checkBoxRisp_5.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxRisp_5.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -335,7 +505,7 @@
             this.checkBoxBCD_8.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxBCD_8.Image = global::StandFacile.Properties.Resources.barcode;
             this.checkBoxBCD_8.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.checkBoxBCD_8.Location = new System.Drawing.Point(429, 280);
+            this.checkBoxBCD_8.Location = new System.Drawing.Point(435, 280);
             this.checkBoxBCD_8.Name = "checkBoxBCD_8";
             this.checkBoxBCD_8.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxBCD_8.Size = new System.Drawing.Size(63, 34);
@@ -349,7 +519,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Tahoma", 8.25F);
-            this.label1.Location = new System.Drawing.Point(429, 243);
+            this.label1.Location = new System.Drawing.Point(435, 243);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(153, 13);
             this.label1.TabIndex = 32;
@@ -358,7 +528,7 @@
             // BtnPrintCheck_8
             // 
             this.BtnPrintCheck_8.Image = global::StandFacile.Properties.Resources.OK;
-            this.BtnPrintCheck_8.Location = new System.Drawing.Point(782, 261);
+            this.BtnPrintCheck_8.Location = new System.Drawing.Point(788, 261);
             this.BtnPrintCheck_8.Name = "BtnPrintCheck_8";
             this.BtnPrintCheck_8.Size = new System.Drawing.Size(27, 23);
             this.BtnPrintCheck_8.TabIndex = 49;
@@ -369,14 +539,14 @@
             // 
             this.PrintersListCombo_8.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PrintersListCombo_8.FormattingEnabled = true;
-            this.PrintersListCombo_8.Location = new System.Drawing.Point(572, 288);
+            this.PrintersListCombo_8.Location = new System.Drawing.Point(578, 288);
             this.PrintersListCombo_8.Name = "PrintersListCombo_8";
             this.PrintersListCombo_8.Size = new System.Drawing.Size(194, 21);
             this.PrintersListCombo_8.TabIndex = 36;
             // 
             // CopiaText_8
             // 
-            this.CopiaText_8.Location = new System.Drawing.Point(572, 260);
+            this.CopiaText_8.Location = new System.Drawing.Point(578, 260);
             this.CopiaText_8.Name = "CopiaText_8";
             this.CopiaText_8.Size = new System.Drawing.Size(194, 20);
             this.CopiaText_8.TabIndex = 34;
@@ -388,7 +558,7 @@
             this.checkBoxCopia_8.AutoCheck = false;
             this.checkBoxCopia_8.AutoSize = true;
             this.checkBoxCopia_8.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxCopia_8.Location = new System.Drawing.Point(429, 260);
+            this.checkBoxCopia_8.Location = new System.Drawing.Point(435, 260);
             this.checkBoxCopia_8.Name = "checkBoxCopia_8";
             this.checkBoxCopia_8.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxCopia_8.Size = new System.Drawing.Size(137, 19);
@@ -404,7 +574,7 @@
             this.checkBoxBCD_9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxBCD_9.Image = global::StandFacile.Properties.Resources.barcode;
             this.checkBoxBCD_9.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.checkBoxBCD_9.Location = new System.Drawing.Point(429, 362);
+            this.checkBoxBCD_9.Location = new System.Drawing.Point(435, 362);
             this.checkBoxBCD_9.Name = "checkBoxBCD_9";
             this.checkBoxBCD_9.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxBCD_9.Size = new System.Drawing.Size(63, 34);
@@ -417,7 +587,7 @@
             // CopiaText_9
             // 
             this.CopiaText_9.BackColor = System.Drawing.SystemColors.Control;
-            this.CopiaText_9.Location = new System.Drawing.Point(572, 340);
+            this.CopiaText_9.Location = new System.Drawing.Point(578, 340);
             this.CopiaText_9.Name = "CopiaText_9";
             this.CopiaText_9.ReadOnly = true;
             this.CopiaText_9.Size = new System.Drawing.Size(194, 20);
@@ -429,7 +599,7 @@
             // 
             this.checkBoxCopia_9.AutoSize = true;
             this.checkBoxCopia_9.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxCopia_9.Location = new System.Drawing.Point(429, 342);
+            this.checkBoxCopia_9.Location = new System.Drawing.Point(435, 342);
             this.checkBoxCopia_9.Name = "checkBoxCopia_9";
             this.checkBoxCopia_9.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxCopia_9.Size = new System.Drawing.Size(127, 19);
@@ -442,7 +612,7 @@
             // 
             this.PrintersListCombo_9.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PrintersListCombo_9.FormattingEnabled = true;
-            this.PrintersListCombo_9.Location = new System.Drawing.Point(572, 372);
+            this.PrintersListCombo_9.Location = new System.Drawing.Point(578, 369);
             this.PrintersListCombo_9.Name = "PrintersListCombo_9";
             this.PrintersListCombo_9.Size = new System.Drawing.Size(194, 21);
             this.PrintersListCombo_9.TabIndex = 40;
@@ -450,7 +620,7 @@
             // BtnPrintCheck_9
             // 
             this.BtnPrintCheck_9.Image = global::StandFacile.Properties.Resources.OK;
-            this.BtnPrintCheck_9.Location = new System.Drawing.Point(782, 338);
+            this.BtnPrintCheck_9.Location = new System.Drawing.Point(788, 338);
             this.BtnPrintCheck_9.Name = "BtnPrintCheck_9";
             this.BtnPrintCheck_9.Size = new System.Drawing.Size(27, 23);
             this.BtnPrintCheck_9.TabIndex = 50;
@@ -464,7 +634,7 @@
             this.checkBoxBCD_7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxBCD_7.Image = global::StandFacile.Properties.Resources.barcode;
             this.checkBoxBCD_7.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.checkBoxBCD_7.Location = new System.Drawing.Point(429, 202);
+            this.checkBoxBCD_7.Location = new System.Drawing.Point(435, 202);
             this.checkBoxBCD_7.Name = "checkBoxBCD_7";
             this.checkBoxBCD_7.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxBCD_7.Size = new System.Drawing.Size(63, 34);
@@ -481,7 +651,7 @@
             this.checkBoxBCD_6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxBCD_6.Image = global::StandFacile.Properties.Resources.barcode;
             this.checkBoxBCD_6.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.checkBoxBCD_6.Location = new System.Drawing.Point(429, 126);
+            this.checkBoxBCD_6.Location = new System.Drawing.Point(435, 126);
             this.checkBoxBCD_6.Name = "checkBoxBCD_6";
             this.checkBoxBCD_6.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxBCD_6.Size = new System.Drawing.Size(63, 34);
@@ -498,7 +668,7 @@
             this.checkBoxBCD_5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBoxBCD_5.Image = global::StandFacile.Properties.Resources.barcode;
             this.checkBoxBCD_5.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.checkBoxBCD_5.Location = new System.Drawing.Point(429, 50);
+            this.checkBoxBCD_5.Location = new System.Drawing.Point(435, 50);
             this.checkBoxBCD_5.Name = "checkBoxBCD_5";
             this.checkBoxBCD_5.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxBCD_5.Size = new System.Drawing.Size(63, 34);
@@ -596,7 +766,7 @@
             // BtnPrintCheck_7
             // 
             this.BtnPrintCheck_7.Image = global::StandFacile.Properties.Resources.OK;
-            this.BtnPrintCheck_7.Location = new System.Drawing.Point(782, 183);
+            this.BtnPrintCheck_7.Location = new System.Drawing.Point(788, 183);
             this.BtnPrintCheck_7.Name = "BtnPrintCheck_7";
             this.BtnPrintCheck_7.Size = new System.Drawing.Size(27, 23);
             this.BtnPrintCheck_7.TabIndex = 48;
@@ -607,14 +777,14 @@
             // 
             this.PrintersListCombo_7.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PrintersListCombo_7.FormattingEnabled = true;
-            this.PrintersListCombo_7.Location = new System.Drawing.Point(572, 210);
+            this.PrintersListCombo_7.Location = new System.Drawing.Point(578, 210);
             this.PrintersListCombo_7.Name = "PrintersListCombo_7";
             this.PrintersListCombo_7.Size = new System.Drawing.Size(194, 21);
             this.PrintersListCombo_7.TabIndex = 31;
             // 
             // CopiaText_7
             // 
-            this.CopiaText_7.Location = new System.Drawing.Point(572, 182);
+            this.CopiaText_7.Location = new System.Drawing.Point(578, 182);
             this.CopiaText_7.Name = "CopiaText_7";
             this.CopiaText_7.Size = new System.Drawing.Size(194, 20);
             this.CopiaText_7.TabIndex = 29;
@@ -626,7 +796,7 @@
             this.checkBoxCopia_7.AutoCheck = false;
             this.checkBoxCopia_7.AutoSize = true;
             this.checkBoxCopia_7.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxCopia_7.Location = new System.Drawing.Point(429, 182);
+            this.checkBoxCopia_7.Location = new System.Drawing.Point(435, 182);
             this.checkBoxCopia_7.Name = "checkBoxCopia_7";
             this.checkBoxCopia_7.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxCopia_7.Size = new System.Drawing.Size(137, 19);
@@ -638,7 +808,7 @@
             // BtnPrintCheck_6
             // 
             this.BtnPrintCheck_6.Image = global::StandFacile.Properties.Resources.OK;
-            this.BtnPrintCheck_6.Location = new System.Drawing.Point(782, 106);
+            this.BtnPrintCheck_6.Location = new System.Drawing.Point(788, 106);
             this.BtnPrintCheck_6.Name = "BtnPrintCheck_6";
             this.BtnPrintCheck_6.Size = new System.Drawing.Size(27, 23);
             this.BtnPrintCheck_6.TabIndex = 47;
@@ -649,14 +819,14 @@
             // 
             this.PrintersListCombo_6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PrintersListCombo_6.FormattingEnabled = true;
-            this.PrintersListCombo_6.Location = new System.Drawing.Point(572, 134);
+            this.PrintersListCombo_6.Location = new System.Drawing.Point(578, 134);
             this.PrintersListCombo_6.Name = "PrintersListCombo_6";
             this.PrintersListCombo_6.Size = new System.Drawing.Size(194, 21);
             this.PrintersListCombo_6.TabIndex = 27;
             // 
             // CopiaText_6
             // 
-            this.CopiaText_6.Location = new System.Drawing.Point(572, 106);
+            this.CopiaText_6.Location = new System.Drawing.Point(578, 106);
             this.CopiaText_6.Name = "CopiaText_6";
             this.CopiaText_6.Size = new System.Drawing.Size(194, 20);
             this.CopiaText_6.TabIndex = 25;
@@ -668,7 +838,7 @@
             this.checkBoxCopia_6.AutoCheck = false;
             this.checkBoxCopia_6.AutoSize = true;
             this.checkBoxCopia_6.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxCopia_6.Location = new System.Drawing.Point(429, 106);
+            this.checkBoxCopia_6.Location = new System.Drawing.Point(435, 106);
             this.checkBoxCopia_6.Name = "checkBoxCopia_6";
             this.checkBoxCopia_6.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxCopia_6.Size = new System.Drawing.Size(137, 19);
@@ -680,7 +850,7 @@
             // BtnPrintCheck_5
             // 
             this.BtnPrintCheck_5.Image = global::StandFacile.Properties.Resources.OK;
-            this.BtnPrintCheck_5.Location = new System.Drawing.Point(782, 29);
+            this.BtnPrintCheck_5.Location = new System.Drawing.Point(788, 29);
             this.BtnPrintCheck_5.Name = "BtnPrintCheck_5";
             this.BtnPrintCheck_5.Size = new System.Drawing.Size(27, 23);
             this.BtnPrintCheck_5.TabIndex = 46;
@@ -741,14 +911,14 @@
             // 
             this.PrintersListCombo_5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PrintersListCombo_5.FormattingEnabled = true;
-            this.PrintersListCombo_5.Location = new System.Drawing.Point(572, 58);
+            this.PrintersListCombo_5.Location = new System.Drawing.Point(578, 58);
             this.PrintersListCombo_5.Name = "PrintersListCombo_5";
             this.PrintersListCombo_5.Size = new System.Drawing.Size(194, 21);
             this.PrintersListCombo_5.TabIndex = 23;
             // 
             // CopiaText_5
             // 
-            this.CopiaText_5.Location = new System.Drawing.Point(572, 30);
+            this.CopiaText_5.Location = new System.Drawing.Point(578, 30);
             this.CopiaText_5.Name = "CopiaText_5";
             this.CopiaText_5.Size = new System.Drawing.Size(194, 20);
             this.CopiaText_5.TabIndex = 21;
@@ -760,7 +930,7 @@
             this.checkBoxCopia_5.AutoCheck = false;
             this.checkBoxCopia_5.AutoSize = true;
             this.checkBoxCopia_5.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxCopia_5.Location = new System.Drawing.Point(429, 30);
+            this.checkBoxCopia_5.Location = new System.Drawing.Point(435, 30);
             this.checkBoxCopia_5.Name = "checkBoxCopia_5";
             this.checkBoxCopia_5.Padding = new System.Windows.Forms.Padding(1);
             this.checkBoxCopia_5.Size = new System.Drawing.Size(137, 19);
@@ -999,7 +1169,7 @@
             this.groupBoxColors.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBoxColors.Location = new System.Drawing.Point(609, 434);
             this.groupBoxColors.Name = "groupBoxColors";
-            this.groupBoxColors.Size = new System.Drawing.Size(246, 168);
+            this.groupBoxColors.Size = new System.Drawing.Size(262, 168);
             this.groupBoxColors.TabIndex = 2;
             this.groupBoxColors.TabStop = false;
             this.groupBoxColors.Text = "testo accorpamenti per colore:";
@@ -1010,7 +1180,7 @@
             this.textBoxColor_3.ForeColor = System.Drawing.Color.White;
             this.textBoxColor_3.Location = new System.Drawing.Point(24, 123);
             this.textBoxColor_3.Name = "textBoxColor_3";
-            this.textBoxColor_3.Size = new System.Drawing.Size(194, 22);
+            this.textBoxColor_3.Size = new System.Drawing.Size(214, 22);
             this.textBoxColor_3.TabIndex = 3;
             this.textBoxColor_3.TabStop = false;
             this.textBoxColor_3.Text = "##### COPIA GEN 4 #####";
@@ -1022,7 +1192,7 @@
             this.textBoxColor_2.ForeColor = System.Drawing.Color.Black;
             this.textBoxColor_2.Location = new System.Drawing.Point(24, 94);
             this.textBoxColor_2.Name = "textBoxColor_2";
-            this.textBoxColor_2.Size = new System.Drawing.Size(194, 22);
+            this.textBoxColor_2.Size = new System.Drawing.Size(214, 22);
             this.textBoxColor_2.TabIndex = 2;
             this.textBoxColor_2.TabStop = false;
             this.textBoxColor_2.Text = "##### COPIA GEN 3 #####";
@@ -1034,7 +1204,7 @@
             this.textBoxColor_1.ForeColor = System.Drawing.Color.White;
             this.textBoxColor_1.Location = new System.Drawing.Point(24, 65);
             this.textBoxColor_1.Name = "textBoxColor_1";
-            this.textBoxColor_1.Size = new System.Drawing.Size(194, 22);
+            this.textBoxColor_1.Size = new System.Drawing.Size(214, 22);
             this.textBoxColor_1.TabIndex = 1;
             this.textBoxColor_1.TabStop = false;
             this.textBoxColor_1.Text = "##### COPIA BIBITE #####";
@@ -1046,7 +1216,7 @@
             this.textBoxColor_0.ForeColor = System.Drawing.Color.Black;
             this.textBoxColor_0.Location = new System.Drawing.Point(24, 36);
             this.textBoxColor_0.Name = "textBoxColor_0";
-            this.textBoxColor_0.Size = new System.Drawing.Size(194, 22);
+            this.textBoxColor_0.Size = new System.Drawing.Size(214, 22);
             this.textBoxColor_0.TabIndex = 0;
             this.textBoxColor_0.TabStop = false;
             this.textBoxColor_0.Text = "##### COPIA CUCINA #####";
@@ -1057,7 +1227,7 @@
             this.AcceptButton = this.btnCancel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 613);
+            this.ClientSize = new System.Drawing.Size(883, 613);
             this.Controls.Add(this.groupBoxColors);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.textBox_ColorsInfo);
@@ -1153,5 +1323,15 @@
         private System.Windows.Forms.CheckBox checkBoxRisp_1;
         private System.Windows.Forms.CheckBox checkBoxRisp_0;
         private System.Windows.Forms.CheckBox checkBoxRisp_9;
+        private System.Windows.Forms.CheckBox checkBox_escpos_0;
+        private System.Windows.Forms.CheckBox checkBox_escpos_9;
+        private System.Windows.Forms.CheckBox checkBox_escpos_8;
+        private System.Windows.Forms.CheckBox checkBox_escpos_7;
+        private System.Windows.Forms.CheckBox checkBox_escpos_6;
+        private System.Windows.Forms.CheckBox checkBox_escpos_5;
+        private System.Windows.Forms.CheckBox checkBox_escpos_4;
+        private System.Windows.Forms.CheckBox checkBox_escpos_3;
+        private System.Windows.Forms.CheckBox checkBox_escpos_2;
+        private System.Windows.Forms.CheckBox checkBox_escpos_1;
     }
 }

@@ -65,7 +65,7 @@ namespace StandCommonFiles
         static bool _bTicketNumFound;
         static bool _bSkipNumeroScontrino, _bLogoPrinted_T, _bLogoPrinted_B;
 
-        static bool _bChars33, _bCassaInline;
+        static bool _bCassaInline;
         static int _iInitialRowsToAdd, _finalRowsToAdd;
 
 
@@ -73,8 +73,10 @@ namespace StandCommonFiles
         static bool _bPaperIsA4 = false;
         static bool _bPageContinueSameHorPos;
 
+#if STANDFACILE
         /// <summary>imposta l'intervallo tra le stampe</summary>
         static int iPrint_WaitInterval = 200;
+#endif
 
         static float _fLeftMargin, _fLogoCenter, _fLeftMarginBk;
         static float _fCanvasVertPos, _fCanvasVertPos_Q4;
@@ -129,13 +131,13 @@ namespace StandCommonFiles
         ///  diversa per le 10 copie + scontrino principale + riepilogo + messaggi<br/>
         ///  iPrinterIndex da 0 a NUM_SEP_PRINT_GROUPS - 1   identifica stampante copie,<br/>
         ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS      identifica stampante Receipt,<br/>
-        ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1  identifica stampante Riepilogo
+        ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1  identifica stampante Riepilogo,<br/>
         ///  iPrinterIndex == NUM_SEP_PRINT_GROUPS + 2  identifica stampante Messaggi
         /// </summary>
         public static void PrintFile(String sFileToPrintParam, TWinPrinterParams sWinPrinterParams, int iPrinterIndex, string sPrinterNameParam = "")
         {
             int iPos;
-            string sTmp;
+            string sTmp, sFileName;
 
             _bIsDati = false;
             _bIsTicket = false;
@@ -157,20 +159,19 @@ namespace StandCommonFiles
             _sWinPrinterParams = sWinPrinterParams;
             _sFileToPrintParam = sFileToPrintParam;
 
-            sTmp = Path.GetFileName(_sFileToPrintParam);
+            sFileName = Path.GetFileName(_sFileToPrintParam);
 
             _img_T = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(true);
             _img_B = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(false);
 
             _iGruppoStampa = 0;
 
-            _bChars33 = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
             _bCassaInline = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CASSA_INLINE);
 
             _iInitialRowsToAdd = GetNumberOfSetBits(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_EMPTY_ROWS_INITIAL, 4);
             _finalRowsToAdd = GetNumberOfSetBits(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_EMPTY_ROWS_FINAL, 4);
 
-            if (sTmp.Contains("_TT") || sTmp.Contains("_TN"))
+            if (sFileName.Contains("_TT") || sFileName.Contains("_TN"))
             {
 #if STANDFACILE || STAND_MONITOR
                 // gruppi in fase di emissione ordine
@@ -179,41 +180,40 @@ namespace StandCommonFiles
                     _iGruppoStampa = NUM_WEB_SALE_GRP;
                 }
 #endif
-                if (sTmp.Contains("_TT"))
+                if (sFileName.Contains("_TT"))
                 {
                     _bIsTicket = true;
 
                     _bTicketNumFound = false; // forza ricerca stringa
 
-                    _fReceiptVsCopyZoom = _bChars33 ? (28.0f / 33.0f) : 1.0f;
+                    _fReceiptVsCopyZoom = 28.0f / 32.0f;
                 }
                 else // copia locale
                 {
                     if (IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_PRICE_PRINT_ON_COPIES_REQUIRED))
-                        _fReceiptVsCopyZoom = _bChars33 ? (28.0f / 33.0f) : 1.0f;
+                        _fReceiptVsCopyZoom = 28.0f / 32.0f;
 
                     _bTicketNumFound = true; // necessario nella copia Receipt NoPrices
                 }
             }
-            else if (sTmp.Contains("_CT") || sTmp.Contains("CT_")) // copia in rete
+            else if (sFileName.Contains("_CT") || sFileName.Contains("CT_")) // copia in rete
             {
                 _bTicketNumFound = false;
 
-                iPos = sTmp.IndexOf("_G");
+                iPos = sFileName.IndexOf("_G");
 
-                _iGruppoStampa = Convert.ToInt32(sTmp[iPos + 2]) - 48;
+                _iGruppoStampa = Convert.ToInt32(sFileName[iPos + 2]) - 48;
             }
-            else if (_sFileToPrintParam.Contains(NOME_FILE_SAMPLE_TEXT))
+            else if (sFileName.Contains(NOME_FILE_SAMPLE_TEXT))
             {
-                _fReceiptVsCopyZoom = _bChars33 ? (28.0f / 33.0f) : 1.0f;
+                _bTicketNumFound = true;
+                _fReceiptVsCopyZoom = 28.0f / 32.0f;
             }
             else
             {
                 _bLogoCheck_T = false;
                 _bLogoCheck_B = false;
             }
-
-            _bTicketNumFound = true;
 
 #if STANDFACILE || STAND_MONITOR
 
@@ -225,9 +225,9 @@ namespace StandCommonFiles
 
                 //numero di colonne ridotto -> font più grande
                 if (_sFileToPrintParam.Contains(NOME_FILE_STAMPA_LOC_RID_TMP))
-                    _fReceiptVsCopyZoom = _bChars33 ? (30.0f / 33.0f) : 1.06f;
+                    _fReceiptVsCopyZoom = 30.0f / 32.0f;
                 else
-                    _fReceiptVsCopyZoom = _bChars33 ? (26.0f / 33.0f) : 0.86f;
+                    _fReceiptVsCopyZoom = 26.0f / 32.0f;
             }
 #endif
 
@@ -532,7 +532,7 @@ namespace StandCommonFiles
                  *************************************/
                 if (_bLogoCheck_T && bLogoRequested_T)
                 {
-                    _fLogo_T_LeftMargin = _fLogoCenter + (iMAX_RECEIPT_CHARS * _fLogoFont_HSize - _img_T.Size.Width * _fHZoom) * _fH_px_to_gu / 2.0f;
+                    _fLogo_T_LeftMargin = _fLogoCenter + (MAX_RECEIPT_CHARS * _fLogoFont_HSize - _img_T.Size.Width * _fHZoom) * _fH_px_to_gu / 2.0f;
 
                     if (_fLogo_T_LeftMargin < 0)
                         _fLogo_T_LeftMargin = _fLogoCenter;
@@ -705,7 +705,7 @@ namespace StandCommonFiles
                  *************************************/
                 if (_bLogoCheck_B && bLogoRequested_B)
                 {
-                    _fLogo_B_LeftMargin = _fLogoCenter + (iMAX_RECEIPT_CHARS * _fLogoFont_HSize - _img_B.Size.Width * _fHZoom) * _fH_px_to_gu / 2.0f;
+                    _fLogo_B_LeftMargin = _fLogoCenter + (MAX_RECEIPT_CHARS * _fLogoFont_HSize - _img_B.Size.Width * _fHZoom) * _fH_px_to_gu / 2.0f;
 
                     if (_fLogo_B_LeftMargin < 0)
                         _fLogo_B_LeftMargin = _fLogoCenter;
@@ -736,7 +736,7 @@ namespace StandCommonFiles
                  ******************************************************/
                 if (bBarcodeRequested)
                 {
-                    fBC_LeftMargin = _fLeftMargin + _fLogoCenter + ((_bChars33 ? 33 : 28) * _fFont_HSize * _fHZoom * _fH_px_to_gu - 95 * blackPen.Width) / 2;
+                    fBC_LeftMargin = _fLeftMargin + _fLogoCenter + (32 * _fFont_HSize * _fHZoom * _fH_px_to_gu - 95 * blackPen.Width) / 2;
 
                     if (fBC_LeftMargin < 0)
                         fBC_LeftMargin = 0;
@@ -843,7 +843,7 @@ namespace StandCommonFiles
         {
             String sTmp, sFileToPrint;
 
-            sFileToPrint = BuildSampleText();
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH);
 
             _sOrdineNum = "0123"; // per sampleText
 

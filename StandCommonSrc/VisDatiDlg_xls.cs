@@ -133,8 +133,6 @@ namespace StandFacile
                                 _rdBaseIntf.dbCaricaDatidaOrdini(columnDay, _iNumCassa);
                         }
 
-                        InitFormatStrings(dbGetLengthArticoli());
-
                         if (DB_Data.iActualNumOfReceipts <= 0)
                         {
                             columnDay = columnDay.AddDays(+1);

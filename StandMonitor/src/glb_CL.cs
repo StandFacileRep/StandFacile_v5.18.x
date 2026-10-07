@@ -1,6 +1,6 @@
 ﻿/*****************************************
   	NomeFile : StandMonitor/glb_CL.cs
-	Data	 : 27.09.2025
+	Data	 : 30.09.2026
   	Autore   : Mauro Artuso
  *****************************************/
 
@@ -11,23 +11,20 @@ using static StandCommonFiles.ComDef;
 namespace StandFacile
 {
 #pragma warning disable IDE1006
-    
+
     /// <summary>
     /// classe che contitne le variabili globali
     /// </summary>
     public struct glb
     {
-        /// <summary>numero massimo di caratteri per riga</summary>
-        public static int iMAX_RECEIPT_CHARS;
-
-        /// <summary>numero massimo di caratteri per articolo</summary>
-        public static int iMAX_ART_CHAR;
-
         /// <summary>Struct fondamentale</summary>
         public static TData SF_Data = new TData(DataID.SF_DATA);
 
         /// <summary>descrive se Windows o Legacy</summary>
-        public static int iSysPrinterType; // 
+        public static int iSysPrinterType;
+
+        /// <summary>descrive se la stampante è di tipo ESC POS</summary>
+        public static int iEscPosPrinterType;
 
         /// <summary>Struct per la gestione della stampa Windows</summary>
         public static TWinPrinterParams sGlbWinPrinterParams = new TWinPrinterParams(0);

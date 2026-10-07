@@ -890,7 +890,7 @@ namespace StandFacile
         {
             String sTmp, sFileToPrint;
 
-            sFileToPrint = BuildSampleText();
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH);
 
             sTmp = String.Format("Mainform : PrintSampleText() {0}", sFileToPrint);
             Logger.Info(sTmp);

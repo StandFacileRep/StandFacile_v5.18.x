@@ -1,6 +1,6 @@
 ﻿/*****************************************
  	NomeFile : StandCucina/glb_CL.cs
-	Data	 : 27.09.2025
+	Data	 : 30.09.2026
  	Autore   : Mauro Artuso
  *****************************************/
 
@@ -16,12 +16,6 @@ namespace StandFacile
     /// </summary>
     public struct glb
     {
-        /// <summary>numero massimo di caratteri per riga</summary>
-        public static int iMAX_RECEIPT_CHARS;
-
-        /// <summary>numero massimo di caratteri per articolo</summary>
-        public static int iMAX_ART_CHAR;
-
         /// <summary>numero totali dei scontrini</summary>
         public static int iGlbNumOfTickets;
 
@@ -33,6 +27,9 @@ namespace StandFacile
 
         /// <summary>tipo di stampante Windows o Legacy</summary>
         public static int iSysPrinterType;
+
+        /// <summary>descrive se la stampante è di tipo ESC POS</summary>
+        public static int iEscPosPrinterType;
 
         /// <summary>Struct per la gestione della stampa Windows</summary>
         public static TWinPrinterParams sGlbWinPrinterParams = new TWinPrinterParams(0);

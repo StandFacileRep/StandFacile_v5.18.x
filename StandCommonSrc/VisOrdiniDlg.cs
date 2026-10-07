@@ -1,6 +1,6 @@
 ﻿/***************************************************************************
 	NomeFile : StandCommonSrc/ViewOrdersDlg.cs
-	Data	 : 26.08.2026
+	Data	 : 01.10.2026
 	Autore	 : Mauro Artuso 
 	 
  ***************************************************************************/
@@ -479,7 +479,7 @@ namespace StandFacile
         }
 
         /***************************************************************
-         *   Invio alla Stampante, prima le copie e poi lo Scontrino
+         *   Invio alla Stampante, prima lo Scontrino e poi le copie
          ***************************************************************/
         private void BtnPrt_Click(object sender, EventArgs e)
         {
@@ -497,10 +497,20 @@ namespace StandFacile
             if (PrintConfigLightDlg.GetPrinterTypeIsWindows())
 #endif
             {
-                Printer_Windows.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicket, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                {
+                    Printer_ESCPOS.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicket, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    
+                    if (bTicketCopy_NoPrice)
+                        Printer_ESCPOS.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                }
+                else
+                {
+                    Printer_Windows.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicket, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
 
-                if (bTicketCopy_NoPrice)
-                    Printer_Windows.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    if (bTicketCopy_NoPrice)
+                        Printer_Windows.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                }
             }
             else
             {
@@ -517,7 +527,7 @@ namespace StandFacile
             String sNomeFileCopiePrt;
 
             // controllo che non ci sia anche la copia scontrino no Price, sennò non si capisce più nulla !
-            // *** MESSA IN CODA DI STAMPA COPIE ***
+            // *** MESSA IN CODA DI STAMPA COPIE DI RETE ***
             for (i = 0; i < NUM_EDIT_GROUPS; i++)
             {
                 sNomeFileCopiePrt = String.Format(NOME_FILE_COPIE_NET, DB_Data.iNumCassa, _iNum, i);
@@ -525,7 +535,12 @@ namespace StandFacile
                 if (_dataIdentifierParam.bCopiesGroupsFlag[i])
                 {
                     if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
-                        Printer_Windows.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    {
+                        if (IsBitSet(iEscPosPrinterType, i))
+                            Printer_ESCPOS.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                        else
+                            Printer_Windows.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    }
                     else
                         Printer_Legacy.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbLegacyPrinterParams,
                         (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
@@ -543,7 +558,12 @@ namespace StandFacile
                     if (SF_Data.bCopiesGroupsFlag[(int)DEST_TYPE.DEST_SINGLE])
                     {
                         if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
-                            Printer_Windows.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                        {
+                            if (IsBitSet(iEscPosPrinterType, (int)DEST_TYPE.DEST_SINGLE))
+                                Printer_ESCPOS.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                            else
+                                Printer_Windows.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                        }
                         else
                             Printer_Legacy.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                     }
@@ -587,8 +607,6 @@ namespace StandFacile
 
             bSomePayment_IsPresent = IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CASH) ||
                     IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD) || IsBitSet(DB_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY);
-
-            InitFormatStrings(dbGetLengthArticoli());
 
             VO_btnCancel.Enabled = false;
 

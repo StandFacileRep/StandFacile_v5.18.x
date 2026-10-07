@@ -39,7 +39,7 @@ namespace StandFacile
          *****************************************************/
 
         /// <summary>ottiene true se la stampante è windows</summary>
-        public static bool GetPrinterTypeIsWindows() { return (iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS); }
+        public static bool GetPrinterTypeIsWindows() { return (iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH); }
 
         /// <summary>costruttore</summary>
         public PrintConfigLightDlg()
@@ -64,17 +64,17 @@ namespace StandFacile
             int iPrinterTypeRadio;
 
             //inizializzazione stampante windows o Legacy
-            iPrinterTypeRadio = ReadRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_SEL.STAMPANTE_WINDOWS);
+            iPrinterTypeRadio = ReadRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
 
-            if ((iPrinterTypeRadio == (int)PRINTER_SEL.STAMPANTE_WINDOWS) || CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
+            if ((iPrinterTypeRadio == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) || CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
             {
                 prt_Windows.Checked = true;
-                iSysPrinterType = (int)PRINTER_SEL.STAMPANTE_WINDOWS;
+                iSysPrinterType = (int)PRINTER_TYPE.STAMPANTE_USB_ETH;
             }
             else
             {
                 prt_Legacy.Checked = true;
-                iSysPrinterType = (int)PRINTER_SEL.STAMPANTE_LEGACY;
+                iSysPrinterType = (int)PRINTER_TYPE.STAMPANTE_LEGACY;
             }
 
             if (bShow)
@@ -90,14 +90,14 @@ namespace StandFacile
 
             if (prt_Windows.Checked || CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
             {
-                WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_SEL.STAMPANTE_WINDOWS);
-                iSysPrinterType = (int)PRINTER_SEL.STAMPANTE_WINDOWS;
+                WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
+                iSysPrinterType = (int)PRINTER_TYPE.STAMPANTE_USB_ETH;
                 prt_Windows.Checked = true;
             }
             else
             {
-                WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_SEL.STAMPANTE_LEGACY);
-                iSysPrinterType = (int)PRINTER_SEL.STAMPANTE_LEGACY;
+                WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_LEGACY);
+                iSysPrinterType = (int)PRINTER_TYPE.STAMPANTE_LEGACY;
                 prt_Legacy.Checked = true;
 
                 // Verify

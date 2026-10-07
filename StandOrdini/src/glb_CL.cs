@@ -17,15 +17,12 @@ namespace StandFacile
     /// </summary>
     public struct glb
     {
-        /// <summary>numero massimo di caratteri per riga</summary>
-        public static int iMAX_RECEIPT_CHARS;
-
         /// <summary>flag di avviso singolo</summary>
         public static bool bWarnOnce;
 
         /// <summary>Struct fondamentale</summary>
         public static TData SF_Data = new TData(DataID.SF_DATA);
-       
+
         /// <summary>coda per il Log</summary>
         public static Queue logQueue = new Queue();
 

@@ -790,7 +790,7 @@ namespace StandFacile
                 // reset EditNota
                 EditNote.BackColor = Color.Gainsboro;
                 EditNote.Text = _sEditNoteCopy;
-                EditNote.MaxLength = iMAX_RECEIPT_CHARS;
+                EditNote.MaxLength = MAX_RECEIPT_CHARS;
                 MF_lblNote.Text = "Nota:";
 
                 MainGrid_Redraw(this, null);
@@ -1033,7 +1033,7 @@ namespace StandFacile
 
                     EditNote.BackColor = Color.Gainsboro;
                     EditNote.Text = _sEditNoteCopy;
-                    EditNote.MaxLength = iMAX_RECEIPT_CHARS;
+                    EditNote.MaxLength = MAX_RECEIPT_CHARS;
                     MF_lblNote.Text = "Nota:";
 
                     MainGrid_Redraw(this, null);
@@ -1726,23 +1726,21 @@ namespace StandFacile
                 _prevStyle.ForeColor = _gridStyle[_iColorTheme, iPrimoGruppoStampa].ForeColor;
                 _prevStyle.BackColor = _gridStyle[_iColorTheme, iPrimoGruppoStampa].BackColor;
 
-                bool bChars33 = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
-
                 if (MnuSetupPricelist.Checked || BtnViewPricelist.Checked)
                 {
                     if (GetTouchModeEnabled())
-                        sText = bChars33 ? "12345678901234567890123" : "123456789012345678";
+                        sText = "12345678901234567890123";
                     else
                         // String.Format(" {0,2} {1,-18} {2,5:0.00}", // width=28
-                        sText = bChars33 ? "123456789012345678901234567809123" : "1234567890123456789012345678";
+                        sText = "12345678901234567890123456780912";
                 }
                 else
                 {
                     if (GetTouchModeEnabled())
-                        sText = bChars33 ? "12345678901234567809123" : "123456789012345678";
+                        sText = "12345678901234567809123";
                     else
                         // String.Format("{0,3} {1,-18} {2,2}" : // width=25
-                        sText = bChars33 ? "123456789012345678901234567890" : "1234567890123456789012345";
+                        sText = "123456789012345678901234567890";
                 }
 
                 if ((MainGrid.Height % MainGrid.RowCount) < 3)
@@ -1891,9 +1889,9 @@ namespace StandFacile
                     if (String.IsNullOrEmpty(SF_Data.Articolo[h].sTipo))
                         sCellText = "";
                     else if (bTouchRequired)
-                        sCellText = String.Format(sGRD_FMT_TCH, sGrpTmp, sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
+                        sCellText = String.Format(_GRD_FMT_32_TCH, sGrpTmp, sPrzTmp, Environment.NewLine, CenterJustify(SF_Data.Articolo[h].sTipo, 18));
                     else
-                        sCellText = String.Format(sGRD_FMT_STD, sGrpTmp, SF_Data.Articolo[h].sTipo, sPrzTmp);
+                        sCellText = String.Format(_GRD_FMT_32_STD, sGrpTmp, SF_Data.Articolo[h].sTipo, sPrzTmp);
 
                     // impostazione dei ToolTip di cella
                     if (String.IsNullOrEmpty(SF_Data.Articolo[h].sTipo))
@@ -1928,12 +1926,12 @@ namespace StandFacile
                     if (bTouchRequired)
                     {
                         if (string.IsNullOrEmpty(sDispQty))
-                            sCellText = String.Format(sGRDZ_FMT_TCH, sTickQty, Environment.NewLine, CenterJustify(sTipoTmp, 18));
+                            sCellText = String.Format(_GRDZ_FMT_32_TCH, sTickQty, Environment.NewLine, CenterJustify(sTipoTmp, 18));
                         else
-                            sCellText = String.Format(sGRDW_FMT_TCH, sDispQty, sTickQty, Environment.NewLine, CenterJustify(sTipoTmp, 18));
+                            sCellText = String.Format(_GRDW_FMT_32_TCH, sDispQty, sTickQty, Environment.NewLine, CenterJustify(sTipoTmp, 18));
                     }
                     else
-                        sCellText = String.Format(sGRDW_FMT_STD, sDispQty, sTipoTmp, sTickQty);
+                        sCellText = String.Format(_GRDW_FMT_32_STD, sDispQty, sTipoTmp, sTickQty);
 
                     // impostazione dei ToolTip di cella
                     if (String.IsNullOrEmpty(SF_Data.Articolo[h].sTipo) || String.IsNullOrEmpty(SF_Data.Articolo[h].sNotaArt))

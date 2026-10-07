@@ -1,6 +1,6 @@
 ﻿/*****************************************************
  	NomeFile : StandFacile/PrintNetCopiesConfigDlg.cs
-    Data	 : 20.06.2026
+    Data	 : 20.09.2026
  	Autore   : Mauro Artuso
  *****************************************************/
 
@@ -13,13 +13,13 @@ using static StandFacile.Define;
 using static StandFacile.Config;
 using static StandFacile.dBaseIntf;
 
+using StandCommonFiles;
 using static StandCommonFiles.CommonCl;
-using static StandCommonFiles.ReceiptAndCopies;
 using static StandCommonFiles.ComDef;
 
 using static StandCommonFiles.Printer_Legacy;
 using static StandCommonFiles.Printer_Windows;
-
+using static StandCommonFiles.Printer_ESCPOS;
 
 namespace StandFacile
 {
@@ -35,6 +35,8 @@ namespace StandFacile
 
         static PrinterSettings _settings = new PrinterSettings();
         static String _sDefaultPrinter;
+
+        static int _iEscPosPrinterType;
 
         static bool _bListinoModificato;
 
@@ -52,6 +54,7 @@ namespace StandFacile
         CheckBox[] _pCheckBoxCopia;
         CheckBox[] _pCheckBox_BCD;
         CheckBox[] _pCheckBox_Risp;
+        CheckBox[] _pCheckBoxEscPos;
         TextBox[] _pPrintCopyText;
         TextBox[] _pTextBoxColor;
 
@@ -107,6 +110,7 @@ namespace StandFacile
             _pBtnPrintCheck = new Button[NUM_SEP_PRINT_GROUPS];
             _pPrintCopyText = new TextBox[NUM_SEP_PRINT_GROUPS];
             _pCheckBoxCopia = new CheckBox[NUM_SEP_PRINT_GROUPS];
+            _pCheckBoxEscPos = new CheckBox[NUM_SEP_PRINT_GROUPS];
             _pCheckBox_BCD = new CheckBox[NUM_SEP_PRINT_GROUPS];
             _pCheckBox_Risp = new CheckBox[NUM_SEP_PRINT_GROUPS];
             _pPrintersListCombo = new ComboBox[NUM_SEP_PRINT_GROUPS];
@@ -159,6 +163,16 @@ namespace StandFacile
             _pCheckBox_Risp[9] = checkBoxRisp_9;
             _pCheckBox_Risp[9].Visible = false;
 
+            _pCheckBoxEscPos[0] = checkBox_escpos_0;
+            _pCheckBoxEscPos[1] = checkBox_escpos_1;
+            _pCheckBoxEscPos[2] = checkBox_escpos_2;
+            _pCheckBoxEscPos[3] = checkBox_escpos_3;
+            _pCheckBoxEscPos[4] = checkBox_escpos_4;
+            _pCheckBoxEscPos[5] = checkBox_escpos_5;
+            _pCheckBoxEscPos[6] = checkBox_escpos_6;
+            _pCheckBoxEscPos[7] = checkBox_escpos_7;
+            _pCheckBoxEscPos[8] = checkBox_escpos_8;
+            _pCheckBoxEscPos[9] = checkBox_escpos_9;
 
             _pPrintCopyText[0] = CopiaText_0;
             _pPrintCopyText[1] = CopiaText_1;
@@ -208,6 +222,7 @@ namespace StandFacile
 
                 _tt.SetToolTip(_pBtnPrintCheck[i], "effettua stampa di prova");
                 _tt.SetToolTip(_pCheckBox_BCD[i], "stampa il barcode nella copia");
+                _tt.SetToolTip(_pCheckBoxEscPos[i], "utilizza il formato ESC/POS per la stampa");
                 _tt.SetToolTip(_pPrintersListCombo[i], "imposta la stampante per la copia");
                 _tt.SetToolTip(_pCheckBox_Risp[i], "imposta il risparmio carta per questo gruppo copie");
 
@@ -235,9 +250,16 @@ namespace StandFacile
             // stampante Windows di Default
             _sDefaultPrinter = _settings.PrinterName;
 
+            //lettura dal Registry
+            _iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
+
+            for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+                _pCheckBoxEscPos[i].Checked = IsBitSet(_iEscPosPrinterType, i);
+
+
             for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
             {
-                sTmp = String.Format(WIN_CPY_PRINTER_MODEL_MKEY, i);
+                sTmp = String.Format(WIN_CPY_PRINTER_MODEL_KEY, i);
                 sGlbWinPrinterParams.sPrinterModel[i] = ReadRegistry(sTmp, _sDefaultPrinter); //stampa copie
 
                 _pPrintersListCombo[i].Items.Clear();
@@ -263,12 +285,19 @@ namespace StandFacile
                     j++;
                 }
 
-                if (_pPrintersListCombo[i].Items.Count > 0)
+                if ((_pPrintersListCombo[i].Items.Count > 0) && !_pCheckBoxEscPos[i].Checked)
                 {
+                    _pPrintersListCombo[i].DropDownStyle = ComboBoxStyle.DropDownList;
+
                     if ((sGlbWinPrinterParams.iPrinterModel[i] >= 0) && (sGlbWinPrinterParams.iPrinterModel[i] < _pPrintersListCombo[i].Items.Count))
                         _pPrintersListCombo[i].SelectedIndex = sGlbWinPrinterParams.iPrinterModel[i];
                     else
                         _pPrintersListCombo[i].SelectedIndex = 0;
+                }
+                else
+                {
+                    _pPrintersListCombo[i].DropDownStyle = ComboBoxStyle.DropDown; // editabile
+                    _pPrintersListCombo[i].Text = sGlbWinPrinterParams.sPrinterModel[i];
                 }
             }
 
@@ -384,6 +413,7 @@ namespace StandFacile
                         // abilitato solo se CASSA_PRINCIPALE e bUSA_NDB()
                         _pCheckBox_BCD[i].Enabled = DataManager.CheckIf_CassaPri_and_NDB();
                         _pCheckBox_Risp[i].Enabled = true;
+                        _pCheckBoxEscPos[i].Enabled = true;
                         _pPrintersListCombo[i].Enabled = true;
 
                         _pPrintCopyText[i].BackColor = System.Drawing.SystemColors.Window;
@@ -393,6 +423,7 @@ namespace StandFacile
                     {
                         _pCheckBox_BCD[i].Enabled = false;
                         _pCheckBox_Risp[i].Enabled = false;
+                        _pCheckBoxEscPos[i].Enabled = false;
                         _pPrintersListCombo[i].Enabled = false;
 
                         _pPrintCopyText[i].BackColor = System.Drawing.Color.AntiqueWhite;
@@ -422,12 +453,27 @@ namespace StandFacile
                                 _pCheckBox_Risp[j].Enabled = false;
                                 _pCheckBox_Risp[j].Checked = _pCheckBox_Risp[i].Checked;
 
+                                _pCheckBoxEscPos[j].Enabled = false;
+                                _pCheckBoxEscPos[j].Checked = _pCheckBoxEscPos[i].Checked;
+
                                 _pPrintersListCombo[j].Enabled = false;
-                                _pPrintersListCombo[j].SelectedIndex = _pPrintersListCombo[i].SelectedIndex;
+
+                                if (_pCheckBoxEscPos[i].Checked)
+                                {
+                                    _pPrintersListCombo[j].DropDownStyle = ComboBoxStyle.DropDown; // editabile
+                                    _pPrintersListCombo[j].Text = _pPrintersListCombo[i].Text;
+                                    //_pPrintersListCombo[j].Refresh();
+                                }
+                                else
+                                {
+                                    _pPrintersListCombo[j].DropDownStyle = ComboBoxStyle.DropDownList;
+                                    _pPrintersListCombo[j].SelectedIndex = _pPrintersListCombo[i].SelectedIndex;
+                                }
                             }
                         }
                     }
                 }
+
             }
         }
 
@@ -436,14 +482,19 @@ namespace StandFacile
             int i;
             String sTmp, sFileToPrint;
 
-            sFileToPrint = BuildSampleText();
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH);
 
             for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
             {
                 if (sender == _pBtnPrintCheck[i])
                 {
-                    if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(_pPrintersListCombo[i].Text))
-                        PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, _pPrintersListCombo[i].Text);
+                    if (GetPrinterTypeIsWindows(_pPrintersListCombo[i].Text))
+                    {
+                        if (_pCheckBoxEscPos[i].Checked)
+                            Printer_ESCPOS.PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, _pPrintersListCombo[i].Text);
+                        else
+                            Printer_Windows.PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, _pPrintersListCombo[i].Text);
+                    }
                     else
                         PrintFile(sFileToPrint, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
 
@@ -522,6 +573,37 @@ namespace StandFacile
             }
         }
 
+        private void CheckBoxEscPos_MouseClick(object sender, MouseEventArgs e)
+        {
+            int i, iActualIndex = 0;
+
+            for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+            {
+                if (sender == _pCheckBoxEscPos[i])
+                {
+                    _pCheckBoxEscPos[i].Checked = !_pCheckBoxEscPos[i].Checked;
+                    iActualIndex = i;
+                    break;
+                }
+            }
+
+            if ((_pPrintersListCombo[i].Items.Count > 0) && !_pCheckBoxEscPos[i].Checked)
+            {
+                _pPrintersListCombo[i].DropDownStyle = ComboBoxStyle.DropDownList;
+
+                if ((sGlbWinPrinterParams.iPrinterModel[i] >= 0) && (sGlbWinPrinterParams.iPrinterModel[i] < _pPrintersListCombo[i].Items.Count))
+                    _pPrintersListCombo[i].SelectedIndex = sGlbWinPrinterParams.iPrinterModel[i];
+                else
+                    _pPrintersListCombo[i].SelectedIndex = 0;
+            }
+            else
+            {
+                _pPrintersListCombo[i].DropDownStyle = ComboBoxStyle.DropDown; // editabile
+                _pPrintersListCombo[i].Text = sGlbWinPrinterParams.sPrinterModel[i];
+            }
+
+        }
+
         /**************************************************
             letture dai controlli dalle variabili per la
             scrittura nel registro
@@ -571,7 +653,7 @@ namespace StandFacile
                 sGlbWinPrinterParams.sPrinterModel[i] = _pPrintersListCombo[i].Text;
                 sGlbWinPrinterParams.iPrinterModel[i] = _pPrintersListCombo[i].SelectedIndex;
 
-                sTmp = String.Format(WIN_CPY_PRINTER_MODEL_MKEY, i);
+                sTmp = String.Format(WIN_CPY_PRINTER_MODEL_KEY, i);
                 WriteRegistry(sTmp, sGlbWinPrinterParams.sPrinterModel[i]);
             }
 
@@ -591,6 +673,24 @@ namespace StandFacile
                 _bListinoModificato = true;
 
                 SF_Data.iBarcodeRichiesto = iBarcodeRichiestoTmp;
+            }
+
+            // iEscPosPrinterType non varia per la stampante Receipt, Riepilogo, Messaggi
+            _iEscPosPrinterType = (iEscPosPrinterType & (7 << NUM_SEP_PRINT_GROUPS));
+
+            for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+            {
+                if (_pCheckBoxEscPos[i].Checked)
+                    _iEscPosPrinterType += (int)Math.Pow(2, i); // 0x000003FF
+            }
+
+            // controllo _bListinoModificato per iEscPosPrinterType, salvataggio nel Registry
+            if (iEscPosPrinterType != _iEscPosPrinterType)
+            {
+                _bListinoModificato = true;
+                iEscPosPrinterType = _iEscPosPrinterType;
+
+                WriteRegistry(WIN_ESC_POS_MODEL_KEY, iEscPosPrinterType);
             }
 
             // controllo _bListinoModificato a gruppi

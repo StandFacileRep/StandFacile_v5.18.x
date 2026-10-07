@@ -1,6 +1,6 @@
 ﻿/***************************************************************************
 	NomeFile : StandFacile/VisMessaggi.cs
-    Data	 : 06.12.2024
+    Data	 : 22.09.2026
 	Autore	 : Mauro Artuso
 
  ***************************************************************************/
@@ -30,7 +30,7 @@ namespace StandFacile
 #pragma warning disable IDE0044
 
         bool _bNuovoMessaggioReq, _bMessaggioCaricato;
-        int _iNum;
+        int _iNum, _iEscPosPrinterType;
 
         static bool _bNewMessage;
 
@@ -99,6 +99,10 @@ namespace StandFacile
                 PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iMsgPrinterModel;
             else
                 PrintersListCombo.SelectedIndex = 0;
+
+            // inizializzazione stampanti ESC POS
+            _iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
+            checkBox_escpos.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 2);
 
             _tt.SetToolTip(PrintersListCombo, "seleziona la stampante per il messaggio");
             _tt.SetToolTip(btnSend, "invia un Messaggio a StandCucina");
@@ -203,7 +207,7 @@ namespace StandFacile
             VM_lblRemChar.Enabled = true;
             BtnPrev.Enabled = false;
             BtnNext.Enabled = false;
-            textEdit_Messaggi.MaxLength = iMAX_RECEIPT_CHARS * 6;
+            textEdit_Messaggi.MaxLength = MAX_RECEIPT_CHARS * 6;
 
             VM_lblRemChar.Text = String.Format("Caratteri rimanenti : {0}", textEdit_Messaggi.MaxLength - textEdit_Messaggi.TextLength);
 
@@ -344,6 +348,14 @@ namespace StandFacile
                 WriteRegistry(WIN_MSG_PRINTER_MODEL_KEY, sGlbWinPrinterParams.sMsgPrinterModel);
             }
 
+            _iEscPosPrinterType = UpdateBit(_iEscPosPrinterType, checkBox_escpos.Checked, NUM_SEP_PRINT_GROUPS + 2);
+
+            if (iEscPosPrinterType != _iEscPosPrinterType)
+            {
+                iEscPosPrinterType = _iEscPosPrinterType;
+                WriteRegistry(WIN_ESC_POS_MODEL_KEY, _iEscPosPrinterType);
+            }
+
             if (textEdit_Messaggi.Lines.Length > 0)
             {
                 if (_bNewMessage)
@@ -366,7 +378,7 @@ namespace StandFacile
                     // inserisce Headers
                     if (_bNewMessage)
                     {
-                        sTmp = CenterJustify(dataIdentifierParam.sHeaders[0], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(dataIdentifierParam.sHeaders[0], MAX_RECEIPT_CHARS);
                         if (!String.IsNullOrEmpty(dataIdentifierParam.sHeaders[0]))
                         {
                             sMessage += String.Format("{0}\n\n", sTmp);
@@ -374,12 +386,12 @@ namespace StandFacile
                         }
 
                         sTmp = String.Format("{0,-22}C.{1}", GetDateTimeString(), dataIdentifierParam.iNumCassa);
-                        sTmp = CenterJustify(sTmp, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS);
                         sMessage += String.Format("{0}\n\n", sTmp);
                         iEqRowsNumber++; iEqRowsNumber++;
 
                         sTmp = String.Format("{0}{1,4}", "Messaggio Numero =", _iNum);
-                        sTmp = CenterJustify(sTmp, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS);
                         sMessage += String.Format("{0}\n\n", sTmp);
                         iEqRowsNumber++; iEqRowsNumber++;
                     }

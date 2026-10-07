@@ -1,4 +1,14 @@
-﻿using FreeDataExports;
+﻿/********************************************************************
+    NomeFile : StandCommonSrc/VisDatiDlg_ods.cs
+    Data	 : 10.08.2026
+    Autore : Mauro Artuso
+
+    https://www.nuget.org/packages/FreeDataExports
+    https://www.nuget.org/packages/FreeDataExports/1.1.14#excel-export-xlsx-2019
+
+    Classe di visualizzazione dei files Dati o Prezzi
+ ********************************************************************/
+using FreeDataExports;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -142,8 +152,6 @@ namespace StandFacile
                             else
                                 _rdBaseIntf.dbCaricaDatidaOrdini(columnDay, _iNumCassa);
                         }
-
-                        InitFormatStrings(dbGetLengthArticoli());
 
                         if (DB_Data.iActualNumOfReceipts <= 0)
                         {
@@ -383,8 +391,6 @@ namespace StandFacile
 
                                 if (iColumn == 0)
                                 {
-                                    _iCAP_vertPosStart = iRow; // serve alla formattazione
-
                                     sDataArray[iRow, 1] = "CAP_ID";
                                     sDataArray[iRow, 3] = "CAP";
 
@@ -434,7 +440,6 @@ namespace StandFacile
                                         sDataArray[iCAP_lastRow, iColumn + 3] = cap.iCAP_count.ToString();
 
                                         iCAP_lastRow++;
-                                        _iCAP_vertPosStop = iCAP_lastRow; // serve alla formattazione
                                     }
                                 }
                             }

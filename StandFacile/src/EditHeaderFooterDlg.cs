@@ -37,24 +37,22 @@ namespace StandFacile
 
             _bListinoModificato = false;
 
-            IntestazioneEdit1.MaxLength = iMAX_RECEIPT_CHARS;
-            IntestazioneEdit2.MaxLength = iMAX_RECEIPT_CHARS;
-            PiePaginaEdit1.MaxLength = iMAX_RECEIPT_CHARS;
-            PiePaginaEdit2.MaxLength = iMAX_RECEIPT_CHARS;
+            IntestazioneEdit1.MaxLength = MAX_RECEIPT_CHARS;
+            IntestazioneEdit2.MaxLength = MAX_RECEIPT_CHARS;
+            PiePaginaEdit1.MaxLength = MAX_RECEIPT_CHARS;
+            PiePaginaEdit2.MaxLength = MAX_RECEIPT_CHARS;
 
-            bool bChars33 = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CHARS33_PRINT_REQUIRED);
-
-            fFontSize = bChars33 ? 11.0f : 12.0f;
+            fFontSize = 11.0f;
 
             IntestazioneEdit1.Font = new Font("Tahoma", fFontSize);
             IntestazioneEdit2.Font = new Font("Tahoma", fFontSize);
             PiePaginaEdit1.Font = new Font("Tahoma", fFontSize);
             PiePaginaEdit2.Font = new Font("Tahoma", fFontSize);
 
-            IntestazioneEdit1.Text = CenterJustify(SF_Data.sHeaders[0], iMAX_RECEIPT_CHARS);
-            IntestazioneEdit2.Text = CenterJustify(SF_Data.sHeaders[1], iMAX_RECEIPT_CHARS);
-            PiePaginaEdit1.Text = CenterJustify(SF_Data.sHeaders[2], iMAX_RECEIPT_CHARS);
-            PiePaginaEdit2.Text = CenterJustify(SF_Data.sHeaders[3], iMAX_RECEIPT_CHARS);
+            IntestazioneEdit1.Text = CenterJustify(SF_Data.sHeaders[0], MAX_RECEIPT_CHARS);
+            IntestazioneEdit2.Text = CenterJustify(SF_Data.sHeaders[1], MAX_RECEIPT_CHARS);
+            PiePaginaEdit1.Text = CenterJustify(SF_Data.sHeaders[2], MAX_RECEIPT_CHARS);
+            PiePaginaEdit2.Text = CenterJustify(SF_Data.sHeaders[3], MAX_RECEIPT_CHARS);
 
             Timer.Enabled = true;
 
@@ -70,10 +68,10 @@ namespace StandFacile
             {
                 _bListinoModificato = true;
 
-                SF_Data.sHeaders[0] = CenterJustify(IntestazioneEdit1.Text, iMAX_RECEIPT_CHARS);
-                SF_Data.sHeaders[1] = CenterJustify(IntestazioneEdit2.Text, iMAX_RECEIPT_CHARS);
-                SF_Data.sHeaders[2] = CenterJustify(PiePaginaEdit1.Text, iMAX_RECEIPT_CHARS);
-                SF_Data.sHeaders[3] = CenterJustify(PiePaginaEdit2.Text, iMAX_RECEIPT_CHARS);
+                SF_Data.sHeaders[0] = CenterJustify(IntestazioneEdit1.Text, MAX_RECEIPT_CHARS);
+                SF_Data.sHeaders[1] = CenterJustify(IntestazioneEdit2.Text, MAX_RECEIPT_CHARS);
+                SF_Data.sHeaders[2] = CenterJustify(PiePaginaEdit1.Text, MAX_RECEIPT_CHARS);
+                SF_Data.sHeaders[3] = CenterJustify(PiePaginaEdit2.Text, MAX_RECEIPT_CHARS);
 
             }
             else

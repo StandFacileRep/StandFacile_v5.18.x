@@ -1,6 +1,6 @@
 ﻿/*********************************************************
     NomeFile : StandFacile
-    Data	 : 11.08.2026
+    Data	 : 28.09.2026
     Autore   : Mauro Artuso
 
     Avvia le classi visuali e non, nell'ordine corretto
@@ -119,7 +119,7 @@ namespace StandFacile
                 string name = new AssemblyName(args.Name).Name;
 
                 // esclude false DLL
-                if (!args.Name.Contains("StandFacile.resources"))
+                if (!args.Name.Contains("StandFacile_no_dll.resources"))
                     MessageBox.Show("DLL non trovata: " + args.Name + " \n");
 
                 return null;

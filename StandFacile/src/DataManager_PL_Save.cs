@@ -280,7 +280,7 @@ namespace StandFacile
                 iRowIndex += 3;
 
                 // salva importo coperti
-                sPrzRow = String.Format(sDAT_FMT_PRL, "#PCP COPERTI", IntToEuro(SF_Data.Articolo[MAX_ITEMS_NUM - 1].iPrezzoUnitario),
+                sPrzRow = String.Format(_DAT_FMT_32_PRL, "#PCP COPERTI", IntToEuro(SF_Data.Articolo[MAX_ITEMS_NUM - 1].iPrezzoUnitario),
                                     (int)DEST_TYPE.DEST_COUNTER);
 
                 fPrz.WriteLine(sPrzRow);
@@ -331,7 +331,7 @@ namespace StandFacile
                         (!String.IsNullOrEmpty(SF_Data.Articolo[i].sTipo) && OptionsDlg._rOptionsDlg.GetZeroPriceEnabled()) ||
                         (SF_Data.Articolo[i].iGruppoStampa == (int)DEST_TYPE.DEST_COUNTER))
                     {
-                        sPrzRow = String.Format(sDAT_FMT_PRL, SF_Data.Articolo[i].sTipo, IntToEuro(SF_Data.Articolo[i].iPrezzoUnitario),
+                        sPrzRow = String.Format(_DAT_FMT_32_PRL, SF_Data.Articolo[i].sTipo, IntToEuro(SF_Data.Articolo[i].iPrezzoUnitario),
                                     SF_Data.Articolo[i].iGruppoStampa);
 
                         uLocHashCode += Hash(sPrzRow);
@@ -488,11 +488,11 @@ namespace StandFacile
                  ***************************************************************/
                 dataIdParam.iNumOfLastReceipt = GetNumOfOrders();
 
-                fData.WriteLine(sDAT_FMT_HED, "Numero Scontrini emessi = ", dataIdParam.iActualNumOfReceipts);
+                fData.WriteLine(_DAT_FMT_32_HED, "Numero Scontrini emessi = ", dataIdParam.iActualNumOfReceipts);
 
-                fData.WriteLine(sDAT_FMT_HED, "Numero Scontrini Web = ", dataIdParam.iNumOfWebReceipts);
+                fData.WriteLine(_DAT_FMT_32_HED, "Numero Scontrini Web = ", dataIdParam.iNumOfWebReceipts);
 
-                fData.WriteLine(sDAT_FMT_HED, "Numero    \"   annullati = ", dataIdParam.iNumAnnullati);
+                fData.WriteLine(_DAT_FMT_32_HED, "Numero    \"   annullati = ", dataIdParam.iNumAnnullati);
 
                 if (dataIdParam.iNumAnnullati > 0)
                     fData.WriteLine("{0,28}{1,7}", "valore = ", IntToEuro(dataIdParam.iTotaleAnnullato));
@@ -534,12 +534,12 @@ namespace StandFacile
                         if (dataIdParam.Articolo[i].iGruppoStampa == (int)DEST_TYPE.DEST_BUONI)
                         {
                             sParz = "-" + sParz;
-                            sDataRow = String.Format(sDAT_FMT_DAT + " (*)", dataIdParam.Articolo[i].sTipo,
+                            sDataRow = String.Format(_DAT_FMT_32_DAT + " (*)", dataIdParam.Articolo[i].sTipo,
                                     IntToEuro(dataIdParam.Articolo[i].iPrezzoUnitario), iQuantitaVenduta, sParz, sDisp);
                         }
                         else
                         {
-                            sDataRow = String.Format(sDAT_FMT_DAT, dataIdParam.Articolo[i].sTipo,
+                            sDataRow = String.Format(_DAT_FMT_32_DAT, dataIdParam.Articolo[i].sTipo,
                                     IntToEuro(dataIdParam.Articolo[i].iPrezzoUnitario), iQuantitaVenduta, sParz, sDisp);
                         }
 
@@ -549,16 +549,16 @@ namespace StandFacile
                     }
                 }
 
-                fData.WriteLine(sDAT_FMT_DSH, "--------");
-                fData.WriteLine(sDAT_FMT_TOT, "TOTALE", IntToEuro(dataIdParam.iTotaleIncasso - dataIdParam.iTotaleBuoniApplicati));
+                fData.WriteLine(_DAT_FMT_32_DSH, "--------");
+                fData.WriteLine(_DAT_FMT_32_TOT, "TOTALE", IntToEuro(dataIdParam.iTotaleIncasso - dataIdParam.iTotaleBuoniApplicati));
 
 
                 if (dataIdParam.iTotaleBuoniApplicati > 0)
                 {
                     fData.WriteLine("");
 
-                    fData.WriteLine(sDAT_FMT_TOT, "valore effettivo", "");
-                    fData.WriteLine(sDAT_FMT_TOT, "buoni applicati", " " + IntToEuro(dataIdParam.iTotaleBuoniApplicati) + " (*)");
+                    fData.WriteLine(_DAT_FMT_32_TOT, "valore effettivo", "");
+                    fData.WriteLine(_DAT_FMT_32_TOT, "buoni applicati", " " + IntToEuro(dataIdParam.iTotaleBuoniApplicati) + " (*)");
                 }
 
                 if ((dataIdParam.iTotaleScontatoStd > 0) || (dataIdParam.iTotaleScontatoFisso > 0) || (dataIdParam.iTotaleScontatoGratis > 0))
@@ -566,29 +566,29 @@ namespace StandFacile
                     fData.WriteLine("");
 
                     if (dataIdParam.iTotaleScontatoGratis > 0)
-                        fData.WriteLine(sDAT_FMT_TOT, "valore gratuiti", IntToEuro(dataIdParam.iTotaleScontatoGratis));
+                        fData.WriteLine(_DAT_FMT_32_TOT, "valore gratuiti", IntToEuro(dataIdParam.iTotaleScontatoGratis));
 
                     if (dataIdParam.iTotaleScontatoFisso > 0)
-                        fData.WriteLine(sDAT_FMT_TOT, "valore sconto fisso", IntToEuro(dataIdParam.iTotaleScontatoFisso));
+                        fData.WriteLine(_DAT_FMT_32_TOT, "valore sconto fisso", IntToEuro(dataIdParam.iTotaleScontatoFisso));
 
                     if (dataIdParam.iTotaleScontatoStd > 0)
-                        fData.WriteLine(sDAT_FMT_TOT, "valore sconto articoli", IntToEuro(dataIdParam.iTotaleScontatoStd));
+                        fData.WriteLine(_DAT_FMT_32_TOT, "valore sconto articoli", IntToEuro(dataIdParam.iTotaleScontatoStd));
 
-                    fData.WriteLine(sDAT_FMT_DSH, "--------");
-                    fData.WriteLine(sDAT_FMT_TOT, "TOTALE NETTO", IntToEuro(dataIdParam.iTotaleIncasso - dataIdParam.iTotaleBuoniApplicati
+                    fData.WriteLine(_DAT_FMT_32_DSH, "--------");
+                    fData.WriteLine(_DAT_FMT_32_TOT, "TOTALE NETTO", IntToEuro(dataIdParam.iTotaleIncasso - dataIdParam.iTotaleBuoniApplicati
                                         - dataIdParam.iTotaleScontatoStd - dataIdParam.iTotaleScontatoFisso - dataIdParam.iTotaleScontatoGratis));
 
                     if ((dataIdParam.iTotaleCard > 0) || (dataIdParam.iTotaleSatispay > 0))
                     {
                         fData.WriteLine("");
 
-                        sTmp = String.Format(sDAT_FMT_TOT, "PAGAM. CARD    ", IntToEuro(dataIdParam.iTotaleCard));
+                        sTmp = String.Format(_DAT_FMT_32_TOT, "PAGAM. CARD    ", IntToEuro(dataIdParam.iTotaleCard));
                         fData.WriteLine(sTmp);
 
-                        sTmp = String.Format(sDAT_FMT_TOT, "PAGAM. SATISPAY", IntToEuro(dataIdParam.iTotaleSatispay));
+                        sTmp = String.Format(_DAT_FMT_32_TOT, "PAGAM. SATISPAY", IntToEuro(dataIdParam.iTotaleSatispay));
                         fData.WriteLine(sTmp);
 
-                        sTmp = String.Format(sDAT_FMT_TOT, "PAGAM. CONT.   ", IntToEuro(dataIdParam.iTotaleIncasso - dataIdParam.iTotaleBuoniApplicati - dataIdParam.iTotaleScontatoStd -
+                        sTmp = String.Format(_DAT_FMT_32_TOT, "PAGAM. CONT.   ", IntToEuro(dataIdParam.iTotaleIncasso - dataIdParam.iTotaleBuoniApplicati - dataIdParam.iTotaleScontatoStd -
                                                        dataIdParam.iTotaleScontatoFisso - dataIdParam.iTotaleScontatoGratis - dataIdParam.iTotaleCard - dataIdParam.iTotaleSatispay));
                         fData.WriteLine(sTmp);
                     }

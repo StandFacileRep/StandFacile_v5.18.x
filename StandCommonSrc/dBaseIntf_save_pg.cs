@@ -922,7 +922,7 @@ namespace StandFacile_DB
                      *
                      *  iScaricato è un flag, sScaricato conterrà la stringa dell'ora dello scarico
                      *  sText deve avere una dimensione di almeno :
-                     *  iMAX_RECEIPT_CHARS*(6+3) (intestazioni + contenuto) per memorizzare i Messaggi = 300
+                     *  MAX_RECEIPT_CHARS*(6+3) (intestazioni + contenuto) per memorizzare i Messaggi = 300
                      *
                      *	append continuo ordini, non serve KEY
                      ***************************************************************************************/
@@ -1339,16 +1339,16 @@ namespace StandFacile_DB
 
                 sMessage = ""; // nel DB si salvano 255 char max
 
-                sTmp = CenterJustify(SF_Data.sHeaders[0], iMAX_RECEIPT_CHARS);
+                sTmp = CenterJustify(SF_Data.sHeaders[0], MAX_RECEIPT_CHARS);
                 if (!String.IsNullOrEmpty(SF_Data.sHeaders[0]))
                     sMessage += String.Format("{0}\n\n", sTmp);
 
                 sTmp = String.Format("{0,-22}C.{1}", GetDateTimeString(), SF_Data.iNumCassa);
-                sTmp = CenterJustify(sTmp, iMAX_RECEIPT_CHARS);
+                sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS);
                 sMessage += String.Format("{0}\n\n", sTmp);
 
                 sTmp = String.Format("{0}{1,4}", "Messaggio Numero =", SF_Data.iNumOfMessages);
-                sTmp = CenterJustify(sTmp, iMAX_RECEIPT_CHARS);
+                sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS);
                 sMessage += String.Format("{0}\n\n", sTmp);
 
                 for (i = 0; i < rVisMessaggiLines.Length; i++)

@@ -19,12 +19,12 @@ using System.Windows.Forms;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
 using static StandCommonFiles.Printer_Legacy;
+using static StandFacile.glb;
+using static StandFacile.Define;
 using static StandFacile.Config;
+using static StandFacile.OptionsDlg;
 using static StandFacile.dBaseIntf;
 using static StandFacile.dBaseTunnel_my;
-using static StandFacile.Define;
-using static StandFacile.glb;
-using static StandFacile.OptionsDlg;
 
 namespace StandFacile
 {
@@ -323,7 +323,7 @@ namespace StandFacile
             Btn_DB_Check.ToolTipText = "test di connessione DB:\n" +
                 "con Ctrl premuto verifica la connessione\n" +
                 "al DB remoto e forza l'upload del Listino";
-            
+
             Btn_OSKeyb.ToolTipText = "tastiera onscreen";
 
             _tt.SetToolTip(btnNavLeft, "espande la barra laterale");
@@ -404,7 +404,7 @@ namespace StandFacile
             // Larghezza barra di stato
             //LblStatus_Status.Width = 320;
 
-            EditNote.MaxLength = iMAX_RECEIPT_CHARS;
+            EditNote.MaxLength = MAX_RECEIPT_CHARS;
             EditNote.Width = 240;
 
             EditTable.MaxLength = 18;
@@ -460,7 +460,7 @@ namespace StandFacile
                 MessageBox.Show("E' la prima esecuzione, imposta la stampante ed il listino Prezzi !", "Attenzione !", MessageBoxButtons.OK);
 
                 // default
-                WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_SEL.STAMPANTE_WINDOWS);
+                WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
             }
             else if (CheckService(CFG_COMMON_STRINGS._ESPERTO))
             {
@@ -1127,7 +1127,7 @@ namespace StandFacile
                             // reset EditNote
                             EditNote.BackColor = Color.Gainsboro;
                             EditNote.Text = _sEditNoteCopy;
-                            EditNote.MaxLength = iMAX_RECEIPT_CHARS;
+                            EditNote.MaxLength = MAX_RECEIPT_CHARS;
                             MF_lblNote.Text = "Nota:";
 
                             MainGrid_Redraw(this, null);
@@ -1565,7 +1565,10 @@ namespace StandFacile
         {
             Logger.Info("Mainform : PrintSampleText()");
 
-            Printer_Windows.PrintSampleText(sGlbWinPrinterParams);
+            if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                Printer_ESCPOS.PrintSampleText(sGlbWinPrinterParams);
+            else
+                Printer_Windows.PrintSampleText(sGlbWinPrinterParams);
         }
 
         private void MnuStampaFile_Click(object sender, EventArgs e)
@@ -2103,7 +2106,7 @@ namespace StandFacile
         {
             GenPrinterDlg._rGenPrinterDlg.Init(true);
 
-            // può cambiare checkBox_Chars33
+            // può cambiare checkBox_Chars32
             FormResize(this, null);
             MainGrid_Redraw(this, null);
 
@@ -2578,7 +2581,7 @@ namespace StandFacile
         private void checkBoxLogoPreview_Click(object sender, EventArgs e)
         {
             previewLeftPanel.AutoScrollPosition = new Point(0, 0);
-            
+
             checkBoxLogoPreview.Checked = !checkBoxLogoPreview.Checked;
 
             MnuAnteprimaScontrino_Click(null, null);
@@ -2785,7 +2788,7 @@ namespace StandFacile
                 // reset EditNote
                 EditNote.BackColor = Color.Gainsboro;
                 EditNote.Text = _sEditNoteCopy;
-                EditNote.MaxLength = iMAX_RECEIPT_CHARS;
+                EditNote.MaxLength = MAX_RECEIPT_CHARS;
                 MF_lblNote.Text = "Nota:";
 
                 MainGrid_Redraw(this, null);
@@ -2799,7 +2802,7 @@ namespace StandFacile
                 // si predispone per acquisire la Nota Articolo
                 EditNote.Text = SF_Data.Articolo[_iNewCellPt].sNotaArt;
                 EditNote.BackColor = Color.LightBlue;
-                EditNote.MaxLength = iMAX_RECEIPT_CHARS - 3;
+                EditNote.MaxLength = MAX_RECEIPT_CHARS - 3;
                 MF_lblNote.Text = "Nota Art:";
 
                 _bCtrlIsPressed = false; // altrimenti rimane troppo a lungo il Focus()
@@ -2888,7 +2891,7 @@ namespace StandFacile
             if ((SF_Data.iNumOfLastReceipt > 0) || (SF_Data.iNumOfMessages > 0) || DataManager.CheckDispLoaded())
                 DataManager.SalvaDati(DB_Data, false);
 
-            if (!CheckService(Define.CFG_SERVICE_STRINGS._AUTO_RECEIPT_GEN) && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && 
+            if (!CheckService(Define.CFG_SERVICE_STRINGS._AUTO_RECEIPT_GEN) && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) &&
                 !CheckService(Define.CFG_SERVICE_STRINGS._KEEP_FILES_AND_TABLES))
             {
                 // ***** puliza finale *****

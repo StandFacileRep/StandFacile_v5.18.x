@@ -1,6 +1,6 @@
 ﻿/************************************************************
     NomeFile : StandCommonSrc/CommonDefine.cs
-    Data	 : 12.07.2026
+    Data	 : 26.09.2026
     Autore	 : Mauro Artuso
  ************************************************************/
 
@@ -17,7 +17,7 @@ namespace StandCommonFiles
 #pragma warning disable IDE0060
 
         /// <summary>versione del Programma</summary>
-        public const String RELEASE_SW = "v5.18.5"; 
+        public const String RELEASE_SW = "v5.19.0";
 
         /// <summary>prefisso versione delle tabelle DB</summary>
         public const String RELEASE_DB_TBLS = "v5d";
@@ -151,173 +151,89 @@ namespace StandCommonFiles
 
 
         /// <summary>numero massimo in assoluto di caratteri per Receipt</summary>
-        public const int MAX_ABS_RECEIPT_CHARS = 33;
-
-        /// <summary>numero massimo storico di caratteri per Receipt</summary>
-        public const int MAX_LEG_RECEIPT_CHARS = 28;
+        public const int MAX_RECEIPT_CHARS = 32;
 
         /// <summary>numero massimo di caratteri per riga per le copie (soggette a zoom)</summary>
         public const int MAX_RECEIPT_CHARS_CPY = 28;
 
         /// <summary>numero massimo in assoluto di caratteri per articolo</summary>
-        public const int MAX_ABS_ART_CHAR = 23;
-
-        /// <summary>numero massimo storico di caratteri per articolo</summary>
-        public const int MAX_LEG_ART_CHAR = 18;
+        public const int MAX_ART_CHAR = 22;
 
         /// <summary>max caratteri del testo decrittivo delle copie</summary>
         public const int MAX_COPIES_TEXT_CHARS = 25;
 
-        /// <summary>Intero per centraggio del Numero dell'ordine</summary>
-        public static int iCenterOrderNum;
 
+        /// <summary>stringa per formattazione receipt base 32 char</summary>
+        public const String _RCP_FMT_32_RCPT = "{0,2} {1,-22}{2,7}";
 
-        /// <summary>Stringhe di formattazione stampe<br/>
-        /// larghezza 28 "{0,2} {1,-18}{2,7}" :89 123456789012345678 9876.00<br/>
-        /// larghezza 33 "{0,2} {1,-23}{2,7}" :89 12345678901234567809123 9876.00
-        /// </summary>
-        public static String sRCP_FMT_RCPT, sRCP_FMT_CPY, sRCP_FMT_DSC, sRCP_FMT_DIF, sRCP_FMT_TOT, sRCP_FMT_DSH, sRCP_FMT_NOTE;
+        /// <summary>stringa per formattazione copie base 32 char</summary>
+        public const String _RCP_FMT_32_CPY = "{0,3} {1,-22}";
 
-#if STANDFACILE
-        /// <summary>Stringhe di formattazione griglia, listino, etc.</summary>
-        public static String sGRD_FMT_STD, sGRD_FMT_TCH, sGRDW_FMT_STD, sGRDZ_FMT_TCH, sGRDW_FMT_TCH;
-#endif
+        /// <summary>stringa per formattazione nota base 32 char</summary>
+        public const String _RCP_FMT_32_NOTE = "  {0,-30}";
 
-        /// <summary>Stringhe di formattazione dati</summary>
-        public static String sDAT_FMT_PRL, sDAT_FMT_DAT, sDAT_FMT_TOT, sDAT_FMT_DSH;
+        /// <summary>stringa per formattazione sconti base 32 char</summary>
+        public const String _RCP_FMT_32_DSC = "{0,7}{1,6} {2,10}{3,8}";
 
-        /// <summary>Stringhe di formattazione dati</summary>
-        public static String sDAT_FMT_HED, sDAT_FMT_REP_RED, sDAT_FMT_DSH_RED, sDAT_FMT_TOT_RED;
+        /// <summary>stringa per formattazione receipt base 32 char</summary>
+        public const String _RCP_FMT_32_DIF = "{0,24}{1,8}";
 
+        /// <summary>stringa per formattazione sconti base 32 char</summary>
+        public const String _RCP_FMT_32_TOT = "{0,22}{1,10}";
 
-        /// <summary>stringa per formattazione receipt base 28 char</summary>
-        public const String _RCP_FMT_28_RCPT = "{0,2} {1,-18}{2,7}";
-
-        /// <summary>stringa per formattazione receipt base 33 char</summary>
-        public const String _RCP_FMT_33_RCPT = "{0,2} {1,-23}{2,7}";
-
-        /// <summary>stringa per formattazione copie base 28 char</summary>
-        public const String _RCP_FMT_28_CPY = "{0,3} {1,-18}";
-
-        /// <summary>stringa per formattazione copie base 33 char</summary>
-        public const String _RCP_FMT_33_CPY = "{0,3} {1,-23}";
-
-        /// <summary>stringa per formattazione nota base 28 char</summary>
-        public const String _RCP_FMT_28_NOTE = "   {0,-25}";
-
-        /// <summary>stringa per formattazione nota base 33 char</summary>
-        public const String _RCP_FMT_33_NOTE = "   {0,-30}";
-
-        /// <summary>stringa per formattazione sconti base 28 char</summary>
-        public const String _RCP_FMT_28_DSC = "{0,7}{1,6} {2,6}{3,8}";
-
-        /// <summary>stringa per formattazione sconti base 33 char</summary>
-        public const String _RCP_FMT_33_DSC = "{0,7}{1,6} {2,11}{3,8}";
-
-        /// <summary>stringa per formattazione receipt base 28 char</summary>
-        public const String _RCP_FMT_28_DIF = "{0,20}{1,8}";
-
-        /// <summary>stringa per formattazione receipt base 33 char</summary>
-        public const String _RCP_FMT_33_DIF = "{0,25}{1,8}";
-
-        /// <summary>stringa per formattazione receipt base 28 char</summary>
-        public const String _RCP_FMT_28_TOT = "{0,18}{1,10}";
-
-        /// <summary>stringa per formattazione sconti base 33 char</summary>
-        public const String _RCP_FMT_33_TOT = "{0,23}{1,10}";
-
-        /// <summary>stringa per formattazione trattini di separazione base 28 char</summary>
-        public const String _RCP_FMT_28_DSH = "{0,28}";
-
-        /// <summary>stringa per formattazione trattini di separazione base 33 char</summary>
-        public const String _RCP_FMT_33_DSH = "{0,33}";
+        /// <summary>stringa per formattazione trattini di separazione base 32 char</summary>
+        public const String _RCP_FMT_32_DSH = "{0,32}";
 
 
 #if STANDFACILE
-        /// <summary>stringa per formattazione griglia base 28 char</summary>
-        public const String _GRD_FMT_28_STD = " {0,2} {1,-18} {2,5:0.00}";
+        /// <summary>stringa per formattazione griglia base 32 char</summary>
+        public const String _GRD_FMT_32_STD = " {0,2} {1,-22} {2,5:0.00}";
 
-        /// <summary>stringa per formattazione griglia base 33 char</summary>
-        public const String _GRD_FMT_33_STD = " {0,2} {1,-23} {2,5:0.00}";
+        /// <summary>stringa per formattazione visListino griglia base 32 char</summary>
+        public const String _GRD_FMT_32_TCH = " {0,2} {1,14:0.00}{2}{2}{3,-22}";
 
-        /// <summary>stringa per formattazione visListino griglia base 28 char</summary>
-        public const String _GRD_FMT_28_TCH = " {0,2} {1,14:0.00}{2}{2}{3,-18}";
+        /// <summary>stringa per formattazione work griglia base 32 char</summary>
+        public const String _GRDW_FMT_32_STD = "{0,3} {1,-22} {2,2}";
 
-        /// <summary>stringa per formattazione visListino griglia base 33 char</summary>
-        public const String _GRD_FMT_33_TCH = " {0,2} {1,14:0.00}{2}{2}{3,-23}";
+        /// <summary>stringa per formattazione work griglia base 32 char</summary>
+        public const String _GRDZ_FMT_32_TCH = "{0,22}{1}{1}{2,-22}";
 
-        /// <summary>stringa per formattazione work griglia base 28 char</summary>
-        public const String _GRDW_FMT_28_STD = "{0,3} {1,-18} {2,2}";
-
-        /// <summary>stringa per formattazione work griglia base 33 char</summary>
-        public const String _GRDW_FMT_33_STD = "{0,3} {1,-23} {2,2}";
-
-        /// <summary>stringa per formattazione work griglia base 28 char</summary>
-        public const String _GRDZ_FMT_28_TCH = "{0,18}{1}{1}{2,-18}";
-
-        /// <summary>stringa per formattazione work griglia base 33 char</summary>
-        public const String _GRDZ_FMT_33_TCH = "{0,23}{1}{1}{2,-23}";
-
-        /// <summary>stringa per formattazione work griglia base 28 char</summary>
-        public const String _GRDW_FMT_28_TCH = " ds:{0,-3}{1,11}{2}{2}{3,-18}";
-
-        /// <summary>stringa per formattazione work griglia base 33 char</summary>
-        public const String _GRDW_FMT_33_TCH = " ds:{0,-3}{1,11}{2}{2}{3,-23}";
+        /// <summary>stringa per formattazione work griglia base 32 char</summary>
+        public const String _GRDW_FMT_32_TCH = " ds:{0,-3}{1,11}{2}{2}{3,-22}";
 
 #endif
-        /// <summary>stringa per formattazione listino base 28 char</summary>
-        public const String _DAT_FMT_28_PRL = "{0,-18} ; {1,6} ; {2,2}";
+        /// <summary>stringa per formattazione listino base 32 char</summary>
+        public const String _DAT_FMT_32_PRL = "{0,-22} ; {1,6} ; {2,2}";
 
-        /// <summary>stringa per formattazione listino base 33 char</summary>
-        public const String _DAT_FMT_33_PRL = "{0,-23} ; {1,6} ; {2,2}";
+        /// <summary>stringa per formattazione dati base 32 char</summary>
+        public const String _DAT_FMT_32_DAT = "{0,-22}{1,8}{2,6}{3,9}{4,5}";
 
-        /// <summary>stringa per formattazione dati base 28 char</summary>
-        public const String _DAT_FMT_28_DAT = "{0,-18}{1,8}{2,6}{3,9}{4,5}";
+        /// <summary>stringa per formattazione dati base 32 char</summary>
+        public const String _DAT_FMT_32_TOT = " {0,34}{1,10}";
 
-        /// <summary>stringa per formattazione dati base 33 char</summary>
-        public const String _DAT_FMT_33_DAT = "{0,-23}{1,8}{2,6}{3,9}{4,5}";
+        /// <summary>stringa per formattazione dati base 32 char</summary>
+        public const String _DAT_FMT_32_DSH = " {0,44}";
 
-        /// <summary>stringa per formattazione dati base 28 char</summary>
-        public const String _DAT_FMT_28_TOT = " {0,30}{1,10}";
-
-        /// <summary>stringa per formattazione dati base 33 char</summary>
-        public const String _DAT_FMT_33_TOT = " {0,35}{1,10}";
-
-        /// <summary>stringa per formattazione dati base 28 char</summary>
-        public const String _DAT_FMT_28_DSH = " {0,40}";
-
-        /// <summary>stringa per formattazione dati base 33 char</summary>
-        public const String _DAT_FMT_33_DSH = " {0,45}";
-
-        /// <summary>stringa per formattazione dati base 28 char</summary>
-        public const String _DAT_FMT_28_HED = "{0,28}{1,4}";
-
-        /// <summary>stringa per formattazione dati base 33 char</summary>
-        public const String _DAT_FMT_33_HED = "{0,33}{1,4}";
+        /// <summary>stringa per formattazione dati base 32 char</summary>
+        public const String _DAT_FMT_32_HED = "{0,32}{1,4}";
 
 
-        /// <summary>stringa per formattazione dati vis. ridotta base 28 char</summary>
-        public const String _DAT_FMT_28_REP_RED = "{0,-18}{1,6}{2,9}";
+        /// <summary>stringa per formattazione listino base 32 char</summary>
+        public const String _DAT_FMT_32_REP_RED = "{0,-22}{1,6}{2,9}";
 
-        /// <summary>stringa per formattazione listino base 33 char</summary>
-        public const String _DAT_FMT_33_REP_RED = "{0,-23}{1,6}{2,9}";
+        /// <summary>stringa per formattazione listino base 32 char</summary>
+        public const String _DAT_FMT_32_DSH_RED = " {0,36}";
 
-        /// <summary>stringa per formattazione dati vis. ridotta base 28 char</summary>
-        public const String _DAT_FMT_28_DSH_RED = " {0,32}";
-
-        /// <summary>stringa per formattazione listino base 33 char</summary>
-        public const String _DAT_FMT_33_DSH_RED = " {0,37}";
-
-        /// <summary>stringa per formattazione dati vis. ridotta base 28 char</summary>
-        public const String _DAT_FMT_28_TOT_RED = " {0,22}{1,10}";
-
-        /// <summary>stringa per formattazione listino base 33 char</summary>
-        public const String _DAT_FMT_33_TOT_RED = " {0,27}{1,10}";
+        /// <summary>stringa per formattazione listino base 32 char</summary>
+        public const String _DAT_FMT_32_TOT_RED = " {0,26}{1,10}";
 
         // altre voci di registro
 
         /// <summary>chiave che descrive se la stampante è Windows o Legacy</summary>
         public const String SYS_PRINTER_TYPE_KEY = "iSysPrinter";
+
+        /// <summary>registro: stringa del modello della stampante per le copie</summary>
+        public const String WIN_ESC_POS_MODEL_KEY = "iEscPosPrinterModel";
 
         /// <summary>chiave che descrive il tipo di stampante Legacy</summary>
         public const String LEGACY_PRINTER_MODEL_KEY = "iLegPrinterModel";
@@ -327,9 +243,6 @@ namespace StandCommonFiles
 
         /// <summary>chiave che descrive se è richiesta la stampa del barcode</summary>
         public const String STAMPA_BARCODE_KEY = "iStampaBarcode";
-
-        /// <summary>chiave che descrive se si utilizzano 33 caratteri per riga, oppure 28</summary>
-        public const String PRINT_ON_33CHARS_RECEIPT_KEY = "iPrint33CharsReceipt";
 
         /// <summary>chiave per la gestione del dialogo disponibilità</summary>
         public const string DISP_DLG_MNG_KEY = "bDispMngDlg";
@@ -560,14 +473,12 @@ namespace StandCommonFiles
             EUROCONV_Z_ERROR
         };
 
-        /// <summary>
-        /// enum per la selezione della stampante
-        /// </summary>
-        public enum PRINTER_SEL
+        /// <summary>enum per la selezione della stampante</summary>
+        public enum PRINTER_TYPE
         {
-            /// <summary>stampante windows</summary>
-            STAMPANTE_WINDOWS = 0,
-            /// <summary>stampante legacy</summary>
+            /// <summary>stampante moderna USB oppure ETHERNET</summary>
+            STAMPANTE_USB_ETH = 0,
+            /// <summary>stampante legacy seriale o parallela</summary>
             STAMPANTE_LEGACY
         };
 
@@ -580,14 +491,8 @@ namespace StandCommonFiles
             public int iPrinterModel;
             /// <summary>1 se è richiesto il logo</summary>
             public int iLogoBmp;
-            /// <summary>tipo di font</summary>
-            public int iFontType;
             /// <summary>larghezza carta</summary>
             public int iPaperSize;
-            /// <summary>velocità avanzamento carta</summary>
-            public int iPaperSpeed;
-            /// <summary>densità della stampa chiaro/scuro</summary>
-            public int iDensity;
             /// <summary>tipo di controllo di flusso</summary>
             public int iFlowCtrl;
             /// <summary>porta della stampante</summary>
@@ -783,8 +688,11 @@ namespace StandCommonFiles
             /// <summary>bit di iGeneralPrinterOptions per gestione stampa dei coperti anche nelle copie</summary>
             BIT_PLACESETTS_PRINT_ON_COPIES_REQUIRED,
 
-            /// <summary>bit di iGeneralPrinterOptions per gestione stampa a 33 caratteri deli Articoli</summary>
-            BIT_CHARS33_PRINT_REQUIRED = 16 
+            /// <summary>bit di iGeneralPrinterOptions per gestione stampa a 32 caratteri degli Articoli</summary>
+            BIT_CHARS32_PRINT_REQUIRED = 16,
+
+            /// <summary>bit di iGeneralPrinterOptions per gestione carta da 58mm</summary>
+            BIT_PAPER58_REQUIRED
 
         }
 

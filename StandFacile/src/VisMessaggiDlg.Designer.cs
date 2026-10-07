@@ -41,6 +41,7 @@
             this.VM_ckBoxAllCashDesk = new System.Windows.Forms.CheckBox();
             this.BtnPrintMsg = new System.Windows.Forms.Button();
             this.PrintersListCombo = new System.Windows.Forms.ComboBox();
+            this.checkBox_escpos = new System.Windows.Forms.CheckBox();
             this.VisTicketStatusBar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +65,7 @@
             // 
             this.BtnPrev.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.BtnPrev.Image = global::StandFacile.Properties.Resources.ArrowSLeft;
-            this.BtnPrev.Location = new System.Drawing.Point(187, 364);
+            this.BtnPrev.Location = new System.Drawing.Point(187, 360);
             this.BtnPrev.Name = "BtnPrev";
             this.BtnPrev.Size = new System.Drawing.Size(70, 30);
             this.BtnPrev.TabIndex = 4;
@@ -76,7 +77,7 @@
             // 
             this.BtnNext.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.BtnNext.Image = global::StandFacile.Properties.Resources.ArrowSRight;
-            this.BtnNext.Location = new System.Drawing.Point(295, 364);
+            this.BtnNext.Location = new System.Drawing.Point(295, 360);
             this.BtnNext.Name = "BtnNext";
             this.BtnNext.Size = new System.Drawing.Size(70, 30);
             this.BtnNext.TabIndex = 5;
@@ -89,7 +90,7 @@
             this.btnSend.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnSend.Image = global::StandFacile.Properties.Resources.OK;
             this.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSend.Location = new System.Drawing.Point(295, 475);
+            this.btnSend.Location = new System.Drawing.Point(295, 486);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(70, 30);
             this.btnSend.TabIndex = 0;
@@ -149,7 +150,7 @@
             this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnExit.Image = global::StandFacile.Properties.Resources.Cancel;
             this.btnExit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExit.Location = new System.Drawing.Point(30, 475);
+            this.btnExit.Location = new System.Drawing.Point(30, 486);
             this.btnExit.Margin = new System.Windows.Forms.Padding(4);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(70, 30);
@@ -172,7 +173,7 @@
             // 
             this.VM_ckBoxAllCashDesk.AutoSize = true;
             this.VM_ckBoxAllCashDesk.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VM_ckBoxAllCashDesk.Location = new System.Drawing.Point(30, 371);
+            this.VM_ckBoxAllCashDesk.Location = new System.Drawing.Point(30, 367);
             this.VM_ckBoxAllCashDesk.Name = "VM_ckBoxAllCashDesk";
             this.VM_ckBoxAllCashDesk.Size = new System.Drawing.Size(129, 18);
             this.VM_ckBoxAllCashDesk.TabIndex = 7;
@@ -183,7 +184,7 @@
             // 
             this.BtnPrintMsg.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.BtnPrintMsg.Image = global::StandFacile.Properties.Resources.printer_s;
-            this.BtnPrintMsg.Location = new System.Drawing.Point(187, 461);
+            this.BtnPrintMsg.Location = new System.Drawing.Point(187, 472);
             this.BtnPrintMsg.Name = "BtnPrintMsg";
             this.BtnPrintMsg.Size = new System.Drawing.Size(54, 44);
             this.BtnPrintMsg.TabIndex = 20;
@@ -195,17 +196,32 @@
             // 
             this.PrintersListCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.PrintersListCombo.FormattingEnabled = true;
-            this.PrintersListCombo.Location = new System.Drawing.Point(30, 422);
+            this.PrintersListCombo.Location = new System.Drawing.Point(30, 433);
             this.PrintersListCombo.Name = "PrintersListCombo";
             this.PrintersListCombo.Size = new System.Drawing.Size(211, 21);
             this.PrintersListCombo.TabIndex = 21;
+            // 
+            // checkBox_escpos
+            // 
+            this.checkBox_escpos.AutoCheck = false;
+            this.checkBox_escpos.AutoSize = true;
+            this.checkBox_escpos.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_escpos.Location = new System.Drawing.Point(30, 400);
+            this.checkBox_escpos.Name = "checkBox_escpos";
+            this.checkBox_escpos.Padding = new System.Windows.Forms.Padding(1);
+            this.checkBox_escpos.Size = new System.Drawing.Size(256, 20);
+            this.checkBox_escpos.TabIndex = 84;
+            this.checkBox_escpos.Text = "utilizza la stampa con protocollo ESC/POS ";
+            this.checkBox_escpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_escpos.UseVisualStyleBackColor = true;
             // 
             // VisMessaggiDlg
             // 
             this.AcceptButton = this.btnExit;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(395, 517);
+            this.ClientSize = new System.Drawing.Size(395, 537);
+            this.Controls.Add(this.checkBox_escpos);
             this.Controls.Add(this.PrintersListCombo);
             this.Controls.Add(this.BtnPrintMsg);
             this.Controls.Add(this.VM_ckBoxAllCashDesk);
@@ -248,5 +264,6 @@
         private System.Windows.Forms.CheckBox VM_ckBoxAllCashDesk;
         private System.Windows.Forms.Button BtnPrintMsg;
         private System.Windows.Forms.ComboBox PrintersListCombo;
+        private System.Windows.Forms.CheckBox checkBox_escpos;
     }
 }

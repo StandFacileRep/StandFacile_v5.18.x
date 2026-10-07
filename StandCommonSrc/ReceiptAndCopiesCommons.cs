@@ -1,6 +1,6 @@
 ﻿/*********************************************************************************
  	NomeFile : StandCommonSrc/ReceiptAndCopiesCommons.cs
-    Data	 : 11.08.2026
+    Data	 : 28.09.2026
  	Autore	 : Mauro Artuso
 
 	Classi di uso comune a DataManager.Receipt(), ViewOrdersDlg.ReceiptRebuild()<br/>
@@ -330,13 +330,13 @@ namespace StandCommonFiles
             else
                 sOrdineStringsTmp.sNome = String.Format("Nome = {0}", dataIdParam.sNome);
 
-            sOrdineStringsTmp.sOrdineNum = CenterJustify(sOrdineStringsTmp.sOrdineNum, _bCassaInline ? iMAX_RECEIPT_CHARS : iCenterOrderNum);
-            sOrdineStringsTmp.sOrdNumWeb = CenterJustify(sOrdineStringsTmp.sOrdNumWeb, iMAX_RECEIPT_CHARS);
+            sOrdineStringsTmp.sOrdineNum = CenterJustify(sOrdineStringsTmp.sOrdineNum, _bCassaInline ? MAX_RECEIPT_CHARS : MAX_RECEIPT_CHARS - 10);
+            sOrdineStringsTmp.sOrdNumWeb = CenterJustify(sOrdineStringsTmp.sOrdNumWeb, MAX_RECEIPT_CHARS);
 
             if (IsBitSet(dataIdParam.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CENTER_TABLE_AND_NAME))
             {
-                sOrdineStringsTmp.sNome = CenterJustify(sOrdineStringsTmp.sNome, iMAX_RECEIPT_CHARS);
-                sOrdineStringsTmp.sTavolo = CenterJustify(sOrdineStringsTmp.sTavolo, iMAX_RECEIPT_CHARS);
+                sOrdineStringsTmp.sNome = CenterJustify(sOrdineStringsTmp.sNome, MAX_RECEIPT_CHARS);
+                sOrdineStringsTmp.sTavolo = CenterJustify(sOrdineStringsTmp.sTavolo, MAX_RECEIPT_CHARS);
             }
 
             return sOrdineStringsTmp;
@@ -393,23 +393,23 @@ namespace StandCommonFiles
                     dataIdParam.iBuoniApplicatiReceipt = 0; //      "
 
                     // se non c'è il logo stampa sHeaders[0]
-                    if ((((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                        ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) &&
+                    if ((((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                        ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) &&
                         (_bLogoNelleCopie || (k == 0)))
                     {
-                        sTmp = CenterJustify(_LOGO_T, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
                     else
                     {
                         if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[0]))
                         {
-                            sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], iMAX_RECEIPT_CHARS);
+                            sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], MAX_RECEIPT_CHARS);
                             _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                         }
                         else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[0]))
                         {
-                            sTmp = CenterJustify(dataIdParam.sHeaders[0], iMAX_RECEIPT_CHARS);
+                            sTmp = CenterJustify(dataIdParam.sHeaders[0], MAX_RECEIPT_CHARS);
                             _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                         }
                     }
@@ -420,18 +420,18 @@ namespace StandCommonFiles
                         if (!String.IsNullOrEmpty(sConfig.sRcpCopyHeader))
                         {
                             // header per copia Receipt
-                            sTmp = CenterJustify(sConfig.sRcpCopyHeader, iMAX_RECEIPT_CHARS);
+                            sTmp = CenterJustify(sConfig.sRcpCopyHeader, MAX_RECEIPT_CHARS);
                             _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                         }
                     }
                     else if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[1]))
                     {
-                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
                     else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[1]))
                     {
-                        sTmp = CenterJustify(dataIdParam.sHeaders[1], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(dataIdParam.sHeaders[1], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
 
@@ -440,18 +440,18 @@ namespace StandCommonFiles
                     else
                         sTmp = String.Format("{0,-22}C.{1}", dataIdParam.sDateTime, dataIdParam.iNumCassa);
 
-                    sTmp = CenterJustify(sTmp, iMAX_RECEIPT_CHARS);
+                    sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS);
                     _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
 
                     if (dataIdParam.bAnnullato) // ha senso solo nelle ricostruzioni, quindi con DB_Data
                     {
-                        sTmp = CenterJustify(sConst_Annullo[0], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Annullo[0], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
 
-                        sTmp = CenterJustify(sConst_Annullo[1], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Annullo[1], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
 
-                        sTmp = CenterJustify(sConst_Annullo[2], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Annullo[2], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
 
@@ -493,12 +493,12 @@ namespace StandCommonFiles
                                 else
                                     sTotaleParz = "";
 
-                                sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo, sTotaleParz);
+                                sTmp = String.Format(_RCP_FMT_32_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo, sTotaleParz);
                                 _fPrint.WriteLine("{0}", sTmp);
 
                                 if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
                                 {
-                                    sTmp = String.Format(sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                    sTmp = String.Format(_RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
                                     _fPrint.WriteLine("{0}", sTmp);
                                 }
                             }
@@ -524,12 +524,12 @@ namespace StandCommonFiles
                                     sTotaleParz = IntToEuro(iTotaleParz);
 
                                     // 89 123456789012345678 9876.00  width=28
-                                    sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo, sTotaleParz);
+                                    sTmp = String.Format(_RCP_FMT_32_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo, sTotaleParz);
                                     _fPrint.WriteLine("{0}", sTmp);
 
                                     if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
                                     {
-                                        sTmp = String.Format(sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                        sTmp = String.Format(_RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
                                         _fPrint.WriteLine("{0}", sTmp);
                                     }
                                 }
@@ -569,25 +569,25 @@ namespace StandCommonFiles
                                 sTotaleParz = "-" + IntToEuro(iBuoniApplicatiParz);
 
                                 // 89 123456789012345678 9876.00  width=28
-                                sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo, sTotaleParz);
+                                sTmp = String.Format(_RCP_FMT_32_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo, sTotaleParz);
                                 _fPrint.WriteLine("{0}", sTmp);
 
                                 if (bBuoniApplicatiParz)
                                 {
-                                    sTmp = String.Format(sRCP_FMT_NOTE + "\r\n", "applicato valore ridotto");
+                                    sTmp = String.Format(_RCP_FMT_32_NOTE + "\r\n", "applicato valore ridotto");
                                     _fPrint.WriteLine("{0}", sTmp);
                                 }
 
                                 if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
                                 {
-                                    sTmp = String.Format(sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                    sTmp = String.Format(_RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
                                     _fPrint.WriteLine("{0}", sTmp);
                                 }
                             }
                         }
                     }
 
-                    _fPrint.WriteLine(sRCP_FMT_DSH, "------");
+                    _fPrint.WriteLine(_RCP_FMT_32_DSH, "------");
 
                     // punto doppio
                     dataIdParam.iScontoStdReceipt = Arrotonda(dataIdParam.iScontoStdReceipt);
@@ -610,9 +610,9 @@ namespace StandCommonFiles
                             dataIdParam.iScontoStdReceipt = dataIdParam.iTotaleReceipt;
                         }
 
-                        _fPrint.WriteLine(sRCP_FMT_DSC, "SCONTO", IntToEuro(dataIdParam.iScontoStdReceipt), "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
+                        _fPrint.WriteLine(_RCP_FMT_32_DSC, "SCONTO", IntToEuro(dataIdParam.iScontoStdReceipt), "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
 
-                        _fPrint.WriteLine(sRCP_FMT_DIF + "\r\n", "DIFF. DOVUTA", IntToEuro(dataIdParam.iTotaleReceiptDovuto));
+                        _fPrint.WriteLine(_RCP_FMT_32_DIF + "\r\n", "DIFF. DOVUTA", IntToEuro(dataIdParam.iTotaleReceiptDovuto));
 
                         if (k == 0)
                         {
@@ -635,10 +635,10 @@ namespace StandCommonFiles
                             dataIdParam.iScontoFissoReceipt = dataIdParam.iTotaleReceipt;
                         }
 
-                        _fPrint.WriteLine(sRCP_FMT_DSC, "SCONTO", IntToEuro(dataIdParam.iScontoFissoReceipt),
+                        _fPrint.WriteLine(_RCP_FMT_32_DSC, "SCONTO", IntToEuro(dataIdParam.iScontoFissoReceipt),
                                                 "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
 
-                        _fPrint.WriteLine(sRCP_FMT_DIF + "\r\n", "DIFF. DOVUTA", IntToEuro(dataIdParam.iTotaleReceiptDovuto));
+                        _fPrint.WriteLine(_RCP_FMT_32_DIF + "\r\n", "DIFF. DOVUTA", IntToEuro(dataIdParam.iTotaleReceiptDovuto));
 
                         if (k == 0)
                         {
@@ -653,9 +653,9 @@ namespace StandCommonFiles
                     }
                     else if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_GRATIS))
                     {
-                        _fPrint.WriteLine(sRCP_FMT_TOT, "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
+                        _fPrint.WriteLine(_RCP_FMT_32_TOT, "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
 
-                        _fPrint.WriteLine(sRCP_FMT_TOT + "\r\n", "DOVUTO", IntToEuro(0));
+                        _fPrint.WriteLine(_RCP_FMT_32_TOT + "\r\n", "DOVUTO", IntToEuro(0));
 
                         dataIdParam.iTotaleReceiptDovuto = 0;
                         dataIdParam.iScontoGratisReceipt = dataIdParam.iTotaleReceipt;
@@ -667,7 +667,7 @@ namespace StandCommonFiles
                     {
                         dataIdParam.iTotaleReceiptDovuto = dataIdParam.iTotaleReceipt;
 
-                        _fPrint.WriteLine(sRCP_FMT_TOT + "\r\n", "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
+                        _fPrint.WriteLine(_RCP_FMT_32_TOT + "\r\n", "TOTALE", IntToEuro(dataIdParam.iTotaleReceipt));
 
                         if (k == 0)
                         {
@@ -685,33 +685,33 @@ namespace StandCommonFiles
                     // inserimento indicazione di sconto
                     if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_STD) && TicketScontatoStdIsGood(dataIdParam, bScontoGruppo))
                     {
-                        sTmp = CenterJustify(sConst_Sconti[0], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Sconti[0], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
 
-                        sTmp = CenterJustify(dataIdParam.sScontoText, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(dataIdParam.sScontoText, MAX_RECEIPT_CHARS);
                         if (!String.IsNullOrEmpty(sTmp))
                             _fPrint.WriteLine("{0}", sTmp);
 
-                        sTmp = CenterJustify(sConst_Sconti[3], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Sconti[3], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
                     else if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_FISSO))
                     {
-                        sTmp = CenterJustify(sConst_Sconti[1], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Sconti[1], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
-                        sTmp = CenterJustify(dataIdParam.sScontoText, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(dataIdParam.sScontoText, MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
-                        sTmp = CenterJustify(sConst_Sconti[3], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Sconti[3], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
                         _fPrint.WriteLine();
                     }
                     else if (IsBitSet(dataIdParam.iStatusSconto, BIT_SCONTO_GRATIS))
                     {
-                        sTmp = CenterJustify(sConst_Sconti[2], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Sconti[2], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
-                        sTmp = CenterJustify(dataIdParam.sScontoText, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(dataIdParam.sScontoText, MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
-                        sTmp = CenterJustify(sConst_Sconti[3], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Sconti[3], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
                         _fPrint.WriteLine();
                     }
@@ -722,64 +722,64 @@ namespace StandCommonFiles
                     }
                     else if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CARD))
                     {
-                        sTmp = CenterJustify(sConst_Pagamento_CARD, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Pagamento_CARD, MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
                         _fPrint.WriteLine();
                     }
                     else if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_SATISPAY))
                     {
-                        sTmp = CenterJustify(sConst_Pagamento_Satispay, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Pagamento_Satispay, MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
                         _fPrint.WriteLine();
                     }
                     else
                     {
-                        sTmp = CenterJustify(sConst_Pagamento_da_EFFETTUARE, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Pagamento_da_EFFETTUARE, MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
                         _fPrint.WriteLine();
                     }
 
                     if (!String.IsNullOrEmpty(dataIdParam.sNota))
                     {
-                        sTmp = CenterJustify(sConst_Note[0], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Note[0], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
 
-                        sTmp = CenterJustify(dataIdParam.sNota, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(dataIdParam.sNota, MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
 
-                        sTmp = CenterJustify(sConst_Note[1], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_Note[1], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
 
                     if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_ASPORTO))
                     {
-                        sTmp = CenterJustify(sConst_TakeAway[0], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_TakeAway[0], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
-                        sTmp = CenterJustify(sConst_TakeAway[1], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_TakeAway[1], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp);
-                        sTmp = CenterJustify(sConst_TakeAway[2], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConst_TakeAway[2], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}\n", sTmp);
                     }
 
                     if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[2]))
                     {
-                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[2], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[2], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
                     else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[2]))
                     {
-                        sTmp = CenterJustify(dataIdParam.sHeaders[2], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(dataIdParam.sHeaders[2], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
 
                     if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[3]))
                     {
-                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[3], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[3], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
                     else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[3]))
                     {
-                        sTmp = CenterJustify(dataIdParam.sHeaders[3], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(dataIdParam.sHeaders[3], MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
 
@@ -789,7 +789,7 @@ namespace StandCommonFiles
 
                         for (i = 0; i < sExtraFooterLines.Length; i++)
                         {
-                            sTmp = CenterJustify(sExtraFooterLines[i], iMAX_RECEIPT_CHARS);
+                            sTmp = CenterJustify(sExtraFooterLines[i], MAX_RECEIPT_CHARS);
                             _fPrint.WriteLine("{0}", sTmp);
                         }
                     }
@@ -798,10 +798,10 @@ namespace StandCommonFiles
                     if (sConfig.bRcpCopyRequired && (k == 0))
                         _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
 
-                    if (((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
+                    if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
                         (_bLogoNelleCopie || (k == 0)))
                     {
-                        sTmp = CenterJustify(_LOGO_B, iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(_LOGO_B, MAX_RECEIPT_CHARS);
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
                 }   //  for (k
@@ -831,7 +831,12 @@ namespace StandCommonFiles
                 if (!sGlbWinPrinterParams.bA4Paper) // bisogna aspettare il completamento del file
                 {
                     if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
-                        Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    {
+                        if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                            Printer_ESCPOS.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                        else
+                            Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    }
                     else
                         Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                 }
@@ -849,7 +854,12 @@ namespace StandCommonFiles
             if (sGlbWinPrinterParams.bA4Paper)
             {
                 if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+                {
+                    //if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                    //    Printer_ESCPOS.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    //else
                     Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                }
                 else
                     Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
 
@@ -969,8 +979,8 @@ namespace StandCommonFiles
                 else
                 {
                     // se non c'è il logo stampa sHeaders[0]
-                    if ((((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                        ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
+                    if ((((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                        ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
                     {
                         sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS_CPY);
                         sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
@@ -979,7 +989,7 @@ namespace StandCommonFiles
                     {
                         if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[0]))
                         {
-                            sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], iMAX_RECEIPT_CHARS);
+                            sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], MAX_RECEIPT_CHARS);
                             sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
                         }
                         else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[0]))
@@ -991,7 +1001,7 @@ namespace StandCommonFiles
 
                     if (!(bUnitQtyItems || bSingleRowItems) && !String.IsNullOrEmpty(sConfig.sRcp_CS_Header[1]))
                     {
-                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], iMAX_RECEIPT_CHARS);
+                        sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], MAX_RECEIPT_CHARS);
                         sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
                     }
                     else if (!(bUnitQtyItems || bSingleRowItems) && !String.IsNullOrEmpty(dataIdParam.sHeaders[1]))
@@ -1066,15 +1076,15 @@ namespace StandCommonFiles
 
                                     // larghezza 28 "{0,2} {1,-18}{2,7}" :89 123456789012345678 9876.00
                                     if (_bLocalPricesRequested)
-                                        sTmp = String.Format(sRCP_FMT_RCPT, 1, dataIdParam.Articolo[j].sTipo, IntToEuro(dataIdParam.Articolo[j].iPrezzoUnitario));
+                                        sTmp = String.Format(_RCP_FMT_32_RCPT, 1, dataIdParam.Articolo[j].sTipo, IntToEuro(dataIdParam.Articolo[j].iPrezzoUnitario));
                                     else
-                                        sTmp = String.Format(sRCP_FMT_CPY, 1, dataIdParam.Articolo[j].sTipo);
+                                        sTmp = String.Format(_RCP_FMT_32_CPY, 1, dataIdParam.Articolo[j].sTipo);
 
                                     _fPrint.WriteLine("{0}\r\n", sTmp);
 
                                     if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
                                     {
-                                        sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                        sTmp = String.Format(" " + _RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
                                         _fPrint.WriteLine("{0}", sTmp);
                                     }
 
@@ -1118,15 +1128,15 @@ namespace StandCommonFiles
 
                                     // larghezza 28 "{0,2} {1,-18}{2,7}" :89 123456789012345678 9876.00
                                     if (_bLocalPricesRequested)
-                                        sTmp = String.Format(sRCP_FMT_RCPT, 1, dataIdParam.Articolo[j].sTipo, IntToEuro(dataIdParam.Articolo[j].iPrezzoUnitario));
+                                        sTmp = String.Format(_RCP_FMT_32_RCPT, 1, dataIdParam.Articolo[j].sTipo, IntToEuro(dataIdParam.Articolo[j].iPrezzoUnitario));
                                     else
-                                        sTmp = String.Format(sRCP_FMT_CPY, 1, dataIdParam.Articolo[j].sTipo);
+                                        sTmp = String.Format(_RCP_FMT_32_CPY, 1, dataIdParam.Articolo[j].sTipo);
 
                                     _fPrint.WriteLine("{0}\r\n", sTmp);
 
                                     if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
                                     {
-                                        sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                        sTmp = String.Format(" " + _RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
                                         _fPrint.WriteLine("{0}", sTmp);
                                     }
 
@@ -1179,16 +1189,16 @@ namespace StandCommonFiles
 
                                 // larghezza 28 "{0,2} {1,-18}{2,7}" :89 123456789012345678 9876.00
                                 if (_bLocalPricesRequested)
-                                    sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo,
+                                    sTmp = String.Format(_RCP_FMT_32_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo,
                                         IntToEuro(dataIdParam.Articolo[j].iQuantitaOrdine * dataIdParam.Articolo[j].iPrezzoUnitario));
                                 else
-                                    sTmp = String.Format(sRCP_FMT_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
+                                    sTmp = String.Format(_RCP_FMT_32_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
 
                                 _fPrint.WriteLine("{0}\r\n", sTmp);
 
                                 if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
                                 {
-                                    sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                    sTmp = String.Format(" " + _RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
                                     _fPrint.WriteLine("{0}", sTmp);
                                 }
 
@@ -1269,9 +1279,9 @@ namespace StandCommonFiles
                                     if ((iNumCoperti > 0) && (!(bIsSummaryParam || bReceiptGroups_CutRequired) && _bPlaceSettingsOnCopies || (iGrpReorderPtr[i] == (int)DEST_TYPE.DEST_COUNTER)))
                                     {
                                         if (_bLocalPricesRequested)
-                                            sTmp = String.Format(sRCP_FMT_RCPT, iNumCoperti, _COPERTO, IntToEuro(iNumCoperti * dataIdParam.Articolo[MAX_ITEMS_NUM - 1].iPrezzoUnitario));
+                                            sTmp = String.Format(_RCP_FMT_32_RCPT, iNumCoperti, _COPERTO, IntToEuro(iNumCoperti * dataIdParam.Articolo[MAX_ITEMS_NUM - 1].iPrezzoUnitario));
                                         else
-                                            sTmp = String.Format(sRCP_FMT_CPY, iNumCoperti, _COPERTO);
+                                            sTmp = String.Format(_RCP_FMT_32_CPY, iNumCoperti, _COPERTO);
 
                                         _fPrint.WriteLine("{0}", sTmp);
 
@@ -1284,17 +1294,17 @@ namespace StandCommonFiles
                                 if ((dataIdParam.Articolo[j].iIndexListino != MAX_ITEMS_NUM - 1) || (dataIdParam.Articolo[j].iGruppoStampa != (int)DEST_TYPE.DEST_COUNTER))
                                 {
                                     if (_bLocalPricesRequested)
-                                        sTmp = String.Format(sRCP_FMT_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo,
+                                        sTmp = String.Format(_RCP_FMT_32_RCPT, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo,
                                             IntToEuro(dataIdParam.Articolo[j].iQuantitaOrdine * dataIdParam.Articolo[j].iPrezzoUnitario));
                                     else
-                                        sTmp = String.Format(sRCP_FMT_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
+                                        sTmp = String.Format(_RCP_FMT_32_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
 
                                     _fPrint.WriteLine("{0}", sTmp);
                                 }
 
                                 if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
                                 {
-                                    sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                    sTmp = String.Format(" " + _RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
                                     _fPrint.WriteLine("{0}", sTmp);
                                 }
 
@@ -1348,7 +1358,12 @@ namespace StandCommonFiles
                         if (_bPrintSummaryCopyRequired)
                         {
                             if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS + 1))
-                                Printer_Windows.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
+                            {
+                                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1))
+                                    Printer_ESCPOS.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
+                                else
+                                    Printer_Windows.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
+                            }
                             else
                                 Printer_Legacy.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
                         }
@@ -1361,9 +1376,19 @@ namespace StandCommonFiles
                             if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
                             {
                                 if ((sConfig.iLocalCopyPrinterNumRedirect >= 0) && (sConfig.iLocalCopyPrinterNumRedirect < PrinterSettings.InstalledPrinters.Count))
-                                    Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
+                                {
+                                    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                                        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]);
+                                    else
+                                        Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
+                                }
                                 else
-                                    Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
+                                {
+                                    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                                        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                                    else
+                                        Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
+                                }
                             }
                             else
                                 Printer_Legacy.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
@@ -1480,8 +1505,8 @@ namespace StandCommonFiles
                     else
                     {
                         // se non c'è il logo stampa sHeaders[0]
-                        if ((((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                            ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
+                        if ((((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                            ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
                         {
                             sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS_CPY);
                             _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
@@ -1491,7 +1516,7 @@ namespace StandCommonFiles
                         {
                             if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[0]))
                             {
-                                sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], iMAX_RECEIPT_CHARS);
+                                sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], MAX_RECEIPT_CHARS);
                                 _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                                 iEqRowsNumber += 2;
                             }
@@ -1505,7 +1530,7 @@ namespace StandCommonFiles
 
                         //if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[1]))
                         //{
-                        //    sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], iMAX_RECEIPT_CHARS);
+                        //    sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], MAX_RECEIPT_CHARS);
                         //    _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                         //    iEqRowsNumber += 2;
                         //}
@@ -1615,7 +1640,7 @@ namespace StandCommonFiles
                                         if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == (int)DEST_TYPE.DEST_COUNTER) &&
                                             (dataIdParam.Articolo[j].iIndexListino != MAX_ITEMS_NUM - 1))
                                         {
-                                            _fPrint.WriteLine(sRCP_FMT_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
+                                            _fPrint.WriteLine(_RCP_FMT_32_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
                                             iEqRowsNumber++;
 
                                             if (CheckLastItemToPrint_OnSameGroup(dataIdParam, (int)DEST_TYPE.DEST_COUNTER, j))
@@ -1626,7 +1651,7 @@ namespace StandCommonFiles
 
                                             if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
                                             {
-                                                sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                                sTmp = String.Format(" " + _RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
                                                 _fPrint.WriteLine("{0}", sTmp);
                                                 iEqRowsNumber++;
                                             }
@@ -1640,7 +1665,7 @@ namespace StandCommonFiles
                                     // stampa COPERTI
                                     if ((iNumCoperti > 0) && (_bPlaceSettingsOnCopies || (k == (int)DEST_TYPE.DEST_TIPO1))) // COPERTI si stampano assieme a DEST_TYPE.DEST_TIPO1
                                     {
-                                        sTmp = String.Format(sRCP_FMT_CPY, iNumCoperti, _COPERTO);
+                                        sTmp = String.Format(_RCP_FMT_32_CPY, iNumCoperti, _COPERTO);
                                         _fPrint.WriteLine("{0}", sTmp);
                                         iEqRowsNumber++;
 
@@ -1654,12 +1679,12 @@ namespace StandCommonFiles
                                     {
                                         if ((dataIdParam.Articolo[j].iQuantitaOrdine > 0) && (dataIdParam.Articolo[j].iGruppoStampa == k))
                                         {
-                                            _fPrint.WriteLine(sRCP_FMT_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
+                                            _fPrint.WriteLine(_RCP_FMT_32_CPY, dataIdParam.Articolo[j].iQuantitaOrdine, dataIdParam.Articolo[j].sTipo);
                                             iEqRowsNumber++;
 
                                             if (!String.IsNullOrEmpty(dataIdParam.Articolo[j].sNotaArt))
                                             {
-                                                sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
+                                                sTmp = String.Format(" " + _RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[j].sNotaArt);
                                                 _fPrint.WriteLine("{0}", sTmp);
                                                 iEqRowsNumber++;
                                             }
@@ -1707,7 +1732,7 @@ namespace StandCommonFiles
                             iEqRowsNumber++;
                         }
 
-                        if (((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B))
+                        if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B))
                             && _bLogoNelleCopie
                             )
                         {
@@ -1754,7 +1779,12 @@ namespace StandCommonFiles
                     if (dataIdParam.bCopiesGroupsFlag[i] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                     {
                         if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(i))
-                            Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
+                        {
+                            if (IsBitSet(iEscPosPrinterType, i))
+                                Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
+                            else
+                                Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
+                        }
                         else
                             Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                     }
@@ -1810,8 +1840,8 @@ namespace StandCommonFiles
                     else
                     {
                         // se non c'è il logo stampa sHeaders[0]
-                        if ((((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                            ((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
+                        if ((((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                            ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
                         {
                             sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS_CPY);
                             _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
@@ -1821,7 +1851,7 @@ namespace StandCommonFiles
                         {
                             if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[0]))
                             {
-                                sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], iMAX_RECEIPT_CHARS);
+                                sTmp = CenterJustify(sConfig.sRcp_CS_Header[0], MAX_RECEIPT_CHARS);
                                 _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                                 iEqRowsNumber += 2;
                             }
@@ -1835,7 +1865,7 @@ namespace StandCommonFiles
 
                         //if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[1]))
                         //{
-                        //    sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], iMAX_RECEIPT_CHARS);
+                        //    sTmp = CenterJustify(sConfig.sRcp_CS_Header[1], MAX_RECEIPT_CHARS);
                         //    _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                         //    iEqRowsNumber += 2;
                         //}
@@ -1916,7 +1946,7 @@ namespace StandCommonFiles
                         // stampa COPERTI
                         if ((iNumCoperti > 0) && _bPlaceSettingsOnCopies)
                         {
-                            sTmp = String.Format(sRCP_FMT_CPY, iNumCoperti, _COPERTO);
+                            sTmp = String.Format(_RCP_FMT_32_CPY, iNumCoperti, _COPERTO);
                             _fPrint.WriteLine("{0}", sTmp);
                             iEqRowsNumber++;
 
@@ -1924,7 +1954,7 @@ namespace StandCommonFiles
                             iEqRowsNumber++;
                         }
 
-                        _fPrint.WriteLine(sRCP_FMT_CPY, dataIdParam.Articolo[i].iQuantitaOrdine, dataIdParam.Articolo[i].sTipo);
+                        _fPrint.WriteLine(_RCP_FMT_32_CPY, dataIdParam.Articolo[i].iQuantitaOrdine, dataIdParam.Articolo[i].sTipo);
                         iEqRowsNumber++;
 
                         _fPrint.WriteLine();
@@ -1932,7 +1962,7 @@ namespace StandCommonFiles
 
                         if (!String.IsNullOrEmpty(dataIdParam.Articolo[i].sNotaArt))
                         {
-                            sTmp = String.Format(" " + sRCP_FMT_NOTE + "\r\n", dataIdParam.Articolo[i].sNotaArt);
+                            sTmp = String.Format(" " + _RCP_FMT_32_NOTE + "\r\n", dataIdParam.Articolo[i].sNotaArt);
                             _fPrint.WriteLine("{0}", sTmp);
                             iEqRowsNumber++;
                         }
@@ -1969,7 +1999,7 @@ namespace StandCommonFiles
                             iEqRowsNumber++;
                         }
 
-                        if (((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
+                        if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
                             _bLogoNelleCopie)
                         {
                             sTmp = CenterJustify(_LOGO_B, MAX_RECEIPT_CHARS_CPY);
@@ -2000,7 +2030,12 @@ namespace StandCommonFiles
                     if (dataIdParam.bCopiesGroupsFlag[(int)DEST_TYPE.DEST_SINGLE] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                     {
                         if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows((int)DEST_TYPE.DEST_SINGLE))
-                            Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
+                        {
+                            if (IsBitSet(iEscPosPrinterType, (int)DEST_TYPE.DEST_SINGLE))
+                                Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
+                            else
+                                Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
+                        }
                         else
                             Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                     }
@@ -2088,23 +2123,23 @@ namespace StandCommonFiles
 
             if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[2]))
             {
-                sTmp = CenterJustify(sConfig.sRcp_CS_Header[2], iMAX_RECEIPT_CHARS);
+                sTmp = CenterJustify(sConfig.sRcp_CS_Header[2], MAX_RECEIPT_CHARS);
                 fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
             }
             else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[2]))
             {
-                sTmp = CenterJustify(dataIdParam.sHeaders[2], iMAX_RECEIPT_CHARS);
+                sTmp = CenterJustify(dataIdParam.sHeaders[2], MAX_RECEIPT_CHARS);
                 fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
             }
 
             if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[3]))
             {
-                sTmp = CenterJustify(sConfig.sRcp_CS_Header[3], iMAX_RECEIPT_CHARS);
+                sTmp = CenterJustify(sConfig.sRcp_CS_Header[3], MAX_RECEIPT_CHARS);
                 fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
             }
             else if (!String.IsNullOrEmpty(dataIdParam.sHeaders[3]))
             {
-                sTmp = CenterJustify(dataIdParam.sHeaders[3], iMAX_RECEIPT_CHARS);
+                sTmp = CenterJustify(dataIdParam.sHeaders[3], MAX_RECEIPT_CHARS);
                 fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
             }
 
@@ -2114,12 +2149,12 @@ namespace StandCommonFiles
 
                 for (int i = 0; i < sExtraFooterLines.Length; i++)
                 {
-                    sTmp = CenterJustify(sExtraFooterLines[i], iMAX_RECEIPT_CHARS);
+                    sTmp = CenterJustify(sExtraFooterLines[i], MAX_RECEIPT_CHARS);
                     fPrintParam.WriteLine("{0}", sTmp);
                 }
             }
 
-            if (((iSysPrinterType == (int)PRINTER_SEL.STAMPANTE_WINDOWS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) && _bLogoNelleCopie)
+            if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) && _bLogoNelleCopie)
             {
                 sTmp = CenterJustify(_LOGO_B, MAX_RECEIPT_CHARS_CPY);
                 fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();
