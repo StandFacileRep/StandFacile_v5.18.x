@@ -1,6 +1,6 @@
 ﻿/************************************************************
     NomeFile : StandCommonSrc/CommonDefine.cs
-    Data	 : 26.09.2026
+    Data	 : 08.10.2026
     Autore	 : Mauro Artuso
  ************************************************************/
 
@@ -77,18 +77,34 @@ namespace StandCommonFiles
 
         /// <summary>
         ///  mnemonici chiavi del file config.ini:<br/>
-        /// queste stringhe consentono l'attivazione di alcune funzioni di debug
+        /// queste stringhe consentono l'attivazione di alcune caratteristiche di funzionamento,<br/>
+        /// in particolare relative alle stampe
         /// </summary>
         public struct CFG_COMMON_STRINGS
         {
-            /// <summary>evita di stampare lo scontrino</summary>
-            public const String _SKIP_STAMPA_RCP = "noStampaRcp";
-
             /// <summary>abilita la modalità Esperto</summary>
             public const String _ESPERTO = "Esperto";
 
+            /// <summary>evita di stampare lo scontrino</summary>
+            public const String _SKIP_STAMPA_RCP = "noStampaRcp";
+
+            /// <summary>evita di stampare il numero dello scontrino</summary>
+            public const String _SKIP_RCP_NUM = "skipRcpNum";
+
             /// <summary>abilita le stampanti legacy</summary>
             public const String _HIDE_LEGACY_PRINTER = "noLegacyPrinters";
+
+            /// <summary>imposta la stampante in modo HD </summary>
+            public const String _HD_ESCPOS_PRINTER = "escpos_203dpi";
+
+            /// <summary>imposta la stampante in modo 58mm </summary>
+            public const String _58mm_ESCPOS_PRINTER = "escpos_58mm";
+
+            /// <summary>serviceStrings: attivazione stampa su carta A4</summary>
+            public const string PRINT_ON_A4_PAPER = "printOnA4Paper";
+
+            /// <summary>serviceStrings: descrive se si stampano 4 righe prima del taglio carta, utile per carta A5</summary>
+            public const string PRINT_ON_A5_PAPER = "printOnA5Paper";
         }
 
         /// <summary>stringa per definire Legacy Printers</summary>
@@ -690,9 +706,6 @@ namespace StandCommonFiles
 
             /// <summary>bit di iGeneralPrinterOptions per gestione stampa a 32 caratteri degli Articoli</summary>
             BIT_CHARS32_PRINT_REQUIRED = 16,
-
-            /// <summary>bit di iGeneralPrinterOptions per gestione carta da 58mm</summary>
-            BIT_PAPER58_REQUIRED
 
         }
 
@@ -1464,6 +1477,9 @@ namespace StandCommonFiles
             /// <summary>indice della stampante per il redirect della stampa copie locali, inizializzato con -1</summary>
             public int iLocalCopyPrinterNumRedirect;
 
+            /// <summary>baud rate per la stampante legacy seriale, default 19200</summary>
+            public int iBaudRate;
+
             /// <summary>stringa per gestione Service Mode</summary>
             public String sService;
 
@@ -1510,6 +1526,7 @@ namespace StandCommonFiles
                 iRefreshTimer = 30;
                 iPrintInterval = 200;
                 iLocalCopyPrinterNumRedirect = -1;
+                iBaudRate = 19200;
                 sService = "";
                 bRcpCopyRequired = false;
                 sRcpCopyHeader = "";

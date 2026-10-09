@@ -264,7 +264,7 @@ namespace StandCommonFiles
             else
                 serialPort.PortName = _LegacyPrinterParams.sPort;
 
-            serialPort.BaudRate = 19200;
+            serialPort.BaudRate = sConfig.iBaudRate;
             serialPort.Parity = Parity.None;
             serialPort.DataBits = 8;
             serialPort.StopBits = StopBits.One;

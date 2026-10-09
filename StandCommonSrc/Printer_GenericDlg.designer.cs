@@ -38,7 +38,6 @@
             this.checkBox_CenterTableAndName = new System.Windows.Forms.CheckBox();
             this.checkBox_CopertiNelleCopie = new System.Windows.Forms.CheckBox();
             this.checkBox_LogoNelleCopie = new System.Windows.Forms.CheckBox();
-            this.checkBox_Paper58 = new System.Windows.Forms.CheckBox();
             this.checkBox_StarsOnUnderGroup = new System.Windows.Forms.CheckBox();
             this.ckBoxLocalSettings = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDown_RigheIniziali)).BeginInit();
@@ -184,20 +183,6 @@
             this.checkBox_LogoNelleCopie.Text = "stampa il Logo anche nelle copie";
             this.checkBox_LogoNelleCopie.UseVisualStyleBackColor = true;
             // 
-            // checkBox_Paper58
-            // 
-            this.checkBox_Paper58.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBox_Paper58.AutoSize = true;
-            this.checkBox_Paper58.Enabled = false;
-            this.checkBox_Paper58.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_Paper58.Location = new System.Drawing.Point(35, 229);
-            this.checkBox_Paper58.Name = "checkBox_Paper58";
-            this.checkBox_Paper58.Size = new System.Drawing.Size(285, 18);
-            this.checkBox_Paper58.TabIndex = 90;
-            this.checkBox_Paper58.Text = "ESC/POS con carta da 58mm (invece di 80mm)";
-            this.checkBox_Paper58.UseVisualStyleBackColor = true;
-            this.checkBox_Paper58.Visible = false;
-            // 
             // checkBox_StarsOnUnderGroup
             // 
             this.checkBox_StarsOnUnderGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -231,7 +216,6 @@
             this.Controls.Add(this.checkBox_StarsOnUnderGroup);
             this.Controls.Add(this.checkBox_CopertiNelleCopie);
             this.Controls.Add(this.checkBox_LogoNelleCopie);
-            this.Controls.Add(this.checkBox_Paper58);
             this.Controls.Add(this.checkBox_CenterTableAndName);
             this.Controls.Add(this.numUpDown_RigheFinali);
             this.Controls.Add(this.numUpDown_RigheIniziali);
@@ -267,7 +251,6 @@
         private System.Windows.Forms.CheckBox checkBox_CenterTableAndName;
         private System.Windows.Forms.CheckBox checkBox_CopertiNelleCopie;
         private System.Windows.Forms.CheckBox checkBox_LogoNelleCopie;
-        private System.Windows.Forms.CheckBox checkBox_Paper58;
         private System.Windows.Forms.CheckBox checkBox_StarsOnUnderGroup;
         private System.Windows.Forms.CheckBox ckBoxLocalSettings;
     }

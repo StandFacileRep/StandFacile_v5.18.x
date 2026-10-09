@@ -49,7 +49,7 @@
             this.RadioGroup_PrinterType.Font = new System.Drawing.Font("Tahoma", 9F);
             this.RadioGroup_PrinterType.Location = new System.Drawing.Point(23, 144);
             this.RadioGroup_PrinterType.Name = "RadioGroup_PrinterType";
-            this.RadioGroup_PrinterType.Size = new System.Drawing.Size(280, 99);
+            this.RadioGroup_PrinterType.Size = new System.Drawing.Size(292, 99);
             this.RadioGroup_PrinterType.TabIndex = 0;
             this.RadioGroup_PrinterType.TabStop = false;
             this.RadioGroup_PrinterType.Text = "tipo di Stampante dello Scontrino";
@@ -57,7 +57,7 @@
             // prt_Legacy
             // 
             this.prt_Legacy.AutoSize = true;
-            this.prt_Legacy.Location = new System.Drawing.Point(173, 50);
+            this.prt_Legacy.Location = new System.Drawing.Point(191, 50);
             this.prt_Legacy.Name = "prt_Legacy";
             this.prt_Legacy.Size = new System.Drawing.Size(69, 18);
             this.prt_Legacy.TabIndex = 1;
@@ -70,10 +70,10 @@
             this.prt_Windows.AutoSize = true;
             this.prt_Windows.Location = new System.Drawing.Point(23, 50);
             this.prt_Windows.Name = "prt_Windows";
-            this.prt_Windows.Size = new System.Drawing.Size(85, 18);
+            this.prt_Windows.Size = new System.Drawing.Size(142, 18);
             this.prt_Windows.TabIndex = 0;
             this.prt_Windows.TabStop = true;
-            this.prt_Windows.Text = "WINDOWS";
+            this.prt_Windows.Text = "WINDOWS, ESC/POS";
             this.prt_Windows.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -84,17 +84,17 @@
             this.groupBox1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(23, 22);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(280, 103);
+            this.groupBox1.Size = new System.Drawing.Size(292, 103);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Impostazione stampanti Windows e Legacy";
+            this.groupBox1.Text = "Imposta stampanti Windows, ESC/POS e Legacy";
             // 
             // BtnCommonPrintSetup
             // 
             this.BtnCommonPrintSetup.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.BtnCommonPrintSetup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.BtnCommonPrintSetup.Image = global::StandFacile.Properties.Resources.globe;
-            this.BtnCommonPrintSetup.Location = new System.Drawing.Point(113, 29);
+            this.BtnCommonPrintSetup.Location = new System.Drawing.Point(121, 29);
             this.BtnCommonPrintSetup.Name = "BtnCommonPrintSetup";
             this.BtnCommonPrintSetup.Size = new System.Drawing.Size(50, 50);
             this.BtnCommonPrintSetup.TabIndex = 3;
@@ -106,7 +106,7 @@
             this.BtnLegacy.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.BtnLegacy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.BtnLegacy.Image = ((System.Drawing.Image)(resources.GetObject("BtnLegacy.Image")));
-            this.BtnLegacy.Location = new System.Drawing.Point(203, 29);
+            this.BtnLegacy.Location = new System.Drawing.Point(219, 29);
             this.BtnLegacy.Name = "BtnLegacy";
             this.BtnLegacy.Size = new System.Drawing.Size(50, 50);
             this.BtnLegacy.TabIndex = 1;
@@ -159,7 +159,7 @@
             this.AcceptButton = this.btnCancel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 329);
+            this.ClientSize = new System.Drawing.Size(359, 329);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.groupBox1);

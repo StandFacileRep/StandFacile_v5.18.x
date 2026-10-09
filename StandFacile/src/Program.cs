@@ -15,7 +15,6 @@ using System.Threading;
 using System.Windows.Forms;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
-using static System.Convert;
 
 namespace StandFacile
 {
@@ -119,7 +118,7 @@ namespace StandFacile
                 string name = new AssemblyName(args.Name).Name;
 
                 // esclude false DLL
-                if (!args.Name.Contains("StandFacile_no_dll.resources"))
+                if (!args.Name.Contains("StandFacile.resources") && !args.Name.Contains("StandFacile_no_dll.resources"))
                     MessageBox.Show("DLL non trovata: " + args.Name + " \n");
 
                 return null;

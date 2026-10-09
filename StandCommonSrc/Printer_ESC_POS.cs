@@ -1,6 +1,6 @@
 ﻿/*****************************************************************************
 	NomeFile : StandCommonSrc/Printer_ESCPOS.cs
-    Data	 : 28.09.2026
+    Data	 : 08.10.2026
 	Autore   : Mauro Artuso
 
 	Descrizione :
@@ -8,6 +8,8 @@
     
     https://github.com/lukevp/ESC-POS-.NET
     https://github.com/jesusvlo/RawPrint.NetStd
+
+    STAMPANTE_ESCPOS : 180dpi, carta 72mm 512 dot
 
     STAMPANTE_ESCPOS : 203dpi, carta 72mm 576 dot
     STAMPANTE_ESCPOS : 203dpi, carta 52.6mm 420 dot
@@ -18,9 +20,13 @@
      con carta 80mm, Font B x1 si ha 576: 9=64 caratteri per riga
      con carta 80mm, Font B x2 si ha 576:18=32 caratteri per riga
 
-     con carta 80mm, Font A x1 si ha 420:12=35 caratteri per riga
-     con carta 80mm, Font B x1 si ha 420: 9=46 caratteri per riga
-     con carta 80mm, Font B x2 si ha 420:18=23 caratteri per riga
+     con carta 80mm, Font A x1 si ha 512:12=42 caratteri per riga
+     con carta 80mm, Font B x1 si ha 512: 9=56 caratteri per riga
+     con carta 80mm, Font B x2 si ha 512:18=28 caratteri per riga
+
+     con carta 52.6mm, Font A x1 si ha 420:12=35 caratteri per riga
+     con carta 52.6mm, Font B x1 si ha 420: 9=46 caratteri per riga
+     con carta 52.6mm, Font B x2 si ha 420:18=23 caratteri per riga
 
  ****************************************************************************/
 
@@ -46,6 +52,7 @@ using RawPrint.NetStd;
 
 
 
+
 #if STAND_CUCINA
 using static StandFacile.Define; // serve a StandCucina
 #else
@@ -63,7 +70,7 @@ namespace StandCommonFiles
         const int BARCODE_HEIGHT = 100;
         //const String WIDE_CONST_STRING = "*********_*********_********";
 
-        const int TM_T88_LMARGIN_SCNT_FSTD = 6;
+        static int iTM_T88_LMARGIN_SCNT_FSTD = 6;
         const int TM_T88_LMARGIN_SCNT_FRID = 2;
         const int TM_T88_LMARGIN_DATA_RID = 2;
         const int TM_T88_LMARGIN_DATA = 2;
@@ -255,10 +262,10 @@ namespace StandCommonFiles
             }
             else
             {
-                if ((sGlbLegacyPrinterParams.iLogoBmp > 1) && (sGlbLegacyPrinterParams.iLogoBmp <= 5))
+                if (sGlbLegacyPrinterParams.iLogoBmp == 0)
                 {
-                    // remap 1..4
-                    printLogo(sGlbLegacyPrinterParams.iLogoBmp - 1);
+                    _bLogoCheck_T = false;
+                    _bLogoCheck_B = false;
                 }
             }
 
@@ -266,7 +273,6 @@ namespace StandCommonFiles
             _iGruppoStampa = 0;
             _bIsDati = false;
             _bIsTicket = false;
-            _iStyle = PrintStyle.None;
 
             _bCassaInline = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CASSA_INLINE);
 
@@ -288,11 +294,28 @@ namespace StandCommonFiles
 
                     _bTicketNumFound = false; // forza ricerca stringa
 
+                    if (CheckService(CFG_COMMON_STRINGS._58mm_ESCPOS_PRINTER))
+                    {
+                        _iStyle = PrintStyle.None;
+                        _iLMargin = TM_T88_LMARGIN_SCNT_FRID;
+                    }
+                    else if (CheckService(CFG_COMMON_STRINGS._HD_ESCPOS_PRINTER))
+                    {
+                        _iLMargin = 0;
+                        _iStyle = PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight;
+                    }
+                    else
+                    {
+                        _iStyle = PrintStyle.None;
+                        _iLMargin = iTM_T88_LMARGIN_SCNT_FSTD;
+                    }
                 }
                 else // copia locale
                 {
+                    _bTicketNumFound = true;
+
                     _iStyle = PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight;
-                    _bTicketNumFound = true; // necessario nella copia Receipt NoPrices
+                    _iLMargin = TM_T88_LMARGIN_SCNT_FRID;
                 }
             }
             else if (sFileName.Contains("_CT") || sFileName.Contains("CT_")) // copia in rete
@@ -303,54 +326,63 @@ namespace StandCommonFiles
                 _iGruppoStampa = Convert.ToInt32(sFileName[iPos + 2]) - 48;
 
                 _iStyle = PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight;
-            }
-            else if (sFileName.Contains(NOME_FILE_SAMPLE_TEXT))
-            {
-                _bTicketNumFound = true;
+                _iLMargin = TM_T88_LMARGIN_SCNT_FRID;
             }
             else
             {
-                _bLogoCheck_T = false;
-                _bLogoCheck_B = false;
-            }
+                // file specifici
 
+                //_bLogoCheck_T = false;
+                //_bLogoCheck_B = false;
 
-            //numero di colonne ridotto -> font più grande
-
-            if (sFileName.Contains("Listino"))
-            {
-                _bIsDati = true;
-
-            }
-            else if (sFileName.Contains(NOME_FILE_SAMPLE_TEXT))
-            {
-                _iLMargin = TM_T88_LMARGIN_SCNT_FSTD;
-            }
-            else if (sFileName.Contains(NOME_FILE_STAMPA_LOC_RID_TMP))
-            {
-                _bIsDati = true;
-                _iLMargin = TM_T88_LMARGIN_DATA_RID;
-
-            }
-            else if (sFileName.Contains(NOME_FILE_STAMPA_LOC_TMP) || sFileName.Contains("_Dati"))
-            {
-                _bIsDati = true;
-                _iLMargin = TM_T88_LMARGIN_DATA;
-
-            }
-            else
-            // std receipt
-            {
-                _iLMargin = TM_T88_LMARGIN_SCNT_FSTD;
-
-                if (IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_PAPER58_REQUIRED))
+                if (sFileName.Contains("Listino"))
                 {
-                    _iStyle = PrintStyle.None;
+                    _bIsDati = true;
+                }
+                else if (sFileName.Contains(NOME_FILE_SAMPLE_TEXT) || sFileName.Contains(Define.NOME_FILE_RECEIPT))
+                {
+                    _bTicketNumFound = true;
+
+                    if (CheckService(CFG_COMMON_STRINGS._58mm_ESCPOS_PRINTER))
+                    {
+                        _iStyle = PrintStyle.None;
+                        _iLMargin = TM_T88_LMARGIN_SCNT_FRID;
+                    }
+                    else if (CheckService(CFG_COMMON_STRINGS._HD_ESCPOS_PRINTER))
+                    {
+                        _iLMargin = 0;
+                        _iStyle = PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight;
+                    }
+                    else
+                    {
+                        _iStyle = PrintStyle.None;
+                        _iLMargin = iTM_T88_LMARGIN_SCNT_FSTD;
+                    }
+                }
+                else if (sFileName.Contains(Define.NOME_FILE_RECEIPT_NP))
+                {
+                    _bTicketNumFound = false;
+
+                    _iStyle = PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight;
                     _iLMargin = TM_T88_LMARGIN_SCNT_FRID;
                 }
-                else
-                    _iLMargin = TM_T88_LMARGIN_SCNT_FSTD;
+                else if (sFileName.Contains(NOME_FILE_STAMPA_LOC_RID_TMP))
+                {
+                    _bTicketNumFound = true;
+                    _bIsDati = true;
+                    _iLMargin = TM_T88_LMARGIN_DATA_RID;
+
+                }
+                else if (sFileName.Contains(NOME_FILE_STAMPA_LOC_TMP) || sFileName.Contains("_Dati"))
+                {
+                    _bTicketNumFound = true;
+                    _bIsDati = true;
+
+                    _iStyle = PrintStyle.FontB;
+                    _iLMargin = TM_T88_LMARGIN_DATA;
+                }
             }
+
 
             // String sTmpFormat = String.Format("{0,2:D2}", _iGruppoStampa);
             _cGruppoStampa[0] = String.Format("{0,2:D2}", _iGruppoStampa)[0];
@@ -381,7 +413,7 @@ namespace StandCommonFiles
                         Logger.Info("Printer_ESCPOS : prima di PrintPage");
 
                         // prepara il byte[] per la stampa
-                        escpos_PrintPage();
+                        escpos_PrintPage(bIsNotLegacyPrinter);
 
                         // invio dati di stampa alla stampante solo attraverso COM, LPT
                         if (!bIsNotLegacyPrinter)
@@ -402,9 +434,10 @@ namespace StandCommonFiles
 
                                 //_ETH_printer.WriteAsync(_bytes.ToArray()).GetAwaiter();
 
+                                // stampa Ethernet
                                 bool bSuccess = SendToEthPrinterWithTimeoutAsync(_IP_Address.ToString(), 9100, _bytes.ToArray(), 2500).ConfigureAwait(false).GetAwaiter().GetResult();
 
-                                if (!bSuccess)
+                                if (!bSuccess && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
                                 {
                                     _WrnMsg.sMsg = sMsgPrinter;
                                     _WrnMsg.iErrID = WRN_STF;
@@ -417,6 +450,8 @@ namespace StandCommonFiles
 
                                 using (var ms = new MemoryStream(_bytes.ToArray()))
                                 {
+                                    // stampa USB, Ethernet attraverso lo spooler di Windows (che utilizza il nome della stampante)
+                                    // non utilizza il driver della stampante, ma invia direttamente i byte ESC/POS
                                     _rawPrinter.PrintRawStream(_printerName, ms, jobName, false);
                                 }
                             }
@@ -435,7 +470,7 @@ namespace StandCommonFiles
 
 #if STANDFACILE
 
-                if (CheckService(Define.CFG_SERVICE_STRINGS._SKIP_RCP_NUM))
+                if (CheckService(CFG_COMMON_STRINGS._SKIP_RCP_NUM))
                     _bSkipNumeroScontrino = true;
 
                 if (sConfig.iPrintInterval > 200)
@@ -464,7 +499,7 @@ namespace StandCommonFiles
             return _bytes.ToArray();
         }
 
-        private static void escpos_PrintPage()
+        private static void escpos_PrintPage(bool bIsNotLegacyPrinter)
         {
             bool bLogoRequested_T, bLogoRequested_B, bBarcodeRequested;
             int i, iPos;
@@ -515,13 +550,21 @@ namespace StandCommonFiles
                 /*************************************
                  *        Stampa del Logo Top
                  *************************************/
-                if (_bLogoCheck_T && bLogoRequested_T)
+                if (bIsNotLegacyPrinter && _bLogoCheck_T && bLogoRequested_T)
                 {
                     _bytes.AddRange(_emitter.CenterAlign());
 
                     _bytes.AddRange(BitmapToEscPos(new Bitmap(_img_T)));
 
                     _bytes.AddRange(_emitter.LeftAlign());
+                }
+                else if (!bIsNotLegacyPrinter && bLogoRequested_T)
+                {
+                    if ((sGlbLegacyPrinterParams.iLogoBmp > 1) && (sGlbLegacyPrinterParams.iLogoBmp <= 5))
+                    {
+                        // remap 1..4
+                        printLogo(sGlbLegacyPrinterParams.iLogoBmp - 1);
+                    }
                 }
 
                 /*************************************

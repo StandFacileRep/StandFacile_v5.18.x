@@ -1,6 +1,6 @@
 ﻿/*****************************************************
   	NomeFile : StandFacile/Config.cs
-	Data	 : 19.04.2026
+	Data	 : 09.10.2026
   	Autore	 : Mauro Artuso
  *****************************************************/
 
@@ -51,7 +51,7 @@ namespace StandFacile
         /// </summary>
         public void LoadConfig()
         {
-            int iPos, iCount, iVal, hIndex;
+            int iCount, iTmp, hIndex;
             String sTmp, sExeDir, sNomeConfigFile, sInStr;
             StreamReader fConfig;
 
@@ -90,80 +90,52 @@ namespace StandFacile
 
                     else if (sInStr.Contains("receiptStartNumber"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1);
-                        sInStr = sInStr.Replace(";", "");
 
-                        try
-                        {
-                            iVal = Convert.ToInt32(sInStr.Trim());
+                        iTmp = GetIntVal(sInStr);
 
-                            if (iVal > 0)
-                                sConfig.iReceiptStartNumber = iVal;
-                        }
-                        catch (Exception)
-                        {
-                        }
+                        if (iTmp > 0)
+                            sConfig.iReceiptStartNumber = iTmp;
 
                         continue;
                     }
                     else if (sInStr.Contains("refreshTimer"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1);
-                        sInStr = sInStr.Replace(";", "");
+                        iTmp = GetIntVal(sInStr);
 
-                        try
-                        {
-                            iVal = Convert.ToInt32(sInStr.Trim());
-
-                            if (iVal > 0)
-                                sConfig.iRefreshTimer = iVal;
-                        }
-                        catch (Exception)
-                        {
-                        }
+                        if (iTmp > 0)
+                            sConfig.iRefreshTimer = iTmp;
 
                         continue;
                     }
 
                     else if (sInStr.Contains("iPrintInterval"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1);
-                        sInStr = sInStr.Replace(";", "");
+                        iTmp = GetIntVal(sInStr);
 
-                        try
-                        {
-                            iVal = Convert.ToInt32(sInStr.Trim());
-
-                            if (iVal > 0)
-                                sConfig.iPrintInterval = iVal;
-                        }
-                        catch (Exception)
-                        {
-                        }
+                        if (iTmp > 0)
+                            sConfig.iPrintInterval = iTmp;
 
                         continue;
                     }
 
                     else if (sInStr.Contains("localCopyPrinterNumRedirect"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1);
-                        sInStr = sInStr.Replace(";", "");
+                        iTmp = GetIntVal(sInStr);
 
-                        try
-                        {
-                            iVal = Convert.ToInt32(sInStr.Trim());
+                        // i gruppi vanno da 1 a 11 per l'utente, 0 - 10 per il programma
+                        if ((iTmp > 0) && (iTmp <= NUM_SEP_PRINT_GROUPS + 1))
+                            sConfig.iLocalCopyPrinterNumRedirect = iTmp - 1;
 
-                            // i gruppi vanno da 1 a 11 per l'utente, 0 - 10 per il programma
-                            if ((iVal > 0) && (iVal <= NUM_SEP_PRINT_GROUPS + 1))
-                                sConfig.iLocalCopyPrinterNumRedirect = iVal - 1;
-                        }
-                        catch (Exception)
-                        {
-                        }
+                        continue;
+                    }
+
+                    else if (sInStr.Contains("baud_rate"))
+                    {
+
+                        iTmp = GetIntVal(sInStr);
+
+                        if (iTmp > 0)
+                            sConfig.iBaudRate = iTmp;
 
                         continue;
                     }
@@ -171,12 +143,8 @@ namespace StandFacile
                     // stringhe per stampa copia Receipt() completa dei prezzi
                     else if (sInStr.Contains("receiptCopyRequired_HeaderIs"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1).Trim();
-                        sInStr = sInStr.Replace("\"", "");
-
                         sConfig.bRcpCopyRequired = true;
-                        sConfig.sRcpCopyHeader = sInStr;
+                        sConfig.sRcpCopyHeader = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -184,11 +152,7 @@ namespace StandFacile
                     // stringhe per cambio nome database
                     else if (sInStr.Contains("databaseNameIs"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1).Trim();
-                        sInStr = sInStr.Replace("\"", "");
-
-                        sConfig.sDatabaseName = sInStr;
+                        sConfig.sDatabaseName = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -196,11 +160,7 @@ namespace StandFacile
                     // stringhe per cambio nome utente database
                     else if (sInStr.Contains("databaseUserIs"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1).Trim();
-                        sInStr = sInStr.Replace("\"", "");
-
-                        sConfig.sDatabaseUser = sInStr;
+                        sConfig.sDatabaseUser = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -208,11 +168,7 @@ namespace StandFacile
                     // stringhe per cambio versione StandOrdiniWeb
                     else if (sInStr.Contains("webUrlVersionIs"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1).Trim();
-                        sInStr = sInStr.Replace("\"", "");
-
-                        sConfig.sWebUrlVersion = sInStr;
+                        sConfig.sWebUrlVersion = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -220,11 +176,7 @@ namespace StandFacile
                     // stringhe per cambio WebAppHttpServerName
                     else if (sInStr.Contains("webServerNameIs"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1).Trim();
-                        sInStr = sInStr.Replace("\"", "");
-
-                        sConfig.sWebAppHttpServerName = sInStr;
+                        sConfig.sWebAppHttpServerName = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -232,11 +184,7 @@ namespace StandFacile
                     // stringhe per cambio WebApp_DB_HostName
                     else if (sInStr.Contains("sWebApp_DB_HostName"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1).Trim();
-                        sInStr = sInStr.Replace("\"", "");
-
-                        sConfig.sWebApp_DB_HostName = sInStr;
+                        sConfig.sWebApp_DB_HostName = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -244,11 +192,7 @@ namespace StandFacile
                     // stringhe per cambio WebApp_DB_UserName
                     else if (sInStr.Contains("sWebApp_DB_UserName"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1).Trim();
-                        sInStr = sInStr.Replace("\"", "");
-
-                        sConfig.sWebApp_DB_UserName = sInStr;
+                        sConfig.sWebApp_DB_UserName = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -256,11 +200,7 @@ namespace StandFacile
                     // stringhe per cambio cypherKey Httptunnel
                     else if (sInStr.Contains("cypherKeyIs"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1).Trim();
-                        sInStr = sInStr.Replace("\"", "");
-
-                        sConfig.sCypherKey = sInStr;
+                        sConfig.sCypherKey = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -268,11 +208,7 @@ namespace StandFacile
                     // stringhe per footer alternativo
                     else if (sInStr.Contains("extraFooterIs"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1).Trim();
-                        sInStr = sInStr.Replace("\"", "");
-
-                        sConfig.sExtraFooter = sInStr;
+                        sConfig.sExtraFooter = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -323,17 +259,7 @@ namespace StandFacile
                     // questo if va per ultimo
                     else if (sInStr.Contains("serviceStrings"))
                     {
-                        iPos = sInStr.IndexOf('=');    // ricerca prima semicolon
-                        sInStr = sInStr.Remove(0, iPos + 1);
-                        sInStr = sInStr.Replace("\"", "");
-                        try
-                        {
-                            sConfig.sService += (" " + sInStr.Trim());
-                        }
-                        catch (Exception)
-                        {
-                        }
-
+                        sConfig.sService += (" " + GetStringVal(sInStr));
                         continue;
                     }
                 }
@@ -343,6 +269,46 @@ namespace StandFacile
             }
             else
                 Logger.Info("LoadConfig : " + CONFIG_FILE + " non trovato");
+        }
+
+        static int GetIntVal(String sInStrParam)
+        {
+            int iVal, iPos;
+
+            try
+            {
+                iPos = sInStrParam.IndexOf('=');    // ricerca prima semicolon
+                sInStrParam = sInStrParam.Remove(0, iPos + 1);
+                sInStrParam = sInStrParam.Replace(";", "");
+
+                iVal = Convert.ToInt32(sInStrParam.Trim());
+
+                sConfig.iReceiptStartNumber = iVal;
+                return iVal;
+
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+        }
+
+        static String GetStringVal(String sInStrParam)
+        {
+            int iPos;
+
+            try
+            {
+                iPos = sInStrParam.IndexOf('=');    // ricerca prima semicolon
+                sInStrParam = sInStrParam.Remove(0, iPos + 1).Trim();
+                sInStrParam = sInStrParam.Replace("\"", "");
+
+                return sInStrParam;
+            }
+            catch (Exception)
+            {
+                return "";
+            }
         }
 
     }

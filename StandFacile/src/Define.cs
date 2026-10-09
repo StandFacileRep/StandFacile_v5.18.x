@@ -91,7 +91,7 @@ namespace StandFacile
         /// <summary>larghezza massima del pannello di anteprima</summary>
         public const int PREV_MAX_WIDTH = 580;
 
-        
+
         /// <summary>registro: numero dei temi colore</summary>
         public const int NUM_COLOR_THEMES = 3;
 
@@ -191,15 +191,6 @@ namespace StandFacile
 
             /// <summary>serviceStrings: evita le presentazione del dialogo relativo alla Data</summary>
             public const string _SKIP_DATA = "noData";
-
-            /// <summary>evita di stampare il numero dello scontrino</summary>
-            public const String _SKIP_RCP_NUM = "skipRcpNum";
-
-            /// <summary>serviceStrings: attivazione stampa su carta A4</summary>
-            public const string PRINT_ON_A4_PAPER = "printOnA4Paper";
-
-            /// <summary>serviceStrings: descrive se si stampano 4 righe prima del taglio carta, utile per carta A5</summary>
-            public const string PRINT_ON_A5_PAPER = "printOnA5Paper";
         }
 
         /// <summary>refresh di sService * 250ms circa in StandFacile, 200 in StandClient</summary>

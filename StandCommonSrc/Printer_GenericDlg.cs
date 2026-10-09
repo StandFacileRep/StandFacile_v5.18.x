@@ -9,13 +9,10 @@
 
 using System;
 using System.Windows.Forms;
-
-using StandCommonFiles;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
 
 using static StandFacile.dBaseIntf;
-using static StandFacile.Define;
 using static StandFacile.glb;
 
 namespace StandFacile
@@ -48,8 +45,6 @@ namespace StandFacile
             InitializeComponent();
 
             _rGenPrinterDlg = this;
-
-            _tt.SetToolTip(checkBox_Paper58, "seleziona carta da 58mm, agisce solo con stampanti ESC/POS\r\n");
 
             Logger.Info("GenPrinterDlg : Init in");
 
@@ -117,7 +112,6 @@ namespace StandFacile
 #endif
 
             // caricato comunque dal Listino
-            checkBox_Paper58.Checked = IsBitSet(_iGenericPrintOptions_Copy, (int)GEN_PRINTER_OPTS.BIT_PAPER58_REQUIRED);
             checkBox_CopertiNelleCopie.Checked = IsBitSet(_iGenericPrintOptions_Copy, (int)GEN_PRINTER_OPTS.BIT_PLACESETTS_PRINT_ON_COPIES_REQUIRED);
             checkBox_CassaInlineNumero.Checked = IsBitSet(_iGenericPrintOptions_Copy, (int)GEN_PRINTER_OPTS.BIT_CASSA_INLINE);
             checkBox_CenterTableAndName.Checked = IsBitSet(_iGenericPrintOptions_Copy, (int)GEN_PRINTER_OPTS.BIT_CENTER_TABLE_AND_NAME);
@@ -135,7 +129,7 @@ namespace StandFacile
 
         /// <summary>
         /// funzione chiamata da STAND_CUCINA || STAND_MONITOR <br/>
-        /// oppure da STAND_FACILE mo solo CASSA_SECONDARIA
+        /// oppure da STAND_FACILE ma solo da CASSA_SECONDARIA
         /// </summary>
         private void CheckBoxLocalSettings_CheckedChanged(object sender, EventArgs e)
         {
@@ -144,7 +138,6 @@ namespace StandFacile
 #if STANDFACILE
                 if (DataManager.CheckIf_CassaSec_and_NDB())
                 {
-                    checkBox_Paper58.Enabled = false;
                     checkBox_CopertiNelleCopie.Enabled = false;
                     checkBox_CassaInlineNumero.Enabled = false;
                     checkBox_CenterTableAndName.Enabled = false;
@@ -153,7 +146,6 @@ namespace StandFacile
                 else
 #endif
                 {
-                    checkBox_Paper58.Enabled = true;
                     checkBox_CopertiNelleCopie.Enabled = true;
                     checkBox_CassaInlineNumero.Enabled = true;
                     checkBox_CenterTableAndName.Enabled = true;
@@ -169,7 +161,6 @@ namespace StandFacile
             }
             else
             {
-                checkBox_Paper58.Enabled = false;
                 checkBox_CopertiNelleCopie.Enabled = false;
                 checkBox_LogoNelleCopie.Enabled = false;
                 checkBox_CassaInlineNumero.Enabled = false;
@@ -193,7 +184,6 @@ namespace StandFacile
 
             iGenPrinterOptionsCopy = 0;
 
-            iGenPrinterOptionsCopy = UpdateBit(iGenPrinterOptionsCopy, checkBox_Paper58.Checked, (int)GEN_PRINTER_OPTS.BIT_PAPER58_REQUIRED);
             iGenPrinterOptionsCopy = UpdateBit(iGenPrinterOptionsCopy, checkBox_CopertiNelleCopie.Checked, (int)GEN_PRINTER_OPTS.BIT_PLACESETTS_PRINT_ON_COPIES_REQUIRED);
             iGenPrinterOptionsCopy = UpdateBit(iGenPrinterOptionsCopy, checkBox_LogoNelleCopie.Checked, (int)GEN_PRINTER_OPTS.BIT_LOGO_PRINT_ON_COPIES_REQUIRED);
 

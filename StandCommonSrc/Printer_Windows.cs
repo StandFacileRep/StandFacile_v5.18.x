@@ -431,7 +431,7 @@ namespace StandCommonFiles
 
 #if STANDFACILE
 
-                if (CheckService(Define.CFG_SERVICE_STRINGS._SKIP_RCP_NUM))
+                if (CheckService(CFG_COMMON_STRINGS._SKIP_RCP_NUM))
                     _bSkipNumeroScontrino = true;
 
                 if (sConfig.iPrintInterval > 200)

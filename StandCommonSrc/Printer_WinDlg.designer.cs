@@ -503,6 +503,7 @@
             // 
             // checkBox_escpos
             // 
+            this.checkBox_escpos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox_escpos.AutoSize = true;
             this.checkBox_escpos.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_escpos.Location = new System.Drawing.Point(26, 546);
@@ -517,6 +518,7 @@
             // 
             // checkBox_CashDrawer
             // 
+            this.checkBox_CashDrawer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox_CashDrawer.AutoSize = true;
             this.checkBox_CashDrawer.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_CashDrawer.Location = new System.Drawing.Point(26, 582);

@@ -134,16 +134,21 @@ namespace StandFacile
 ; file di configurazione di StandFacile
 ; le righe che iniziano per ';' sono di commento
 
-; stringhe multiple per attivazione modalità speciali , vedi manuale ""StandFacile.pdf""
-; serviceStrings = ""Esperto noData noLegacyPrinters noStampaRcp skipRcpNum printOnA4Paper printOnA5Paper""
+; stringhe multiple per attivazione modalità speciali, vedi manuale ""StandFacile.pdf""
+; serviceStrings = ""Esperto noData noLegacyPrinters noStampaRcp skipRcpNum Keep_Files_and_Tables""
+; serviceStrings = ""escpos_203dpi escpos_58mm printOnA4Paper printOnA5Paper""
+
 
 ; parametri interi per attivazione funzioni speciali
 
-; valore di inizio numerazione
+; valore di inizio numerazione per la CASSA_PRINCIPALE
 ; receiptStartNumber = 101
 
 ; intervallo in ms tra stampe successive
 ; iPrintInterval = 1000
+
+; baudrate per la stampante Legacy
+; baud_rate = 115200
 
 ; indice del gruppo di Articoli per il redirect della stampa copie locali
 ; localCopyPrinterNumRedirect = 0
@@ -152,7 +157,11 @@ namespace StandFacile
 
 ; receiptCopyRequired_HeaderIs = COPIA PER SEGRETERIA
 
-; receipt_CS_AltHeader_AH2 = CASSA_2");
+; receipt_CS_AltHeader_AH2 = CASSA_2
+
+; extraFooterIs = ""Erogazione a sostegno delle\n attività istituzionali \n Raccolta fondi occasionale\n ex. art. 7 D.Lgs. 117/2017"
+
+);
 
 #elif STAND_CUCINA
 

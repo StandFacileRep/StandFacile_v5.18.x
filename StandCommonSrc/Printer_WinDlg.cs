@@ -18,7 +18,6 @@ using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
 
 using static StandFacile.glb;
-using static StandFacile.Define;
 using static StandFacile.Config;
 
 namespace StandFacile
@@ -190,8 +189,8 @@ namespace StandFacile
             sGlbWinPrinterParams.sLogoName_T = ReadRegistry(WIN_LOGO_NAME_KEY_T, "");
             sGlbWinPrinterParams.sLogoName_B = ReadRegistry(WIN_LOGO_NAME_KEY_B, "");
 
-            sGlbWinPrinterParams.bA4Paper = CheckService(CFG_SERVICE_STRINGS.PRINT_ON_A4_PAPER);
-            sGlbWinPrinterParams.bA5Paper = CheckService(CFG_SERVICE_STRINGS.PRINT_ON_A5_PAPER);
+            sGlbWinPrinterParams.bA4Paper = CheckService(CFG_COMMON_STRINGS.PRINT_ON_A4_PAPER);
+            sGlbWinPrinterParams.bA5Paper = CheckService(CFG_COMMON_STRINGS.PRINT_ON_A5_PAPER);
 #endif
 
             sGlbWinPrinterParams.sTckFontType = ReadRegistry(TCK_WIN_FONT_TYPE_KEY, "Lucida Console");
@@ -511,7 +510,7 @@ namespace StandFacile
             // abilita/disabilita alcuni controlli se è selezionata la stampante ESC POS
             WP_labelCenterLogo.Enabled = !checkBox_escpos.Checked;
             numUpDown_LogoCenter.Enabled = !checkBox_escpos.Checked;
-            
+
             WP_btnRcpFontSelect.Enabled = !checkBox_escpos.Checked;
             WP_labelZoomRcp.Enabled = !checkBox_escpos.Checked;
             numUpDownRcpZoom.Enabled = !checkBox_escpos.Checked;

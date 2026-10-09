@@ -350,13 +350,15 @@ namespace StandCommonFiles
             return Hash(sData);
         }
 
-        /// <summary>costruzione file di test stampa</summary>
+        /// <summary>costruzione file di test stampa, rispecchia la struttura della Receipt</summary>
         public static String BuildSampleText(PRINTER_TYPE ePrinterTypeParam)
         {
             const String _LEFT_MARGIN_FMT = " {0}";
 
             int i, j, ich;
-            const int iMaxChars = MAX_RECEIPT_CHARS - 1; // consente di avere uno spazio a sinistra
+
+            // consente di avere uno spazio a sinistra
+            const int iMaxChars = MAX_RECEIPT_CHARS - 1;
 
             String sTmp;
             StreamWriter fData;
@@ -421,7 +423,9 @@ namespace StandCommonFiles
 
                 sTmp = CenterJustify(GetDateTimeString(), iMaxChars);
                 sTmp = String.Format(_LEFT_MARGIN_FMT, sTmp);
+                fData.WriteLine(sTmp + "\n");
 
+                sTmp = CenterJustify(String.Format("{0} {1}", _TICK_NUM, 123), iMaxChars);
                 fData.WriteLine(sTmp + "\n");
 
                 for (i = 0; i < iMaxChars / 2; i++)       // avanzamanto riga
