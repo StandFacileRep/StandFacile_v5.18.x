@@ -152,8 +152,8 @@
             this.btnMinus = new System.Windows.Forms.ToolStripButton();
             this.comboCashPos = new System.Windows.Forms.ComboBox();
             this.panelRight = new System.Windows.Forms.Panel();
-            this.Edit_CAP = new System.Windows.Forms.TextBox();
-            this.MF_lbl_CAP = new System.Windows.Forms.Label();
+            this.Edit_CAP_Pager = new System.Windows.Forms.TextBox();
+            this.MF_lbl_CAP_Pager = new System.Windows.Forms.Label();
             this.btnNavRight = new System.Windows.Forms.Button();
             this.EditChange = new System.Windows.Forms.TextBox();
             this.EditPaidCash = new System.Windows.Forms.TextBox();
@@ -1383,8 +1383,8 @@
             this.panelRight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelRight.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.panelRight.Controls.Add(this.Edit_CAP);
-            this.panelRight.Controls.Add(this.MF_lbl_CAP);
+            this.panelRight.Controls.Add(this.Edit_CAP_Pager);
+            this.panelRight.Controls.Add(this.MF_lbl_CAP_Pager);
             this.panelRight.Controls.Add(this.btnNavRight);
             this.panelRight.Controls.Add(this.EditChange);
             this.panelRight.Controls.Add(this.EditPaidCash);
@@ -1404,33 +1404,33 @@
             this.panelRight.Size = new System.Drawing.Size(230, 421);
             this.panelRight.TabIndex = 4;
             // 
-            // Edit_CAP
+            // Edit_CAP_Pager
             // 
-            this.Edit_CAP.BackColor = System.Drawing.Color.LightBlue;
-            this.Edit_CAP.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Edit_CAP.Location = new System.Drawing.Point(7, 209);
-            this.Edit_CAP.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.Edit_CAP.MaxLength = 20;
-            this.Edit_CAP.Name = "Edit_CAP";
-            this.Edit_CAP.Size = new System.Drawing.Size(217, 29);
-            this.Edit_CAP.TabIndex = 3;
-            this.Edit_CAP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Edit_CAP.WordWrap = false;
-            this.Edit_CAP.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
-            this.Edit_CAP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditFilter_KeyPress);
-            this.Edit_CAP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
+            this.Edit_CAP_Pager.BackColor = System.Drawing.Color.LightBlue;
+            this.Edit_CAP_Pager.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Edit_CAP_Pager.Location = new System.Drawing.Point(7, 209);
+            this.Edit_CAP_Pager.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.Edit_CAP_Pager.MaxLength = 20;
+            this.Edit_CAP_Pager.Name = "Edit_CAP_Pager";
+            this.Edit_CAP_Pager.Size = new System.Drawing.Size(217, 29);
+            this.Edit_CAP_Pager.TabIndex = 3;
+            this.Edit_CAP_Pager.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Edit_CAP_Pager.WordWrap = false;
+            this.Edit_CAP_Pager.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyDown);
+            this.Edit_CAP_Pager.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditFilter_KeyPress);
+            this.Edit_CAP_Pager.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
             // 
-            // MF_lbl_CAP
+            // MF_lbl_CAP_Pager
             // 
-            this.MF_lbl_CAP.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MF_lbl_CAP.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.MF_lbl_CAP.Location = new System.Drawing.Point(7, 183);
-            this.MF_lbl_CAP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
-            this.MF_lbl_CAP.Name = "MF_lbl_CAP";
-            this.MF_lbl_CAP.Size = new System.Drawing.Size(217, 23);
-            this.MF_lbl_CAP.TabIndex = 10;
-            this.MF_lbl_CAP.Text = "CAP";
-            this.MF_lbl_CAP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.MF_lbl_CAP_Pager.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MF_lbl_CAP_Pager.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.MF_lbl_CAP_Pager.Location = new System.Drawing.Point(7, 183);
+            this.MF_lbl_CAP_Pager.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
+            this.MF_lbl_CAP_Pager.Name = "MF_lbl_CAP_Pager";
+            this.MF_lbl_CAP_Pager.Size = new System.Drawing.Size(217, 23);
+            this.MF_lbl_CAP_Pager.TabIndex = 10;
+            this.MF_lbl_CAP_Pager.Text = "CAP";
+            this.MF_lbl_CAP_Pager.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnNavRight
             // 
@@ -1875,8 +1875,8 @@
         private System.Windows.Forms.Button btnNavLeft;
         private System.Windows.Forms.ToolStripMenuItem p20;
         private System.Windows.Forms.ToolStripButton Btn_OSKeyb;
-        private System.Windows.Forms.TextBox Edit_CAP;
-        private System.Windows.Forms.Label MF_lbl_CAP;
+        private System.Windows.Forms.TextBox Edit_CAP_Pager;
+        private System.Windows.Forms.Label MF_lbl_CAP_Pager;
         private System.Windows.Forms.Panel previewLeftPanel;
         private System.Windows.Forms.PictureBox picBox;
         private System.Windows.Forms.CheckBox checkBoxLogoPreview;

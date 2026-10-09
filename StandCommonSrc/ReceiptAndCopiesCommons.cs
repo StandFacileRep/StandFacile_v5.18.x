@@ -44,7 +44,7 @@ namespace StandCommonFiles
         static bool _bLocalPricesRequested, _bPrintSelectedOnly, _bAvoidPrintOtherGroups;
 #endif
 
-        static bool _bLogoNelleCopie, _bCassaInline, _bStarsOnUnderGroup;
+        static bool _bLogoNelleCopie, _bCassaInline, _bStarsOnUnderGroup, _bPagerMode;
 
         static String _sNomeFileReceiptPrt;
         static StreamWriter _fPrint;
@@ -265,7 +265,7 @@ namespace StandCommonFiles
         public static TOrdineStrings SetupHeaderStrings(TData dataIdParam, int iNumOfReceiptsParam, Graphics pgParam = null)
         {
             int i;
-            string sTmpDateTime, sFmt_QM;
+            string sTmpDateTime, sFmt_QM, sTmp;
 
             TOrdineStrings sOrdineStringsTmp = new TOrdineStrings();
 
@@ -297,10 +297,26 @@ namespace StandCommonFiles
             _bStarsOnUnderGroup = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_STARS_ON_UNDER_GROUP);
             _bLogoNelleCopie = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_LOGO_PRINT_ON_COPIES_REQUIRED);
 
-            if (_bCassaInline)
-                sOrdineStringsTmp.sOrdineNum = String.Format("{0} {1}, ", _TICK_CASSA, dataIdParam.iNumCassa);
+            _bPagerMode = IsBitSet(dataIdParam.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT);
+
+            if (_bPagerMode)
+            {
+                _bCassaInline = true;
+
+                if (String.IsNullOrEmpty(dataIdParam.sPager))
+                    sTmp = "-";
+                else
+                    sTmp = dataIdParam.sPager.PadLeft(3, '0');
+
+                sOrdineStringsTmp.sOrdineNum = String.Format("{0} {1}, ", _TICK_PAGER, sTmp);
+            }
             else
-                sOrdineStringsTmp.sOrdineNum = "";
+            {
+                if (_bCassaInline)
+                    sOrdineStringsTmp.sOrdineNum = String.Format("{0} {1}, ", _TICK_CASSA, dataIdParam.iNumCassa);
+                else
+                    sOrdineStringsTmp.sOrdineNum = "";
+            }
 
             if ((pgParam != null) && dBaseIntf.bUSA_NDB())
                 sOrdineStringsTmp.sOrdineNum += String.Format("{0} ?{1}", _TICK_NUM, i); // Anteprima con ndb
@@ -435,7 +451,7 @@ namespace StandCommonFiles
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
 
-                    if (_bCassaInline)
+                    if (_bCassaInline && !_bPagerMode)
                         sTmp = dataIdParam.sDateTime;
                     else
                         sTmp = String.Format("{0,-22}C.{1}", dataIdParam.sDateTime, dataIdParam.iNumCassa);

@@ -205,6 +205,7 @@ namespace StandFacile
             SF_Data.sTavolo = "";
             SF_Data.sNome = "";
             SF_Data.sCAP = "";
+            SF_Data.sPager = "";
             SF_Data.sNota = "";
             SF_Data.sMessaggio = "";
 
@@ -273,6 +274,7 @@ namespace StandFacile
             SF_Data.sTavolo = "";
             SF_Data.sNome = "";
             SF_Data.sCAP = "";
+            SF_Data.sPager = "";
             SF_Data.sNota = "";
 
             for (int i = 0; i < MAX_ITEMS_NUM + EXTRA_ITEMS_NUM; i++)
@@ -660,6 +662,7 @@ namespace StandFacile
             SF_Data.sTavolo = "";
             SF_Data.sNome = "";
             SF_Data.sCAP = "";
+            SF_Data.sPager = "";
             SF_Data.sNota = "";
 
             sTmp = String.Format("DataManager : Emesso Scontrino Num. {0}", SF_Data.iNumOfLastReceipt);

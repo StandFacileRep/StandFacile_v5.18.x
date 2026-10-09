@@ -46,7 +46,7 @@ namespace StandFacile
             DC_EditCoperti.Text = EditPlaceSettingsParam.Trim();
             DC_EditTavolo.Text = EditTavoloParam.Trim();
             DC_EditName.Text = EditName_param.Trim();
-            DC_Edit_CAP.Text = Edit_CAP_param.Trim();
+            DC_Edit_CAP_Pager.Text = Edit_CAP_param.Trim();
             DC_Edit_CASH.Text = EditCashParam.Trim();
 
             // se c'è un importo in contanti, imposto direttamente contanti come metodo di pagamento
@@ -86,7 +86,7 @@ namespace StandFacile
                 DC_lblName.Font = new Font("Tahoma", 12);
             }
 
-            if (Get_CAP_MandatoryFlag())
+            if (Get_CAP_MandatoryFlag() || Get_Pager_MandatoryFlag())
             {
                 DC_lbl_CAP.ForeColor = Color.Blue;
                 DC_lbl_CAP.Font = new Font("Tahoma", 12);
@@ -136,7 +136,7 @@ namespace StandFacile
             //rFrmMain.SetEditCoperto(DC_EditCoperti.Text.Trim());
             //rFrmMain.SetEditTavolo(DC_EditTavolo.Text.Trim());
             //rFrmMain.SetEditName(DC_EditName.Text.Trim());
-            //rFrmMain.SetEditCAP(DC_Edit_CAP.Text.Trim());
+            //rFrmMain.SetEdit_CAP_Pager(DC_Edit_CAP_Pager.Text.Trim());
 
             DC_lbl_Cash.ForeColor = SystemColors.ControlDark;
 
@@ -186,13 +186,14 @@ namespace StandFacile
             rFrmMain.SetEditCoperto(DC_EditCoperti.Text.Trim());
             rFrmMain.SetEditTavolo(DC_EditTavolo.Text.Trim());
             rFrmMain.SetEditName(DC_EditName.Text.Trim());
-            rFrmMain.SetEditCAP(DC_Edit_CAP.Text.Trim());
-            
+            rFrmMain.SetEdit_CAP_Pager(DC_Edit_CAP_Pager.Text.Trim());
+
             UpdateDataCheckParams();
 
             if ((!GetTable_MandatoryFlag() || !String.IsNullOrEmpty(DC_EditTavolo.Text.Trim())) &&
                 (!GetName_MandatoryFlag() || (DC_EditName.Text.Trim().Length > 2)) &&
-                (!Get_CAP_MandatoryFlag() || (DC_Edit_CAP.Text.Trim().Length > 2)) &&
+                (!Get_CAP_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 2)) &&
+                (!Get_Pager_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 0)) &&
                 (!GetPlaceSettings_MandatoryFlag() || (!String.IsNullOrEmpty(DC_EditCoperti.Text.Trim()) && Convert.ToInt32(DC_EditCoperti.Text) >= 0)) &&
                 (!GetPayment_MandatoryFlag() || VerificaPayment()))
             {
@@ -206,13 +207,14 @@ namespace StandFacile
             rFrmMain.SetEditCoperto(DC_EditCoperti.Text.Trim());
             rFrmMain.SetEditTavolo(DC_EditTavolo.Text.Trim());
             rFrmMain.SetEditName(DC_EditName.Text.Trim());
-            rFrmMain.SetEditCAP(DC_Edit_CAP.Text.Trim());
+            rFrmMain.SetEdit_CAP_Pager(DC_Edit_CAP_Pager.Text.Trim());
 
             UpdateDataCheckParams();
 
             if ((!GetTable_MandatoryFlag() || !String.IsNullOrEmpty(DC_EditTavolo.Text.Trim())) &&
                 (!GetName_MandatoryFlag() || (DC_EditName.Text.Trim().Length > 2)) &&
-                (!Get_CAP_MandatoryFlag() || (DC_Edit_CAP.Text.Trim().Length > 2)) &&
+                (!Get_CAP_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 2)) &&
+                (!Get_Pager_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 0)) &&
                 (!GetPlaceSettings_MandatoryFlag() || (!String.IsNullOrEmpty(DC_EditCoperti.Text.Trim()) && Convert.ToInt32(DC_EditCoperti.Text) >= 0)) &&
                 (!GetPayment_MandatoryFlag() || VerificaPayment()))
             {

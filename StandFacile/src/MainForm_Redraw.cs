@@ -78,8 +78,8 @@ namespace StandFacile
 
                 MF_lblName.Enabled = false;
                 EditName.Enabled = false;
-                MF_lbl_CAP.Enabled = false;
-                Edit_CAP.Enabled = false;
+                MF_lbl_CAP_Pager.Enabled = false;
+                Edit_CAP_Pager.Enabled = false;
                 MF_lblTable.Enabled = false;
                 EditTable.Enabled = false;
                 MF_lblPlaceSett.Enabled = false;
@@ -147,8 +147,8 @@ namespace StandFacile
 
                 MF_lblName.Enabled = false;
                 EditName.Enabled = false;
-                MF_lbl_CAP.Enabled = false;
-                Edit_CAP.Enabled = false;
+                MF_lbl_CAP_Pager.Enabled = false;
+                Edit_CAP_Pager.Enabled = false;
                 MF_lblTable.Enabled = false;
                 EditTable.Enabled = false;
                 MF_lblPlaceSett.Enabled = false;
@@ -199,8 +199,8 @@ namespace StandFacile
 
                 MF_lblName.Enabled = false;
                 EditName.Enabled = false;
-                MF_lbl_CAP.Enabled = false;
-                Edit_CAP.Enabled = false;
+                MF_lbl_CAP_Pager.Enabled = false;
+                Edit_CAP_Pager.Enabled = false;
                 MF_lblTable.Enabled = false;
                 EditTable.Enabled = false;
                 MF_lblPlaceSett.Enabled = false;
@@ -234,8 +234,8 @@ namespace StandFacile
 
                 MF_lblName.Enabled = true;
                 EditName.Enabled = true;
-                MF_lbl_CAP.Enabled = true;
-                Edit_CAP.Enabled = true;
+                MF_lbl_CAP_Pager.Enabled = true;
+                Edit_CAP_Pager.Enabled = true;
                 MF_lblTable.Enabled = true;
                 EditTable.Enabled = true;
                 MF_lblPlaceSett.Enabled = true;
@@ -1486,8 +1486,8 @@ namespace StandFacile
                 EditTable.Visible = true;
                 MF_lblName.Visible = true;
                 EditName.Visible = true;
-                MF_lbl_CAP.Visible = OptionsDlg.Get_CAP_ShowFlag();
-                Edit_CAP.Visible = OptionsDlg.Get_CAP_ShowFlag();
+                MF_lbl_CAP_Pager.Visible = OptionsDlg.Get_CAP_ShowFlag() || OptionsDlg.Get_PAGER_ShowFlag();
+                Edit_CAP_Pager.Visible = OptionsDlg.Get_CAP_ShowFlag() || OptionsDlg.Get_PAGER_ShowFlag();
                 MF_lblTotal.Visible = true;
                 MF_lblPaidCash.Visible = true;
                 MF_lblChange.Visible = true;
@@ -1496,7 +1496,7 @@ namespace StandFacile
 
                 EditTable.Top = EditPlaceSett.Top + iStdEditDistance;
                 EditName.Top = EditTable.Top + iStdEditDistance;
-                Edit_CAP.Top = EditName.Top + iStdEditDistance;
+                Edit_CAP_Pager.Top = EditName.Top + iStdEditDistance;
                 EditPaidCash.Top = EditChange.Top - iStdEditDistance;
 
                 MF_lblPlaceSett.Text = "COPERTI";
@@ -1511,8 +1511,8 @@ namespace StandFacile
                 }
                 else
                 {
-                    MF_lbl_CAP.Visible = false;
-                    Edit_CAP.Visible = false;
+                    MF_lbl_CAP_Pager.Visible = false;
+                    Edit_CAP_Pager.Visible = false;
                 }
 
             }
@@ -1541,7 +1541,7 @@ namespace StandFacile
 
                 MF_lblTotal.Visible = true;
                 Edit_TotCorrente.Visible = true;
-                Edit_CAP.Visible = OptionsDlg.Get_CAP_ShowFlag();
+                Edit_CAP_Pager.Visible = OptionsDlg.Get_CAP_ShowFlag() || OptionsDlg.Get_PAGER_ShowFlag();
 
                 sLogStr = String.Format("FormResize: pRH = {0}, Trh = {1}", panelRight.Height, iThresholdConst);
                 Logger.Info(sLogStr);
@@ -1553,7 +1553,7 @@ namespace StandFacile
 
                 MF_lblTable.Visible = true;
                 MF_lblName.Visible = true;
-                MF_lbl_CAP.Visible = OptionsDlg.Get_CAP_ShowFlag();
+                MF_lbl_CAP_Pager.Visible = OptionsDlg.Get_CAP_ShowFlag() || OptionsDlg.Get_PAGER_ShowFlag();
 
                 MF_lblTotal.Visible = true;
                 MF_lblPaidCash.Visible = true;
@@ -1565,8 +1565,8 @@ namespace StandFacile
                 }
                 else
                 {
-                    MF_lbl_CAP.Visible = false;
-                    Edit_CAP.Visible = false;
+                    MF_lbl_CAP_Pager.Visible = false;
+                    Edit_CAP_Pager.Visible = false;
 
                     if (panelRight.Height > (6 * iThresholdConst) + 6)
                     {
@@ -1646,6 +1646,16 @@ namespace StandFacile
             // indicazione alternativa del Totale
             toolStripTop_TC_lbl.Visible = !Edit_TotCorrente.Visible;
 
+            // indicazione alternativa del CAP / Pager
+            if (OptionsDlg.Get_CAP_ShowFlag())
+            {
+                MF_lbl_CAP_Pager.Text = "CAP";
+            }
+            else if (OptionsDlg.Get_PAGER_ShowFlag())
+            {
+                MF_lbl_CAP_Pager.Text = "PAGER";
+            }
+
             TabSet.ItemSize = new Size(80, TabSet.Height - 3);
 
             panelRight.Left = toolStripButtons_R.Left;
@@ -1656,12 +1666,12 @@ namespace StandFacile
             EditPlaceSett.Width = iEditWidth;
             EditTable.Width = iEditWidth;
             EditName.Width = iEditWidth;
-            Edit_CAP.Width = iEditWidth;
+            Edit_CAP_Pager.Width = iEditWidth;
 
             MF_lblPlaceSett.Width = iEditWidth;
             MF_lblTable.Width = iEditWidth;
             MF_lblName.Width = iEditWidth;
-            MF_lbl_CAP.Width = iEditWidth;
+            MF_lbl_CAP_Pager.Width = iEditWidth;
 
             Edit_TotCorrente.Width = iEditWidth;
             EditPaidCash.Width = iEditWidth;

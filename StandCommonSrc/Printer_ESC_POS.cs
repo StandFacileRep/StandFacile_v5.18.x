@@ -294,12 +294,12 @@ namespace StandCommonFiles
 
                     _bTicketNumFound = false; // forza ricerca stringa
 
-                    if (CheckService(CFG_COMMON_STRINGS._58mm_ESCPOS_PRINTER))
+                    if (CheckService(CFG_COMMON_STRINGS._ESCPOS_PRINTER_58mm))
                     {
                         _iStyle = PrintStyle.None;
                         _iLMargin = TM_T88_LMARGIN_SCNT_FRID;
                     }
-                    else if (CheckService(CFG_COMMON_STRINGS._HD_ESCPOS_PRINTER))
+                    else if (CheckService(CFG_COMMON_STRINGS._ESCPOS_PRINTER_XL))
                     {
                         _iLMargin = 0;
                         _iStyle = PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight;
@@ -343,12 +343,12 @@ namespace StandCommonFiles
                 {
                     _bTicketNumFound = true;
 
-                    if (CheckService(CFG_COMMON_STRINGS._58mm_ESCPOS_PRINTER))
+                    if (CheckService(CFG_COMMON_STRINGS._ESCPOS_PRINTER_58mm))
                     {
                         _iStyle = PrintStyle.None;
                         _iLMargin = TM_T88_LMARGIN_SCNT_FRID;
                     }
-                    else if (CheckService(CFG_COMMON_STRINGS._HD_ESCPOS_PRINTER))
+                    else if (CheckService(CFG_COMMON_STRINGS._ESCPOS_PRINTER_XL))
                     {
                         _iLMargin = 0;
                         _iStyle = PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight;

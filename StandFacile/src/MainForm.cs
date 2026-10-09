@@ -89,7 +89,7 @@ namespace StandFacile
         float _fFontWidth = 9;
 
         String sStatusText;
-        String _sEditTavolo, _sEditNome, _sEdit_CAP, _sEditCoperti, _sEditContante, _sEditNota;
+        String _sEditTavolo, _sEditNome, _sEdit_CAP_Pager, _sEditCoperti, _sEditContante, _sEditNota;
         String _sCopertiPrev;
 
         String _sEditNoteCopy;
@@ -208,10 +208,10 @@ namespace StandFacile
         }
 
         /// <summary>imposta il testo del CAP</summary>
-        public void SetEditCAP(String sCAP_Param)
+        public void SetEdit_CAP_Pager(String sCAP_Param)
         {
-            Edit_CAP.Text = sCAP_Param;
-            if (Edit_CAP.Enabled)
+            Edit_CAP_Pager.Text = sCAP_Param;
+            if (Edit_CAP_Pager.Enabled)
                 TextBox_KeyUp(null, null);
         }
 
@@ -307,7 +307,7 @@ namespace StandFacile
         {
             MainGrid.Enabled = bEnable;
             EditName.Enabled = bEnable;
-            Edit_CAP.Enabled = bEnable;
+            Edit_CAP_Pager.Enabled = bEnable;
             EditTable.Enabled = bEnable;
             EditPlaceSett.Enabled = bEnable;
             EditNote.Enabled = bEnable;
@@ -415,7 +415,7 @@ namespace StandFacile
 
             _sEditTavolo = "";
             _sEditNome = "";
-            _sEdit_CAP = "";
+            _sEdit_CAP_Pager = "";
             _sEditCoperti = "";
             _sEditContante = "";
             EditPaidCash.Text = "";
@@ -1168,8 +1168,16 @@ namespace StandFacile
                 _sEditNome = EditName.Text.Trim();
                 SF_Data.sNome = _sEditNome;
 
-                _sEdit_CAP = Edit_CAP.Text.Trim();
-                SF_Data.sCAP = _sEdit_CAP;
+                _sEdit_CAP_Pager = Edit_CAP_Pager.Text.Trim();
+
+                if (OptionsDlg.Get_CAP_ShowFlag())
+                {
+                    SF_Data.sCAP = _sEdit_CAP_Pager;
+                }
+                else if (OptionsDlg.Get_PAGER_ShowFlag())
+                {
+                    SF_Data.sPager = _sEdit_CAP_Pager;
+                }
 
                 _sEditContante = EditPaidCash.Text.Trim();
 
@@ -1411,8 +1419,8 @@ namespace StandFacile
             EditName.Text = "";
             _sEditNome = "";
 
-            Edit_CAP.Text = "";
-            _sEdit_CAP = "";
+            Edit_CAP_Pager.Text = "";
+            _sEdit_CAP_Pager = "";
 
             EditPaidCash.Text = "";
             _sEditContante = "";
@@ -1447,7 +1455,7 @@ namespace StandFacile
             if (GetPlaceSettings_MandatoryFlag() && !BtnTakeAway.Checked && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
                 if (String.IsNullOrEmpty(_sEditCoperti) || (Convert.ToInt32(_sEditCoperti) < 0))
                 {
-                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
+                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP_Pager, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
 
                     //MessageBox.Show("Inserisci il numero dei Coperti,\n\ncon (F2) passi dalla griglia alla casella dei Coperti.",
                     //    "Attenzione !", MessageBoxButtons.OK);
@@ -1470,7 +1478,7 @@ namespace StandFacile
             {
                 if (String.IsNullOrEmpty(_sEditTavolo))
                 {
-                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
+                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP_Pager, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
 
                     //MessageBox.Show("Inserisci il numero del Tavolo,\n\ncon (F1) passi dalla griglia alla casella del Tavolo.",
                     //    "Attenzione !", MessageBoxButtons.OK);
@@ -1492,7 +1500,7 @@ namespace StandFacile
             {
                 if (String.IsNullOrEmpty(_sEditNome))
                 {
-                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
+                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP_Pager, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
 
                     EditName.Focus();
                     return false;
@@ -1504,19 +1512,19 @@ namespace StandFacile
                 return true; // si omette la verifica
         }
 
-        /// <summary>verifica inserimento del CAP</summary>
-        public bool Verifica_CAP_Richiesto()
+        /// <summary>verifica inserimento del CAP o PAGER</summary>
+        public bool Verifica_CAP_Pager_Richiesto()
         {
-            if (Get_CAP_MandatoryFlag() && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
+            if ((Get_CAP_MandatoryFlag() || Get_Pager_MandatoryFlag()) && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
             {
-                if (_sEdit_CAP.Trim().Length < 3)
+                if (Get_CAP_MandatoryFlag() && (_sEdit_CAP_Pager.Trim().Length < 3) || Get_Pager_MandatoryFlag() && (_sEdit_CAP_Pager.Trim().Length < 1))
                 {
-                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
+                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP_Pager, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
 
                     //MessageBox.Show("Inserisci il numero del CAP,\n\ncon (F1) passi dalla griglia alla casella del CAP.",
                     //    "Attenzione !", MessageBoxButtons.OK);
 
-                    Edit_CAP.Focus();
+                    Edit_CAP_Pager.Focus();
                     return false;
                 }
                 else
@@ -1546,7 +1554,7 @@ namespace StandFacile
 
                 if (!bContanteCheck_Ok)
                 {
-                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
+                    DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP_Pager, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
 
                     EditPaidCash.Focus();
                     return false;
@@ -2300,7 +2308,7 @@ namespace StandFacile
 
             // verifiche : scontrino non nulle, quantità < disponibilità, dimenticanza tavolo
             if (DataManager.Receipt_IsGood() && VerificaTutteQuantita() && VerificaCopertoRichiesto() && VerificaTavoloRichiesto() &&
-                VerificaNomeRichiesto() && Verifica_CAP_Richiesto() && Verifica_PAYM_Richiesto())
+                VerificaNomeRichiesto() && Verifica_CAP_Pager_Richiesto() && Verifica_PAYM_Richiesto())
             {
                 if (IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
                     _rdBaseIntf.dbWebOrderEnqueue(SF_Data.iNumOrdineWeb);

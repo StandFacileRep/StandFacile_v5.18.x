@@ -40,7 +40,7 @@
             this.radioCardBtn = new System.Windows.Forms.RadioButton();
             this.radioContantiBtn = new System.Windows.Forms.RadioButton();
             this.BtnPrt = new System.Windows.Forms.Button();
-            this.DC_Edit_CAP = new System.Windows.Forms.TextBox();
+            this.DC_Edit_CAP_Pager = new System.Windows.Forms.TextBox();
             this.DC_lbl_CAP = new System.Windows.Forms.Label();
             this.labelWarn = new System.Windows.Forms.Label();
             this.DC_EditName = new System.Windows.Forms.TextBox();
@@ -195,20 +195,20 @@
             this.BtnPrt.UseVisualStyleBackColor = true;
             this.BtnPrt.Click += new System.EventHandler(this.BtnPrt_Click);
             // 
-            // DC_Edit_CAP
+            // DC_Edit_CAP_Pager
             // 
-            this.DC_Edit_CAP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.DC_Edit_CAP.BackColor = System.Drawing.Color.LightBlue;
-            this.DC_Edit_CAP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DC_Edit_CAP.Location = new System.Drawing.Point(151, 163);
-            this.DC_Edit_CAP.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.DC_Edit_CAP.MaxLength = 5;
-            this.DC_Edit_CAP.Name = "DC_Edit_CAP";
-            this.DC_Edit_CAP.Size = new System.Drawing.Size(70, 26);
-            this.DC_Edit_CAP.TabIndex = 3;
-            this.DC_Edit_CAP.WordWrap = false;
-            this.DC_Edit_CAP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditFilter_KeyPress);
-            this.DC_Edit_CAP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
+            this.DC_Edit_CAP_Pager.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.DC_Edit_CAP_Pager.BackColor = System.Drawing.Color.LightBlue;
+            this.DC_Edit_CAP_Pager.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DC_Edit_CAP_Pager.Location = new System.Drawing.Point(151, 163);
+            this.DC_Edit_CAP_Pager.Margin = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.DC_Edit_CAP_Pager.MaxLength = 5;
+            this.DC_Edit_CAP_Pager.Name = "DC_Edit_CAP_Pager";
+            this.DC_Edit_CAP_Pager.Size = new System.Drawing.Size(70, 26);
+            this.DC_Edit_CAP_Pager.TabIndex = 3;
+            this.DC_Edit_CAP_Pager.WordWrap = false;
+            this.DC_Edit_CAP_Pager.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EditFilter_KeyPress);
+            this.DC_Edit_CAP_Pager.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextBox_KeyUp);
             // 
             // DC_lbl_CAP
             // 
@@ -302,7 +302,7 @@
             this.Controls.Add(this.DC_EditName);
             this.Controls.Add(this.DC_lblName);
             this.Controls.Add(this.labelWarn);
-            this.Controls.Add(this.DC_Edit_CAP);
+            this.Controls.Add(this.DC_Edit_CAP_Pager);
             this.Controls.Add(this.DC_lbl_CAP);
             this.Controls.Add(this.BtnPrt);
             this.Controls.Add(this.groupBox);
@@ -339,7 +339,7 @@
         private System.Windows.Forms.RadioButton radioCardBtn;
         private System.Windows.Forms.RadioButton radioContantiBtn;
         private System.Windows.Forms.Button BtnPrt;
-        private System.Windows.Forms.TextBox DC_Edit_CAP;
+        private System.Windows.Forms.TextBox DC_Edit_CAP_Pager;
         private System.Windows.Forms.Label DC_lbl_CAP;
         private System.Windows.Forms.Label labelWarn;
         private System.Windows.Forms.TextBox DC_EditName;

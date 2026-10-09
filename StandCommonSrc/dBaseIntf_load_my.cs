@@ -1070,6 +1070,13 @@ namespace StandFacile_DB
                             continue;
                         }
 
+                        // Pager
+                        else if (sInStr == ORDER_CONST._PAGER)
+                        {
+                            DB_Data.sPager = readerOrdine.GetString("sText");
+                            continue;
+                        }
+
                         // Nota
                         else if (sInStr == ORDER_CONST._NOTE)
                         {

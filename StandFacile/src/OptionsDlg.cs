@@ -68,8 +68,14 @@ namespace StandFacile
         /// <summary>ottiene flag di inserimento CAP obbligatorio</summary>
         public static bool Get_CAP_MandatoryFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_CAP_REQUIRED); }
 
+        /// <summary>ottiene flag di inserimento PAGER obbligatorio</summary>
+        public static bool Get_Pager_MandatoryFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_PAGER_REQUIRED); }
+
         /// <summary>ottiene flag di visualizzazione CAP</summary>
         public static bool Get_CAP_ShowFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_CAP_EDIT); }
+
+        /// <summary>ottiene flag di visualizzazione PAGER</summary>
+        public static bool Get_PAGER_ShowFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT); }
 
         readonly ToolTip _tt = new ToolTip
         {
@@ -102,6 +108,7 @@ namespace StandFacile
             MO_checkBoxTable.Checked = GetTable_MandatoryFlag();
             MO_checkBox_Name.Checked = GetName_MandatoryFlag();
             MO_checkBox_CAP.Checked = Get_CAP_MandatoryFlag();
+            MO_checkBox_PAGER.Checked = Get_Pager_MandatoryFlag();
             MO_checkBoxPayment.Checked = GetPayment_MandatoryFlag();
 
             MO_ckBoxExternalPreview.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_EXTERNAL_PREVIEW);
@@ -118,7 +125,29 @@ namespace StandFacile
 
             // altra regola per Btn_OSKeyb
             MO_checkBox_Show_OSKeyb.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_TOUCH_KEYB_BUTTON);
-            MO_checkBox_Show_CAP.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_CAP_EDIT);
+
+            MO_radioButton_Show_CAP.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_CAP_EDIT);
+            MO_radioButton_Show_PAGER.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT);
+
+            if (MO_radioButton_Show_CAP.Checked)
+            {
+                MO_checkBox_CAP.Enabled = true;
+
+                MO_radioButton_Show_PAGER.Checked = false;
+                MO_checkBox_PAGER.Checked = false;
+                MO_checkBox_PAGER.Enabled = false;
+            }
+
+            // maggiore priorità
+            if (MO_radioButton_Show_PAGER.Checked)
+            {
+                MO_checkBox_PAGER.Enabled = true;
+
+                MO_radioButton_Show_CAP.Checked = false;
+                MO_checkBox_CAP.Checked = false;
+                MO_checkBox_CAP.Enabled = false;
+            }
+
 
             if (DataManager.CheckIf_CassaSec_and_NDB()) // cassa secondaria e DB
             {
@@ -132,6 +161,7 @@ namespace StandFacile
                 MO_checkBoxPrivacy.Enabled = false;
                 MO_checkBox_Enter.Enabled = false;
                 MO_checkBox_CAP.Enabled = false;
+                MO_checkBox_PAGER.Enabled = false;
                 MO_checkBox_ZeroPriceItems.Enabled = false;
 
                 panelShowHideButtons.Enabled = false;
@@ -150,6 +180,7 @@ namespace StandFacile
                 MO_checkBoxPrivacy.Enabled = true;
                 MO_checkBox_Enter.Enabled = true;
                 MO_checkBox_CAP.Enabled = true;
+                MO_checkBox_PAGER.Enabled = true;
                 MO_checkBox_ZeroPriceItems.Enabled = true;
 
                 panelShowHideButtons.Enabled = true;
@@ -179,6 +210,7 @@ namespace StandFacile
             MO_checkBoxPayment.Checked = false;
             MO_checkBox_ZeroPriceItems.Checked = false;
             MO_checkBox_CAP.Checked = false;
+            MO_checkBox_PAGER.Checked = false;
             MO_checkBox_Enter.Checked = false;
 
             MO_checkBox_ShowSendMsg.Checked = true;
@@ -190,6 +222,46 @@ namespace StandFacile
             MO_checkBoxPrivacy.Checked = false;
             MO_checkBox_InitialAvailabilityDlg.Checked = false;
             MO_checkBoxShowPrevReceipt.Checked = false;
+        }
+
+        private void MO_checkBox_CAP_Click(object sender, EventArgs e)
+        {
+            if (MO_checkBox_CAP.Checked)
+                MO_checkBox_PAGER.Checked = false;
+        }
+
+        private void MO_checkBox_PAGER_Click(object sender, EventArgs e)
+        {
+            if (MO_checkBox_PAGER.Checked)
+                MO_checkBox_CAP.Checked = false;
+        }
+
+        private void MO_radioButton_Show_CAP_Click(object sender, EventArgs e)
+        {
+            MO_radioButton_Show_CAP.Checked = !MO_radioButton_Show_CAP.Checked;
+
+            if (MO_radioButton_Show_CAP.Checked)
+            {
+                MO_checkBox_CAP.Enabled = true;
+
+                MO_radioButton_Show_PAGER.Checked = false;
+                MO_checkBox_PAGER.Checked = false;
+                MO_checkBox_PAGER.Enabled = false;
+            }
+        }
+
+        private void MO_radioButton_Show_PAGER_Click(object sender, EventArgs e)
+        {
+            MO_radioButton_Show_PAGER.Checked = !MO_radioButton_Show_PAGER.Checked;
+
+            if (MO_radioButton_Show_PAGER.Checked)
+            {
+                MO_checkBox_PAGER.Enabled = true;
+
+                MO_radioButton_Show_CAP.Checked = false;
+                MO_checkBox_CAP.Checked = false;
+                MO_checkBox_CAP.Enabled = false;
+            }
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
@@ -236,6 +308,8 @@ namespace StandFacile
             if (MO_checkBox_CAP.Checked)
                 iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_CAP_REQUIRED);
 
+            if (MO_checkBox_PAGER.Checked)
+                iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_PAGER_REQUIRED);
 
             // 0 = visualizzo, 1 = nascondo, tranne checkBox_Show_OSKeyb, MO_checkBox_Show_CAP
             if (!MO_checkBox_ShowSendMsg.Checked)
@@ -254,8 +328,11 @@ namespace StandFacile
             if (MO_checkBox_Show_OSKeyb.Checked)
                 iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_TOUCH_KEYB_BUTTON);
 
-            if (MO_checkBox_Show_CAP.Checked)
+            if (MO_radioButton_Show_CAP.Checked)
                 iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_CAP_EDIT);
+
+            if (MO_radioButton_Show_PAGER.Checked)
+                iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT);
 
             // controllo _bListinoModificato
             if (SF_Data.iGeneralProgOptions != iGeneralProgOptionsCopy)

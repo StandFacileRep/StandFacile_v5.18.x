@@ -42,6 +42,8 @@ namespace StandFacile
 
         static int _iTotaleReceipt, _iTotaleDovutoReceipt;
 
+        static String _sPager;
+
         static int _iStorePosX, _iStorePosY, _iStoreSizeX, _iStoreSizeY;
         static int _iPreviewStatus;
 
@@ -177,7 +179,11 @@ namespace StandFacile
             iScontoStdTicket = 0;
             iScontoFissoTicket = SF_Data.iScontoFissoReceipt;
 
-            bCassaInline = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CASSA_INLINE);
+
+            if (IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT))
+                bCassaInline = true;
+            else
+                bCassaInline = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CASSA_INLINE);
 
             if (!_bInit) return 0;
 
@@ -196,6 +202,11 @@ namespace StandFacile
                 _fVZoom = _fHZoom;
 
                 _fCanvasVertPos = 0;
+
+                if (String.IsNullOrEmpty(SF_Data.sPager))
+                    _sPager = "-";
+                else
+                    _sPager = SF_Data.sPager.PadLeft(3, '0');
 
                 pg.Clear(Color.White);
                 PrintCanvas(pg, "");
@@ -688,15 +699,24 @@ namespace StandFacile
 
             if (dBaseIntf.bUSA_NDB())
             {
-                if (bCassaInline)
-                    sCashdeskAndReceiptNum = String.Format("{0} {1}, {2} {3}", _TICK_CASSA, SF_Data.iNumCassa, _TICK_NUM, SF_Data.iNumOfLastReceipt);
+                if (IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT))
+                {
+                    bCassaInline = true;
+
+                    sCashdeskAndReceiptNum = String.Format("{0} {1}, {2} {3}", _TICK_PAGER, _sPager, _TICK_NUM, SF_Data.iNumOfLastReceipt);
+                }
                 else
-                    sCashdeskAndReceiptNum = String.Format("{0}  {1}", _TICK_NUM, SF_Data.iNumOfLastReceipt);
+                {
+                    if (bCassaInline)
+                        sCashdeskAndReceiptNum = String.Format("{0} {1}, {2} {3}", _TICK_CASSA, SF_Data.iNumCassa, _TICK_NUM, SF_Data.iNumOfLastReceipt);
+                    else
+                        sCashdeskAndReceiptNum = String.Format("{0}  {1}", _TICK_NUM, SF_Data.iNumOfLastReceipt);
+                }
             }
             else
                 return;
 
-            sCashdeskAndReceiptNum = CenterJustify(sCashdeskAndReceiptNum, MAX_RECEIPT_CHARS - 10);
+            sCashdeskAndReceiptNum = CenterJustify(sCashdeskAndReceiptNum, bCassaInline ? MAX_RECEIPT_CHARS : MAX_RECEIPT_CHARS - 10);
 
             // cancellazione TicketNum
             if (pg_cpy != null)

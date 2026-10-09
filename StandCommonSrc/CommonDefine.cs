@@ -17,7 +17,7 @@ namespace StandCommonFiles
 #pragma warning disable IDE0060
 
         /// <summary>versione del Programma</summary>
-        public const String RELEASE_SW = "v5.19.0";
+        public const String RELEASE_SW = "v5.19.1";
 
         /// <summary>prefisso versione delle tabelle DB</summary>
         public const String RELEASE_DB_TBLS = "v5d";
@@ -95,10 +95,10 @@ namespace StandCommonFiles
             public const String _HIDE_LEGACY_PRINTER = "noLegacyPrinters";
 
             /// <summary>imposta la stampante in modo HD </summary>
-            public const String _HD_ESCPOS_PRINTER = "escpos_203dpi";
+            public const String _ESCPOS_PRINTER_XL = "escpos_XL";
 
             /// <summary>imposta la stampante in modo 58mm </summary>
-            public const String _58mm_ESCPOS_PRINTER = "escpos_58mm";
+            public const String _ESCPOS_PRINTER_58mm = "escpos_58mm";
 
             /// <summary>serviceStrings: attivazione stampa su carta A4</summary>
             public const string PRINT_ON_A4_PAPER = "printOnA4Paper";
@@ -133,6 +133,9 @@ namespace StandCommonFiles
             /// <summary>sTipo_Articolo per memorizzazione del CAP o ZIP Code nella tabella ordini_YYmmdd</summary>
             public const String _CAP = "_CAP" + SHMAGIC;
 
+            /// <summary>sTipo_Articolo per memorizzazione il numero del PAGER nella tabella ordini_YYmmdd</summary>
+            public const String _PAGER = "_PAGER" + SHMAGIC;
+
             /// <summary>sTipo_Articolo per memorizzazione della nota nella tabella ordini_YYmmdd</summary>
             public const String _NOTE = "_Note" + SHMAGIC;
 
@@ -149,12 +152,15 @@ namespace StandCommonFiles
             public const String _PRICE_LIST_CHECKSUM = "_PriceListChecksum" + SHMAGIC;
 
             /// <summary>array per la ricerca di una stringa</summary>
-            public static readonly String[] sArray = new String[] { _START_OF_ORDER, _TAVOLO, _NAME, _CAP, _NOTE, _DISCOUNT,
+            public static readonly String[] sArray = new String[] { _START_OF_ORDER, _TAVOLO, _NAME, _CAP, _PAGER, _NOTE, _DISCOUNT,
                                                                         _BUONI, _NUM_ORD_WEB };
         }
 
         /// <summary>mnemonico per il numero della cassa nelle stampe con Zoom numero scontrino</summary>
         public const String _TICK_CASSA = "Cassa =";
+
+        /// <summary>mnemonico per il PAGER</summary>
+        public const String _TICK_PAGER = "PAGER =";
 
         /// <summary>mnemonico per il numero dello scontrino nelle stampe con Zoom numero scontrino</summary>
         public const String _TICK_NUM = "Num. =";
@@ -667,11 +673,17 @@ namespace StandCommonFiles
             /// <summary>bit di iGeneralProgOptions per obbligare ad indicazione del CAP ante emissione Receipt</summary>
             BIT_CAP_REQUIRED,
 
-            /// <summary>bit di iGeneralProgOptions per visualizzare il pulsante Tastiera Touch</summary>
+            /// <summary>bit di iGeneralProgOptions per visualizzare il CAP editBox</summary>
             BIT_SHOW_CAP_EDIT,
 
             /// <summary>bit di iGeneralProgOptions per incrementare la quantità al primo Tap</summary>
             BIT_DIRECT_TAP_INC,
+
+            /// <summary>bit di iGeneralProgOptions per obbligare ad indicazione del numero PAGER ante emissione Receipt</summary>
+            BIT_PAGER_REQUIRED,
+
+            /// <summary>bit di iGeneralProgOptions per visualizzare il PAGER editBox</summary>
+            BIT_SHOW_PAGER_EDIT,
 
             /// <summary>bit di iGeneralProgOptions per visualizzare internamente l'Anteprima</summary>
             BIT_SHOW_EXTERNAL_PREVIEW
@@ -1125,6 +1137,8 @@ namespace StandCommonFiles
             public String sNome;
             /// <summary>stringa del CAP o ZIP Code</summary>
             public String sCAP;
+            /// <summary>stringa del Pager</summary>
+            public String sPager;
             /// <summary>stringa della nota</summary>
             public String sNota;
             /// <summary>testo del messaggio</summary>
@@ -1205,6 +1219,7 @@ namespace StandCommonFiles
                 sTavolo = "";
                 sNome = "";
                 sCAP = "";
+                sPager = "";
                 sNota = "";
                 sMessaggio = "";
                 sVersione = "";

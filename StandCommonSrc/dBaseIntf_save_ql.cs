@@ -1074,6 +1074,24 @@ namespace StandFacile_DB
                         ordiniTable.Rows.Add(row);
                     }
 
+                    if (!String.IsNullOrEmpty(SF_Data.sPager)) // Pager
+                    {
+                        row = ordiniTable.NewRow();
+
+                        row["iOrdine_ID"] = SF_Data.iNumOfLastReceipt;
+                        row["sTipo_Articolo"] = ORDER_CONST._PAGER;
+                        //row["iPrezzo_Unitario"] = 0;
+                        //row["iQuantita_Ordine"] = 0;
+                        //row["iIndex_Listino"] = 0;
+                        //row["iGruppo_Stampa"] = 0;
+                        row["sText"] = SF_Data.sPager;
+                        row["iNumCassa"] = SF_Data.iNumCassa;
+                        row["iScaricato"] = 0;
+                        row["iAnnullato"] = 0;
+
+                        ordiniTable.Rows.Add(row);
+                    }
+
                     if (!String.IsNullOrEmpty(SF_Data.sNota)) // Nota
                     {
                         row = ordiniTable.NewRow();

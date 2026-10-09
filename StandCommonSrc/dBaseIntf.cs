@@ -22,7 +22,6 @@ using static StandFacile_DB.dBaseIntf_pg;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.ComSafe;
 using static StandCommonFiles.CommonCl;
-using static StandFacile.Define;
 
 
 namespace StandFacile
@@ -408,6 +407,7 @@ namespace StandFacile
             dataIdParam.sTavolo = "";
             dataIdParam.sNome = "";
             dataIdParam.sCAP = "";
+            dataIdParam.sPager = "";
             dataIdParam.sNota = "";
             dataIdParam.sDateTime = GetDateTimeString();
             dataIdParam.sWebDateTime = "";

@@ -136,7 +136,7 @@ namespace StandFacile
 
 ; stringhe multiple per attivazione modalità speciali, vedi manuale ""StandFacile.pdf""
 ; serviceStrings = ""Esperto noData noLegacyPrinters noStampaRcp skipRcpNum Keep_Files_and_Tables""
-; serviceStrings = ""escpos_203dpi escpos_58mm printOnA4Paper printOnA5Paper""
+; serviceStrings = ""escpos_XL escpos_58mm printOnA4Paper printOnA5Paper""
 
 
 ; parametri interi per attivazione funzioni speciali
