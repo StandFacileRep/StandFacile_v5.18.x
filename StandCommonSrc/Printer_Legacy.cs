@@ -587,7 +587,7 @@ namespace StandCommonFiles
 
             _LegacyPrinterParams = sLegacyPrinterParams;
 
-            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_LEGACY);
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_LEGACY, sGlbWinPrinterParams);
 
             sTmp = String.Format("Printer_Legacy : PrintSampleText() {0}", sFileToPrint);
             Logger.Info(sTmp);

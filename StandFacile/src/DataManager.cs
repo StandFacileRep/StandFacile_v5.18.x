@@ -280,6 +280,9 @@ namespace StandFacile
             for (int i = 0; i < MAX_ITEMS_NUM + EXTRA_ITEMS_NUM; i++)
             {
                 SF_Data.Articolo[i].iQuantitaOrdine = 0;
+
+                // equivalente al clear BIT temporaneo
+                // SF_Data.Articolo[i].iOptionsFlags = ClearBit(SF_Data.Articolo[i].iOptionsFlags, (int)MENU_ITEM_OPTS.BIT_STAMPA_SINGOLA_NELLA_LOCAL_COPY);
                 SF_Data.Articolo[i].iOptionsFlags = 0;
             }
 
@@ -619,7 +622,7 @@ namespace StandFacile
                 Print_A4_Receipt(sDir);
 
             // AVVIO STAMPE LEGACY DOPO IL SALVATAGGIO SU DATABASE PER EVITARE PROBLEMI EVENTUALI
-            if (!PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+            if (!PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
             {
                 // Avvia eventuali code delle copie Legacy
                 Printer_Legacy.PrintFile("", sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_START);
@@ -1022,15 +1025,17 @@ namespace StandFacile
 
                         if (_bSomethingInto_ClrToPrint[i])
                         {
-                            if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(i))
-                            {
-                                if (IsBitSet(iEscPosPrinterType, i))
-                                    Printer_ESCPOS.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
-                                else
-                                    Printer_Windows.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
-                            }
-                            else
-                                Printer_Legacy.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+                            PrintFileToDestination(PRINTER_DEST_TYPE.NET_PRINTER, _sMessagesDir + "\\" + sNomeFileMsg, i, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+
+                            //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(i))
+                            //{
+                            //    if (IsBitSet(iEscPosPrinterType, i))
+                            //        Printer_ESCPOS.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
+                            //    else
+                            //        Printer_Windows.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
+                            //}
+                            //else
+                            //    Printer_Legacy.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
                         }
                     }
                 }

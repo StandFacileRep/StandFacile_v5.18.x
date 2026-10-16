@@ -1,6 +1,6 @@
-﻿/*****************************************************************************
+﻿/****************************************************************************
 	NomeFile : StandCommonSrc/Printer_ESCPOS.cs
-    Data	 : 08.10.2026
+    Data	 : 10.10.2026
 	Autore   : Mauro Artuso
 
 	Descrizione :
@@ -83,6 +83,8 @@ namespace StandCommonFiles
         static bool _bCassaInline;
         static int _iInitialRowsToAdd, _finalRowsToAdd;
         static int _iLMargin = 0;
+
+        public static int _printerWidth { get; private set; } = 576; // 203dpi, carta 72mm
 
 #if STANDFACILE
         /// <summary>imposta l'intervallo tra le stampe</summary>
@@ -296,6 +298,8 @@ namespace StandCommonFiles
 
                     if (CheckService(CFG_COMMON_STRINGS._ESCPOS_PRINTER_58mm))
                     {
+                        _printerWidth = 384;
+
                         _iStyle = PrintStyle.None;
                         _iLMargin = TM_T88_LMARGIN_SCNT_FRID;
                     }
@@ -339,7 +343,7 @@ namespace StandCommonFiles
                 {
                     _bIsDati = true;
                 }
-                else if (sFileName.Contains(NOME_FILE_SAMPLE_TEXT) || sFileName.Contains(Define.NOME_FILE_RECEIPT))
+                else if (sFileName.Contains(NOME_FILE_SAMPLE_TEXT) || sFileName.Contains(Define.NOME_FILE_RECEIPT) || sFileName.Contains("_Msg"))
                 {
                     _bTicketNumFound = true;
 
@@ -502,7 +506,7 @@ namespace StandCommonFiles
         private static void escpos_PrintPage(bool bIsNotLegacyPrinter)
         {
             bool bLogoRequested_T, bLogoRequested_B, bBarcodeRequested;
-            int i, iPos;
+            int i, iPos1, iPos2;
 
             string sTmp, sInStr;
             String sBarcode;
@@ -552,11 +556,13 @@ namespace StandCommonFiles
                  *************************************/
                 if (bIsNotLegacyPrinter && _bLogoCheck_T && bLogoRequested_T)
                 {
-                    _bytes.AddRange(_emitter.CenterAlign());
-
-                    _bytes.AddRange(BitmapToEscPos(new Bitmap(_img_T)));
+                    // per alcune stampanti es. HOIN non funziona con le immagini
+                    // _bytes.AddRange(_emitter.CenterAlign());
 
                     _bytes.AddRange(_emitter.LeftAlign());
+
+                    _bytes.AddRange(BitmapToEscPos(new Bitmap(_img_T), _printerWidth));
+
                 }
                 else if (!bIsNotLegacyPrinter && bLogoRequested_T)
                 {
@@ -572,33 +578,53 @@ namespace StandCommonFiles
                  *************************************/
 
                 if (!String.IsNullOrEmpty(sInStr))
-                    iPos = sInStr.IndexOf(_TICK_NUM); // strLenght = 5 attenzione alla corrispondenza stringa !
+                    iPos1 = sInStr.IndexOf(_RECEIPT_NUM); // strLenght = 5 attenzione alla corrispondenza stringa !
                 else
-                    iPos = -1;
+                    iPos1 = -1;
+
+                if (!String.IsNullOrEmpty(sInStr))
+                    iPos2 = sInStr.IndexOf(_RECEIPT_CUSTOMER_COPY);
+                else
+                    iPos2 = -1;
 
                 // costruzione Num. scontrino per Barcode
-                if (iPos != -1)
+                if (iPos1 != -1)
                 {
-                    sTmp = sInStr.Substring(iPos + _TICK_NUM.Length);
+                    sTmp = sInStr.Substring(iPos1 + _RECEIPT_NUM.Length);
                     sTmp = sTmp.Trim();
 
                     _sOrdineNum = String.Format("{0:d4}", Convert.ToInt32(sTmp));
                     _bTicketNumFound = true;
 
-                    // accorcia stringa
-                    //if (sInStr.StartsWith("   ") && !_bCassaInline)
-                    //    sInStr = sInStr.Substring(3);
-
                     if (!_bSkipNumeroScontrino)
                     {
                         _bytes.AddRange(_emitter.CenterAlign());
 
+                        // passa a FontStyle.Bold
+                        sInStr = sInStr.Trim();
+
                         _bytes.AddRange(_emitter.SetStyles(PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight));
-                        _bytes.AddRange(_emitter.PrintLine(sInStr.Trim()));
+
+                        _bytes.AddRange(_emitter.PrintLine(sInStr));
                         _bytes.AddRange(_emitter.SetStyles(_iStyle));
 
                         _bytes.AddRange(_emitter.LeftAlign());
                     }
+                }
+                // COPIA CLIENTE
+                else if (iPos2 != -1)
+                {
+                    _bytes.AddRange(_emitter.CenterAlign());
+
+                    // passa a FontStyle.Bold
+                    sInStr = sInStr.Trim();
+
+                    _bytes.AddRange(_emitter.SetStyles(PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight));
+
+                    _bytes.AddRange(_emitter.PrintLine(sInStr));
+                    _bytes.AddRange(_emitter.SetStyles(_iStyle));
+
+                    _bytes.AddRange(_emitter.LeftAlign());
                 }
                 else
                 {
@@ -637,11 +663,13 @@ namespace StandCommonFiles
                  *************************************/
                 if (_bLogoCheck_B && bLogoRequested_B)
                 {
-                    _bytes.AddRange(_emitter.CenterAlign());
-
-                    _bytes.AddRange(BitmapToEscPos(new Bitmap(_img_B)));
+                    // per alcune stampanti es. HOIN non funziona con le immagini
+                    // _bytes.AddRange(_emitter.CenterAlign());
 
                     _bytes.AddRange(_emitter.LeftAlign());
+
+                    _bytes.AddRange(BitmapToEscPos(new Bitmap(_img_B), _printerWidth));
+
                 }
 
                 /******************************************************
@@ -658,7 +686,7 @@ namespace StandCommonFiles
 
                     if (_sFileToPrintParam.Contains(NOME_FILE_SAMPLE_TEXT))
                     {
-                        Barcode_EAN13.BuildBarcodeID("010406220123");
+                        Barcode_EAN13.BuildBarcodeID("01" + _sDataStr + "0123");
                     }
                     else
                         Barcode_EAN13.BuildBarcodeID(sBarcode);
@@ -758,29 +786,37 @@ namespace StandCommonFiles
         /***************************************
                  test di esempio di stampa
          ***************************************/
-        public static void PrintSampleText(TWinPrinterParams sWinPrinterParams)
+        public static void PrintSampleText(TWinPrinterParams sPrinterParams)
         {
             String sTmp, sFileToPrint;
 
-            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH);
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH, sPrinterParams);
 
             _sOrdineNum = "0123"; // per sampleText
 
             sTmp = String.Format("Printer_ESCPOS : printESCPOSSampleText() {0}", sFileToPrint);
             Logger.Info(sTmp);
 
-            PrintFile(sFileToPrint, sWinPrinterParams, NUM_SEP_PRINT_GROUPS); // OK
+            PrintFile(sFileToPrint, sPrinterParams, NUM_SEP_PRINT_GROUPS); // OK
         }
 
-        /// <summary>
-        /// Converte un'immagine Bitmap in un array di byte pronto per la stampa ESC/POS
-        /// </summary>
-        public static byte[] BitmapToEscPos(Bitmap bmp)
+        public static byte[] BitmapToEscPos(Bitmap bmp, int paperWidthPx = 576)
         {
-            int width = bmp.Width;
-            int height = bmp.Height;
+            // 1. CENTRATURA AUTOMATICA
+            int offset = (paperWidthPx - bmp.Width) / 2;
+            if (offset < 0) offset = 0;
 
-            // larghezza in byte (8 pixel per byte)
+            Bitmap centered = new Bitmap(paperWidthPx, bmp.Height);
+            using (Graphics g = Graphics.FromImage(centered))
+            {
+                g.Clear(System.Drawing.Color.White);
+                g.DrawImage(bmp, offset, 0);
+            }
+
+            // 2. CONVERSIONE ESC/POS GS v 0
+            int width = centered.Width;
+            int height = centered.Height;
+
             int widthBytes = (width + 7) / 8;
 
             List<byte> data = new List<byte>();
@@ -812,12 +848,9 @@ namespace StandCommonFiles
                         if (x >= width)
                             continue;
 
-                        System.Drawing.Color pixel = bmp.GetPixel(x, y);
-
-                        // luminosità
+                        System.Drawing.Color pixel = centered.GetPixel(x, y);
                         int gray = (pixel.R + pixel.G + pixel.B) / 3;
 
-                        // pixel nero = bit 1
                         if (gray < 128)
                             b |= (byte)(0x80 >> bit);
                     }

@@ -1,12 +1,14 @@
 ﻿/***********************************************
-  	NomeFile : StandOrdini.cs
-	Data	 : 24.04.2026
+  	NomeFile : StandOrdini/Program.cs
+	Data	 : 09.10.2026
   	Autore   : Mauro Artuso
  ***********************************************/
 
 using System;
-using System.Windows.Forms;
+using System.Reflection;
 using System.Threading;
+using System.Windows.Forms;
+
 using NLog;
 
 using StandCommonFiles;
@@ -56,6 +58,18 @@ namespace StandFacile
             }
             while (true);
 
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                // Nome dell'assembly richiesto
+                string name = new AssemblyName(args.Name).Name;
+
+                // esclude false DLL
+                if (!args.Name.Contains("StandOrdini.resources") && !args.Name.Contains("StandOrdini_no_dll.resources"))
+                    MessageBox.Show("DLL non trovata: " + args.Name + " \n");
+
+                return null;
+            };
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -81,8 +95,8 @@ namespace StandFacile
             if (iNDbMode == (int)DB_MODE.MYSQL)
                 _rBdBaseIntf_my = new StandFacile_DB.dBaseIntf_my();
             else
-            if (iNDbMode == (int)DB_MODE.POSTGRES)
-                _rBdBaseIntf_pg = new StandFacile_DB.dBaseIntf_pg();
+                if (iNDbMode == (int)DB_MODE.POSTGRES)
+                    _rBdBaseIntf_pg = new StandFacile_DB.dBaseIntf_pg();
 
             dBaseIntf rdBaseIntf = new dBaseIntf();
 

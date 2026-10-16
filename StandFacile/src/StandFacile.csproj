@@ -783,7 +783,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>rem call "build.bat"</PostBuildEvent>
+    <PostBuildEvent>if "$(ConfigurationName)" == "Release" ("build.bat")
+</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets" Condition="Exists('..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" />
 </Project>

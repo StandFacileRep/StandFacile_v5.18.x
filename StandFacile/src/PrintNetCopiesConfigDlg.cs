@@ -12,14 +12,8 @@ using static StandFacile.glb;
 using static StandFacile.Define;
 using static StandFacile.Config;
 using static StandFacile.dBaseIntf;
-
-using StandCommonFiles;
 using static StandCommonFiles.CommonCl;
 using static StandCommonFiles.ComDef;
-
-using static StandCommonFiles.Printer_Legacy;
-using static StandCommonFiles.Printer_Windows;
-using static StandCommonFiles.Printer_ESCPOS;
 
 namespace StandFacile
 {
@@ -66,7 +60,7 @@ namespace StandFacile
          *****************************************************/
 
         /// <summary> overload funzione che ritorna true se la stampante copie in uso è windows</summary>
-        public static bool GetPrinterTypeIsWindows(int iPrinterIndex)
+        public static bool GetNetPrinterTypeIsWindows(int iPrinterIndex)
         {
             if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
                 return true;
@@ -81,7 +75,7 @@ namespace StandFacile
         }
 
         /// <summary> overload funzione che ritorna true se la stampante copie è windows</summary>
-        public static bool GetPrinterTypeIsWindows(String sPrinterParam)
+        public static bool GetNetPrinterTypeIsWindows(String sPrinterParam)
         {
             if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
                 return true;
@@ -482,21 +476,23 @@ namespace StandFacile
             int i;
             String sTmp, sFileToPrint;
 
-            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH);
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH, sGlbWinPrinterParams);
 
             for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
             {
                 if (sender == _pBtnPrintCheck[i])
                 {
-                    if (GetPrinterTypeIsWindows(_pPrintersListCombo[i].Text))
-                    {
-                        if (_pCheckBoxEscPos[i].Checked)
-                            Printer_ESCPOS.PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, _pPrintersListCombo[i].Text);
-                        else
-                            Printer_Windows.PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, _pPrintersListCombo[i].Text);
-                    }
-                    else
-                        PrintFile(sFileToPrint, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+                    PrintFileToDestination(_pPrintersListCombo[i].Text, _pCheckBoxEscPos[i].Checked, sFileToPrint, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+
+                    //if (GetNetPrinterTypeIsWindows(_pPrintersListCombo[i].Text))
+                    //{
+                    //    if (_pCheckBoxEscPos[i].Checked)
+                    //        Printer_ESCPOS.PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, _pPrintersListCombo[i].Text);
+                    //    else
+                    //        Printer_Windows.PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, _pPrintersListCombo[i].Text);
+                    //}
+                    //else
+                    //    PrintFile(sFileToPrint, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
 
                     sTmp = String.Format("Mainform : printSampleText_c({0}) {1}", i, sFileToPrint);
                     Logger.Info(sTmp);

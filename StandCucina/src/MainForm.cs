@@ -661,7 +661,7 @@ namespace StandFacile
         {
             String sFileToPrint;
 
-            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH);
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH, sGlbWinPrinterParams);
 
             Logger.Info(String.Format("Mainform : PrintSampleText() {0}", sFileToPrint));
 
@@ -899,7 +899,7 @@ namespace StandFacile
                         // Invio alla Stampante
                         Logger.Info("ClientTimer : stampa di " + sFileToPrint);
 
-                        if (PrintConfigLightDlg.GetPrinterTypeIsWindows())
+                        if (PrintConfigLightDlg.GetSysPrinterTypeIsWindows())
                         {
                             _iWP_Delay = LED_TIMER;
                             printerPicBox.Image = Properties.Resources.circleRed; // Red

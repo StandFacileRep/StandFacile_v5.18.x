@@ -98,6 +98,16 @@ namespace StandFacile
                 groupBox.Font = new Font("Tahoma", 12);
             }
 
+            // indicazione alternativa del CAP / Pager
+            if (OptionsDlg.Get_CAP_ShowFlag())
+            {
+                DC_lbl_CAP.Text = "CAP";
+            }
+            else if (OptionsDlg.Get_PAGER_ShowFlag())
+            {
+                DC_lbl_CAP.Text = "PAGER";
+            }
+
             ShowDialog();
         }
 

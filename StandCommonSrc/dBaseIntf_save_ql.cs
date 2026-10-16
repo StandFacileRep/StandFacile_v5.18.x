@@ -1,6 +1,6 @@
 ﻿/*************************************************************************************************
 	NomeFile : StandCommonSrc/dBaseIntf_save_ql.cs
-    Data	 : 10.08.2026
+    Data	 : 10.10.2026
 	Autore   : Mauro Artuso
 
     nelle assegnazioni :

@@ -311,4 +311,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>rem call "build.bat"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

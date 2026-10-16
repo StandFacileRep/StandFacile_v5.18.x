@@ -571,6 +571,7 @@
             this.checkBox_escpos.Text = "utilizza per il riepilogo la stampa ESC/POS ";
             this.checkBox_escpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBox_escpos.UseVisualStyleBackColor = true;
+            this.checkBox_escpos.Click += new System.EventHandler(this.checkBox_escpos_Click);
             // 
             // PrintLocalCopiesConfigDlg
             // 

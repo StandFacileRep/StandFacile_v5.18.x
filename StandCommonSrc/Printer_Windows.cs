@@ -1,6 +1,6 @@
 ﻿/*****************************************************************************
 	NomeFile : StandCommonSrc/Printer_Windows.cs
-    Data	 : 18.09.2026
+    Data	 : 10.10.2026
 	Autore   : Mauro Artuso
 
 	Descrizione :
@@ -38,6 +38,7 @@ using static StandCommonFiles.ComDef;
 using StandFacile;
 using static StandFacile.glb;
 using static StandFacile.Config;
+
 
 
 #if STAND_CUCINA
@@ -91,7 +92,7 @@ namespace StandCommonFiles
 
         static float _fLogo_T_LeftMargin, _fLogo_T_LeftMarginBk;
         static float _fLogo_B_LeftMargin, _fLogo_B_LeftMarginBk;
-        static float _fFont_HSize, _fLogoFont_HSize;
+        static float _fFont_HSize;
 
         static Image _img_T, _img_B;
 
@@ -204,7 +205,7 @@ namespace StandCommonFiles
 
                 _iGruppoStampa = Convert.ToInt32(sFileName[iPos + 2]) - 48;
             }
-            else if (sFileName.Contains(NOME_FILE_SAMPLE_TEXT))
+            else if (sFileName.Contains(NOME_FILE_SAMPLE_TEXT) || sFileName.Contains("_Msg"))
             {
                 _bTicketNumFound = true;
                 _fReceiptVsCopyZoom = 28.0f / 32.0f;
@@ -462,9 +463,11 @@ namespace StandCommonFiles
         private static void pd_PrintPage(object sender, PrintPageEventArgs ev)
         {
             bool bLogoRequested_T, bLogoRequested_B, bBarcodeRequested;
-            int i, iPos, iA4_PrintStatus;
+            int i, iPos1, iPos2, iA4_PrintStatus;
 
             Graphics pg = ev.Graphics;
+
+            //pg.PageUnit = GraphicsUnit.Display;
 
             // necessaria per velocizzare la stampa dato che la lettura di 
             // ev.PageSettings.PaperSize.Height è piuttosto lenta
@@ -475,16 +478,17 @@ namespace StandCommonFiles
             string sTmp, sInStr;
             String sBarcode;
 
-            // Create a new pen.
-            Pen blackPen = new Pen(Brushes.Black, 2.0f);
-            fBC_Zoom = 1.6f; // per rendere uguale strip nere e bianche
+            // char width in pixels 15.55
+            //_fFont_HSize = pg.MeasureString("0123456789abcdefghilMNOPQRSTUVZY", _printFont).Width / 32 * 1.22f;
+            //SizeF textSize = pg.MeasureString("0123456789abcdefghilMNOPQRSTUVZY", _printFont);
+            //_fFont_HSize = (textSize.Width / 32) * 1.22f;
 
             // char width in pixels
             _fFont_HSize = pg.MeasureString("W", _printFont).Width * 1.22f;
+            // _fFont_HSize = ev.MarginBounds.Width / (32.0f * _fH_px_to_gu);
 
-            _fLogoFont_HSize = pg.MeasureString("W", _LogoFont).Width * 1.22f;
-
-            i = (int)pg.PageUnit;
+            //i = (int)pg.PageUnit;
+            //i = (int)pg.PageScale;
 
             // inizializzazione posizionamento e init Bk
             _fCanvasVertPos = ev.PageSettings.Margins.Top;
@@ -532,7 +536,7 @@ namespace StandCommonFiles
                  *************************************/
                 if (_bLogoCheck_T && bLogoRequested_T)
                 {
-                    _fLogo_T_LeftMargin = _fLogoCenter + (MAX_RECEIPT_CHARS * _fLogoFont_HSize - _img_T.Size.Width * _fHZoom) * _fH_px_to_gu / 2.0f;
+                    _fLogo_T_LeftMargin = _fLogoCenter + (ev.MarginBounds.Width / _fH_px_to_gu - _img_T.Size.Width * _fHZoom) * _fH_px_to_gu / 2.0f;
 
                     if (_fLogo_T_LeftMargin < 0)
                         _fLogo_T_LeftMargin = _fLogoCenter;
@@ -564,30 +568,62 @@ namespace StandCommonFiles
 
                 //Console.WriteLine(String.Format("Printer Win: current position = {0}", _lFileCursor));
                 if (!String.IsNullOrEmpty(sInStr))
-                    iPos = sInStr.IndexOf(_TICK_NUM); // strLenght = 5 attenzione alla corrispondenza stringa !
+                    iPos1 = sInStr.IndexOf(_RECEIPT_NUM); // strLenght = 5 attenzione alla corrispondenza stringa !
                 else
-                    iPos = -1;
+                    iPos1 = -1;
+
+                if (!String.IsNullOrEmpty(sInStr))
+                    iPos2 = sInStr.IndexOf(_RECEIPT_CUSTOMER_COPY);
+                else
+                    iPos2 = -1;
 
                 // costruzione Num. scontrino per Barcode
-                if (iPos != -1)
+                if (iPos1 != -1)
                 {
-                    sTmp = sInStr.Substring(iPos + _TICK_NUM.Length);
+                    sTmp = sInStr.Substring(iPos1 + _RECEIPT_NUM.Length);
                     sTmp = sTmp.Trim();
 
                     _sOrdineNum = String.Format("{0:d4}", Convert.ToInt32(sTmp));
                     _bTicketNumFound = true;
 
-                    // accorcia stringa
-                    if (sInStr.StartsWith("   ") && !_bCassaInline)
-                        sInStr = sInStr.Substring(3);
+                    // passa a FontStyle.Bold
+                    sInStr = sInStr.Trim();
+
+                    Font boldFont;
+
+                    if (sInStr.Length < _RECEIPT_NUM.Length + 6)
+                        boldFont = new Font(_printFont.FontFamily, _printFont.Size * 1.36f, FontStyle.Bold);
+                    else if (_bIsTicket)
+                        boldFont = new Font(_printFont.FontFamily, _printFont.Size * 1.36f, FontStyle.Bold);
+                    else
+                        boldFont = new Font(_printFont.FontFamily, _printFont.Size * 1.12f, FontStyle.Bold);
+
+                    SizeF sz = pg.MeasureString(sInStr, boldFont);
+
+                    float f_centerMargin = (ev.MarginBounds.Width - sz.Width) / 2;
 
                     if (!_bSkipNumeroScontrino)
                     {
-                        if (_bCassaInline)
-                            PrintCanvas(pg, sInStr);
-                        else
-                            PrintCanvas(pg, 1.32f, 1.32f, sInStr); // era 1.24f
+                        pg.DrawString(sInStr, boldFont, Brushes.Black, f_centerMargin, _fCanvasVertPos);
+                        _fCanvasVertPos += boldFont.GetHeight(pg);
                     }
+                }
+                // COPIA CLIENTE
+                else if (iPos2 != -1)
+                {
+                    // passa a FontStyle.Bold
+                    sInStr = sInStr.Trim();
+
+                    Font boldFont;
+
+                    boldFont = new Font(_printFont.FontFamily, _printFont.Size * 1.36f, FontStyle.Bold);
+
+                    SizeF sz = pg.MeasureString(sInStr, boldFont);
+
+                    float f_centerMargin = (ev.MarginBounds.Width - sz.Width) / 2;
+
+                    pg.DrawString(sInStr, boldFont, Brushes.Black, f_centerMargin, _fCanvasVertPos);
+                    _fCanvasVertPos += boldFont.GetHeight(pg);
                 }
                 else
                 {
@@ -705,7 +741,7 @@ namespace StandCommonFiles
                  *************************************/
                 if (_bLogoCheck_B && bLogoRequested_B)
                 {
-                    _fLogo_B_LeftMargin = _fLogoCenter + (MAX_RECEIPT_CHARS * _fLogoFont_HSize - _img_B.Size.Width * _fHZoom) * _fH_px_to_gu / 2.0f;
+                    _fLogo_B_LeftMargin = _fLogoCenter + (ev.MarginBounds.Width / _fH_px_to_gu - _img_B.Size.Width * _fHZoom) * _fH_px_to_gu / 2.0f;
 
                     if (_fLogo_B_LeftMargin < 0)
                         _fLogo_B_LeftMargin = _fLogoCenter;
@@ -734,14 +770,21 @@ namespace StandCommonFiles
                   effettua la stampa solo se il flag bStampaBarcode
                   è abilitato dal dialogo FrmImpostaTipoCassa
                  ******************************************************/
+
+                // Create a new pen.
+                Pen blackPen = new Pen(Brushes.Black, 2.0f);
+                fBC_Zoom = 1.6f; // per rendere uguale strip nere e bianche
+
+                float fBarcodeZoom = 1.2f;
+
                 if (bBarcodeRequested)
                 {
-                    fBC_LeftMargin = _fLeftMargin + _fLogoCenter + (32 * _fFont_HSize * _fHZoom * _fH_px_to_gu - 95 * blackPen.Width) / 2;
+                    fBC_LeftMargin = _fLogoCenter + (ev.MarginBounds.Width / _fH_px_to_gu - 95 * blackPen.Width * fBC_Zoom * fBarcodeZoom) * _fH_px_to_gu / 2.0f;
 
                     if (fBC_LeftMargin < 0)
                         fBC_LeftMargin = 0;
 
-                    fBC_Height = BARCODE_HEIGHT * _fVZoom * _fV_px_to_gu;
+                    fBC_Height = BARCODE_HEIGHT * _fV_px_to_gu;
 
                     sBarcode = String.Format("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}",
                         _cGruppoStampa[0], _cGruppoStampa[1],                                                   // 2 gruppo di stampa
@@ -758,8 +801,8 @@ namespace StandCommonFiles
                     for (i = 0; i <= 94; i++)
                     {
                         if (Barcode_EAN13._sBuilString[i] == '1')
-                            pg.DrawLine(blackPen, fBC_LeftMargin + i * blackPen.Width * _fHZoom * _fH_px_to_gu * fBC_Zoom, _fCanvasVertPos,
-                                fBC_LeftMargin + i * blackPen.Width * _fHZoom * _fH_px_to_gu * fBC_Zoom, _fCanvasVertPos + fBC_Height);
+                            pg.DrawLine(blackPen, fBC_LeftMargin + i * blackPen.Width * fBarcodeZoom * _fH_px_to_gu * fBC_Zoom, _fCanvasVertPos,
+                                fBC_LeftMargin + i * blackPen.Width * fBarcodeZoom * _fH_px_to_gu * fBC_Zoom, _fCanvasVertPos + fBC_Height);
                     }
 
                     _fCanvasVertPos += fBC_Height;
@@ -772,8 +815,7 @@ namespace StandCommonFiles
                             Barcode_EAN13._sBarcodeID[12]);
 
                     Font BC_Font = new Font("Arial", 11.0f);
-
-                    pg.DrawString(sTmp, BC_Font, Brushes.Black, fBC_LeftMargin, _fCanvasVertPos, new StringFormat());
+                    pg.DrawString(sTmp, BC_Font, Brushes.Black, fBC_LeftMargin + 8, _fCanvasVertPos, new StringFormat());
 
                     Logger.Info(String.Format("Printer Win: _sBarcodeID = {0}", sTmp));
                 }
@@ -839,18 +881,18 @@ namespace StandCommonFiles
         /***************************************
                  test di esempio di stampa
          ***************************************/
-        public static void PrintSampleText(TWinPrinterParams sWinPrinterParams)
+        public static void PrintSampleText(TWinPrinterParams sWinPrintParams)
         {
             String sTmp, sFileToPrint;
 
-            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH);
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH, sWinPrintParams);
 
             _sOrdineNum = "0123"; // per sampleText
 
             sTmp = String.Format("Printer_Windows : printWinSampleText() {0}", sFileToPrint);
             Logger.Info(sTmp);
 
-            PrintFile(sFileToPrint, sWinPrinterParams, NUM_SEP_PRINT_GROUPS); // OK
+            PrintFile(sFileToPrint, sWinPrintParams, NUM_SEP_PRINT_GROUPS); // OK
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿/************************************************************
     NomeFile : StandCommonSrc/CommonDefine.cs
-    Data	 : 08.10.2026
+    Data	 : 16.10.2026
     Autore	 : Mauro Artuso
  ************************************************************/
 
@@ -145,10 +145,10 @@ namespace StandCommonFiles
             /// <summary>sTipo_Articolo per memorizzazione del valore Buoni Applicati nella tabella ordini_YYmmdd</summary>
             public const String _BUONI = "_Buoni" + SHMAGIC;
 
-            /// <summary>menuItem_ID per memorizzazione del numero dell'ordine da web nella tabella ordini_YYmmdd</summary>
+            /// <summary>sTipo_Articolo per memorizzazione del numero dell'ordine da web nella tabella ordini_YYmmdd</summary>
             public const String _NUM_ORD_WEB = "_NumWebOrd" + SHMAGIC;
 
-            /// <summary>menuItem_ID per memorizzazione checksum nella tabella ordini web</summary>
+            /// <summary>sTipo_Articolo per memorizzazione checksum nella tabella ordini web</summary>
             public const String _PRICE_LIST_CHECKSUM = "_PriceListChecksum" + SHMAGIC;
 
             /// <summary>array per la ricerca di una stringa</summary>
@@ -157,19 +157,22 @@ namespace StandCommonFiles
         }
 
         /// <summary>mnemonico per il numero della cassa nelle stampe con Zoom numero scontrino</summary>
-        public const String _TICK_CASSA = "Cassa =";
+        public const String _RECEIPT_CASSA = "Cassa =";
 
         /// <summary>mnemonico per il PAGER</summary>
-        public const String _TICK_PAGER = "PAGER =";
+        public const String _RECEIPT_PAGER = "PAGER:";
 
         /// <summary>mnemonico per il numero dello scontrino nelle stampe con Zoom numero scontrino</summary>
-        public const String _TICK_NUM = "Num. =";
+        public const String _RECEIPT_NUM = "Ordine:";
+
+        /// <summary>mnemonico per la copia cliente</summary>
+        public const String _RECEIPT_CUSTOMER_COPY = "- COPIA CLIENTE -";
 
         /// <summary>mnemonico per il numero dello scontrino nelle stampe senza Zoom numero scontrino</summary>
-        public const String _TICK_NUM_NZ = "Scontrino num.";
+        public const String _RECEIPT_NUM_NZ = "Ordine num.";
 
         /// <summary>mnemonico per il numero dello scontrino di pre-ordine web nelle stampe</summary>
-        public const String _WEB_NUM = "webNum =";
+        public const String _RECEIPT_WEB_NUM = "webOrd.:";
 
 
         /// <summary>numero massimo in assoluto di caratteri per Receipt</summary>
@@ -502,6 +505,15 @@ namespace StandCommonFiles
             STAMPANTE_USB_ETH = 0,
             /// <summary>stampante legacy seriale o parallela</summary>
             STAMPANTE_LEGACY
+        };
+
+        /// <summary>enum per la selezione della destinazione della stampante</summary>
+        public enum PRINTER_DEST_TYPE
+        {
+            /// <summary>stampante locale</summary>
+            LOCAL_PRINTER = 0,
+            /// <summary>stampante in rete</summary>
+            NET_PRINTER
         };
 
         /// <summary>

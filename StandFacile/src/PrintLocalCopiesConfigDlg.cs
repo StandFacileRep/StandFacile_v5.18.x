@@ -5,14 +5,11 @@
 
  *****************************************************/
 
-using StandCommonFiles;
 using System;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
-using static StandCommonFiles.Printer_Legacy;
-using static StandCommonFiles.Printer_Windows;
 using static StandFacile.Config;
 using static StandFacile.Define;
 using static StandFacile.glb;
@@ -52,7 +49,7 @@ namespace StandFacile
         public static bool GetListinoModificato() { return _bListinoModificato; }
 
         /// <summary>ottiene true se la stampante è windows</summary>
-        public static bool GetPrinterTypeIsWindows() { return (iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH); }
+        public static bool GetSysPrinterTypeIsWindows() { return (iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH); }
 
         /// <summary>ottiene flag di richiesta stampa copia scontrino NoPrice</summary>
         public static bool GetTicketNoPriceCopy() { return _rPrintTckConfigDlg.LC_checkBoxLocalCopy.Checked; }
@@ -126,10 +123,21 @@ namespace StandFacile
                 i++;
             }
 
+            // inizializzazione stampanti ESC POS
+            _iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
+            checkBox_escpos.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1);
+
+            checkBox_escpos_Click(this, EventArgs.Empty);
+
             if (PrintersListCombo.Items.Count > 0)
             {
                 if ((sGlbWinPrinterParams.iSumPrinterModel >= 0) && (sGlbWinPrinterParams.iSumPrinterModel < PrintersListCombo.Items.Count))
-                    PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iSumPrinterModel;
+                {
+                    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1))
+                        PrintersListCombo.Text = sGlbWinPrinterParams.sSumPrinterModel;
+                    else
+                        PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iSumPrinterModel;
+                }
                 else
                     PrintersListCombo.SelectedIndex = 0;
             }
@@ -147,10 +155,6 @@ namespace StandFacile
 
             //inizializzazione stampante windows o Legacy
             iPrinterTypeRadio = ReadRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
-
-            // inizializzazione stampanti ESC POS
-            _iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
-            checkBox_escpos.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1);
 
             if ((iPrinterTypeRadio == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) || CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
 
@@ -294,21 +298,31 @@ namespace StandFacile
         {
             String sTmp, sFileToPrint;
 
-            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH);
+            sFileToPrint = BuildSampleText(PRINTER_TYPE.STAMPANTE_USB_ETH, sGlbWinPrinterParams);
 
-            if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(PrintersListCombo.Text))
-            {
-                if (checkBox_escpos.Checked)
-                    Printer_ESCPOS.PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, PrintersListCombo.Text);
-                else
-                    PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, PrintersListCombo.Text);
-            }
-            else
-                PrintFile(sFileToPrint, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+            PrintFileToDestination(PrintersListCombo.Text, checkBox_escpos.Checked, sFileToPrint, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+
+            //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(PrintersListCombo.Text))
+            //{
+            //    if (checkBox_escpos.Checked)
+            //        Printer_ESCPOS.PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, PrintersListCombo.Text);
+            //    else
+            //        PrintFile(sFileToPrint, sGlbWinPrinterParams, 0, PrintersListCombo.Text);
+            //}
+            //else
+            //    PrintFile(sFileToPrint, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
 
             sTmp = String.Format("PrintLocalCopiesConfigDlg : printSampleText({0}) {1}", PrintersListCombo.SelectedIndex, sFileToPrint);
             Logger.Info(sTmp);
 
+        }
+
+        private void checkBox_escpos_Click(object sender, EventArgs e)
+        {
+            if (checkBox_escpos.Checked)
+                PrintersListCombo.DropDownStyle = ComboBoxStyle.DropDown; // editabile
+            else
+                PrintersListCombo.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
         /**************************************************
@@ -386,6 +400,5 @@ namespace StandFacile
             timer.Enabled = false;
             Close();
         }
-
     }
 }

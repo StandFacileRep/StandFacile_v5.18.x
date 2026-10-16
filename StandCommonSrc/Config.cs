@@ -1,11 +1,13 @@
 ﻿/*****************************************************
   	NomeFile : StandFacile/Config.cs
-	Data	 : 09.10.2026
+	Data	 : 16.10.2026
   	Autore	 : Mauro Artuso
  *****************************************************/
 
 using System;
 using System.IO;
+using System.Drawing.Printing;
+
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
 
@@ -122,9 +124,10 @@ namespace StandFacile
                     {
                         iTmp = GetIntVal(sInStr);
 
-                        // i gruppi vanno da 1 a 11 per l'utente, 0 - 10 per il programma
-                        if ((iTmp > 0) && (iTmp <= NUM_SEP_PRINT_GROUPS + 1))
-                            sConfig.iLocalCopyPrinterNumRedirect = iTmp - 1;
+                        if ((iTmp > 0) && (iTmp < PrinterSettings.InstalledPrinters.Count))
+                        {
+                            sConfig.iLocalCopyPrinterNumRedirect = iTmp;
+                        }
 
                         continue;
                     }

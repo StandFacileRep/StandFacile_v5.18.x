@@ -175,7 +175,7 @@ namespace StandFacile_DB
 
             int iLastArticoloDBIndexP1;
 
-            String sTmp, sTipo, sDebug;
+            String sTmp, sInStr, sTipo, sDebug;
 
             _WrnMsg.iErrID = 0; // resetta errori in altra data
 
@@ -369,6 +369,43 @@ namespace StandFacile_DB
                 // funziona perchè c'è sempre iOrdine_ID == 0
 
                 cmd_Ordini.Connection = _Connection;
+
+                // carica sCopiesGroupsText
+                cmd_Ordini.CommandText = "SELECT * FROM " + _sDBTNameOrdini + " WHERE iOrdine_ID = 0";
+
+                try
+                {
+                    readerOrdine = cmd_Ordini.ExecuteReader();
+
+                    while (readerOrdine.Read())
+                    {
+                        // serve leggere questi dati per le stampe in altra data
+                        sInStr = readerOrdine.GetString("sTipo_Articolo");
+
+                        if (sInStr.StartsWith("_GroupText_"))
+                        {
+                            // ****	Copie/Text and Flag ****
+                            for (i = 0; i < NUM_EDIT_GROUPS; i++)
+                            {
+                                sTmp = String.Format("_GroupText_{0}", i);
+                                if (sInStr == sTmp)
+                                {
+                                    DB_Data.sCopiesGroupsText[i] = readerOrdine.GetString("sText");
+                                    sDebug = DB_Data.sCopiesGroupsText[i];
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    Logger.Info("dbCaricaDatidaOrdini : _GroupText_ O1");
+                    readerOrdine.Close();
+                }
+                catch (Exception)
+                {
+                    //
+                }
 
                 // DB_Data.iNumOfMessages
                 cmd_Ordini.CommandText = "SELECT iOrdine_ID FROM " + _sDBTNameOrdini + " ORDER BY iOrdine_ID ASC LIMIT 1";

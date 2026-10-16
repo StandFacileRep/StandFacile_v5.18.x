@@ -1368,7 +1368,7 @@ namespace StandFacile
             _iAnteprimaTotParziale = 0;
             AnteprimaDlg.ResetSomethingInto_GrpToPrint();
 
-            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+            if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
                 ResetBtnScontrino();
             // else
             //  viene eseguito dopo la stampa Legacy con l'evento RESET_RECEIPT_BTN_EVENT

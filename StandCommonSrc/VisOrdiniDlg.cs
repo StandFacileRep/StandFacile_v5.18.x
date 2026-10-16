@@ -1,6 +1,6 @@
 ﻿/***************************************************************************
 	NomeFile : StandCommonSrc/ViewOrdersDlg.cs
-	Data	 : 01.10.2026
+	Data	 : 15.10.2026
 	Autore	 : Mauro Artuso 
 	 
  ***************************************************************************/
@@ -491,36 +491,10 @@ namespace StandFacile
             bTicketCopy_NoPrice = IsBitSet(SF_Data.iLocalCopyOptions, (int)LOCAL_COPIES_OPTS.BIT_RECEIPT_LOCAL_COPY_REQUIRED);
 
             // STAMPA SCONTRINO PRINCIPALE
-#if STANDFACILE
-            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
-#else
-            if (PrintConfigLightDlg.GetPrinterTypeIsWindows())
-#endif
-            {
-                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
-                {
-                    Printer_ESCPOS.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicket, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                    
-                    if (bTicketCopy_NoPrice)
-                        Printer_ESCPOS.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                }
-                else
-                {
-                    Printer_Windows.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicket, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+            GenPrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicket);
 
-                    if (bTicketCopy_NoPrice)
-                        Printer_Windows.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                }
-            }
-            else
-            {
-                Printer_Legacy.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicket, sGlbLegacyPrinterParams,
-                    (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
-
-                if (bTicketCopy_NoPrice)
-                    Printer_Legacy.PrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicketNpPrt, sGlbLegacyPrinterParams,
-                    (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
-            }
+            if (bTicketCopy_NoPrice)
+                GenPrintFile(GetVisTicketsDir() + "\\" + _sNomeFileTicketNpPrt);
 
 #if STANDFACILE
             int i;
@@ -534,16 +508,7 @@ namespace StandFacile
 
                 if (_dataIdentifierParam.bCopiesGroupsFlag[i])
                 {
-                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
-                    {
-                        if (IsBitSet(iEscPosPrinterType, i))
-                            Printer_ESCPOS.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                        else
-                            Printer_Windows.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                    }
-                    else
-                        Printer_Legacy.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbLegacyPrinterParams,
-                        (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                    GenPrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt);
                 }
             }
 
@@ -557,15 +522,7 @@ namespace StandFacile
                     // *** MESSA IN CODA DI STAMPA COPIE SINGOLE ***
                     if (SF_Data.bCopiesGroupsFlag[(int)DEST_TYPE.DEST_SINGLE])
                     {
-                        if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
-                        {
-                            if (IsBitSet(iEscPosPrinterType, (int)DEST_TYPE.DEST_SINGLE))
-                                Printer_ESCPOS.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                            else
-                                Printer_Windows.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                        }
-                        else
-                            Printer_Legacy.PrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                        GenPrintFile(GetVisCopiesDir() + "\\" + sNomeFileCopiePrt);
                     }
                 }
             }
@@ -573,9 +530,9 @@ namespace StandFacile
 #endif
 
 #if STANDFACILE
-            if (!PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+            if (!PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
 #else
-            if (!PrintConfigLightDlg.GetPrinterTypeIsWindows())
+            if (!PrintConfigLightDlg.GetSysPrinterTypeIsWindows())
 #endif
             {
                 // Avvia eventuali code delle copie Legacy

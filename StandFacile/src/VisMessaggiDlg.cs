@@ -9,8 +9,6 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing.Printing;
-
-using StandCommonFiles;
 using static StandCommonFiles.ComDef;
 
 using static StandCommonFiles.CommonCl;
@@ -94,15 +92,22 @@ namespace StandFacile
                 i++;
             }
 
-            // imposta nel combo la stampante Locale
-            if ((sGlbWinPrinterParams.iMsgPrinterModel >= 0) && (sGlbWinPrinterParams.iMsgPrinterModel < PrintersListCombo.Items.Count))
-                PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iMsgPrinterModel;
-            else
-                PrintersListCombo.SelectedIndex = 0;
-
             // inizializzazione stampanti ESC POS
             _iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
             checkBox_escpos.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 2);
+
+            checkBox_escpos_Click(this, EventArgs.Empty);
+
+            // imposta nel combo la stampante Locale
+            if ((sGlbWinPrinterParams.iMsgPrinterModel >= 0) && (sGlbWinPrinterParams.iMsgPrinterModel < PrintersListCombo.Items.Count))
+            {
+                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 2))
+                    PrintersListCombo.Text = sGlbWinPrinterParams.sMsgPrinterModel;
+                else
+                    PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iMsgPrinterModel;
+            }
+            else
+                PrintersListCombo.SelectedIndex = 0;
 
             _tt.SetToolTip(PrintersListCombo, "seleziona la stampante per il messaggio");
             _tt.SetToolTip(btnSend, "invia un Messaggio a StandCucina");
@@ -329,6 +334,14 @@ namespace StandFacile
                 VM_lblRemChar.Text = String.Format("Caratteri rimanenti : {0}", textEdit_Messaggi.MaxLength - textEdit_Messaggi.TextLength);
         }
 
+        private void checkBox_escpos_Click(object sender, EventArgs e)
+        {
+            if (checkBox_escpos.Checked)
+                PrintersListCombo.DropDownStyle = ComboBoxStyle.DropDown; // editabile
+            else
+                PrintersListCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
         /// <summary>
         /// salva il Messaggio su file e lo invia alla stampante
         /// </summary>
@@ -418,10 +431,17 @@ namespace StandFacile
                     // Invio alla Stampante
                     Logger.Info("VisMessaggiDlg : stampa di " + sNomeFileMsg);
 
-                    if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(PrintersListCombo.Text))
-                        Printer_Windows.PrintFile(sNomeFileMsg, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 2);
-                    else
-                        Printer_Legacy.PrintFile(sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+                    PrintFileToDestination(PrintersListCombo.Text, checkBox_escpos.Checked, sNomeFileMsg, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+
+                    //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(PrintersListCombo.Text))
+                    //{
+                    //    if (checkBox_escpos.Checked)
+                    //        Printer_ESCPOS.PrintFile(sNomeFileMsg, sGlbWinPrinterParams, 0, PrintersListCombo.Text);
+                    //    else
+                    //        Printer_Windows.PrintFile(sNomeFileMsg, sGlbWinPrinterParams, 0, PrintersListCombo.Text);
+                    //}
+                    //else
+                    //    Printer_Legacy.PrintFile(sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
 
                     // aggiorna se serve il flag BIT_TICKET_STAMPATO_DA_STANDCUCINA per contrassegnare la stampa avvenuta, attenzione al '-'
                     if (!IsBitSet(dataIdentifierParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_RECEIPT_STAMPATO_DA_STANDCUCINA))

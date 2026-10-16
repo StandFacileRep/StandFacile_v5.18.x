@@ -1,18 +1,22 @@
 ﻿/*********************************************************
-    NomeFile : StandFacile
-    Data	 : 28.09.2026
+    NomeFile : StandFacile/Program.cs
+    Data	 : 09.10.2026
     Autore   : Mauro Artuso
 
     Avvia le classi visuali e non, nell'ordine corretto
  *********************************************************/
 
-using Microsoft.Win32;
-using NLog;
-using StandCommonFiles;
 using System;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+
+using Microsoft.Win32;
+
+using NLog;
+
+using StandCommonFiles;
+
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
 

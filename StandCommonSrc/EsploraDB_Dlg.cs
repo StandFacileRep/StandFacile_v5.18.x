@@ -64,7 +64,6 @@ namespace StandFacile
                 if (sCell.Contains(NOME_STATUS_DBTBL) || sCell.Contains(NOME_NSC_DBTBL) ||
                     sCell.Contains(NOME_DISP_DBTBL) || sCell.Contains(NOME_NMSG_DBTBL) ||
                     sCell.Contains(NOME_LISTINO_DBTBL) || sCell.Contains(NOME_TEST_DBTBL) ||
-                    sCell.Contains("images") || sCell.Contains("indexes") ||
                     sCell.Contains("_unionetmp1") || sCell.Contains("_unionetmp2") ||
                     sCell.Contains(NOME_WEBORD_DBTBL) || sCell.Contains(NOME_NSC_DBTBL) ||
                     !sCell.Contains(RELEASE_DB_TBLS) || String.IsNullOrEmpty(sCell))

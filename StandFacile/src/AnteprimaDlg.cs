@@ -33,7 +33,7 @@ namespace StandFacile
         /// <summary>riferimento a AnteprimaDlg</summary>
         public static AnteprimaDlg rAnteprimaDlg;
 
-        static bool _bInit = false;
+        static bool _bPagerMode, _bInit = false;
 
         bool[] _bScontoGruppo = new bool[NUM_SEP_PRINT_GROUPS];
 
@@ -55,6 +55,7 @@ namespace StandFacile
         /// _fCanvasVertNumPos memorizza la posizione verticale del numero dell'ordine
         /// </summary>
         float _fCanvasVertPos, _fCanvasVertNumPos;
+        String _sPrevPager;
 
         Font _printFont;
 
@@ -179,9 +180,17 @@ namespace StandFacile
             iScontoStdTicket = 0;
             iScontoFissoTicket = SF_Data.iScontoFissoReceipt;
 
+            _bPagerMode = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT);
 
-            if (IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT))
+            if (_bPagerMode)
+            {
                 bCassaInline = true;
+
+                if (String.IsNullOrEmpty(SF_Data.sPager))
+                    _sPager = "-";
+                else
+                    _sPager = SF_Data.sPager.PadLeft(3, '0');
+            }
             else
                 bCassaInline = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CASSA_INLINE);
 
@@ -203,17 +212,15 @@ namespace StandFacile
 
                 _fCanvasVertPos = 0;
 
-                if (String.IsNullOrEmpty(SF_Data.sPager))
-                    _sPager = "-";
-                else
-                    _sPager = SF_Data.sPager.PadLeft(3, '0');
-
                 pg.Clear(Color.White);
                 PrintCanvas(pg, "");
                 pg_cpy = pg;
             }
             else
                 pg = null;
+
+            if (pg == null)
+                return 0;
 
             //if (!Visible)                       // controllo
             //    return;
@@ -236,7 +243,7 @@ namespace StandFacile
             /*************************************
              * 		 Stampa del Logo Top
              *************************************/
-            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T) && PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T) && PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
             {
                 Image img = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(true);
 
@@ -293,8 +300,7 @@ namespace StandFacile
                 PrintCanvas(pg, "");
             }
 
-
-            if (bCassaInline)
+            if (bCassaInline && !_bPagerMode)
                 sTmp = GetDateTimeString();
             else
                 sTmp = String.Format("{0,-22}C.{1}", GetDateTimeString(), SF_Data.iNumCassa);
@@ -304,19 +310,30 @@ namespace StandFacile
             PrintCanvas(pg, "");
 
             if (bRepaint)
+            {
                 _fCanvasVertNumPos = _fCanvasVertPos;
+                _sPrevPager = _sPager;
+            }
 
             sCashdeskAndReceiptNum = sOrdineStrings.sOrdineNum;
 
-            // accorcia stringa
-            if (sCashdeskAndReceiptNum.StartsWith("   ") && !bCassaInline)
-                sCashdeskAndReceiptNum = sCashdeskAndReceiptNum.Substring(3);
+            // passa a zoomedFont
+            sCashdeskAndReceiptNum = sCashdeskAndReceiptNum.Trim();
+
+            Font zoomedFont;
+
+            if (sCashdeskAndReceiptNum.Length < _RECEIPT_NUM.Length + 6)
+                zoomedFont = new Font(_printFont.FontFamily, _printFont.Size * 1.32f);
+            else
+                zoomedFont = new Font(_printFont.FontFamily, _printFont.Size * 1.12f);
+
+            SizeF sz1 = pg.MeasureString(sCashdeskAndReceiptNum, zoomedFont);
+
+            float f_centerMargin = (picBox.Width - sz1.Width) / 2;
 
             // Stampa sempre il numero dell'ordine
-            if (bCassaInline)
-                PrintCanvas(pg, sCashdeskAndReceiptNum);
-            else
-                PrintCanvas(pg, 1.32f, 1.32f, sCashdeskAndReceiptNum);
+            pg.DrawString(sCashdeskAndReceiptNum, zoomedFont, Brushes.Black, f_centerMargin, _fCanvasVertPos);
+            _fCanvasVertPos += zoomedFont.GetHeight(pg);
 
             PrintCanvas(pg, "");
 
@@ -641,6 +658,18 @@ namespace StandFacile
                 PrintCanvas(pg, "");
             }
 
+            // COPIA CLIENTE
+            zoomedFont = new Font(_printFont.FontFamily, _printFont.Size * 1.32f);
+            sz1 = pg.MeasureString(_RECEIPT_CUSTOMER_COPY, zoomedFont);
+            f_centerMargin = (picBox.Width - sz1.Width) / 2;
+
+            // Stampa sempre il numero dell'ordine
+            pg.DrawString(_RECEIPT_CUSTOMER_COPY, zoomedFont, Brushes.Black, f_centerMargin, _fCanvasVertPos);
+            _fCanvasVertPos += zoomedFont.GetHeight(pg);
+
+            PrintCanvas(pg, "");
+
+
             if (!String.IsNullOrEmpty(sConfig.sExtraFooter))
             {
                 String[] sExtraFooterLines = sConfig.sExtraFooter.Split(new[] { @"\n" }, StringSplitOptions.None);
@@ -656,7 +685,7 @@ namespace StandFacile
              * 		 Stampa del Logo Bottom
              *************************************/
 
-            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B) && PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B) && PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
             {
                 Image img = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(false);
 
@@ -697,31 +726,12 @@ namespace StandFacile
 
             bool bCassaInline = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_CASSA_INLINE);
 
-            if (dBaseIntf.bUSA_NDB())
-            {
-                if (IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT))
-                {
-                    bCassaInline = true;
-
-                    sCashdeskAndReceiptNum = String.Format("{0} {1}, {2} {3}", _TICK_PAGER, _sPager, _TICK_NUM, SF_Data.iNumOfLastReceipt);
-                }
-                else
-                {
-                    if (bCassaInline)
-                        sCashdeskAndReceiptNum = String.Format("{0} {1}, {2} {3}", _TICK_CASSA, SF_Data.iNumCassa, _TICK_NUM, SF_Data.iNumOfLastReceipt);
-                    else
-                        sCashdeskAndReceiptNum = String.Format("{0}  {1}", _TICK_NUM, SF_Data.iNumOfLastReceipt);
-                }
-            }
-            else
-                return;
-
-            sCashdeskAndReceiptNum = CenterJustify(sCashdeskAndReceiptNum, bCassaInline ? MAX_RECEIPT_CHARS : MAX_RECEIPT_CHARS - 10);
-
             // cancellazione TicketNum
             if (pg_cpy != null)
             {
                 _fCanvasVertPos = _fCanvasVertNumPos;
+                _sPager = _sPrevPager;
+
                 fCanvasNumHeight = _printFont.GetHeight(pg_cpy) * 1.50f;
 
                 RectangleF imageRect = new RectangleF(0, _fCanvasVertPos, picBox.Width, fCanvasNumHeight);
@@ -729,16 +739,44 @@ namespace StandFacile
                 pg_cpy.FillRectangle(Brushes.White, imageRect);
             }
 
-            _fCanvasVertPos = _fCanvasVertNumPos;
+            if (dBaseIntf.bUSA_NDB())
+            {
+                if (IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT))
+                {
+                    bCassaInline = true;
 
-            // accorcia stringa
-            if (sCashdeskAndReceiptNum.StartsWith("   ") && !bCassaInline)
-                sCashdeskAndReceiptNum = sCashdeskAndReceiptNum.Substring(3);
-
-            if (bCassaInline)
-                PrintCanvas(pg_cpy, sCashdeskAndReceiptNum);
+                    sCashdeskAndReceiptNum = String.Format("{0} {1}, {2}  {3}", _RECEIPT_PAGER, _sPager, _RECEIPT_NUM, SF_Data.iNumOfLastReceipt);
+                }
+                else
+                {
+                    if (bCassaInline)
+                        sCashdeskAndReceiptNum = String.Format("{0} {1}, {2}  {3}", _RECEIPT_CASSA, SF_Data.iNumCassa, _RECEIPT_NUM, SF_Data.iNumOfLastReceipt);
+                    else
+                        sCashdeskAndReceiptNum = String.Format("{0}  {1}", _RECEIPT_NUM, SF_Data.iNumOfLastReceipt);
+                }
+            }
             else
-                PrintCanvas(pg_cpy, 1.32f, 1.32f, sCashdeskAndReceiptNum);
+                return;
+
+            sCashdeskAndReceiptNum = CenterJustify(sCashdeskAndReceiptNum, bCassaInline ? MAX_RECEIPT_CHARS : MAX_RECEIPT_CHARS - 10);
+
+            // passa a zoomedFont
+            sCashdeskAndReceiptNum = sCashdeskAndReceiptNum.Trim();
+
+            Font zoomedFont;
+
+            if (sCashdeskAndReceiptNum.Length < _RECEIPT_NUM.Length + 6)
+                zoomedFont = new Font(_printFont.FontFamily, _printFont.Size * 1.32f);
+            else
+                zoomedFont = new Font(_printFont.FontFamily, _printFont.Size * 1.12f);
+
+            SizeF sz = pg_cpy.MeasureString(sCashdeskAndReceiptNum, zoomedFont);
+
+            float f_centerMargin = (picBox.Width - sz.Width) / 2;
+
+            // Stampa sempre il numero dell'ordine
+            pg_cpy.DrawString(sCashdeskAndReceiptNum, zoomedFont, Brushes.Black, f_centerMargin, _fCanvasVertPos);
+            _fCanvasVertPos += zoomedFont.GetHeight(pg_cpy);
         }
 
         private void checkBox_PrimoPiano_CheckedChanged(object sender, EventArgs e)

@@ -344,13 +344,13 @@
             // 
             // WP_labelZoomLogo
             // 
-            this.WP_labelZoomLogo.AutoSize = true;
             this.WP_labelZoomLogo.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WP_labelZoomLogo.Location = new System.Drawing.Point(23, 370);
+            this.WP_labelZoomLogo.Location = new System.Drawing.Point(81, 369);
             this.WP_labelZoomLogo.Name = "WP_labelZoomLogo";
-            this.WP_labelZoomLogo.Size = new System.Drawing.Size(140, 16);
+            this.WP_labelZoomLogo.Size = new System.Drawing.Size(91, 16);
             this.WP_labelZoomLogo.TabIndex = 30;
-            this.WP_labelZoomLogo.Text = "Logo, Barcode Zoom %";
+            this.WP_labelZoomLogo.Text = "Logo Zoom: %";
+            this.WP_labelZoomLogo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // WP_labelCenterLogo
             // 

@@ -39,7 +39,7 @@ namespace StandFacile
          *****************************************************/
 
         /// <summary>ottiene true se la stampante è windows</summary>
-        public static bool GetPrinterTypeIsWindows() { return (iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH); }
+        public static bool GetSysPrinterTypeIsWindows() { return (iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH); }
 
         /// <summary>costruttore</summary>
         public PrintConfigLightDlg()

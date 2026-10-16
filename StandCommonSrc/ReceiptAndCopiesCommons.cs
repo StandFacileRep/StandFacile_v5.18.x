@@ -1,6 +1,6 @@
 ﻿/*********************************************************************************
  	NomeFile : StandCommonSrc/ReceiptAndCopiesCommons.cs
-    Data	 : 28.09.2026
+    Data	 : 16.10.2026
  	Autore	 : Mauro Artuso
 
 	Classi di uso comune a DataManager.Receipt(), ViewOrdersDlg.ReceiptRebuild()<br/>
@@ -308,20 +308,20 @@ namespace StandCommonFiles
                 else
                     sTmp = dataIdParam.sPager.PadLeft(3, '0');
 
-                sOrdineStringsTmp.sOrdineNum = String.Format("{0} {1}, ", _TICK_PAGER, sTmp);
+                sOrdineStringsTmp.sOrdineNum = String.Format("{0} {1}, ", _RECEIPT_PAGER, sTmp);
             }
             else
             {
                 if (_bCassaInline)
-                    sOrdineStringsTmp.sOrdineNum = String.Format("{0} {1}, ", _TICK_CASSA, dataIdParam.iNumCassa);
+                    sOrdineStringsTmp.sOrdineNum = String.Format("{0} {1}, ", _RECEIPT_CASSA, dataIdParam.iNumCassa);
                 else
                     sOrdineStringsTmp.sOrdineNum = "";
             }
 
             if ((pgParam != null) && dBaseIntf.bUSA_NDB())
-                sOrdineStringsTmp.sOrdineNum += String.Format("{0} ?{1}", _TICK_NUM, i); // Anteprima con ndb
+                sOrdineStringsTmp.sOrdineNum += String.Format("{0} ?{1}", _RECEIPT_NUM, i); // Anteprima con ndb
             else
-                sOrdineStringsTmp.sOrdineNum += String.Format(sFmt_QM, _TICK_NUM, i);
+                sOrdineStringsTmp.sOrdineNum += String.Format(sFmt_QM, _RECEIPT_NUM, i);
 
             sTmpDateTime = dataIdParam.sWebDateTime;
 
@@ -332,7 +332,7 @@ namespace StandCommonFiles
                 sTmpDateTime = sTmpDateTime.Substring(3, 11);
 
             if (IsBitSet(dataIdParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_CARICATO_DA_WEB))
-                sOrdineStringsTmp.sOrdNumWeb = String.Format("* {0} {1}, {2} *", _WEB_NUM, dataIdParam.iNumOrdineWeb, sTmpDateTime);
+                sOrdineStringsTmp.sOrdNumWeb = String.Format("* {0} {1}, {2} *", _RECEIPT_WEB_NUM, dataIdParam.iNumOrdineWeb, sTmpDateTime);
             else
                 sOrdineStringsTmp.sOrdNumWeb = "";
 
@@ -814,6 +814,12 @@ namespace StandCommonFiles
                     if (sConfig.bRcpCopyRequired && (k == 0))
                         _fPrint.WriteLine(_CUT_FMT, CenterJustify(_CUT, MAX_RECEIPT_CHARS_CPY));
 
+                    // COPIA CLIENTE
+                    {
+                        sTmp = CenterJustify(_RECEIPT_CUSTOMER_COPY, MAX_RECEIPT_CHARS);
+                        _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
+                    }
+
                     if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
                         (_bLogoNelleCopie || (k == 0)))
                     {
@@ -846,15 +852,17 @@ namespace StandCommonFiles
 
                 if (!sGlbWinPrinterParams.bA4Paper) // bisogna aspettare il completamento del file
                 {
-                    if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
-                    {
-                        if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
-                            Printer_ESCPOS.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                        else
-                            Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                    }
-                    else
-                        Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                    PrintFileToDestination(PRINTER_DEST_TYPE.LOCAL_PRINTER, sDirParam + _sNomeFileReceiptPrt, NUM_SEP_PRINT_GROUPS, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+
+                    //if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
+                    //{
+                    //    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                    //        Printer_ESCPOS.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    //    else
+                    //        Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                    //}
+                    //else
+                    //    Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                 }
             }
 #endif
@@ -869,17 +877,17 @@ namespace StandCommonFiles
             // completamento del file A4 completato
             if (sGlbWinPrinterParams.bA4Paper)
             {
-                if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+                if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
                 {
                     //if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
                     //    Printer_ESCPOS.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
                     //else
                     Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                }
-                else
-                    Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
 
-                Logger.Info("DataManager Print_A4_Receipt");
+                    Logger.Info("DataManager Print_A4_Receipt");
+                }
+                //else
+                //    Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
             }
         }
 #endif
@@ -1026,7 +1034,7 @@ namespace StandCommonFiles
                         sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
                     }
 
-                    if (_bCassaInline)
+                    if (_bCassaInline && !_bPagerMode)
                         sTmp = dataIdParam.sDateTime;
                     else
                         sTmp = String.Format("{0,-22}C.{1}", dataIdParam.sDateTime, dataIdParam.iNumCassa);
@@ -1082,7 +1090,7 @@ namespace StandCommonFiles
                                     if (!String.IsNullOrEmpty(sHeader1_ToPrintBeforeCut))
                                         _fPrint.WriteLine("{0}", sHeader1_ToPrintBeforeCut);
 
-                                    sTmp = String.Format("  $ {0} {1}, {2} di {3}", _TICK_NUM_NZ, iNumOfReceiptsParam, k + 1, dataIdParam.Articolo[j].iQuantitaOrdine);
+                                    sTmp = String.Format("  $ {0} {1}, {2} di {3}", _RECEIPT_NUM_NZ, iNumOfReceiptsParam, k + 1, dataIdParam.Articolo[j].iQuantitaOrdine);
                                     sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS_CPY);
 
                                     _fPrint.WriteLine("{0}\r\n", sTmp);
@@ -1134,7 +1142,7 @@ namespace StandCommonFiles
                                     if (!String.IsNullOrEmpty(sHeader1_ToPrintBeforeCut))
                                         _fPrint.WriteLine("{0}", sHeader1_ToPrintBeforeCut);
 
-                                    sTmp = String.Format("  {0} {1}, {2} di {3}", _TICK_NUM_NZ, iNumOfReceiptsParam, k + 1, dataIdParam.Articolo[j].iQuantitaOrdine);
+                                    sTmp = String.Format("  {0} {1}, {2} di {3}", _RECEIPT_NUM_NZ, iNumOfReceiptsParam, k + 1, dataIdParam.Articolo[j].iQuantitaOrdine);
                                     sTmp = CenterJustify(sTmp, MAX_RECEIPT_CHARS_CPY);
 
                                     _fPrint.WriteLine("{0}\r\n", sTmp);
@@ -1185,7 +1193,7 @@ namespace StandCommonFiles
                                 if (!String.IsNullOrEmpty(sHeader1_ToPrintBeforeCut))
                                     _fPrint.WriteLine("{0}", sHeader1_ToPrintBeforeCut);
 
-                                sTmp = String.Format("    {0} {1}", _TICK_NUM_NZ, iNumOfReceiptsParam);
+                                sTmp = String.Format("    {0} {1}", _RECEIPT_NUM_NZ, iNumOfReceiptsParam);
                                 _fPrint.WriteLine("{0}\r\n", sTmp);
 
                                 if (!String.IsNullOrEmpty(sHeader2_ToPrintBeforeCut))
@@ -1373,15 +1381,17 @@ namespace StandCommonFiles
                         // copia locale di Riepilogo
                         if (_bPrintSummaryCopyRequired)
                         {
-                            if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS + 1))
-                            {
-                                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1))
-                                    Printer_ESCPOS.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
-                                else
-                                    Printer_Windows.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
-                            }
-                            else
-                                Printer_Legacy.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+                            PrintFileToDestination(PRINTER_DEST_TYPE.NET_PRINTER, sDirParam + sNomeFileSummaryLocalCopy, NUM_SEP_PRINT_GROUPS + 1, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+
+                            //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS + 1))
+                            //{
+                            //    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1))
+                            //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
+                            //    else
+                            //        Printer_Windows.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
+                            //}
+                            //else
+                            //    Printer_Legacy.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
                         }
                     }
                     else
@@ -1389,25 +1399,28 @@ namespace StandCommonFiles
                         // copia locale standard
                         if (bLocalCopyRequested)
                         {
-                            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+                            if ((sConfig.iLocalCopyPrinterNumRedirect >= 0) && (sConfig.iLocalCopyPrinterNumRedirect < PrinterSettings.InstalledPrinters.Count))
                             {
-                                if ((sConfig.iLocalCopyPrinterNumRedirect >= 0) && (sConfig.iLocalCopyPrinterNumRedirect < PrinterSettings.InstalledPrinters.Count))
-                                {
-                                    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
-                                        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]);
-                                    else
-                                        Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
-                                }
+                                // si da per scontato che PrinterTypeIsWindows
+                                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                                    Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]);
                                 else
-                                {
-                                    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
-                                        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                                    else
-                                        Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
-                                }
+                                    Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
                             }
                             else
-                                Printer_Legacy.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                            {
+                                PrintFileToDestination(PRINTER_DEST_TYPE.LOCAL_PRINTER, sDirParam + sNomeFileTicketNpPrt, NUM_SEP_PRINT_GROUPS, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+
+                                //if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
+                                //{
+                                //    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                                //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
+                                //    else
+                                //        Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
+                                //}
+                                //else
+                                //    Printer_Legacy.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                            }
                         }
 
                     }
@@ -1557,7 +1570,7 @@ namespace StandCommonFiles
                         //    iEqRowsNumber += 2;
                         //}
 
-                        if (_bCassaInline)
+                        if (_bCassaInline && !_bPagerMode)
                             sTmp = dataIdParam.sDateTime;
                         else
                             sTmp = String.Format("{0,-22}C.{1}", dataIdParam.sDateTime, dataIdParam.iNumCassa);
@@ -1794,15 +1807,17 @@ namespace StandCommonFiles
                      *****************************************************************************/
                     if (dataIdParam.bCopiesGroupsFlag[i] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                     {
-                        if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows(i))
-                        {
-                            if (IsBitSet(iEscPosPrinterType, i))
-                                Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
-                            else
-                                Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
-                        }
-                        else
-                            Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                        PrintFileToDestination(PRINTER_DEST_TYPE.NET_PRINTER, sDirParam + sNomeFileCopiePrt, i, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+
+                        //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(i))
+                        //{
+                        //    if (IsBitSet(iEscPosPrinterType, i))
+                        //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
+                        //    else
+                        //        Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
+                        //}
+                        //else
+                        //    Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                     }
 #endif
                 } // end if
@@ -1892,7 +1907,7 @@ namespace StandCommonFiles
                         //    iEqRowsNumber += 2;
                         //}
 
-                        if (_bCassaInline)
+                        if (_bCassaInline && !_bPagerMode)
                             sTmp = dataIdParam.sDateTime;
                         else
                             sTmp = String.Format("{0,-22}C.{1}", dataIdParam.sDateTime, dataIdParam.iNumCassa);
@@ -2045,15 +2060,17 @@ namespace StandCommonFiles
                      *****************************************************************************/
                     if (dataIdParam.bCopiesGroupsFlag[(int)DEST_TYPE.DEST_SINGLE] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                     {
-                        if (PrintNetCopiesConfigDlg.GetPrinterTypeIsWindows((int)DEST_TYPE.DEST_SINGLE))
-                        {
-                            if (IsBitSet(iEscPosPrinterType, (int)DEST_TYPE.DEST_SINGLE))
-                                Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
-                            else
-                                Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
-                        }
-                        else
-                            Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                        PrintFileToDestination(PRINTER_DEST_TYPE.NET_PRINTER, sDirParam + sNomeFileCopiePrt, (int)DEST_TYPE.DEST_SINGLE, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+
+                        //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows((int)DEST_TYPE.DEST_SINGLE))
+                        //{
+                        //    if (IsBitSet(iEscPosPrinterType, (int)DEST_TYPE.DEST_SINGLE))
+                        //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
+                        //    else
+                        //        Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
+                        //}
+                        //else
+                        //    Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                     }
                 } // end if
             }

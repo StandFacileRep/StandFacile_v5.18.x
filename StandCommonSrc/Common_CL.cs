@@ -1,6 +1,6 @@
 ﻿/*****************************************************
  	NomeFile : StandCommonSrc/CommonFunc.cs
-    Data	 : 26.09.2026
+    Data	 : 16.10.2026
  	Autore	 : Mauro Artuso
 
 	Classi statiche di uso comune
@@ -351,7 +351,7 @@ namespace StandCommonFiles
         }
 
         /// <summary>costruzione file di test stampa, rispecchia la struttura della Receipt</summary>
-        public static String BuildSampleText(PRINTER_TYPE ePrinterTypeParam)
+        public static String BuildSampleText(PRINTER_TYPE ePrinterTypeParam, TWinPrinterParams sPrintParams)
         {
             const String _LEFT_MARGIN_FMT = " {0}";
 
@@ -387,7 +387,7 @@ namespace StandCommonFiles
 
 #if STANDFACILE || STAND_MONITOR
 
-                if (((ePrinterTypeParam == PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                if (((ePrinterTypeParam == PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sPrintParams.sLogoName_T)) ||
                     ((ePrinterTypeParam == PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0)))
                 {
                     sTmp = CenterJustify(_LOGO_T, iMaxChars);
@@ -425,7 +425,7 @@ namespace StandCommonFiles
                 sTmp = String.Format(_LEFT_MARGIN_FMT, sTmp);
                 fData.WriteLine(sTmp + "\n");
 
-                sTmp = CenterJustify(String.Format("{0} {1}", _TICK_NUM, 123), iMaxChars);
+                sTmp = CenterJustify(String.Format("{0} {1}", _RECEIPT_NUM, 123), iMaxChars);
                 fData.WriteLine(sTmp + "\n");
 
                 for (i = 0; i < iMaxChars / 2; i++)       // avanzamanto riga
@@ -469,7 +469,7 @@ namespace StandCommonFiles
                 if (!String.IsNullOrEmpty(SF_Data.sHeaders[MAX_NUM_HEADERS - 1]))
                     fData.WriteLine(sTmp + "\n");
 
-                if ((ePrinterTypeParam == PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B))
+                if ((ePrinterTypeParam == PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sPrintParams.sLogoName_B))
                 {
                     sTmp = CenterJustify(_LOGO_B, iMaxChars);
 
@@ -506,13 +506,13 @@ namespace StandCommonFiles
         }
 
 #if !STAND_ORDINI
-        /// <summary>decide dove fare la stampa generica</summary>
+        /// <summary>gestisce la stampa generica</summary>
         public static void GenPrintFile(String sFileToPrintParm)
         {
 #if STANDFACILE
-            if (PrintLocalCopiesConfigDlg.GetPrinterTypeIsWindows())
+            if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
 #else
-            if (PrintConfigLightDlg.GetPrinterTypeIsWindows())
+            if (PrintConfigLightDlg.GetSysPrinterTypeIsWindows())
 #endif
             {
                 if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
@@ -522,6 +522,49 @@ namespace StandCommonFiles
             }
             else
                 Printer_Legacy.PrintFile(sFileToPrintParm);
+        }
+#endif
+
+#if !STAND_ORDINI
+        /// <summary>gestisce la stampa specifica</summary>
+        public static void PrintFileToDestination(PRINTER_DEST_TYPE bIsLocal_or_NetPrint, String sFileToPrintParm, int iDestParam, int iPrintActionParam)
+        {
+            bool bPrinterIsWindows; // or Legacy
+
+#if STANDFACILE
+            if (bIsLocal_or_NetPrint == PRINTER_DEST_TYPE.LOCAL_PRINTER)
+                bPrinterIsWindows = PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows();
+            else
+                bPrinterIsWindows = PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(iDestParam);
+#else
+            bPrinterIsWindows = PrintConfigLightDlg.GetSysPrinterTypeIsWindows();
+#endif
+
+            if (bPrinterIsWindows)
+            {
+                if (IsBitSet(iEscPosPrinterType, iDestParam))
+                    Printer_ESCPOS.PrintFile(sFileToPrintParm, sGlbWinPrinterParams, iDestParam);
+                else
+                    Printer_Windows.PrintFile(sFileToPrintParm, sGlbWinPrinterParams, iDestParam);
+            }
+            else
+                Printer_Legacy.PrintFile(sFileToPrintParm, sGlbLegacyPrinterParams, iPrintActionParam);
+        }
+#endif
+
+#if STANDFACILE
+        /// <summary>gestisce la stampa specifica</summary>
+        public static void PrintFileToDestination(String sPrinterParam, bool bChechedParam, String sFileToPrintParm, int iPrintActionParam)
+        {
+            if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(sPrinterParam))
+            {
+                if (bChechedParam)
+                    Printer_ESCPOS.PrintFile(sFileToPrintParm, sGlbWinPrinterParams, 0, sPrinterParam);
+                else
+                    Printer_Windows.PrintFile(sFileToPrintParm, sGlbWinPrinterParams, 0, sPrinterParam);
+            }
+            else
+                Printer_Legacy.PrintFile(sFileToPrintParm, sGlbLegacyPrinterParams, iPrintActionParam);
         }
 #endif
 

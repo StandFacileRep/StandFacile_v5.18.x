@@ -1429,7 +1429,7 @@
             this.MF_lbl_CAP_Pager.Name = "MF_lbl_CAP_Pager";
             this.MF_lbl_CAP_Pager.Size = new System.Drawing.Size(217, 23);
             this.MF_lbl_CAP_Pager.TabIndex = 10;
-            this.MF_lbl_CAP_Pager.Text = "CAP";
+            this.MF_lbl_CAP_Pager.Text = "PAGER";
             this.MF_lbl_CAP_Pager.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnNavRight

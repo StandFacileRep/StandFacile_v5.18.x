@@ -203,7 +203,6 @@
             // 
             // checkBox_escpos
             // 
-            this.checkBox_escpos.AutoCheck = false;
             this.checkBox_escpos.AutoSize = true;
             this.checkBox_escpos.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_escpos.Location = new System.Drawing.Point(30, 400);
@@ -214,6 +213,7 @@
             this.checkBox_escpos.Text = "utilizza la stampa con protocollo ESC/POS ";
             this.checkBox_escpos.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.checkBox_escpos.UseVisualStyleBackColor = true;
+            this.checkBox_escpos.Click += new System.EventHandler(this.checkBox_escpos_Click);
             // 
             // VisMessaggiDlg
             // 

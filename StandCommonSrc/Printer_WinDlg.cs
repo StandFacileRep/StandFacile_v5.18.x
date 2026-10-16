@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 	NomeFile : StandCommonSrc/WinPrinterDlg.cs
-    Data	 : 28.09.2026
+    Data	 : 10.10.2026
 	Autore   : Mauro Artuso
 
 	Descrizione : classe per la gestione della Form per l'impostazione dei
@@ -74,7 +74,7 @@ namespace StandFacile
 
         int _yDisp;
 
-        static Font tckFont, repFont;
+        static Font _tckFont, _repFont;
         FontDialog fontTckDlg, fontRepDlg;
 
         Image LogoImage_T, LogoImage_B;
@@ -137,6 +137,8 @@ namespace StandFacile
             checkBox_escpos.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS);
             checkBox_CashDrawer.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 3);
 
+            AggiornaAspettoControlli(true);
+
             //	letto anche dalla classe TFrmPrintConfig() così non ci sono problemi di ordine della
             //	instanziazione delle classi
 
@@ -179,7 +181,12 @@ namespace StandFacile
             {
                 // imposta nel combo la stampante Locale
                 if ((sGlbWinPrinterParams.iRcpPrinterModel >= 0) && (sGlbWinPrinterParams.iRcpPrinterModel < PrintersListCombo.Items.Count))
-                    PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iRcpPrinterModel;
+                {
+                    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                        PrintersListCombo.Text = sGlbWinPrinterParams.sRcpPrinterModel;
+                    else
+                        PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iRcpPrinterModel;
+                }
                 else
                     PrintersListCombo.SelectedIndex = 0;
             }
@@ -209,7 +216,7 @@ namespace StandFacile
 
             String stmp = sGlbWinPrinterParams.sTckFontType;
 
-            tckFont = new Font(sGlbWinPrinterParams.sTckFontType, sGlbWinPrinterParams.fTckFontSize, sGlbWinPrinterParams.sTckFontStyle);
+            _tckFont = new Font(sGlbWinPrinterParams.sTckFontType, sGlbWinPrinterParams.fTckFontSize, sGlbWinPrinterParams.sTckFontStyle);
 
             sGlbWinPrinterParams.sRepFontType = ReadRegistry(REP_WIN_FONT_TYPE_KEY, "Lucida Console");
             sGlbWinPrinterParams.fRepFontSize = ReadRegistry(REP_WIN_FONT_SIZE_KEY, 900) / 100.0f;
@@ -225,7 +232,7 @@ namespace StandFacile
             if (sGlbWinPrinterParams.iRepLeftMargin > numUpDown_RepMargin.Maximum)
                 sGlbWinPrinterParams.iRepLeftMargin = (int)numUpDown_RepMargin.Maximum;
 
-            repFont = new Font(sGlbWinPrinterParams.sRepFontType, sGlbWinPrinterParams.fRepFontSize, sGlbWinPrinterParams.sRepFontStyle);
+            _repFont = new Font(sGlbWinPrinterParams.sRepFontType, sGlbWinPrinterParams.fRepFontSize, sGlbWinPrinterParams.sRepFontStyle);
 
             sGlbWinPrinterParams.iTckZoomValue = ReadRegistry(TCK_WIN_ZOOM_KEY, 100);
             sGlbWinPrinterParams.iRepZoomValue = ReadRegistry(REP_WIN_ZOOM_KEY, 100);
@@ -342,7 +349,7 @@ namespace StandFacile
             String sPrinterName;
 
             // 7, no Logo letto a parte
-            sPrinterName = PrintersListCombo.SelectedItem.ToString();
+            sPrinterName = PrintersListCombo.Text;
 
             _sWinPrinterParamsCopy.sRcpPrinterModel = sPrinterName;
             _sWinPrinterParamsCopy.iRcpPrinterModel = PrintersListCombo.SelectedIndex;
@@ -380,7 +387,7 @@ namespace StandFacile
         /******************************************************************
             come regola qui i controlli non vengono	letti dal Registry
          ******************************************************************/
-        void AggiornaAspettoControlli()
+        void AggiornaAspettoControlli(bool bSilentModeParam = false)
         {
             int iParam1 = 0, iParam2 = 0;
             float fParam1;
@@ -388,70 +395,86 @@ namespace StandFacile
 
             pd.PrinterSettings.PrinterName = _sWinPrinterParamsCopy.sRcpPrinterModel;
 
-            if (pd.PrinterSettings.IsValid)
+            // se è una stampante ESC POS
+            if (checkBox_escpos.Checked)
             {
-
-                Logger.Info("WinPrinterDlg : sRcpPrinterModel = {0}", _sWinPrinterParamsCopy.sRcpPrinterModel);
-
-                //try {
-                //    Logger.Info("WinPrinterDlg : PaperSize.Width = {0}", pd.PrinterSettings.DefaultPageSettings.PaperSize.Width);
-                //}
-                //catch (Exception e) {
-                //    Logger.Info("WinPrinterDlg : errore PaperSize.Width,{0}", e.Message);
-                //}
-
-                //try {
-                //    Logger.Info("WinPrinterDlg : PaperSize.Height = {0}", pd.PrinterSettings.DefaultPageSettings.PaperSize.Height);
-                //}
-                //catch (Exception e) {
-                //    Logger.Info("WinPrinterDlg : errore PaperSize.Height,{0}", e.Message);
-                //}
-
-                //try {
-                //    Logger.Info("WinPrinterDlg : PrinterResolution.X = {0}", pd.PrinterSettings.DefaultPageSettings.PrinterResolution.X);
-                //}
-                //catch (Exception e) {
-                //    Logger.Info("WinPrinterDlg : errore PrinterResolution.X,{0}", e.Message);
-                //}
-
-                //try {
-                //    Logger.Info("WinPrinterDlg : PrinterResolution.Y = {0}", pd.PrinterSettings.DefaultPageSettings.PrinterResolution.Y);
-                //}
-                //catch (Exception e) {
-                //    Logger.Info("WinPrinterDlg : errore PrinterResolution.Y,{0}", e.Message);
-                //}
-
-                try
-                {
-                    // istruzioni lente, quindi vanno entrambi prima del Clear()
-                    iParam1 = pd.PrinterSettings.DefaultPageSettings.PaperSize.Width * pd.PrinterSettings.DefaultPageSettings.PrinterResolution.X / 100;
-                    iParam2 = pd.PrinterSettings.DefaultPageSettings.PaperSize.Height * pd.PrinterSettings.DefaultPageSettings.PrinterResolution.Y / 100;
-                }
-                catch (Exception e)
-                {
-                    _ErrMsg.sMsg = pd.PrinterSettings.PrinterName + " - " + e.Message;
-                    _ErrMsg.iErrID = WRN_PNV;
-                    WarningManager(_ErrMsg);
-                }
+                iParam1 = Printer_ESCPOS._printerWidth;
+                iParam2 = (int)(297 * 203 / 25.4f);
             }
             else
+            // se è una stampante windows
             {
-                _ErrMsg.sMsg = pd.PrinterSettings.PrinterName;
+                if (pd.PrinterSettings.IsValid)
+                {
 
-                _ErrMsg.iErrID = WRN_PNV;
-                WarningManager(_ErrMsg);
+                    Logger.Info("WinPrinterDlg : sRcpPrinterModel = {0}", _sWinPrinterParamsCopy.sRcpPrinterModel);
+
+                    //try {
+                    //    Logger.Info("WinPrinterDlg : PaperSize.Width = {0}", pd.PrinterSettings.DefaultPageSettings.PaperSize.Width);
+                    //}
+                    //catch (Exception e) {
+                    //    Logger.Info("WinPrinterDlg : errore PaperSize.Width,{0}", e.Message);
+                    //}
+
+                    //try {
+                    //    Logger.Info("WinPrinterDlg : PaperSize.Height = {0}", pd.PrinterSettings.DefaultPageSettings.PaperSize.Height);
+                    //}
+                    //catch (Exception e) {
+                    //    Logger.Info("WinPrinterDlg : errore PaperSize.Height,{0}", e.Message);
+                    //}
+
+                    //try {
+                    //    Logger.Info("WinPrinterDlg : PrinterResolution.X = {0}", pd.PrinterSettings.DefaultPageSettings.PrinterResolution.X);
+                    //}
+                    //catch (Exception e) {
+                    //    Logger.Info("WinPrinterDlg : errore PrinterResolution.X,{0}", e.Message);
+                    //}
+
+                    //try {
+                    //    Logger.Info("WinPrinterDlg : PrinterResolution.Y = {0}", pd.PrinterSettings.DefaultPageSettings.PrinterResolution.Y);
+                    //}
+                    //catch (Exception e) {
+                    //    Logger.Info("WinPrinterDlg : errore PrinterResolution.Y,{0}", e.Message);
+                    //}
+
+                    try
+                    {
+                        // istruzioni lente, quindi vanno entrambi prima del Clear()
+                        iParam1 = pd.PrinterSettings.DefaultPageSettings.PaperSize.Width * pd.PrinterSettings.DefaultPageSettings.PrinterResolution.X / 100;
+                        iParam2 = pd.PrinterSettings.DefaultPageSettings.PaperSize.Height * pd.PrinterSettings.DefaultPageSettings.PrinterResolution.Y / 100;
+                    }
+                    catch (Exception e)
+                    {
+                        _ErrMsg.sMsg = pd.PrinterSettings.PrinterName + " - " + e.Message;
+                        _ErrMsg.iErrID = WRN_PNV;
+                        WarningManager(_ErrMsg);
+                    }
+                }
+                else
+                {
+                    _ErrMsg.sMsg = pd.PrinterSettings.PrinterName;
+
+                    if (!bSilentModeParam)
+                    {
+                        _ErrMsg.iErrID = WRN_PNV;
+                        WarningManager(_ErrMsg);
+                    }
+                }
             }
 
-            if ((tckFont.Name != _sWinPrinterParamsCopy.sTckFontType) || (tckFont.Size != _sWinPrinterParamsCopy.fTckFontSize) || (tckFont.Style != _sWinPrinterParamsCopy.sTckFontStyle))
+            if ((_tckFont != null) && (_repFont != null))
             {
-                tckFont.Dispose();
-                tckFont = new Font(_sWinPrinterParamsCopy.sTckFontType, _sWinPrinterParamsCopy.fTckFontSize, _sWinPrinterParamsCopy.sTckFontStyle);
-            }
+                if ((_tckFont.Name != _sWinPrinterParamsCopy.sTckFontType) || (_tckFont.Size != _sWinPrinterParamsCopy.fTckFontSize) || (_tckFont.Style != _sWinPrinterParamsCopy.sTckFontStyle))
+                {
+                    _tckFont.Dispose();
+                    _tckFont = new Font(_sWinPrinterParamsCopy.sTckFontType, _sWinPrinterParamsCopy.fTckFontSize, _sWinPrinterParamsCopy.sTckFontStyle);
+                }
 
-            if ((repFont.Name != _sWinPrinterParamsCopy.sRepFontType) || (repFont.Size != _sWinPrinterParamsCopy.fRepFontSize) || (repFont.Style != _sWinPrinterParamsCopy.sRepFontStyle))
-            {
-                repFont.Dispose();
-                repFont = new Font(_sWinPrinterParamsCopy.sRepFontType, _sWinPrinterParamsCopy.fRepFontSize, _sWinPrinterParamsCopy.sRepFontStyle);
+                if ((_repFont.Name != _sWinPrinterParamsCopy.sRepFontType) || (_repFont.Size != _sWinPrinterParamsCopy.fRepFontSize) || (_repFont.Style != _sWinPrinterParamsCopy.sRepFontStyle))
+                {
+                    _repFont.Dispose();
+                    _repFont = new Font(_sWinPrinterParamsCopy.sRepFontType, _sWinPrinterParamsCopy.fRepFontSize, _sWinPrinterParamsCopy.sRepFontStyle);
+                }
             }
 
             Memo.Clear();
@@ -508,6 +531,11 @@ namespace StandFacile
                 WP_lblLogoPreview.Text = "Anteprima Logo :";
 
             // abilita/disabilita alcuni controlli se è selezionata la stampante ESC POS
+            numUpDown_RcpMargin.Enabled = !checkBox_escpos.Checked;
+            numUpDown_RepMargin.Enabled = !checkBox_escpos.Checked;
+            WP_labelMarginRcp.Enabled = !checkBox_escpos.Checked;
+            WP_labelMarginRep.Enabled = !checkBox_escpos.Checked;
+
             WP_labelCenterLogo.Enabled = !checkBox_escpos.Checked;
             numUpDown_LogoCenter.Enabled = !checkBox_escpos.Checked;
 
@@ -532,7 +560,7 @@ namespace StandFacile
 
         private void BtnTicketsFontSelect_Click(object sender, EventArgs e)
         {
-            fontTckDlg.Font = tckFont;
+            fontTckDlg.Font = _tckFont;
 
             DialogResult result = fontTckDlg.ShowDialog();
 
@@ -550,7 +578,7 @@ namespace StandFacile
 
         private void BtnReportsFontSelect_Click(object sender, EventArgs e)
         {
-            fontRepDlg.Font = repFont;
+            fontRepDlg.Font = _repFont;
 
             DialogResult result = fontRepDlg.ShowDialog();
 
