@@ -194,6 +194,7 @@
             // 
             // LC_panelLocalCopies
             // 
+            this.LC_panelLocalCopies.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_panelLocalCopies.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LC_panelLocalCopies.Controls.Add(this.LC_checkBox_LocPrices);
             this.LC_panelLocalCopies.Controls.Add(this.LC_labelWarn1);
@@ -462,6 +463,7 @@
             // 
             // LC_LinkLbl_Mnu_CCR
             // 
+            this.LC_LinkLbl_Mnu_CCR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_LinkLbl_Mnu_CCR.AutoSize = true;
             this.LC_LinkLbl_Mnu_CCR.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LC_LinkLbl_Mnu_CCR.Location = new System.Drawing.Point(339, 160);
@@ -474,6 +476,7 @@
             // 
             // LC_label2
             // 
+            this.LC_label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label2.AutoSize = true;
             this.LC_label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LC_label2.Location = new System.Drawing.Point(21, 139);
@@ -485,6 +488,7 @@
             // 
             // LC_label3
             // 
+            this.LC_label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label3.AutoSize = true;
             this.LC_label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LC_label3.Location = new System.Drawing.Point(21, 159);
@@ -495,6 +499,7 @@
             // 
             // LC_label1
             // 
+            this.LC_label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label1.AutoSize = true;
             this.LC_label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LC_label1.Location = new System.Drawing.Point(21, 119);
@@ -561,6 +566,7 @@
             // 
             // checkBox_escpos
             // 
+            this.checkBox_escpos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox_escpos.AutoSize = true;
             this.checkBox_escpos.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_escpos.Location = new System.Drawing.Point(34, 647);

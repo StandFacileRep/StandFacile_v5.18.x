@@ -90,7 +90,7 @@ namespace StandFacile
                 printersGroupBox.Visible = false;
                 RadioGroup_PrinterType.Visible = false;
 
-                this.Height = this.Height - printersGroupBox.Height - 20;
+                this.Height = this.Height - printersGroupBox.Height - 10;
             }
 
             // stampante Windows di Default
@@ -103,7 +103,13 @@ namespace StandFacile
             PrintersListCombo.Items.Clear();
 
             if (!CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
+            {
                 PrintersListCombo.Items.Add(_LEGACY_PRINTER);
+
+                // non serve
+                //if (_LEGACY_PRINTER == sGlbWinPrinterParams.sSumPrinterModel)
+                //    sGlbWinPrinterParams.iSumPrinterModel = 0;
+            }
 
             foreach (string printer in PrinterSettings.InstalledPrinters)
             {
