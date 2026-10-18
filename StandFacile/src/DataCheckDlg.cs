@@ -105,7 +105,7 @@ namespace StandFacile
             }
             else if (OptionsDlg.Get_PAGER_ShowFlag())
             {
-                DC_lbl_CAP.Text = "PAGER";
+                DC_lbl_CAP.Text = "Pager";
             }
 
             ShowDialog();

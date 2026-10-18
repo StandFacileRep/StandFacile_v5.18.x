@@ -1,6 +1,6 @@
 ﻿/****************************************************************************
 	NomeFile : StandCommonSrc/Printer_ESCPOS.cs
-    Data	 : 10.10.2026
+    Data	 : 18.10.2026
 	Autore   : Mauro Artuso
 
 	Descrizione :
@@ -71,7 +71,7 @@ namespace StandCommonFiles
         //const String WIDE_CONST_STRING = "*********_*********_********";
 
         static int iTM_T88_LMARGIN_SCNT_FSTD = 6;
-        const int TM_T88_LMARGIN_SCNT_FRID = 2;
+        const int TM_T88_LMARGIN_SCNT_FRID = 0;
         const int TM_T88_LMARGIN_DATA_RID = 2;
         const int TM_T88_LMARGIN_DATA = 2;
 
@@ -402,6 +402,11 @@ namespace StandCommonFiles
 
                 Logger.Info("Printer_ESCPOS : inizio stampa di " + _sFileToPrintParam);
 
+                // fondamentale per evitare di stampare più volte lo stesso contenuto
+                _bytes.Clear();
+
+                _bytes.AddRange(_emitter.Initialize());
+
                 // ciclo esterno per consentire i tagli intermedi
                 while (!_fileToPrint.EndOfStream)
                 {
@@ -511,10 +516,6 @@ namespace StandCommonFiles
             string sTmp, sInStr;
             String sBarcode;
 
-            // fondamentale per evitare di stampare più volte lo stesso contenuto
-            _bytes.Clear();
-
-            _bytes.AddRange(_emitter.Initialize());
             _bytes.AddRange(_emitter.LeftAlign());
 
             _bytes.AddRange(_emitter.SetStyles(_iStyle));
