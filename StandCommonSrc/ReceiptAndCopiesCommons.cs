@@ -1205,7 +1205,7 @@ namespace StandCommonFiles
                                 }
                                 else
                                 {
-                                    sGroup = String.Format("    {0}", dataIdParam.sCopiesGroupsText[iGrpReorderPtr[i]]);
+                                    sGroup = String.Format("  {0}", dataIdParam.sCopiesGroupsText[iGrpReorderPtr[i]]);
                                     _fPrint.WriteLine(sGroup);
                                 }
 
@@ -1288,7 +1288,7 @@ namespace StandCommonFiles
                                     }
                                     else
                                     {
-                                        sGroup = String.Format("    {0}", dataIdParam.sCopiesGroupsText[iGrpReorderPtr[i]]);
+                                        sGroup = String.Format("  {0}", dataIdParam.sCopiesGroupsText[iGrpReorderPtr[i]]);
                                         _fPrint.WriteLine(sGroup);
                                     }
 
