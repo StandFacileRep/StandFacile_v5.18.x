@@ -124,9 +124,9 @@ namespace StandCommonFiles
         /****************************************************
             STAMPA su stampante gestita da driver windows
          ****************************************************/
-        public static byte[] PrintFile(String sFileToPrintParam, bool bIsNotLegacyPrinter = true)
+        public static byte[] PrintFile(String sFileToPrintParam, bool bIs_USB_ETH_Printer = true)
         {
-            return PrintFile(sFileToPrintParam, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, "", bIsNotLegacyPrinter); // OK
+            return PrintFile(sFileToPrintParam, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, "", bIs_USB_ETH_Printer); // OK
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace StandCommonFiles
         ///  iPrinterIndexPrm == NUM_SEP_PRINT_GROUPS + 2  identifica stampante Messaggi,<br/>
         ///  iPrinterIndexPrm == NUM_SEP_PRINT_GROUPS + 3  identifica apertura cassetto
         /// </summary>
-        public static byte[] PrintFile(String sFileToPrintParam, TWinPrinterParams sWinPrinterParam, int iPrinterIndexPrm, string sPrinterNameParam = "", bool bIsNotLegacyPrinter = true)
+        public static byte[] PrintFile(String sFileToPrintParam, TWinPrinterParams sWinPrinterParam, int iPrinterIndexPrm, string sPrinterNameParam = "", bool bIs_USB_ETH_Printer = true)
         {
             int iPos;
             string sTmp, sFileName, sTmpPrinterName, sTmp_IP_addr = "";
@@ -205,7 +205,7 @@ namespace StandCommonFiles
             sFileName = Path.GetFileName(_sFileToPrintParam);
 
             // accetta anche Legacy con Logo grafico
-            if (bIsNotLegacyPrinter || (sGlbLegacyPrinterParams.iLogoBmp == 1))
+            if (bIs_USB_ETH_Printer || (sGlbLegacyPrinterParams.iLogoBmp == 1))
             {
                 _imgTmp_T = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(true);
                 _imgTmp_B = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(false);
@@ -422,10 +422,10 @@ namespace StandCommonFiles
                         Logger.Info("Printer_ESCPOS : prima di PrintPage");
 
                         // prepara il byte[] per la stampa
-                        escpos_PrintPage(bIsNotLegacyPrinter);
+                        escpos_PrintPage(bIs_USB_ETH_Printer);
 
                         // invio dati di stampa alla stampante solo attraverso COM, LPT
-                        if (!bIsNotLegacyPrinter)
+                        if (!bIs_USB_ETH_Printer)
                             continue;
 
                         try
@@ -508,13 +508,29 @@ namespace StandCommonFiles
             return _bytes.ToArray();
         }
 
-        private static void escpos_PrintPage(bool bIsNotLegacyPrinter)
+        private static void escpos_PrintPage(bool bIs_USB_ETH_Printer)
         {
             bool bLogoRequested_T, bLogoRequested_B, bBarcodeRequested;
             int i, iPos1, iPos2;
 
             string sTmp, sInStr;
             String sBarcode;
+
+            // fondamentale per evitare di stampare più volte lo stesso contenuto
+            if (bIs_USB_ETH_Printer)
+            {
+                // solo con USB, ETH dato che la stampa è sincrona con la lettura del file,
+                // mentre con COM, LPT la stampa è successiva alla lettura del file
+                _bytes.Clear();
+                _bytes.AddRange(_emitter.Initialize());
+            }
+            else
+            {
+                if ((_iStyle & PrintStyle.DoubleHeight) != 0)
+                    _bytes.AddRange(_emitter.SetLineSpacingInDots(80));
+                else
+                    _bytes.AddRange(_emitter.ResetLineSpacing());
+            }
 
             _bytes.AddRange(_emitter.LeftAlign());
 
@@ -555,7 +571,7 @@ namespace StandCommonFiles
                 /*************************************
                  *        Stampa del Logo Top
                  *************************************/
-                if (bIsNotLegacyPrinter && _bLogoCheck_T && bLogoRequested_T)
+                if (bIs_USB_ETH_Printer && _bLogoCheck_T && bLogoRequested_T)
                 {
                     // per alcune stampanti es. HOIN non funziona con le immagini
                     // _bytes.AddRange(_emitter.CenterAlign());
@@ -565,7 +581,7 @@ namespace StandCommonFiles
                     _bytes.AddRange(BitmapToEscPos(new Bitmap(_img_T), _printerWidth));
 
                 }
-                else if (!bIsNotLegacyPrinter && bLogoRequested_T)
+                else if (!bIs_USB_ETH_Printer && bLogoRequested_T)
                 {
                     if ((sGlbLegacyPrinterParams.iLogoBmp > 1) && (sGlbLegacyPrinterParams.iLogoBmp <= 5))
                     {
