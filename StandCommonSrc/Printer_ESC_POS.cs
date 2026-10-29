@@ -743,7 +743,7 @@ namespace StandCommonFiles
             _bytes.AddRange(_emitter.FullCutAfterFeed(5));
 
             // apertura cassetto
-            if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 3))
+            if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 3))
                 _bytes.AddRange(_emitter.CashDrawerOpenPin2());
 
             if (!_bTicketNumFound)

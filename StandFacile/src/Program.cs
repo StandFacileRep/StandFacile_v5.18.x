@@ -1,6 +1,6 @@
 ﻿/*********************************************************
     NomeFile : StandFacile/Program.cs
-    Data	 : 09.10.2026
+    Data	 : 27.10.2026
     Autore   : Mauro Artuso
 
     Avvia le classi visuali e non, nell'ordine corretto
@@ -202,7 +202,15 @@ namespace StandFacile
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            Exception ex = (Exception)e.ExceptionObject;
+
             MessageBox.Show((e.ExceptionObject as Exception).Message, "Eccezione non gestita nell'UI");
+
+            CommonCl.Logger.Info("Tipo eccezione: " + ex.GetType().FullName);
+            CommonCl.Logger.Info("Metodo che l'ha generata: " + ex.TargetSite.Name);
+            CommonCl.Logger.Info("Classe che l'ha generata: " + ex.TargetSite.DeclaringType.FullName);
+            CommonCl.Logger.Info("Stack trace: " + ex.StackTrace);
+
             CommonCl.Logger.Info((e.ExceptionObject as Exception).Message); // non funziona
         }
 

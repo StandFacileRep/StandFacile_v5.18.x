@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 	NomeFile : StandCommonSrc/WinPrinterDlg.cs
-    Data	 : 10.10.2026
+    Data	 : 27.10.2026
 	Autore   : Mauro Artuso
 
 	Descrizione : classe per la gestione della Form per l'impostazione dei
@@ -131,11 +131,11 @@ namespace StandFacile
             // stampante Windows di Default
             sDefaultPrinter = settings.PrinterName;
 
-            // inizializzazione stampanti ESC POS
-            iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
+            // inizializzazione stampanti ESC POS, punto unico
+            iGlbEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
 
-            checkBox_escpos.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS);
-            checkBox_CashDrawer.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 3);
+            checkBox_escpos.Checked = IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS);
+            checkBox_CashDrawer.Checked = IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 3);
 
             AggiornaAspettoControlli(true);
 
@@ -182,7 +182,7 @@ namespace StandFacile
                 // imposta nel combo la stampante Locale
                 if ((sGlbWinPrinterParams.iRcpPrinterModel >= 0) && (sGlbWinPrinterParams.iRcpPrinterModel < PrintersListCombo.Items.Count))
                 {
-                    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                    if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
                         PrintersListCombo.Text = sGlbWinPrinterParams.sRcpPrinterModel;
                     else
                         PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iRcpPrinterModel;
@@ -877,9 +877,9 @@ namespace StandFacile
 
             WriteRegistry(LOGO_WIN_CENTER_KEY, sGlbWinPrinterParams.iLogoCenter);
 
-            iEscPosPrinterType = UpdateBit(iEscPosPrinterType, checkBox_escpos.Checked, NUM_SEP_PRINT_GROUPS);
-            iEscPosPrinterType = UpdateBit(iEscPosPrinterType, checkBox_CashDrawer.Checked, NUM_SEP_PRINT_GROUPS + 3);
-            WriteRegistry(WIN_ESC_POS_MODEL_KEY, iEscPosPrinterType);
+            iGlbEscPosPrinterType = UpdateBit(iGlbEscPosPrinterType, checkBox_escpos.Checked, NUM_SEP_PRINT_GROUPS);
+            iGlbEscPosPrinterType = UpdateBit(iGlbEscPosPrinterType, checkBox_CashDrawer.Checked, NUM_SEP_PRINT_GROUPS + 3);
+            WriteRegistry(WIN_ESC_POS_MODEL_KEY, iGlbEscPosPrinterType);
 
             Logger.Info("WinPrinterDlg : OKBtnClick");
         }

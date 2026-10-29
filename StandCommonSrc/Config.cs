@@ -1,6 +1,6 @@
 ﻿/*****************************************************
   	NomeFile : StandFacile/Config.cs
-	Data	 : 16.10.2026
+	Data	 : 28.10.2026
   	Autore	 : Mauro Artuso
  *****************************************************/
 
@@ -286,7 +286,6 @@ namespace StandFacile
 
                 iVal = Convert.ToInt32(sInStrParam.Trim());
 
-                sConfig.iReceiptStartNumber = iVal;
                 return iVal;
 
             }

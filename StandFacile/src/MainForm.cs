@@ -1573,7 +1573,7 @@ namespace StandFacile
         {
             Logger.Info("Mainform : PrintSampleText()");
 
-            if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+            if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
                 Printer_ESCPOS.PrintSampleText(sGlbWinPrinterParams);
             else
                 Printer_Windows.PrintSampleText(sGlbWinPrinterParams);

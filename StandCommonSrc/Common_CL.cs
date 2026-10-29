@@ -515,7 +515,7 @@ namespace StandCommonFiles
             if (PrintConfigLightDlg.GetSysPrinterTypeIsWindows())
 #endif
             {
-                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
                     Printer_ESCPOS.PrintFile(sFileToPrintParm);
                 else
                     Printer_Windows.PrintFile(sFileToPrintParm);
@@ -542,7 +542,7 @@ namespace StandCommonFiles
 
             if (bPrinterIsWindows)
             {
-                if (IsBitSet(iEscPosPrinterType, iDestParam))
+                if (IsBitSet(iGlbEscPosPrinterType, iDestParam))
                     Printer_ESCPOS.PrintFile(sFileToPrintParm, sGlbWinPrinterParams, iDestParam);
                 else
                     Printer_Windows.PrintFile(sFileToPrintParm, sGlbWinPrinterParams, iDestParam);

@@ -1,6 +1,6 @@
 ﻿/*****************************************************
  	NomeFile : PrintLocalCopiesConfigDlg.cs
-    Data	 : 28.09.2026
+    Data	 : 27.10.2026
  	Autore   : Mauro Artuso
 
  *****************************************************/
@@ -40,7 +40,10 @@ namespace StandFacile
 
         static bool _bListinoModificato;
 
-        static int _iEscPosPrinterType;
+        /// <summary>
+        /// deve essere membro in quanto si legge dalla iGlbEscPosPrinterType e poi se ne modifica solo un bit
+        /// </summary>
+        static int _iEscPosPrinterLocType;
 
         static PrinterSettings settings = new PrinterSettings();
         static String sDefaultPrinter;
@@ -60,12 +63,12 @@ namespace StandFacile
         /// <summary>struct per la gestione degli avvisi e/o errori</summary>
         public static TErrMsg _WrnMsg;
 
-        /// <summary>costruttore</summary>
+        /// <summary>
+        /// costruttore: dato che è chiamato solo da Program() non può leggere dalla iGlbEscPosPrinterType<br/>
+        /// variabili che potrebbero essere modificate, come _iEscPosPrinterLocType
+        /// </summary>
         public PrintLocalCopiesConfigDlg()
         {
-            int i = 0;
-            String sLogStr;
-
             InitializeComponent();
 
             _rPrintTckConfigDlg = this;
@@ -92,6 +95,19 @@ namespace StandFacile
 
                 this.Height = this.Height - printersGroupBox.Height - 10;
             }
+
+            Init(false);
+        }
+
+        /// <summary>
+        /// Inizializzazione con lettura dal Registro e dal DataManager
+        /// </summary>
+        /// <param name="bShow"></param>
+        public void Init(bool bShow)
+        {
+            int i = 0;
+            int iPrinterTypeRadio;
+            String sLogStr;
 
             // stampante Windows di Default
             sDefaultPrinter = settings.PrinterName;
@@ -130,8 +146,8 @@ namespace StandFacile
             }
 
             // inizializzazione stampanti ESC POS
-            _iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
-            checkBox_escpos.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1);
+            _iEscPosPrinterLocType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
+            checkBox_escpos.Checked = IsBitSet(_iEscPosPrinterLocType, NUM_SEP_PRINT_GROUPS + 1);
 
             checkBox_escpos_Click(this, EventArgs.Empty);
 
@@ -139,7 +155,7 @@ namespace StandFacile
             {
                 if ((sGlbWinPrinterParams.iSumPrinterModel >= 0) && (sGlbWinPrinterParams.iSumPrinterModel < PrintersListCombo.Items.Count))
                 {
-                    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1))
+                    if (IsBitSet(_iEscPosPrinterLocType, NUM_SEP_PRINT_GROUPS + 1))
                         PrintersListCombo.Text = sGlbWinPrinterParams.sSumPrinterModel;
                     else
                         PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iSumPrinterModel;
@@ -148,22 +164,10 @@ namespace StandFacile
                     PrintersListCombo.SelectedIndex = 0;
             }
 
-            Init(false);
-        }
-
-        /// <summary>
-        /// Inizializzazione con lettura dal Registro e dal DataManager
-        /// </summary>
-        /// <param name="bShow"></param>
-        public void Init(bool bShow)
-        {
-            int iPrinterTypeRadio;
-
             //inizializzazione stampante windows o Legacy
             iPrinterTypeRadio = ReadRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
 
             if ((iPrinterTypeRadio == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) || CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
-
             {
                 prt_Windows.Checked = true;
                 iSysPrinterType = (int)PRINTER_TYPE.STAMPANTE_USB_ETH;
@@ -189,7 +193,7 @@ namespace StandFacile
                 LC_label3.Enabled = true;
             }
 
-            for (int i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
+            for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
             {
                 if (!String.IsNullOrEmpty(SF_Data.sCopiesGroupsText[i]))
                     _pCheckBoxCopia[i].Text = SF_Data.sCopiesGroupsText[i];
@@ -393,12 +397,12 @@ namespace StandFacile
                 WriteRegistry(WIN_SUM_PRINTER_MODEL_KEY, sGlbWinPrinterParams.sSumPrinterModel);
             }
 
-            _iEscPosPrinterType = UpdateBit(_iEscPosPrinterType, checkBox_escpos.Checked, NUM_SEP_PRINT_GROUPS + 1);
+            _iEscPosPrinterLocType = UpdateBit(_iEscPosPrinterLocType, checkBox_escpos.Checked, NUM_SEP_PRINT_GROUPS + 1);
 
-            if (iEscPosPrinterType != _iEscPosPrinterType)
+            if (iGlbEscPosPrinterType != _iEscPosPrinterLocType)
             {
-                iEscPosPrinterType = _iEscPosPrinterType;
-                WriteRegistry(WIN_ESC_POS_MODEL_KEY, _iEscPosPrinterType);
+                iGlbEscPosPrinterType = _iEscPosPrinterLocType;
+                WriteRegistry(WIN_ESC_POS_MODEL_KEY, _iEscPosPrinterLocType);
             }
 
             Logger.Info("PrintLocalCopiesConfigDlg OK");

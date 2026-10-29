@@ -642,6 +642,9 @@ namespace StandCommonFiles
 
                     if (!String.IsNullOrEmpty(sInStr) && sInStr.Contains(_CUT) && sGlbWinPrinterParams.bA4Paper && _bPaperIsA4 && _bIsTicket)
                     {
+                        sTmp = String.Format("Printer_Windows : _CUT {0} {1}", sGlbWinPrinterParams.bA4Paper, _bPaperIsA4);
+                        Logger.Info(sTmp);
+
                         switch (iA4_PrintStatus)
                         {
                             // prepara 2Q
@@ -719,7 +722,7 @@ namespace StandCommonFiles
                         sInStr = _fileToPrint.ReadLine();
                         sInStr = _fileToPrint.ReadLine();
 
-                        Console.WriteLine("Prt_Win: iA4_PrintStatus = {0}", iA4_PrintStatus);
+                        Console.WriteLine("Printer_Windows: iA4_PrintStatus = {0}", iA4_PrintStatus);
                     }
                     else if (!String.IsNullOrEmpty(sInStr) && sInStr.Contains(_CUT))
                     {
@@ -732,7 +735,7 @@ namespace StandCommonFiles
                     else
                     {
                         PrintCanvas(pg, sInStr);
-                        //Console.WriteLine("Prt_Win: {0}", sInStr);
+                        //Console.WriteLine("Printer_Windows: {0}", sInStr);
                     }
                 }
 
@@ -817,7 +820,7 @@ namespace StandCommonFiles
                     Font BC_Font = new Font("Arial", 11.0f);
                     pg.DrawString(sTmp, BC_Font, Brushes.Black, fBC_LeftMargin + 8, _fCanvasVertPos, new StringFormat());
 
-                    Logger.Info(String.Format("Printer Win: _sBarcodeID = {0}", sTmp));
+                    Logger.Info(String.Format("Printer_Windows : _sBarcodeID = {0}", sTmp));
                 }
 
                 // forza uscita
@@ -846,9 +849,12 @@ namespace StandCommonFiles
             // valuta se servono altre pagine, 25.4*32/100 = 8mm
             if (_fCanvasVertPos > (iPaperSizeHeight - 32))
             {
-                Console.WriteLine("*****************************");
-                Console.WriteLine("** Prt_Win: cambio pagina ***");
-                Console.WriteLine("*****************************");
+                Console.WriteLine("************************************");
+                Console.WriteLine("** Printer_Windows: cambio pagina ***");
+                Console.WriteLine("***********************************");
+
+                sTmp = String.Format("Printer_Windows : cambio pagina 2 {0} {1}", _fCanvasVertPos, iPaperSizeHeight - 32);
+                Logger.Info(sTmp);
 
                 // proseguimento a pagina successiva senza andare a capo
                 if (ev.HasMorePages == false)

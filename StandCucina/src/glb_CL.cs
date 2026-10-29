@@ -29,7 +29,7 @@ namespace StandFacile
         public static int iSysPrinterType;
 
         /// <summary>descrive se la stampante è di tipo ESC POS</summary>
-        public static int iEscPosPrinterType;
+        public static int iGlbEscPosPrinterType;
 
         /// <summary>Struct per la gestione della stampa Windows</summary>
         public static TWinPrinterParams sGlbWinPrinterParams = new TWinPrinterParams(0);

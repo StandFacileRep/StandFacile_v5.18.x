@@ -1,6 +1,6 @@
 ﻿/***************************************************************************
 	NomeFile : StandFacile/VisMessaggi.cs
-    Data	 : 22.09.2026
+    Data	 : 27.10.2026
 	Autore	 : Mauro Artuso
 
  ***************************************************************************/
@@ -28,7 +28,12 @@ namespace StandFacile
 #pragma warning disable IDE0044
 
         bool _bNuovoMessaggioReq, _bMessaggioCaricato;
-        int _iNum, _iEscPosPrinterType;
+        int _iNum;
+
+        /// <summary>
+        /// deve essere membro in quanto si legge dal Registry e poi se ne modifica solo un bit
+        /// </summary>
+        int _iEscPosPrinterType;
 
         static bool _bNewMessage;
 
@@ -94,14 +99,14 @@ namespace StandFacile
 
             // inizializzazione stampanti ESC POS
             _iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
-            checkBox_escpos.Checked = IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 2);
+            checkBox_escpos.Checked = IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 2);
 
             checkBox_escpos_Click(this, EventArgs.Empty);
 
             // imposta nel combo la stampante Locale
             if ((sGlbWinPrinterParams.iMsgPrinterModel >= 0) && (sGlbWinPrinterParams.iMsgPrinterModel < PrintersListCombo.Items.Count))
             {
-                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 2))
+                if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 2))
                     PrintersListCombo.Text = sGlbWinPrinterParams.sMsgPrinterModel;
                 else
                     PrintersListCombo.SelectedIndex = sGlbWinPrinterParams.iMsgPrinterModel;
@@ -363,9 +368,9 @@ namespace StandFacile
 
             _iEscPosPrinterType = UpdateBit(_iEscPosPrinterType, checkBox_escpos.Checked, NUM_SEP_PRINT_GROUPS + 2);
 
-            if (iEscPosPrinterType != _iEscPosPrinterType)
+            if (iGlbEscPosPrinterType != _iEscPosPrinterType)
             {
-                iEscPosPrinterType = _iEscPosPrinterType;
+                iGlbEscPosPrinterType = _iEscPosPrinterType;
                 WriteRegistry(WIN_ESC_POS_MODEL_KEY, _iEscPosPrinterType);
             }
 

@@ -1,6 +1,6 @@
 ﻿/*****************************************************
  	NomeFile : StandFacile/PrintNetCopiesConfigDlg.cs
-    Data	 : 20.09.2026
+    Data	 : 27.10.2026
  	Autore   : Mauro Artuso
  *****************************************************/
 
@@ -29,8 +29,6 @@ namespace StandFacile
 
         static PrinterSettings _settings = new PrinterSettings();
         static String _sDefaultPrinter;
-
-        static int _iEscPosPrinterType;
 
         static bool _bListinoModificato;
 
@@ -239,16 +237,17 @@ namespace StandFacile
         public void Init(bool bShow)
         {
             int i, j;
+            int iEscPosPrinterType;
             String sTmp;
 
             // stampante Windows di Default
             _sDefaultPrinter = _settings.PrinterName;
 
             //lettura dal Registry
-            _iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
+            iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
 
             for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
-                _pCheckBoxEscPos[i].Checked = IsBitSet(_iEscPosPrinterType, i);
+                _pCheckBoxEscPos[i].Checked = IsBitSet(iEscPosPrinterType, i);
 
 
             for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
@@ -607,6 +606,7 @@ namespace StandFacile
         private void BtnOK_Click(object sender, EventArgs e)
         {
             int i, iBarcodeRichiestoTmp;
+            int iEscPosPrinterType;
             String sTmp;
             String[] sQueue_Object = new String[2];
 
@@ -671,22 +671,23 @@ namespace StandFacile
                 SF_Data.iBarcodeRichiesto = iBarcodeRichiestoTmp;
             }
 
-            // iEscPosPrinterType non varia per la stampante Receipt, Riepilogo, Messaggi
-            _iEscPosPrinterType = (iEscPosPrinterType & (7 << NUM_SEP_PRINT_GROUPS));
+            // iGlbEscPosPrinterType non varia per la stampante Receipt, Riepilogo, Messaggi
+            // si modificano tutti i bit meno significativi
+            iEscPosPrinterType = (iGlbEscPosPrinterType & (7 << NUM_SEP_PRINT_GROUPS));
 
             for (i = 0; i < NUM_SEP_PRINT_GROUPS; i++)
             {
                 if (_pCheckBoxEscPos[i].Checked)
-                    _iEscPosPrinterType += (int)Math.Pow(2, i); // 0x000003FF
+                    iEscPosPrinterType += (int)Math.Pow(2, i); // 0x000003FF
             }
 
-            // controllo _bListinoModificato per iEscPosPrinterType, salvataggio nel Registry
-            if (iEscPosPrinterType != _iEscPosPrinterType)
+            // controllo _bListinoModificato per iGlbEscPosPrinterType, salvataggio nel Registry
+            if (iGlbEscPosPrinterType != iEscPosPrinterType)
             {
                 _bListinoModificato = true;
-                iEscPosPrinterType = _iEscPosPrinterType;
+                iGlbEscPosPrinterType = iEscPosPrinterType;
 
-                WriteRegistry(WIN_ESC_POS_MODEL_KEY, iEscPosPrinterType);
+                WriteRegistry(WIN_ESC_POS_MODEL_KEY, iGlbEscPosPrinterType);
             }
 
             // controllo _bListinoModificato a gruppi

@@ -416,6 +416,7 @@ namespace StandFacile
         /// <summary>Funzione di salvataggio dei dati di riepilogo giornaliero</summary>
         public static void SalvaDati(TData dataIdParam, bool bTutteCasseParam = false)
         {
+            bool bZeroPriceAllowed;  // usata da SalvaListino() e CaricaListino() per consentire articoli a prezzo zero
             int i, iQuantitaVenduta, iTotaleParz;
             String sDir, sNomeFileDati, sNomeFileDatiBak;
             String sTmp, sDataRow, sDisp, sParz;
@@ -502,6 +503,10 @@ namespace StandFacile
                 fData.WriteLine("    Articolo       quant.venduta       dispon.");
                 fData.WriteLine("             prz. unitario       parziale");
 
+                // con _rOptionsDlg genera eccezzione perchè null
+                // bZeroPriceAllowed = OptionsDlg._rOptionsDlg.GetZeroPriceEnabled();
+                bZeroPriceAllowed = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_ZERO_PRICE_ITEMS_ALLOWED);
+
                 /****************************************************
                  *   Salvataggio dei dati di riepilogo giornaliero
                  ****************************************************/
@@ -510,7 +515,7 @@ namespace StandFacile
                 {
                     // separa voci aggiuntive
                     if ((i == MAX_ITEMS_NUM) && ((dataIdParam.Articolo[i].iPrezzoUnitario > 0) ||
-                        (!String.IsNullOrEmpty(dataIdParam.Articolo[i].sTipo) && OptionsDlg._rOptionsDlg.GetZeroPriceEnabled())))
+                        (!String.IsNullOrEmpty(dataIdParam.Articolo[i].sTipo) && bZeroPriceAllowed)))
                         fData.WriteLine();
 
                     if (dataIdParam.Articolo[i].iDisponibilita == DISP_OK)
@@ -519,7 +524,7 @@ namespace StandFacile
                         sDisp = dataIdParam.Articolo[i].iDisponibilita.ToString();
 
                     if ((dataIdParam.Articolo[i].iPrezzoUnitario > 0) ||
-                        (!String.IsNullOrEmpty(dataIdParam.Articolo[i].sTipo) && OptionsDlg._rOptionsDlg.GetZeroPriceEnabled()) ||
+                        (!String.IsNullOrEmpty(dataIdParam.Articolo[i].sTipo) && bZeroPriceAllowed) ||
                         (dataIdParam.Articolo[i].iGruppoStampa == (int)DEST_TYPE.DEST_COUNTER))
                     {
                         iQuantitaVenduta = dataIdParam.Articolo[i].iQuantitaVenduta;

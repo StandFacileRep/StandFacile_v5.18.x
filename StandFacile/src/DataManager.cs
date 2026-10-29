@@ -1029,7 +1029,7 @@ namespace StandFacile
 
                             //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(i))
                             //{
-                            //    if (IsBitSet(iEscPosPrinterType, i))
+                            //    if (IsBitSet(iGlbEscPosPrinterType, i))
                             //        Printer_ESCPOS.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
                             //    else
                             //        Printer_Windows.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);

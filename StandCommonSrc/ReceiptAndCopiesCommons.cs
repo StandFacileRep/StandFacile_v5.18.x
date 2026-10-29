@@ -856,7 +856,7 @@ namespace StandCommonFiles
 
                     //if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
                     //{
-                    //    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                    //    if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
                     //        Printer_ESCPOS.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
                     //    else
                     //        Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
@@ -879,7 +879,7 @@ namespace StandCommonFiles
             {
                 if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
                 {
-                    //if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                    //if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
                     //    Printer_ESCPOS.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
                     //else
                     Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
@@ -1385,7 +1385,7 @@ namespace StandCommonFiles
 
                             //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS + 1))
                             //{
-                            //    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1))
+                            //    if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1))
                             //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
                             //    else
                             //        Printer_Windows.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
@@ -1402,7 +1402,7 @@ namespace StandCommonFiles
                             if ((sConfig.iLocalCopyPrinterNumRedirect >= 0) && (sConfig.iLocalCopyPrinterNumRedirect < PrinterSettings.InstalledPrinters.Count))
                             {
                                 // si da per scontato che PrinterTypeIsWindows
-                                if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                                if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
                                     Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]);
                                 else
                                     Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
@@ -1413,7 +1413,7 @@ namespace StandCommonFiles
 
                                 //if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
                                 //{
-                                //    if (IsBitSet(iEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
+                                //    if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
                                 //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
                                 //    else
                                 //        Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
@@ -1811,7 +1811,7 @@ namespace StandCommonFiles
 
                         //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(i))
                         //{
-                        //    if (IsBitSet(iEscPosPrinterType, i))
+                        //    if (IsBitSet(iGlbEscPosPrinterType, i))
                         //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
                         //    else
                         //        Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
@@ -2064,7 +2064,7 @@ namespace StandCommonFiles
 
                         //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows((int)DEST_TYPE.DEST_SINGLE))
                         //{
-                        //    if (IsBitSet(iEscPosPrinterType, (int)DEST_TYPE.DEST_SINGLE))
+                        //    if (IsBitSet(iGlbEscPosPrinterType, (int)DEST_TYPE.DEST_SINGLE))
                         //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
                         //    else
                         //        Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
