@@ -610,12 +610,12 @@ namespace StandCommonFiles
                     sWrnStr = " Attenzione nessuna stampante presente !\r\n\r\nInstallarne almeno una.";
                     break;
 
-#if STANDFACILE
                 case WRN_PRLM:
                     bModal = true;
                     sWrnStr = " Attenzione !\r\n\r\n Listino modificato: \r\n\r\nSi consiglia di riavviare il programma.";
                     break;
 
+#if STANDFACILE
                 case WRN_CDCLS:
                     bModal = true;
                     sWrnStr = " Attenzione !\r\n\r\n Rilevate nella rete casse con lo stesso numero: " + WrnMsg.sMsg + "\r\n\r\n" +
@@ -633,7 +633,7 @@ namespace StandCommonFiles
 
             sCaptionBuf = String.Format("Avviso {0} : {1}", WrnMsg.iErrID, TITLE);
 
-#if STAND_CUCINA || STAND_ORDINI || STAND_MONITOR
+#if STAND_ORDINI || STAND_MONITOR
 
             rMessageDlg?.MessageBox(Environment.NewLine + sWrnStr, sCaptionBuf, 10);
 #else

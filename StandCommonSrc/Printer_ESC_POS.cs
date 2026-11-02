@@ -1,6 +1,6 @@
 ﻿/****************************************************************************
 	NomeFile : StandCommonSrc/Printer_ESCPOS.cs
-    Data	 : 18.10.2026
+    Data	 : 25.10.2026
 	Autore   : Mauro Artuso
 
 	Descrizione :
@@ -452,6 +452,8 @@ namespace StandCommonFiles
                                     _WrnMsg.iErrID = WRN_STF;
                                     WarningManager(_WrnMsg);
                                 }
+
+                                Logger.Info($"Printer_ESCPOS: eth_addr = {_IP_Address.ToString()}");
                             }
                             else
                             {
@@ -463,6 +465,8 @@ namespace StandCommonFiles
                                     // non utilizza il driver della stampante, ma invia direttamente i byte ESC/POS
                                     _rawPrinter.PrintRawStream(_printerName, ms, jobName, false);
                                 }
+
+                                Logger.Info($"Printer_ESCPOS: jobName = {jobName}");
                             }
 
                             Logger.Info("Printer_ESCPOS : dopo PrintPage");

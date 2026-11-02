@@ -617,6 +617,7 @@ namespace StandFacile
                         else
                             SF_Data.iBarcodeRichiesto = 0;
 
+                        Logger.Info("Datamanager: #BC {0:X8}", SF_Data.iBarcodeRichiesto);
                         continue;
                     }
                     else if (sInStr.StartsWith("#GO"))
@@ -630,6 +631,7 @@ namespace StandFacile
 
                         SF_Data.iGeneralProgOptions = i;
 
+                        Logger.Info("Datamanager: #GO {0:X8}", SF_Data.iGeneralProgOptions);
                         continue;
                     }
                     else if (sInStr.StartsWith("#GP")) // GP == General Print
@@ -643,6 +645,7 @@ namespace StandFacile
 
                         SF_Data.iGenericPrintOptions = i;
 
+                        Logger.Info("Datamanager: #GP {0:X8}", SF_Data.iGenericPrintOptions);
                         continue;
                     }
                     else if (sInStr.StartsWith("#TN") || sInStr.StartsWith("#LC")) // compatibilità
@@ -656,6 +659,7 @@ namespace StandFacile
 
                         SF_Data.iLocalCopyOptions = i;
 
+                        Logger.Info("Datamanager: #LC {0:X8}", SF_Data.iLocalCopyOptions);
                         continue;
                     }
                     else if (sInStr.StartsWith("#LF"))

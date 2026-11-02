@@ -26,7 +26,7 @@ namespace StandFacile
         public InfoDlg()
         {
             InitializeComponent();
-            
+
             lblTitolo.Text = Define.TITLE;
             lblRel.Text = RELEASE_SW;
             LinkLbl_Web.Text = URL_APP_WEBSITE;

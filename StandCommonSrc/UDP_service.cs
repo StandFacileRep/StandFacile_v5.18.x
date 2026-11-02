@@ -90,6 +90,10 @@ namespace StandCommonFiles
             {
                 FrmMain.rFrmMain.SetShortUpdateTimeout(2);
             }
+            else if (msg.Contains(UDP_EVENTS.PRICELIST_MODIFIED_EVENT))
+            {
+                WarningManager(WRN_PRLM);
+            }
 
 #elif STANDFACILE
             if (msg.Contains(UDP_EVENTS.CASHDESK_UP_PING_EVENT) && dBaseIntf.bUSA_NDB())

@@ -1193,7 +1193,7 @@ namespace StandCommonFiles
                                 if (!String.IsNullOrEmpty(sHeader1_ToPrintBeforeCut))
                                     _fPrint.WriteLine("{0}", sHeader1_ToPrintBeforeCut);
 
-                                sTmp = String.Format("    {0} {1}", _RECEIPT_NUM_NZ, iNumOfReceiptsParam);
+                                sTmp = String.Format("  {0} {1}", _RECEIPT_NUM_NZ, iNumOfReceiptsParam);
                                 _fPrint.WriteLine("{0}\r\n", sTmp);
 
                                 if (!String.IsNullOrEmpty(sHeader2_ToPrintBeforeCut))
@@ -2096,10 +2096,7 @@ namespace StandCommonFiles
         }
 
         /// <summary>
-        /// funzione che scrive il Footer nel file _fPrint,<br/>
-        /// prelevando i dati dalla struct dataIdParam,<br/>
-        /// inoltre, se si verificano le condizioni necessarie,<br/>
-        /// scrive il Logo Bottom nella variabile _sLogo_B_ToPrintBeforeCut  
+        /// funzione che scrive decora con stelline il gruppo di copie nel file _fPrint
         /// </summary>
         static void WriteStarsFrame(String sCopiesGroupsTextParam)
         {

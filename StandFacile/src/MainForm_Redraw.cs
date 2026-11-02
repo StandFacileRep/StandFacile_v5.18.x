@@ -1769,7 +1769,7 @@ namespace StandFacile
 
                 // avvio form
                 if (_fFontWidth < 5.0)
-                    _fFontWidth = ((float)iRowsHeight * 0.45f);
+                    _fFontWidth = ((float)iRowsHeight * 0.1f);
 
                 //Console.WriteLine("_fFontWidth = {0}, {1}, {2}, {3}", _fFontWidth, fColumnsWidth, fTextSize, sText.Length);
 
