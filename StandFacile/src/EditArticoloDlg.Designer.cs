@@ -280,7 +280,7 @@
             // 
             this.TipoEdit.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TipoEdit.Location = new System.Drawing.Point(149, 15);
-            this.TipoEdit.MaxLength = 18;
+            this.TipoEdit.MaxLength = 22;
             this.TipoEdit.Name = "TipoEdit";
             this.TipoEdit.Size = new System.Drawing.Size(226, 22);
             this.TipoEdit.TabIndex = 1;

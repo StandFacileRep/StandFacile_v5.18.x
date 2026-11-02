@@ -1,6 +1,6 @@
 ﻿/***************************************************************************
 	NomeFile : StandFacile/VisMessaggi.cs
-    Data	 : 27.10.2026
+    Data	 : 22.09.2026
 	Autore	 : Mauro Artuso
 
  ***************************************************************************/
@@ -15,7 +15,6 @@ using static StandCommonFiles.CommonCl;
 
 using static StandFacile.glb;
 using static StandFacile.Define;
-using static StandFacile.Config;
 using static StandFacile.dBaseIntf;
 
 namespace StandFacile
@@ -79,26 +78,20 @@ namespace StandFacile
 
             i = 0;
 
-            if (!CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
-                PrintersListCombo.Items.Add(_LEGACY_PRINTER);
+            PrintersListCombo.Items.Add(_LEGACY_PRINTER);
 
             foreach (string printer in PrinterSettings.InstalledPrinters)
             {
                 PrintersListCombo.Items.Add(printer);
 
                 if (printer == sGlbWinPrinterParams.sMsgPrinterModel)
-                {
-                    if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
-                        sGlbWinPrinterParams.iMsgPrinterModel = i;
-                    else
-                        sGlbWinPrinterParams.iMsgPrinterModel = i + 1;  // tiene conto di _LEGACY_PRINTER
-                }
+                    sGlbWinPrinterParams.iMsgPrinterModel = i + 1;  // tiene conto di _LEGACY_PRINTER
 
                 i++;
             }
 
             // inizializzazione stampanti ESC POS
-            _iEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
+            _iEscPosPrinterType = iGlbEscPosPrinterType;
             checkBox_escpos.Checked = IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 2);
 
             checkBox_escpos_Click(this, EventArgs.Empty);
@@ -436,17 +429,7 @@ namespace StandFacile
                     // Invio alla Stampante
                     Logger.Info("VisMessaggiDlg : stampa di " + sNomeFileMsg);
 
-                    PrintFileToDestination(PrintersListCombo.Text, checkBox_escpos.Checked, sNomeFileMsg, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
-
-                    //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(PrintersListCombo.Text))
-                    //{
-                    //    if (checkBox_escpos.Checked)
-                    //        Printer_ESCPOS.PrintFile(sNomeFileMsg, sGlbWinPrinterParams, 0, PrintersListCombo.Text);
-                    //    else
-                    //        Printer_Windows.PrintFile(sNomeFileMsg, sGlbWinPrinterParams, 0, PrintersListCombo.Text);
-                    //}
-                    //else
-                    //    Printer_Legacy.PrintFile(sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+                    PrintFileToDestination(sNomeFileMsg, checkBox_escpos.Checked, PrintersListCombo.Text, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
 
                     // aggiorna se serve il flag BIT_TICKET_STAMPATO_DA_STANDCUCINA per contrassegnare la stampa avvenuta, attenzione al '-'
                     if (!IsBitSet(dataIdentifierParam.iStatusReceipt, (int)STATUS_FLAGS.BIT_RECEIPT_STAMPATO_DA_STANDCUCINA))

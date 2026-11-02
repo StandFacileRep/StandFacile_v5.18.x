@@ -86,7 +86,7 @@ namespace StandFacile
                 DC_lblName.Font = new Font("Tahoma", 12);
             }
 
-            if (Get_CAP_MandatoryFlag() || Get_Pager_MandatoryFlag())
+            if (Get_CAP_MandatoryFlag() || Get_PAGER_MandatoryFlag())
             {
                 DC_lbl_CAP.ForeColor = Color.Blue;
                 DC_lbl_CAP.Font = new Font("Tahoma", 12);
@@ -99,13 +99,14 @@ namespace StandFacile
             }
 
             // indicazione alternativa del CAP / Pager
-            if (OptionsDlg.Get_CAP_ShowFlag())
-            {
-                DC_lbl_CAP.Text = "CAP";
-            }
-            else if (OptionsDlg.Get_PAGER_ShowFlag())
+            // if va fatto solo su ShowFlag()
+            if (Get_PAGER_ShowFlag())
             {
                 DC_lbl_CAP.Text = "Pager";
+            }
+            else
+            {
+                DC_lbl_CAP.Text = "CAP";
             }
 
             ShowDialog();
@@ -113,6 +114,9 @@ namespace StandFacile
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
+            if (sender == DC_Edit_CASH)
+                radioContantiBtn.Checked = true;
+
             UpdateDataCheckParams();
         }
 
@@ -181,8 +185,9 @@ namespace StandFacile
         {
             int iContante = EuroToInt(DC_Edit_CASH.Text, EURO_CONVERSION.EUROCONV_DONT_CARE, WrnMsg);
 
-            // if (radioContantiBtn.Checked && ((iContante >= _iTotaleParz) || String.IsNullOrEmpty(DC_Edit_CASH.Text)))
-            if (radioContantiBtn.Checked && (iContante >= _iTotaleParz))
+            if (radioContantiBtn.Checked && !GetCash_MandatoryFlag())
+                return true;
+            else if (radioContantiBtn.Checked && (iContante >= _iTotaleParz))
                 return true;
             else
                 return (radioCardBtn.Checked || radioSatispayBtn.Checked);
@@ -203,7 +208,7 @@ namespace StandFacile
             if ((!GetTable_MandatoryFlag() || !String.IsNullOrEmpty(DC_EditTavolo.Text.Trim())) &&
                 (!GetName_MandatoryFlag() || (DC_EditName.Text.Trim().Length > 2)) &&
                 (!Get_CAP_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 2)) &&
-                (!Get_Pager_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 0)) &&
+                (!Get_PAGER_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 0)) &&
                 (!GetPlaceSettings_MandatoryFlag() || (!String.IsNullOrEmpty(DC_EditCoperti.Text.Trim()) && Convert.ToInt32(DC_EditCoperti.Text) >= 0)) &&
                 (!GetPayment_MandatoryFlag() || VerificaPayment()))
             {
@@ -224,7 +229,7 @@ namespace StandFacile
             if ((!GetTable_MandatoryFlag() || !String.IsNullOrEmpty(DC_EditTavolo.Text.Trim())) &&
                 (!GetName_MandatoryFlag() || (DC_EditName.Text.Trim().Length > 2)) &&
                 (!Get_CAP_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 2)) &&
-                (!Get_Pager_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 0)) &&
+                (!Get_PAGER_MandatoryFlag() || (DC_Edit_CAP_Pager.Text.Trim().Length > 0)) &&
                 (!GetPlaceSettings_MandatoryFlag() || (!String.IsNullOrEmpty(DC_EditCoperti.Text.Trim()) && Convert.ToInt32(DC_EditCoperti.Text) >= 0)) &&
                 (!GetPayment_MandatoryFlag() || VerificaPayment()))
             {

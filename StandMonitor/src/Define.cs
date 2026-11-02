@@ -28,9 +28,6 @@ namespace StandFacile
         /// <summary>AuxRefresh tabella ogni 30s</summary>
         public static int REFRESH_TIMER = 30 * 4;  // timer da 250ms
 
-        /// <summary>AuxRefresh di sService * 250ms circa in StandFacile, 200 in StandClient</summary>
-        public const int REFRESH_SSERVICE = 4 * 20;
-
         /// <summary>dimensioni larghezza della Main Window</summary>
         public const int MAINWD_WIDTH = 800;
 

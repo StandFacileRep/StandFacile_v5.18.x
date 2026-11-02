@@ -16,9 +16,6 @@ namespace StandFacile
         /// <summary>Struct fondamentale</summary>
         public static TData SF_Data = new TData(DataID.SF_DATA);
 
-        /// <summary>descrive se la stampante è Windows o Legacy</summary>
-        public static int iSysPrinterType;
-
         /// <summary>descrive se la stampante è di tipo ESC POS</summary>
         public static int iGlbEscPosPrinterType;
 

@@ -6,7 +6,6 @@
 
 using System;
 using System.IO;
-using System.Drawing.Printing;
 
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
@@ -120,18 +119,6 @@ namespace StandFacile
                         continue;
                     }
 
-                    else if (sInStr.Contains("localCopyPrinterNumRedirect"))
-                    {
-                        iTmp = GetIntVal(sInStr);
-
-                        if ((iTmp > 0) && (iTmp < PrinterSettings.InstalledPrinters.Count))
-                        {
-                            sConfig.iLocalCopyPrinterNumRedirect = iTmp;
-                        }
-
-                        continue;
-                    }
-
                     else if (sInStr.Contains("baud_rate"))
                     {
 
@@ -139,6 +126,13 @@ namespace StandFacile
 
                         if (iTmp > 0)
                             sConfig.iBaudRate = iTmp;
+
+                        continue;
+                    }
+
+                    else if (sInStr.Contains("localCopyPrinterRedirect"))
+                    {
+                        sConfig.sLocalCopyPrinteRedirect = GetStringVal(sInStr);
 
                         continue;
                     }
@@ -168,7 +162,7 @@ namespace StandFacile
                         continue;
                     }
 
-                    // stringhe per cambio versione StandOrdiniWeb
+                    // stringhe per cambio versione StandOrdiniWeb, riservato
                     else if (sInStr.Contains("webUrlVersionIs"))
                     {
                         sConfig.sWebUrlVersion = GetStringVal(sInStr);

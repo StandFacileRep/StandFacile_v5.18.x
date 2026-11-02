@@ -1739,18 +1739,18 @@ namespace StandFacile
                 if (MnuSetupPricelist.Checked || BtnViewPricelist.Checked)
                 {
                     if (GetTouchModeEnabled())
-                        sText = "12345678901234567890123";
+                        sText = "1234567890123456789012"; // 22
                     else
-                        // String.Format(" {0,2} {1,-18} {2,5:0.00}", // width=28
+                        // String.Format(" {0,2} {1,-22} {2,5:0.00}", // width=32
                         sText = "12345678901234567890123456780912";
                 }
                 else
                 {
                     if (GetTouchModeEnabled())
-                        sText = "12345678901234567809123";
+                        sText = "1234567890123456780912"; // 22
                     else
-                        // String.Format("{0,3} {1,-18} {2,2}" : // width=25
-                        sText = "123456789012345678901234567890";
+                        // String.Format("{0,3} {1,-22} {2,2}" : // width=29
+                        sText = "12345678901234567890123456789";
                 }
 
                 if ((MainGrid.Height % MainGrid.RowCount) < 3)
@@ -1765,7 +1765,7 @@ namespace StandFacile
                 fColumnsWidth = MainGrid.Columns[0].Width;
 
                 fTextSize = TextRenderer.MeasureText(sText, MainGrid.DefaultCellStyle.Font).Width;
-                _fFontWidth = fColumnsWidth / sText.Length + 0.5f;
+                _fFontWidth = fColumnsWidth / sText.Length + 0.55f; // trim
 
                 // avvio form
                 if (_fFontWidth < 5.0)

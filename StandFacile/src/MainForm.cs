@@ -434,12 +434,6 @@ namespace StandFacile
             _bPasswordIsGood = false;
             _bPricelistWarningOnce = false;
             _iToolStripTop_MarginTotal = 0;
-
-            if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
-            {
-                MnuSetupLegacyPrinter.Visible = false;
-                MnuSetupLocalCopies.Text = "Con&figurazione Copie locali...";
-            }
         }
 
         /// <summary>Init</summary>
@@ -452,7 +446,7 @@ namespace StandFacile
             // deve prima essere eseguito DataManager.Init()
             _bListinoModificato |= DataManager.GetListinoModificato();
 
-            iKeyGood = ReadRegistry(SYS_PRINTER_TYPE_KEY, -1);
+            iKeyGood = ReadRegistry(DB_MODE_KEY, -1);
 
             if (iKeyGood == -1)
             {
@@ -460,7 +454,7 @@ namespace StandFacile
                 MessageBox.Show("E' la prima esecuzione, imposta la stampante ed il listino Prezzi !", "Attenzione !", MessageBoxButtons.OK);
 
                 // default
-                WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
+                WriteRegistry(DB_MODE_KEY, (int)DB_MODE.SQLITE);
             }
             else if (CheckService(CFG_COMMON_STRINGS._ESPERTO))
             {
@@ -1368,7 +1362,7 @@ namespace StandFacile
             _iAnteprimaTotParziale = 0;
             AnteprimaDlg.ResetSomethingInto_GrpToPrint();
 
-            if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
+            if (GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS))
                 ResetBtnScontrino();
             // else
             //  viene eseguito dopo la stampa Legacy con l'evento RESET_RECEIPT_BTN_EVENT
@@ -1515,9 +1509,9 @@ namespace StandFacile
         /// <summary>verifica inserimento del CAP o PAGER</summary>
         public bool Verifica_CAP_Pager_Richiesto()
         {
-            if ((Get_CAP_MandatoryFlag() || Get_Pager_MandatoryFlag()) && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
+            if ((Get_CAP_MandatoryFlag() || Get_PAGER_MandatoryFlag()) && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
             {
-                if (Get_CAP_MandatoryFlag() && (_sEdit_CAP_Pager.Trim().Length < 3) || Get_Pager_MandatoryFlag() && (_sEdit_CAP_Pager.Trim().Length < 1))
+                if (Get_CAP_MandatoryFlag() && (_sEdit_CAP_Pager.Trim().Length < 3) || Get_PAGER_MandatoryFlag() && (_sEdit_CAP_Pager.Trim().Length < 1))
                 {
                     DataCheckDlg rDataCheckDlg = new DataCheckDlg(_sEditCoperti, _sEditTavolo, _sEditNome, _sEdit_CAP_Pager, comboCashPos.SelectedIndex, _sEditContante, _iAnteprimaTotParziale);
 
@@ -1542,12 +1536,14 @@ namespace StandFacile
         {
             bool bContanteCheck_Ok;
 
-            if (GetPayment_MandatoryFlag() && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
+            if ((GetPayment_MandatoryFlag() || GetCash_MandatoryFlag()) && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
             {
                 _iContante = EuroToInt(_sEditContante, EURO_CONVERSION.EUROCONV_DONT_CARE, WrnMsg);
 
+                if ((comboCashPos.SelectedIndex == 0) && !GetCash_MandatoryFlag())
+                    return true;
                 // verifica che il cash inserito sia maggiore o uguale del dovuto, true anche se chiedo Card o Satispay
-                if ((_iContante >= _iAnteprimaTotParziale) || !IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CASH))
+                else if ((_iContante >= _iAnteprimaTotParziale) || !IsBitSet(SF_Data.iStatusReceipt, (int)STATUS_FLAGS.BIT_PAGAM_CASH))
                     bContanteCheck_Ok = true;
                 else
                     bContanteCheck_Ok = false;

@@ -29,52 +29,14 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintConfigLightDlg));
-            this.RadioGroup_PrinterType = new System.Windows.Forms.GroupBox();
-            this.prt_Legacy = new System.Windows.Forms.RadioButton();
-            this.prt_Windows = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.BtnCommonPrintSetup = new System.Windows.Forms.Button();
             this.BtnLegacy = new System.Windows.Forms.Button();
             this.BtnWin = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.RadioGroup_PrinterType.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // RadioGroup_PrinterType
-            // 
-            this.RadioGroup_PrinterType.Controls.Add(this.prt_Legacy);
-            this.RadioGroup_PrinterType.Controls.Add(this.prt_Windows);
-            this.RadioGroup_PrinterType.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.RadioGroup_PrinterType.Location = new System.Drawing.Point(23, 144);
-            this.RadioGroup_PrinterType.Name = "RadioGroup_PrinterType";
-            this.RadioGroup_PrinterType.Size = new System.Drawing.Size(292, 99);
-            this.RadioGroup_PrinterType.TabIndex = 0;
-            this.RadioGroup_PrinterType.TabStop = false;
-            this.RadioGroup_PrinterType.Text = "tipo di Stampante dello Scontrino";
-            // 
-            // prt_Legacy
-            // 
-            this.prt_Legacy.AutoSize = true;
-            this.prt_Legacy.Location = new System.Drawing.Point(191, 50);
-            this.prt_Legacy.Name = "prt_Legacy";
-            this.prt_Legacy.Size = new System.Drawing.Size(69, 18);
-            this.prt_Legacy.TabIndex = 1;
-            this.prt_Legacy.TabStop = true;
-            this.prt_Legacy.Text = "LEGACY";
-            this.prt_Legacy.UseVisualStyleBackColor = true;
-            // 
-            // prt_Windows
-            // 
-            this.prt_Windows.AutoSize = true;
-            this.prt_Windows.Location = new System.Drawing.Point(23, 50);
-            this.prt_Windows.Name = "prt_Windows";
-            this.prt_Windows.Size = new System.Drawing.Size(142, 18);
-            this.prt_Windows.TabIndex = 0;
-            this.prt_Windows.TabStop = true;
-            this.prt_Windows.Text = "WINDOWS, ESC/POS";
-            this.prt_Windows.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -130,7 +92,7 @@
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancel.Location = new System.Drawing.Point(51, 278);
+            this.btnCancel.Location = new System.Drawing.Point(68, 159);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 28);
@@ -144,7 +106,7 @@
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Image = global::StandFacile.Properties.Resources.OK;
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOK.Location = new System.Drawing.Point(187, 278);
+            this.btnOK.Location = new System.Drawing.Point(204, 159);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 28);
@@ -159,29 +121,22 @@
             this.AcceptButton = this.btnCancel;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 329);
+            this.ClientSize = new System.Drawing.Size(359, 206);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.RadioGroup_PrinterType);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PrintConfigLightDlg";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Configurazione Stampanti";
-            this.RadioGroup_PrinterType.ResumeLayout(false);
-            this.RadioGroup_PrinterType.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox RadioGroup_PrinterType;
-        private System.Windows.Forms.RadioButton prt_Legacy;
-        private System.Windows.Forms.RadioButton prt_Windows;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button BtnWin;
         private System.Windows.Forms.Button BtnLegacy;

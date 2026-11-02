@@ -108,11 +108,8 @@ namespace StandFacile
 
             //Barcode_EAN13.BuildBarcodeID("111308221001");
 
-            if (!Config.CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
-            {
-                // Avvio del server di stampa
-                Printer_Legacy.Init();
-            }
+            // Avvio del server di stampa
+            Printer_Legacy.Init();
 
             //AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
 

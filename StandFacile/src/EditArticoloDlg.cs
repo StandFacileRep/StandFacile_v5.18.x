@@ -60,7 +60,7 @@ namespace StandFacile
 
             _iLastArticoloIndex = DataManager.GetLastArticoloIndex();
 
-            TipoEdit.MaxLength = MAX_ART_CHAR; // 18
+            TipoEdit.MaxLength = MAX_ART_CHAR; // 22
 
             groupsCombo.Items.Clear();
 
@@ -595,7 +595,7 @@ namespace StandFacile
                 {
                     // SF_Data.Articolo[_iPt].sTipo = TipoEdit.Text;                        // non cambia
                     SF_Data.Articolo[MAX_ITEMS_NUM - 1].iPrezzoUnitario = iPrz;          // cambia
-                                                                                            // SF_Data.Articolo[_iPt].iGruppoStampa = groupsCombo.SelectedIndex;    // non cambia
+                                                                                         // SF_Data.Articolo[_iPt].iGruppoStampa = groupsCombo.SelectedIndex;    // non cambia
                     sTmp = String.Format("EditArticoloDlg BtnSalva_Click, Articolo {0}, iPrezzoUnitario {1}, iGruppoStampa {2}",
                         SF_Data.Articolo[MAX_ITEMS_NUM - 1].sTipo, iPrz, groupsCombo.SelectedIndex);
                 }

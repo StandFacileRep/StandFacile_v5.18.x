@@ -88,9 +88,9 @@
             this.lblPrt.Location = new System.Drawing.Point(12, 33);
             this.lblPrt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPrt.Name = "lblPrt";
-            this.lblPrt.Size = new System.Drawing.Size(144, 16);
+            this.lblPrt.Size = new System.Drawing.Size(122, 16);
             this.lblPrt.TabIndex = 2;
-            this.lblPrt.Text = "Scelta della stampante";
+            this.lblPrt.Text = "Modello stampante";
             // 
             // lblCom
             // 

@@ -135,7 +135,7 @@ namespace StandFacile
 ; le righe che iniziano per ';' sono di commento
 
 ; stringhe multiple per attivazione modalità speciali, vedi manuale ""StandFacile.pdf""
-; serviceStrings = ""Esperto noData noLegacyPrinters noStampaRcp skipRcpNum Keep_Files_and_Tables""
+; serviceStrings = ""Esperto noData noStampaRcp skipRcpNum Keep_Files_and_Tables""
 ; serviceStrings = ""escpos_XL escpos_58mm printOnA4Paper printOnA5Paper""
 
 
@@ -150,8 +150,8 @@ namespace StandFacile
 ; baudrate per la stampante Legacy
 ; baud_rate = 115200
 
-; indice del gruppo di Articoli per il redirect della stampa copie locali
-; localCopyPrinterNumRedirect = 0
+; nome della stampante per il redirect della stampa copie locali
+; localCopyPrinterRedirect = ""POS-80 USB""
 
 ; parametri stringa per attivazione funzioni speciali
 
@@ -171,7 +171,7 @@ namespace StandFacile
 
 ; parametri stringa per attivazione funzioni speciali
 
-; serviceStrings = ""Esperto noLegacyPrinters""
+; serviceStrings = ""Esperto""
 ");
 
 #else
@@ -184,7 +184,7 @@ namespace StandFacile
 ; refreshTimer=10
 
 ; parametri stringa per attivazione funzioni speciali
-; serviceStrings = ""Esperto noLegacyPrinters sortByDeliver reducedColumns superUser""
+; serviceStrings = ""Esperto sortByDeliver reducedColumns superUser""
 
 ");
 

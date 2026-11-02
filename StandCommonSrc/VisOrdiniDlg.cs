@@ -529,15 +529,8 @@ namespace StandFacile
 
 #endif
 
-#if STANDFACILE
-            if (!PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
-#else
-            if (!PrintConfigLightDlg.GetSysPrinterTypeIsWindows())
-#endif
-            {
-                // Avvia eventuali code delle copie Legacy
-                Printer_Legacy.PrintFile("", sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_START);
-            }
+            // Avvia eventuali code delle copie Legacy
+            Printer_Legacy.PrintFile("", sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_START);
 
             Logger.Info(String.Format("VisOrdiniDlg : stampa {0}", _sNomeFileTicket));
         }

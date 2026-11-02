@@ -509,11 +509,7 @@ namespace StandCommonFiles
         /// <summary>gestisce la stampa generica</summary>
         public static void GenPrintFile(String sFileToPrintParm)
         {
-#if STANDFACILE
-            if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
-#else
-            if (PrintConfigLightDlg.GetSysPrinterTypeIsWindows())
-#endif
+            if (GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS))
             {
                 if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
                     Printer_ESCPOS.PrintFile(sFileToPrintParm);
@@ -526,18 +522,40 @@ namespace StandCommonFiles
 #endif
 
 #if !STAND_ORDINI
+
+        /// <summary> funzione che ritorna true se la stampante copie in uso è windows</summary>
+        public static bool GetPrinterTypeIsWindows(int iPrinterIndex)
+        {
+            if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 2)  // stampa Messaggi
+                return (sGlbWinPrinterParams.sMsgPrinterModel != _LEGACY_PRINTER);
+            else if (iPrinterIndex == NUM_SEP_PRINT_GROUPS + 1)  // stampa Riepilogo
+                return (sGlbWinPrinterParams.sSumPrinterModel != _LEGACY_PRINTER);
+            else if (iPrinterIndex == (NUM_SEP_PRINT_GROUPS)) // stampa Tickets
+                return (sGlbWinPrinterParams.sRcpPrinterModel != _LEGACY_PRINTER);
+            else
+                return (sGlbWinPrinterParams.sPrinterModel[iPrinterIndex] != _LEGACY_PRINTER);
+        }
+
+
+        /// <summary> overload funzione che ritorna true se la stampante copie è windows</summary>
+        public static bool GetPrinterTypeIsWindows(String sPrinterParam)
+        {
+            if (sPrinterParam != _LEGACY_PRINTER)
+                return true;
+            else
+                return false;
+        }
+
+
         /// <summary>gestisce la stampa specifica</summary>
-        public static void PrintFileToDestination(PRINTER_DEST_TYPE bIsLocal_or_NetPrint, String sFileToPrintParm, int iDestParam, int iPrintActionParam)
+        public static void PrintFileToDestination(String sFileToPrintParm, int iDestParam, int iPrintActionParam)
         {
             bool bPrinterIsWindows; // or Legacy
 
 #if STANDFACILE
-            if (bIsLocal_or_NetPrint == PRINTER_DEST_TYPE.LOCAL_PRINTER)
-                bPrinterIsWindows = PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows();
-            else
-                bPrinterIsWindows = PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(iDestParam);
+            bPrinterIsWindows = GetPrinterTypeIsWindows(iDestParam);
 #else
-            bPrinterIsWindows = PrintConfigLightDlg.GetSysPrinterTypeIsWindows();
+            bPrinterIsWindows = GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS);
 #endif
 
             if (bPrinterIsWindows)
@@ -554,9 +572,9 @@ namespace StandCommonFiles
 
 #if STANDFACILE
         /// <summary>gestisce la stampa specifica</summary>
-        public static void PrintFileToDestination(String sPrinterParam, bool bChechedParam, String sFileToPrintParm, int iPrintActionParam)
+        public static void PrintFileToDestination(String sFileToPrintParm, bool bChechedParam, String sPrinterParam, int iPrintActionParam)
         {
-            if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(sPrinterParam))
+            if (GetPrinterTypeIsWindows(sPrinterParam))
             {
                 if (bChechedParam)
                     Printer_ESCPOS.PrintFile(sFileToPrintParm, sGlbWinPrinterParams, 0, sPrinterParam);

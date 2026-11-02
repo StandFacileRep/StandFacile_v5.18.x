@@ -169,7 +169,7 @@ namespace StandFacile
 
             AggiornaAspettoControlli();
 
-            if ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) || bShow)
+            if ((!GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS)) || bShow)
             {
                 if (!Printer_Legacy.PortVerify(sGlbLegacyPrinterParams))
                 {

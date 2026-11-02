@@ -621,12 +621,8 @@ namespace StandFacile
             if (sGlbWinPrinterParams.bA4Paper)
                 Print_A4_Receipt(sDir);
 
-            // AVVIO STAMPE LEGACY DOPO IL SALVATAGGIO SU DATABASE PER EVITARE PROBLEMI EVENTUALI
-            if (!PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
-            {
-                // Avvia eventuali code delle copie Legacy
-                Printer_Legacy.PrintFile("", sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_START);
-            }
+            // Avvia eventuali code delle copie Legacy
+            Printer_Legacy.PrintFile("", sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_START);
 
             /**********************************************************************
              *  aggiornamento dati vendite in Articolo[i]
@@ -1025,17 +1021,7 @@ namespace StandFacile
 
                         if (_bSomethingInto_ClrToPrint[i])
                         {
-                            PrintFileToDestination(PRINTER_DEST_TYPE.NET_PRINTER, _sMessagesDir + "\\" + sNomeFileMsg, i, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
-
-                            //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(i))
-                            //{
-                            //    if (IsBitSet(iGlbEscPosPrinterType, i))
-                            //        Printer_ESCPOS.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
-                            //    else
-                            //        Printer_Windows.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbWinPrinterParams, i);
-                            //}
-                            //else
-                            //    Printer_Legacy.PrintFile(_sMessagesDir + "\\" + sNomeFileMsg, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+                            PrintFileToDestination(_sMessagesDir + "\\" + sNomeFileMsg, i, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
                         }
                     }
                 }

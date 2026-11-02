@@ -7,13 +7,7 @@
 
 using System;
 using System.Windows.Forms;
-
-using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
-using static StandCommonFiles.Printer_Legacy;
-
-using static StandFacile.glb;
-using static StandFacile.Config;
 
 namespace StandFacile
 {
@@ -25,8 +19,6 @@ namespace StandFacile
         /// <summary>riferimento a PrintConfigLightDlg</summary>
         public static PrintConfigLightDlg rPrintConfigLightDlg;
 
-        TErrMsg _ErrMsg;
-
         readonly ToolTip _tt = new ToolTip
         {
             InitialDelay = 50,
@@ -37,9 +29,6 @@ namespace StandFacile
             vanno restituite solo variabili e non controlli,
             che potrebbero non essere confermati con OK
          *****************************************************/
-
-        /// <summary>ottiene true se la stampante è windows</summary>
-        public static bool GetSysPrinterTypeIsWindows() { return (iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH); }
 
         /// <summary>costruttore</summary>
         public PrintConfigLightDlg()
@@ -61,22 +50,6 @@ namespace StandFacile
         /// <param name="bShow"></param>
         public void Init(bool bShow)
         {
-            int iPrinterTypeRadio;
-
-            //inizializzazione stampante windows o Legacy
-            iPrinterTypeRadio = ReadRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
-
-            if ((iPrinterTypeRadio == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) || CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
-            {
-                prt_Windows.Checked = true;
-                iSysPrinterType = (int)PRINTER_TYPE.STAMPANTE_USB_ETH;
-            }
-            else
-            {
-                prt_Legacy.Checked = true;
-                iSysPrinterType = (int)PRINTER_TYPE.STAMPANTE_LEGACY;
-            }
-
             if (bShow)
                 ShowDialog();
         }
@@ -87,34 +60,6 @@ namespace StandFacile
          **************************************************/
         private void BtnOK_Click(object sender, EventArgs e)
         {
-
-            if (prt_Windows.Checked || CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
-            {
-                WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
-                iSysPrinterType = (int)PRINTER_TYPE.STAMPANTE_USB_ETH;
-                prt_Windows.Checked = true;
-            }
-            else
-            {
-                WriteRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_LEGACY);
-                iSysPrinterType = (int)PRINTER_TYPE.STAMPANTE_LEGACY;
-                prt_Legacy.Checked = true;
-
-                // Verify
-                switch (sGlbLegacyPrinterParams.iPrinterModel)
-                {
-                    case (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_T88_SER:
-
-                        if (!PortVerify(sGlbLegacyPrinterParams))
-                        {
-                            _ErrMsg.sMsg = ReadRegistry("sPort", "COM1");
-                            _ErrMsg.iErrID = WRN_CNA;
-                            WarningManager(_ErrMsg);
-                        }
-                        break;
-                }
-            }
-
             Logger.Info("PrintConfigLightDlg OK");
         }
 

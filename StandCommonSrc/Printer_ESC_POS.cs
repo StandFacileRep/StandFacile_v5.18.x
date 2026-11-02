@@ -110,7 +110,10 @@ namespace StandCommonFiles
         static string sMsgPrinter;
 
         static string _printerName;
-        static List<byte> _bytes = new List<byte>();
+
+        static List<byte> _bytes_USB = new List<byte>();
+        static List<byte> _bytes_ETH = new List<byte>();
+        static List<byte> _bytes_COM = new List<byte>();
 
         private static Printer _rawPrinter;
 
@@ -402,10 +405,8 @@ namespace StandCommonFiles
 
                 Logger.Info("Printer_ESCPOS : inizio stampa di " + _sFileToPrintParam);
 
-                // fondamentale per evitare di stampare più volte lo stesso contenuto
-                _bytes.Clear();
-
-                _bytes.AddRange(_emitter.Initialize());
+                //_bytes.Clear();
+                //_bytes.AddRange(_emitter.Initialize());
 
                 // ciclo esterno per consentire i tagli intermedi
                 while (!_fileToPrint.EndOfStream)
@@ -421,8 +422,22 @@ namespace StandCommonFiles
                     {
                         Logger.Info("Printer_ESCPOS : prima di PrintPage");
 
-                        // prepara il byte[] per la stampa
-                        escpos_PrintPage(bIs_USB_ETH_Printer);
+                        // prepara il byte[] per la stampa,
+                        // gestire 3 liste diverse ha il vantaggio che in caso di errore di stampa su Ethernet
+                        // non si perde il contenuto della stampa su USB
+                        if (bIs_USB_ETH_Printer && ipAddress_IsValid)
+                        {
+                            escpos_PrintPage(bIs_USB_ETH_Printer, _bytes_ETH);
+                        }
+                        else if (bIs_USB_ETH_Printer && !ipAddress_IsValid)
+                        {
+                            escpos_PrintPage(bIs_USB_ETH_Printer, _bytes_USB);
+                        }
+                        else
+                        {
+                            _bytes_COM.Clear();
+                            escpos_PrintPage(false, _bytes_COM);
+                        }
 
                         // invio dati di stampa alla stampante solo attraverso COM, LPT
                         if (!bIs_USB_ETH_Printer)
@@ -444,9 +459,16 @@ namespace StandCommonFiles
                                 //_ETH_printer.WriteAsync(_bytes.ToArray()).GetAwaiter();
 
                                 // stampa Ethernet
-                                bool bSuccess = SendToEthPrinterWithTimeoutAsync(_IP_Address.ToString(), 9100, _bytes.ToArray(), 2500).ConfigureAwait(false).GetAwaiter().GetResult();
+                                bool bSuccess = SendToEthPrinterWithTimeoutAsync(_IP_Address.ToString(), 9100, _bytes_ETH.ToArray(), 2500).ConfigureAwait(false).GetAwaiter().GetResult();
 
-                                if (!bSuccess && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
+                                if (bSuccess)
+                                {
+                                    // fondamentale per evitare di stampare più volte lo stesso contenuto
+                                    // qui si fa il Clear() solo se ha successo
+                                    _bytes_ETH.Clear();
+                                    _bytes_ETH.AddRange(_emitter.Initialize());
+                                }
+                                else if (!CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST))
                                 {
                                     _WrnMsg.sMsg = sMsgPrinter;
                                     _WrnMsg.iErrID = WRN_STF;
@@ -459,11 +481,16 @@ namespace StandCommonFiles
                             {
                                 string jobName = $"job_{DateTime.Now:HHmmss}_{DateTime.Now:fff}";
 
-                                using (var ms = new MemoryStream(_bytes.ToArray()))
+                                using (var ms = new MemoryStream(_bytes_USB.ToArray()))
                                 {
                                     // stampa USB, Ethernet attraverso lo spooler di Windows (che utilizza il nome della stampante)
                                     // non utilizza il driver della stampante, ma invia direttamente i byte ESC/POS
                                     _rawPrinter.PrintRawStream(_printerName, ms, jobName, false);
+
+                                    // fondamentale per evitare di stampare più volte lo stesso contenuto
+                                    // qui si fa sempre il Clear()
+                                    _bytes_USB.Clear();
+                                    _bytes_USB.AddRange(_emitter.Initialize());
                                 }
 
                                 Logger.Info($"Printer_ESCPOS: jobName = {jobName}");
@@ -509,10 +536,13 @@ namespace StandCommonFiles
                 WarningManager(_WrnMsg);
             }
 
-            return _bytes.ToArray();
+            if (bIs_USB_ETH_Printer)
+                return null;
+            else
+                return _bytes_COM.ToArray();
         }
 
-        private static void escpos_PrintPage(bool bIs_USB_ETH_Printer)
+        private static void escpos_PrintPage(bool bIs_USB_ETH_Printer, List<byte> _bytesParam)
         {
             bool bLogoRequested_T, bLogoRequested_B, bBarcodeRequested;
             int i, iPos1, iPos2;
@@ -520,28 +550,21 @@ namespace StandCommonFiles
             string sTmp, sInStr;
             String sBarcode;
 
-            // fondamentale per evitare di stampare più volte lo stesso contenuto
-            if (bIs_USB_ETH_Printer)
-            {
-                // solo con USB, ETH dato che la stampa è sincrona con la lettura del file,
-                // mentre con COM, LPT la stampa è successiva alla lettura del file
-                _bytes.Clear();
-                _bytes.AddRange(_emitter.Initialize());
-            }
-            else
+            _bytesParam.AddRange(_emitter.Initialize());
+            _bytesParam.AddRange(_emitter.LeftAlign());
+
+            if (!bIs_USB_ETH_Printer)
             {
                 if ((_iStyle & PrintStyle.DoubleHeight) != 0)
-                    _bytes.AddRange(_emitter.SetLineSpacingInDots(80));
+                    _bytesParam.AddRange(_emitter.SetLineSpacingInDots(80));
                 else
-                    _bytes.AddRange(_emitter.ResetLineSpacing());
+                    _bytesParam.AddRange(_emitter.ResetLineSpacing());
             }
 
-            _bytes.AddRange(_emitter.LeftAlign());
-
-            _bytes.AddRange(_emitter.SetStyles(_iStyle));
+            _bytesParam.AddRange(_emitter.SetStyles(_iStyle));
 
             for (i = 0; i < _iInitialRowsToAdd; i++) // N righe di inizio stampa
-                _bytes.AddRange(_emitter.PrintLine(""));
+                _bytesParam.AddRange(_emitter.PrintLine(""));
 
             while ((sInStr = _fileToPrint.ReadLine()) != null)
             {
@@ -580,9 +603,9 @@ namespace StandCommonFiles
                     // per alcune stampanti es. HOIN non funziona con le immagini
                     // _bytes.AddRange(_emitter.CenterAlign());
 
-                    _bytes.AddRange(_emitter.LeftAlign());
+                    _bytesParam.AddRange(_emitter.LeftAlign());
 
-                    _bytes.AddRange(BitmapToEscPos(new Bitmap(_img_T), _printerWidth));
+                    _bytesParam.AddRange(BitmapToEscPos(new Bitmap(_img_T), _printerWidth));
 
                 }
                 else if (!bIs_USB_ETH_Printer && bLogoRequested_T)
@@ -590,7 +613,7 @@ namespace StandCommonFiles
                     if ((sGlbLegacyPrinterParams.iLogoBmp > 1) && (sGlbLegacyPrinterParams.iLogoBmp <= 5))
                     {
                         // remap 1..4
-                        printLogo(sGlbLegacyPrinterParams.iLogoBmp - 1);
+                        printLogo(sGlbLegacyPrinterParams.iLogoBmp - 1, _bytesParam);
                     }
                 }
 
@@ -619,33 +642,33 @@ namespace StandCommonFiles
 
                     if (!_bSkipNumeroScontrino)
                     {
-                        _bytes.AddRange(_emitter.CenterAlign());
+                        _bytesParam.AddRange(_emitter.CenterAlign());
 
                         // passa a FontStyle.Bold
                         sInStr = sInStr.Trim();
 
-                        _bytes.AddRange(_emitter.SetStyles(PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight));
+                        _bytesParam.AddRange(_emitter.SetStyles(PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight));
 
-                        _bytes.AddRange(_emitter.PrintLine(sInStr));
-                        _bytes.AddRange(_emitter.SetStyles(_iStyle));
+                        _bytesParam.AddRange(_emitter.PrintLine(sInStr));
+                        _bytesParam.AddRange(_emitter.SetStyles(_iStyle));
 
-                        _bytes.AddRange(_emitter.LeftAlign());
+                        _bytesParam.AddRange(_emitter.LeftAlign());
                     }
                 }
                 // COPIA CLIENTE
                 else if (iPos2 != -1)
                 {
-                    _bytes.AddRange(_emitter.CenterAlign());
+                    _bytesParam.AddRange(_emitter.CenterAlign());
 
                     // passa a FontStyle.Bold
                     sInStr = sInStr.Trim();
 
-                    _bytes.AddRange(_emitter.SetStyles(PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight));
+                    _bytesParam.AddRange(_emitter.SetStyles(PrintStyle.FontB | PrintStyle.DoubleWidth | PrintStyle.DoubleHeight));
 
-                    _bytes.AddRange(_emitter.PrintLine(sInStr));
-                    _bytes.AddRange(_emitter.SetStyles(_iStyle));
+                    _bytesParam.AddRange(_emitter.PrintLine(sInStr));
+                    _bytesParam.AddRange(_emitter.SetStyles(_iStyle));
 
-                    _bytes.AddRange(_emitter.LeftAlign());
+                    _bytesParam.AddRange(_emitter.LeftAlign());
                 }
                 else
                 {
@@ -675,7 +698,7 @@ namespace StandCommonFiles
                         for (i = 0; i < _iLMargin; i++) // centratura
                             sInStr = sInStr.Insert(0, " ");
 
-                        _bytes.AddRange(_emitter.PrintLine(sInStr));
+                        _bytesParam.AddRange(_emitter.PrintLine(sInStr));
                     }
                 }
 
@@ -687,9 +710,9 @@ namespace StandCommonFiles
                     // per alcune stampanti es. HOIN non funziona con le immagini
                     // _bytes.AddRange(_emitter.CenterAlign());
 
-                    _bytes.AddRange(_emitter.LeftAlign());
+                    _bytesParam.AddRange(_emitter.LeftAlign());
 
-                    _bytes.AddRange(BitmapToEscPos(new Bitmap(_img_B), _printerWidth));
+                    _bytesParam.AddRange(BitmapToEscPos(new Bitmap(_img_B), _printerWidth));
 
                 }
 
@@ -719,36 +742,36 @@ namespace StandCommonFiles
                             Barcode_EAN13._sBarcodeID[8], Barcode_EAN13._sBarcodeID[9], Barcode_EAN13._sBarcodeID[10], Barcode_EAN13._sBarcodeID[11],
                             Barcode_EAN13._sBarcodeID[12]);
 
-                    _bytes.AddRange(_emitter.CenterAlign());
+                    _bytesParam.AddRange(_emitter.CenterAlign());
 
-                    _bytes.AddRange(_emitter.SetBarcodeHeightInDots(120));
-                    _bytes.AddRange(_emitter.SetBarWidth(BarWidth.Default));
+                    _bytesParam.AddRange(_emitter.SetBarcodeHeightInDots(120));
+                    _bytesParam.AddRange(_emitter.SetBarWidth(BarWidth.Default));
                     //_bytes.AddRange(_emitter.SetBarLabelFontB(true));
                     //_bytes.AddRange(_emitter.SetBarLabelPosition(BarLabelPrintPosition.Below));
-                    _bytes.AddRange(_emitter.PrintBarcode(BarcodeType.JAN13_EAN13, sBarcode));
-                    _bytes.AddRange(_emitter.SetStyles(PrintStyle.None));
-                    _bytes.AddRange(_emitter.PrintLine(sTmp));
+                    _bytesParam.AddRange(_emitter.PrintBarcode(BarcodeType.JAN13_EAN13, sBarcode));
+                    _bytesParam.AddRange(_emitter.SetStyles(PrintStyle.None));
+                    _bytesParam.AddRange(_emitter.PrintLine(sTmp));
 
                     Logger.Info(String.Format("Printer ESCPOS: _sBarcodeID = {0}", sTmp));
                 }
 
             } // end while()
 
-            _bytes.AddRange(_emitter.PrintLine(""));
-            _bytes.AddRange(_emitter.PrintLine(""));
-            _bytes.AddRange(_emitter.PrintLine(""));
-            _bytes.AddRange(_emitter.PrintLine(""));
-            _bytes.AddRange(_emitter.PrintLine(""));
+            _bytesParam.AddRange(_emitter.PrintLine(""));
+            _bytesParam.AddRange(_emitter.PrintLine(""));
+            _bytesParam.AddRange(_emitter.PrintLine(""));
+            _bytesParam.AddRange(_emitter.PrintLine(""));
+            _bytesParam.AddRange(_emitter.PrintLine(""));
 
             for (i = 0; i < _finalRowsToAdd - 1; i++) // N righe di fine stampa
-                _bytes.AddRange(_emitter.PrintLine(" "));
+                _bytesParam.AddRange(_emitter.PrintLine(" "));
 
             //_bytes.AddRange(_emitter.PartialCutAfterFeed(5));
-            _bytes.AddRange(_emitter.FullCutAfterFeed(5));
+            _bytesParam.AddRange(_emitter.FullCutAfterFeed(5));
 
             // apertura cassetto
             if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 3))
-                _bytes.AddRange(_emitter.CashDrawerOpenPin2());
+                _bytesParam.AddRange(_emitter.CashDrawerOpenPin2());
 
             if (!_bTicketNumFound)
             {
@@ -896,7 +919,7 @@ namespace StandCommonFiles
 
 
         /// <summary>accoda il comando di stampa Logo in _bytes[]</summary>
-        static void printLogo(int iLogoParam)
+        static void printLogo(int iLogoParam, List<byte> _bytesParam)
         {
             // verifica range
             if ((iLogoParam < 1) || (iLogoParam > 4))
@@ -911,7 +934,7 @@ namespace StandCommonFiles
 
             logoBuffer[2] = (byte)(iLogoParam);
 
-            _bytes.AddRange(logoBuffer);
+            _bytesParam.AddRange(logoBuffer);
         }
 
     }

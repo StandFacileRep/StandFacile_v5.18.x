@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 	NomeFile : StandCommonSrc/WinPrinterDlg.cs
-    Data	 : 27.10.2026
+    Data	 : 10.10.2026
 	Autore   : Mauro Artuso
 
 	Descrizione : classe per la gestione della Form per l'impostazione dei
@@ -131,7 +131,7 @@ namespace StandFacile
             // stampante Windows di Default
             sDefaultPrinter = settings.PrinterName;
 
-            // inizializzazione stampanti ESC POS, punto unico
+            // inizializzazione flags stampanti ESC POS, punto unico
             iGlbEscPosPrinterType = ReadRegistry(WIN_ESC_POS_MODEL_KEY, 0);
 
             checkBox_escpos.Checked = IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS);
@@ -149,6 +149,8 @@ namespace StandFacile
 
             PrintersListCombo.Items.Clear();
 
+            PrintersListCombo.Items.Add(_LEGACY_PRINTER);
+
             // controllo per verificare che ci sia almeno una stampante presente
             if (PrinterSettings.InstalledPrinters.Count == 0)
                 WarningManager(WRN_PRTNP);
@@ -165,7 +167,7 @@ namespace StandFacile
 
                 if (printer == sGlbWinPrinterParams.sRcpPrinterModel)
                 {
-                    sGlbWinPrinterParams.iRcpPrinterModel = i;
+                    sGlbWinPrinterParams.iRcpPrinterModel = i + 1;
 
                     sLogStr = String.Format("WinPrinterDlg : iRcpPrinterModel = {0}", sGlbWinPrinterParams.iRcpPrinterModel);
                     Logger.Info(sLogStr);
@@ -310,7 +312,7 @@ namespace StandFacile
                 Height -= _yDisp;
 
                 WP_btnSampleText.Top = BtnDefaults.Top + 4;
-				WP_labelCenterLogo.Top = WP_labelMarginRep.Top;
+                WP_labelCenterLogo.Top = WP_labelMarginRep.Top;
                 WP_labelZoomLogo.Top = WP_labelZoomRep.Top;
                 numUpDownLogoZoom.Top = numUpDownRepZoom.Top;
                 numUpDown_LogoCenter.Top = numUpDown_RepMargin.Top;
@@ -377,7 +379,9 @@ namespace StandFacile
 
             Logger.Info("WinPrinterDlg : SampleTextBtnClick");
 
-            if (checkBox_escpos.Checked)
+            if (_sWinPrinterParamsCopy.sRcpPrinterModel == _LEGACY_PRINTER)
+                Printer_Legacy.PrintSampleText(sGlbLegacyPrinterParams);
+            else if (checkBox_escpos.Checked)
                 Printer_ESCPOS.PrintSampleText(_sWinPrinterParamsCopy);
             else
                 Printer_Windows.PrintSampleText(_sWinPrinterParamsCopy);
@@ -396,7 +400,7 @@ namespace StandFacile
             pd.PrinterSettings.PrinterName = _sWinPrinterParamsCopy.sRcpPrinterModel;
 
             // se è una stampante ESC POS
-            if (checkBox_escpos.Checked)
+            if ((checkBox_escpos.Checked) || (_sWinPrinterParamsCopy.sRcpPrinterModel == _LEGACY_PRINTER))
             {
                 iParam1 = Printer_ESCPOS._printerWidth;
                 iParam2 = (int)(297 * 203 / 25.4f);

@@ -1,6 +1,6 @@
 ﻿/***************************************************
 	NomeFile : StandFacile\OptionsDlg.cs
-    Data	 : 25.07.2026
+    Data	 : 31.10.2026
 	Autore   : Mauro Artuso
  ***************************************************/
 
@@ -53,6 +53,9 @@ namespace StandFacile
         /// <summary>ottiene flag di inserimento pagamento obbligatorio</summary>
         public static bool GetPayment_MandatoryFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_PAYMENT_REQUIRED); }
 
+        /// <summary>ottiene flag di inserimento contanti obbligatorio</summary>
+        public static bool GetCash_MandatoryFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_CASH_REQUIRED); }
+
         /// <summary>ottiene flag di modo Touch</summary>
         public static bool GetTouchModeEnabled() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_TOUCH_MODE_REQUIRED); }
 
@@ -69,7 +72,7 @@ namespace StandFacile
         public static bool Get_CAP_MandatoryFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_CAP_REQUIRED); }
 
         /// <summary>ottiene flag di inserimento PAGER obbligatorio</summary>
-        public static bool Get_Pager_MandatoryFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_PAGER_REQUIRED); }
+        public static bool Get_PAGER_MandatoryFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_PAGER_REQUIRED); }
 
         /// <summary>ottiene flag di visualizzazione CAP</summary>
         public static bool Get_CAP_ShowFlag() { return IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_CAP_EDIT); }
@@ -108,8 +111,9 @@ namespace StandFacile
             MO_checkBoxTable.Checked = GetTable_MandatoryFlag();
             MO_checkBox_Name.Checked = GetName_MandatoryFlag();
             MO_checkBox_CAP.Checked = Get_CAP_MandatoryFlag();
-            MO_checkBox_PAGER.Checked = Get_Pager_MandatoryFlag();
+            MO_checkBox_PAGER.Checked = Get_PAGER_MandatoryFlag();
             MO_checkBoxPayment.Checked = GetPayment_MandatoryFlag();
+            MO_checkBoxCash.Checked = GetCash_MandatoryFlag();
 
             MO_ckBoxExternalPreview.Checked = IsBitSet(SF_Data.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_EXTERNAL_PREVIEW);
 
@@ -158,6 +162,7 @@ namespace StandFacile
                 MO_checkBoxTable.Enabled = false;
                 MO_checkBox_Name.Enabled = false;
                 MO_checkBoxPayment.Enabled = false;
+                MO_checkBoxCash.Enabled = false;
                 MO_checkBoxPrivacy.Enabled = false;
                 MO_checkBox_Enter.Enabled = false;
                 MO_checkBox_CAP.Enabled = false;
@@ -177,6 +182,7 @@ namespace StandFacile
                 MO_checkBoxTable.Enabled = true;
                 MO_checkBox_Name.Enabled = true;
                 MO_checkBoxPayment.Enabled = true;
+                MO_checkBoxCash.Enabled = true;
                 MO_checkBoxPrivacy.Enabled = true;
                 MO_checkBox_Enter.Enabled = true;
                 MO_checkBox_CAP.Enabled = true;
@@ -208,6 +214,7 @@ namespace StandFacile
             MO_checkBoxTable.Checked = false;
             MO_checkBox_Name.Enabled = false;
             MO_checkBoxPayment.Checked = false;
+            MO_checkBoxCash.Checked = false;
             MO_checkBox_ZeroPriceItems.Checked = false;
             MO_checkBox_CAP.Checked = false;
             MO_checkBox_PAGER.Checked = false;
@@ -295,6 +302,9 @@ namespace StandFacile
 
             if (MO_checkBoxPayment.Checked)
                 iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_PAYMENT_REQUIRED);
+
+            if (MO_checkBoxCash.Checked)
+                iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_CASH_REQUIRED);
 
             if (MO_checkBox_ZeroPriceItems.Checked)
                 iGeneralProgOptionsCopy = SetBit(iGeneralProgOptionsCopy, (int)GEN_PROGRAM_OPTIONS.BIT_ZERO_PRICE_ITEMS_ALLOWED);

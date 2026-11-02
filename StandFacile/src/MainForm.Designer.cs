@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.BtnImgList = new System.Windows.Forms.ImageList(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -68,8 +68,8 @@
             this.MnuSetupNetwork = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuSetupLocalCopies = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuSetupNetworkCopies = new System.Windows.Forms.ToolStripMenuItem();
-            this.MnuSetupWinPrinter = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuSetupGenPrinter = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetupWinPrinter = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuSetupLegacyPrinter = new System.Windows.Forms.ToolStripMenuItem();
             this.I2 = new System.Windows.Forms.ToolStripSeparator();
             this.MnuSetupOptions = new System.Windows.Forms.ToolStripMenuItem();
@@ -430,8 +430,8 @@
             this.MnuSetupNetwork,
             this.MnuSetupLocalCopies,
             this.MnuSetupNetworkCopies,
-            this.MnuSetupWinPrinter,
             this.MnuSetupGenPrinter,
+            this.MnuSetupWinPrinter,
             this.MnuSetupLegacyPrinter,
             this.I2,
             this.MnuSetupOptions,
@@ -480,19 +480,19 @@
             this.MnuSetupNetworkCopies.Text = "Configurazione Gruppi di Articoli e &Copie in rete ...";
             this.MnuSetupNetworkCopies.Click += new System.EventHandler(this.MnuSetupNetworkCopies_Click);
             // 
-            // MnuSetupWinPrinter
-            // 
-            this.MnuSetupWinPrinter.Name = "MnuSetupWinPrinter";
-            this.MnuSetupWinPrinter.Size = new System.Drawing.Size(346, 22);
-            this.MnuSetupWinPrinter.Text = "Configurazione S&tampante Windows ...";
-            this.MnuSetupWinPrinter.Click += new System.EventHandler(this.MnuSetupWinPrinter_Click);
-            // 
             // MnuSetupGenPrinter
             // 
             this.MnuSetupGenPrinter.Name = "MnuSetupGenPrinter";
             this.MnuSetupGenPrinter.Size = new System.Drawing.Size(346, 22);
-            this.MnuSetupGenPrinter.Text = "Configurazione Comune di Stampa ...";
+            this.MnuSetupGenPrinter.Text = "Configurazioni generiche di Stampa ...";
             this.MnuSetupGenPrinter.Click += new System.EventHandler(this.MnuImpostaStampanteGenerica_Click);
+            // 
+            // MnuSetupWinPrinter
+            // 
+            this.MnuSetupWinPrinter.Name = "MnuSetupWinPrinter";
+            this.MnuSetupWinPrinter.Size = new System.Drawing.Size(346, 22);
+            this.MnuSetupWinPrinter.Text = "Configurazione S&tampante Scontrino ...";
+            this.MnuSetupWinPrinter.Click += new System.EventHandler(this.MnuSetupWinPrinter_Click);
             // 
             // MnuSetupLegacyPrinter
             // 
@@ -740,14 +740,14 @@
             this.MainGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.MainGrid.ColumnHeadersVisible = false;
             this.MainGrid.ContextMenuStrip = this.MainGridContextMenu;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Teal;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Teal;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.MainGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.MainGrid.EnableHeadersVisualStyles = false;
             this.MainGrid.GridColor = System.Drawing.Color.Gainsboro;

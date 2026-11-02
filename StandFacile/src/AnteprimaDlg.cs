@@ -243,7 +243,7 @@ namespace StandFacile
             /*************************************
              * 		 Stampa del Logo Top
              *************************************/
-            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T) && PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
+            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T) && GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS))
             {
                 Image img = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(true);
 
@@ -270,8 +270,8 @@ namespace StandFacile
             //PrintCanvas( pg, "#########_#########_########");
 
             // se non c'è il logo stampa sHeaders[0]
-            if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp == 0)))
+            if ((GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                (!GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && (sGlbLegacyPrinterParams.iLogoBmp == 0)))
             {
                 if (!String.IsNullOrEmpty(sConfig.sRcp_CS_Header[0]))
                 {
@@ -685,7 +685,7 @@ namespace StandFacile
              * 		 Stampa del Logo Bottom
              *************************************/
 
-            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B) && PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
+            if (bLogo && !String.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B) && GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS))
             {
                 Image img = WinPrinterDlg._rWinPrinterDlg.GetWinPrinterLogo(false);
 

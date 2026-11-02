@@ -689,10 +689,7 @@ namespace StandFacile
 
         private void MnuConfigurazioneStampe_Click(object sender, EventArgs e)
         {
-            if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
-                WinPrinterDlg._rWinPrinterDlg.Init(true);
-            else
-                PrintConfigLightDlg.rPrintConfigLightDlg.Init(true);
+            PrintConfigLightDlg.rPrintConfigLightDlg.Init(true);
         }
 
         private void MnuNetConfig_Click(object sender, EventArgs e)
@@ -899,7 +896,7 @@ namespace StandFacile
                         // Invio alla Stampante
                         Logger.Info("ClientTimer : stampa di " + sFileToPrint);
 
-                        if (PrintConfigLightDlg.GetSysPrinterTypeIsWindows())
+                        if (GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS))
                         {
                             _iWP_Delay = LED_TIMER;
                             printerPicBox.Image = Properties.Resources.circleRed; // Red

@@ -30,9 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintLocalCopiesConfigDlg));
-            this.RadioGroup_PrinterType = new System.Windows.Forms.GroupBox();
-            this.prt_Legacy = new System.Windows.Forms.RadioButton();
-            this.prt_Windows = new System.Windows.Forms.RadioButton();
             this.printersGroupBox = new System.Windows.Forms.GroupBox();
             this.BtnGenPrinterOptions = new System.Windows.Forms.Button();
             this.BtnLegacy = new System.Windows.Forms.Button();
@@ -72,45 +69,10 @@
             this.BtnPrintCheck = new System.Windows.Forms.Button();
             this.LC_label5 = new System.Windows.Forms.Label();
             this.checkBox_escpos = new System.Windows.Forms.CheckBox();
-            this.RadioGroup_PrinterType.SuspendLayout();
             this.printersGroupBox.SuspendLayout();
             this.LC_panelLocalCopies.SuspendLayout();
             this.panelCopies.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // RadioGroup_PrinterType
-            // 
-            this.RadioGroup_PrinterType.Controls.Add(this.prt_Legacy);
-            this.RadioGroup_PrinterType.Controls.Add(this.prt_Windows);
-            this.RadioGroup_PrinterType.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.RadioGroup_PrinterType.Location = new System.Drawing.Point(324, 14);
-            this.RadioGroup_PrinterType.Name = "RadioGroup_PrinterType";
-            this.RadioGroup_PrinterType.Size = new System.Drawing.Size(209, 94);
-            this.RadioGroup_PrinterType.TabIndex = 1;
-            this.RadioGroup_PrinterType.TabStop = false;
-            this.RadioGroup_PrinterType.Text = "tipo di Stampante dello Scontrino";
-            // 
-            // prt_Legacy
-            // 
-            this.prt_Legacy.AutoSize = true;
-            this.prt_Legacy.Location = new System.Drawing.Point(19, 61);
-            this.prt_Legacy.Name = "prt_Legacy";
-            this.prt_Legacy.Size = new System.Drawing.Size(69, 18);
-            this.prt_Legacy.TabIndex = 1;
-            this.prt_Legacy.TabStop = true;
-            this.prt_Legacy.Text = "LEGACY";
-            this.prt_Legacy.UseVisualStyleBackColor = true;
-            // 
-            // prt_Windows
-            // 
-            this.prt_Windows.AutoSize = true;
-            this.prt_Windows.Location = new System.Drawing.Point(19, 29);
-            this.prt_Windows.Name = "prt_Windows";
-            this.prt_Windows.Size = new System.Drawing.Size(142, 18);
-            this.prt_Windows.TabIndex = 0;
-            this.prt_Windows.TabStop = true;
-            this.prt_Windows.Text = "WINDOWS, ESC/POS";
-            this.prt_Windows.UseVisualStyleBackColor = true;
             // 
             // printersGroupBox
             // 
@@ -120,7 +82,7 @@
             this.printersGroupBox.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.printersGroupBox.Location = new System.Drawing.Point(16, 14);
             this.printersGroupBox.Name = "printersGroupBox";
-            this.printersGroupBox.Size = new System.Drawing.Size(290, 94);
+            this.printersGroupBox.Size = new System.Drawing.Size(517, 94);
             this.printersGroupBox.TabIndex = 0;
             this.printersGroupBox.TabStop = false;
             this.printersGroupBox.Text = "Imposta stampanti Windows, ESC/POS e Legacy";
@@ -130,7 +92,7 @@
             this.BtnGenPrinterOptions.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.BtnGenPrinterOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.BtnGenPrinterOptions.Image = global::StandFacile.Properties.Resources.globe;
-            this.BtnGenPrinterOptions.Location = new System.Drawing.Point(106, 29);
+            this.BtnGenPrinterOptions.Location = new System.Drawing.Point(236, 29);
             this.BtnGenPrinterOptions.Name = "BtnGenPrinterOptions";
             this.BtnGenPrinterOptions.Size = new System.Drawing.Size(50, 50);
             this.BtnGenPrinterOptions.TabIndex = 1;
@@ -142,7 +104,7 @@
             this.BtnLegacy.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.BtnLegacy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.BtnLegacy.Image = ((System.Drawing.Image)(resources.GetObject("BtnLegacy.Image")));
-            this.BtnLegacy.Location = new System.Drawing.Point(192, 29);
+            this.BtnLegacy.Location = new System.Drawing.Point(403, 29);
             this.BtnLegacy.Name = "BtnLegacy";
             this.BtnLegacy.Size = new System.Drawing.Size(50, 50);
             this.BtnLegacy.TabIndex = 2;
@@ -154,7 +116,7 @@
             this.BtnWin.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.BtnWin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.BtnWin.Image = ((System.Drawing.Image)(resources.GetObject("BtnWin.Image")));
-            this.BtnWin.Location = new System.Drawing.Point(19, 29);
+            this.BtnWin.Location = new System.Drawing.Point(69, 29);
             this.BtnWin.Name = "BtnWin";
             this.BtnWin.Size = new System.Drawing.Size(50, 50);
             this.BtnWin.TabIndex = 0;
@@ -466,12 +428,12 @@
             this.LC_LinkLbl_Mnu_CCR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_LinkLbl_Mnu_CCR.AutoSize = true;
             this.LC_LinkLbl_Mnu_CCR.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_LinkLbl_Mnu_CCR.Location = new System.Drawing.Point(339, 160);
+            this.LC_LinkLbl_Mnu_CCR.Location = new System.Drawing.Point(280, 161);
             this.LC_LinkLbl_Mnu_CCR.Name = "LC_LinkLbl_Mnu_CCR";
-            this.LC_LinkLbl_Mnu_CCR.Size = new System.Drawing.Size(188, 14);
-            this.LC_LinkLbl_Mnu_CCR.TabIndex = 5;
+            this.LC_LinkLbl_Mnu_CCR.Size = new System.Drawing.Size(244, 14);
+            this.LC_LinkLbl_Mnu_CCR.TabIndex = 0;
             this.LC_LinkLbl_Mnu_CCR.TabStop = true;
-            this.LC_LinkLbl_Mnu_CCR.Text = "\"Configurazione Gruppi di Articoli\"";
+            this.LC_LinkLbl_Mnu_CCR.Text = "\"Config. Gruppi di Articoli e Stampe in rete\"";
             this.LC_LinkLbl_Mnu_CCR.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLbl_Mnu_CCR_LinkClicked);
             // 
             // LC_label2
@@ -479,30 +441,30 @@
             this.LC_label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label2.AutoSize = true;
             this.LC_label2.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_label2.Location = new System.Drawing.Point(21, 139);
+            this.LC_label2.Location = new System.Drawing.Point(29, 139);
             this.LC_label2.Name = "LC_label2";
-            this.LC_label2.Size = new System.Drawing.Size(489, 16);
+            this.LC_label2.Size = new System.Drawing.Size(493, 16);
             this.LC_label2.TabIndex = 3;
             this.LC_label2.Text = "per modifica testo descrittivo dei gruppi, raggruppamento per colore, stampa in r" +
-    "ete";
+    "ete,";
             // 
             // LC_label3
             // 
             this.LC_label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label3.AutoSize = true;
             this.LC_label3.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_label3.Location = new System.Drawing.Point(21, 159);
+            this.LC_label3.Location = new System.Drawing.Point(29, 159);
             this.LC_label3.Name = "LC_label3";
-            this.LC_label3.Size = new System.Drawing.Size(317, 16);
+            this.LC_label3.Size = new System.Drawing.Size(250, 16);
             this.LC_label3.TabIndex = 4;
-            this.LC_label3.Text = "e/o ordini da smartphone usare in alternativa il menu:";
+            this.LC_label3.Text = "attivazione risparmio carta, usare il menu:";
             // 
             // LC_label1
             // 
             this.LC_label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LC_label1.AutoSize = true;
             this.LC_label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LC_label1.Location = new System.Drawing.Point(21, 119);
+            this.LC_label1.Location = new System.Drawing.Point(29, 119);
             this.LC_label1.Name = "LC_label1";
             this.LC_label1.Size = new System.Drawing.Size(450, 16);
             this.LC_label1.TabIndex = 2;
@@ -599,15 +561,12 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.printersGroupBox);
-            this.Controls.Add(this.RadioGroup_PrinterType);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PrintLocalCopiesConfigDlg";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Configurazione Gruppi e Stampante per le copie Locali";
-            this.RadioGroup_PrinterType.ResumeLayout(false);
-            this.RadioGroup_PrinterType.PerformLayout();
             this.printersGroupBox.ResumeLayout(false);
             this.LC_panelLocalCopies.ResumeLayout(false);
             this.LC_panelLocalCopies.PerformLayout();
@@ -619,10 +578,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox RadioGroup_PrinterType;
-        private System.Windows.Forms.RadioButton prt_Legacy;
-        private System.Windows.Forms.RadioButton prt_Windows;
         private System.Windows.Forms.GroupBox printersGroupBox;
         private System.Windows.Forms.Button BtnWin;
         private System.Windows.Forms.Button BtnLegacy;

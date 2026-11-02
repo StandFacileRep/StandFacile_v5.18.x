@@ -193,9 +193,6 @@ namespace StandFacile
             public const string _SKIP_DATA = "noData";
         }
 
-        /// <summary>refresh di sService * 250ms circa in StandFacile, 200 in StandClient</summary>
-        public const int REFRESH_SSERVICE = 4 * 60;
-
         /// <summary>timer breve di refresh della messaggio di Ping</summary>
         public const int _REFRESH_PING_SHORT = 4 * 8;
         /// <summary>timer di refresh della messaggio di Ping</summary>

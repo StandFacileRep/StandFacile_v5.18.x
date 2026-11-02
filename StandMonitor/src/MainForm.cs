@@ -905,10 +905,7 @@ namespace StandFacile
 
         private void MnuConfigurazioneStampe_Click(object sender, EventArgs e)
         {
-            if (CheckService(CFG_COMMON_STRINGS._HIDE_LEGACY_PRINTER))
-                WinPrinterDlg._rWinPrinterDlg.Init(true);
-            else
-                PrintConfigLightDlg.rPrintConfigLightDlg.Init(true);
+            PrintConfigLightDlg.rPrintConfigLightDlg.Init(true);
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)

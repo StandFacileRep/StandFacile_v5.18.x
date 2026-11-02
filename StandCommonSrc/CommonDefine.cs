@@ -1,6 +1,6 @@
 ﻿/************************************************************
     NomeFile : StandCommonSrc/CommonDefine.cs
-    Data	 : 31.10.2026
+    Data	 : 02.11.2026
     Autore	 : Mauro Artuso
  ************************************************************/
 
@@ -17,7 +17,7 @@ namespace StandCommonFiles
 #pragma warning disable IDE0060
 
         /// <summary>versione del Programma</summary>
-        public const String RELEASE_SW = "v5.19.1a";
+        public const String RELEASE_SW = "v5.19.2";
 
         /// <summary>prefisso versione delle tabelle DB</summary>
         public const String RELEASE_DB_TBLS = "v5d";
@@ -90,9 +90,6 @@ namespace StandCommonFiles
 
             /// <summary>evita di stampare il numero dello scontrino</summary>
             public const String _SKIP_RCP_NUM = "skipRcpNum";
-
-            /// <summary>abilita le stampanti legacy</summary>
-            public const String _HIDE_LEGACY_PRINTER = "noLegacyPrinters";
 
             /// <summary>imposta la stampante in modo HD </summary>
             public const String _ESCPOS_PRINTER_XL = "escpos_XL";
@@ -253,9 +250,6 @@ namespace StandCommonFiles
         public const String _DAT_FMT_32_TOT_RED = " {0,26}{1,10}";
 
         // altre voci di registro
-
-        /// <summary>chiave che descrive se la stampante è Windows o Legacy</summary>
-        public const String SYS_PRINTER_TYPE_KEY = "iSysPrinter";
 
         /// <summary>registro: stringa del modello della stampante per le copie</summary>
         public const String WIN_ESC_POS_MODEL_KEY = "iEscPosPrinterModel";
@@ -696,6 +690,9 @@ namespace StandCommonFiles
 
             /// <summary>bit di iGeneralProgOptions per visualizzare il PAGER editBox</summary>
             BIT_SHOW_PAGER_EDIT,
+
+            /// <summary>bit di iGeneralProgOptions per obbligare l'inserimento dei contanti</summary>
+            BIT_CASH_REQUIRED,
 
             /// <summary>bit di iGeneralProgOptions per visualizzare internamente l'Anteprima</summary>
             BIT_SHOW_EXTERNAL_PREVIEW
@@ -1501,11 +1498,12 @@ namespace StandCommonFiles
             public int iRefreshTimer;
             /// <summary>numero di millisecondi dell'intervallo tra stampe, normalmente = 200ms per StandFacile</summary>
             public int iPrintInterval;
-            /// <summary>indice della stampante per il redirect della stampa copie locali, inizializzato con -1</summary>
-            public int iLocalCopyPrinterNumRedirect;
 
             /// <summary>baud rate per la stampante legacy seriale, default 19200</summary>
             public int iBaudRate;
+
+            /// <summary>nome della stampante per il redirect della stampa copie locali</summary>
+            public String sLocalCopyPrinteRedirect;
 
             /// <summary>stringa per gestione Service Mode</summary>
             public String sService;
@@ -1552,9 +1550,9 @@ namespace StandCommonFiles
                 iReceiptStartNumber = 0;
                 iRefreshTimer = 30;
                 iPrintInterval = 200;
-                iLocalCopyPrinterNumRedirect = -1;
                 iBaudRate = 19200;
                 sService = "";
+                sLocalCopyPrinteRedirect = "";
                 bRcpCopyRequired = false;
                 sRcpCopyHeader = "";
                 sDatabaseName = "";

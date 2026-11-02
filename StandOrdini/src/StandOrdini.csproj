@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StandFacile</RootNamespace>
-    <AssemblyName>StandOrdini</AssemblyName>
+    <AssemblyName>StandOrdini_no_dll</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -40,7 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>..\exe\Debug\StandOrdini.xml</DocumentationFile>
+    <DocumentationFile>..\exe\Debug\StandOrdini_no_dll.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -85,9 +85,6 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="QRCoder, Version=1.8.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\QRCoder.1.8.0\lib\net40\QRCoder.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -312,6 +309,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>rem call "build.bat"</PostBuildEvent>
+    <PostBuildEvent>if "$(ConfigurationName)" == "Release" ("build.bat")</PostBuildEvent>
   </PropertyGroup>
 </Project>

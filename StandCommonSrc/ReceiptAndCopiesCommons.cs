@@ -9,18 +9,16 @@
     SF_Data si può utilizzare di sicuro all'interno di WriteLocalCopy
  *********************************************************************************/
 
+using StandFacile;
 using System;
-using System.IO;
 using System.Drawing;
 using System.Drawing.Printing;
-
+using System.IO;
 using static StandCommonFiles.ComDef;
 using static StandCommonFiles.CommonCl;
-
-using StandFacile;
-using static StandFacile.glb;
-using static StandFacile.Define;
 using static StandFacile.Config;
+using static StandFacile.Define;
+using static StandFacile.glb;
 
 namespace StandCommonFiles
 {
@@ -297,7 +295,8 @@ namespace StandCommonFiles
             _bStarsOnUnderGroup = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_STARS_ON_UNDER_GROUP);
             _bLogoNelleCopie = IsBitSet(SF_Data.iGenericPrintOptions, (int)GEN_PRINTER_OPTS.BIT_LOGO_PRINT_ON_COPIES_REQUIRED);
 
-            _bPagerMode = IsBitSet(dataIdParam.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT);
+            // più robusto con !String.IsNullOrEmpty(dataIdParam.sPager)
+            _bPagerMode = IsBitSet(dataIdParam.iGeneralProgOptions, (int)GEN_PROGRAM_OPTIONS.BIT_SHOW_PAGER_EDIT) || !String.IsNullOrEmpty(dataIdParam.sPager);
 
             if (_bPagerMode)
             {
@@ -409,8 +408,8 @@ namespace StandCommonFiles
                     dataIdParam.iBuoniApplicatiReceipt = 0; //      "
 
                     // se non c'è il logo stampa sHeaders[0]
-                    if ((((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                        ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) &&
+                    if (((GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                        (!GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) &&
                         (_bLogoNelleCopie || (k == 0)))
                     {
                         sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS);
@@ -820,7 +819,7 @@ namespace StandCommonFiles
                         _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
                     }
 
-                    if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
+                    if ((GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
                         (_bLogoNelleCopie || (k == 0)))
                     {
                         sTmp = CenterJustify(_LOGO_B, MAX_RECEIPT_CHARS);
@@ -852,17 +851,7 @@ namespace StandCommonFiles
 
                 if (!sGlbWinPrinterParams.bA4Paper) // bisogna aspettare il completamento del file
                 {
-                    PrintFileToDestination(PRINTER_DEST_TYPE.LOCAL_PRINTER, sDirParam + _sNomeFileReceiptPrt, NUM_SEP_PRINT_GROUPS, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
-
-                    //if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
-                    //{
-                    //    if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
-                    //        Printer_ESCPOS.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                    //    else
-                    //        Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                    //}
-                    //else
-                    //    Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                    PrintFileToDestination(sDirParam + _sNomeFileReceiptPrt, NUM_SEP_PRINT_GROUPS, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                 }
             }
 #endif
@@ -877,17 +866,12 @@ namespace StandCommonFiles
             // completamento del file A4 completato
             if (sGlbWinPrinterParams.bA4Paper)
             {
-                if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
+                if (GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS))
                 {
-                    //if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
-                    //    Printer_ESCPOS.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                    //else
                     Printer_Windows.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
 
                     Logger.Info("DataManager Print_A4_Receipt");
                 }
-                //else
-                //    Printer_Legacy.PrintFile(sDirParam + _sNomeFileReceiptPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
             }
         }
 #endif
@@ -1003,8 +987,8 @@ namespace StandCommonFiles
                 else
                 {
                     // se non c'è il logo stampa sHeaders[0]
-                    if ((((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                        ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
+                    if (((GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                        (!GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
                     {
                         sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS_CPY);
                         sHeader1_ToPrintBeforeCut += String.Format("{0}\r\n\r\n", sTmp);
@@ -1381,45 +1365,38 @@ namespace StandCommonFiles
                         // copia locale di Riepilogo
                         if (_bPrintSummaryCopyRequired)
                         {
-                            PrintFileToDestination(PRINTER_DEST_TYPE.NET_PRINTER, sDirParam + sNomeFileSummaryLocalCopy, NUM_SEP_PRINT_GROUPS + 1, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
-
-                            //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS + 1))
-                            //{
-                            //    if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1))
-                            //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
-                            //    else
-                            //        Printer_Windows.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS + 1);
-                            //}
-                            //else
-                            //    Printer_Legacy.PrintFile(sDirParam + sNomeFileSummaryLocalCopy, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_NOW);
+                            PrintFileToDestination(sDirParam + sNomeFileSummaryLocalCopy, NUM_SEP_PRINT_GROUPS + 1, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                         }
                     }
                     else
                     {
-                        // copia locale standard
                         if (bLocalCopyRequested)
                         {
-                            if ((sConfig.iLocalCopyPrinterNumRedirect >= 0) && (sConfig.iLocalCopyPrinterNumRedirect < PrinterSettings.InstalledPrinters.Count))
+                            bool bRedirectPrinterExists = false;
+
+                            if (!String.IsNullOrEmpty(sConfig.sLocalCopyPrinteRedirect))
                             {
-                                // si da per scontato che PrinterTypeIsWindows
-                                if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
-                                    Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]);
-                                else
-                                    Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS, PrinterSettings.InstalledPrinters[sConfig.iLocalCopyPrinterNumRedirect]); // redirezione
+                                if (sConfig.sLocalCopyPrinteRedirect == _LEGACY_PRINTER)
+                                    bRedirectPrinterExists = true;
+
+                                foreach (string printer in PrinterSettings.InstalledPrinters)
+                                {
+                                    if (printer == sConfig.sLocalCopyPrinteRedirect)
+                                    {
+                                        bRedirectPrinterExists = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (bRedirectPrinterExists)
+                            {
+                                PrintFileToDestination(sDirParam + sNomeFileTicketNpPrt, IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS + 1), sConfig.sLocalCopyPrinteRedirect, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                             }
                             else
                             {
-                                PrintFileToDestination(PRINTER_DEST_TYPE.LOCAL_PRINTER, sDirParam + sNomeFileTicketNpPrt, NUM_SEP_PRINT_GROUPS, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
-
-                                //if (PrintLocalCopiesConfigDlg.GetSysPrinterTypeIsWindows())
-                                //{
-                                //    if (IsBitSet(iGlbEscPosPrinterType, NUM_SEP_PRINT_GROUPS))
-                                //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);
-                                //    else
-                                //        Printer_Windows.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbWinPrinterParams, NUM_SEP_PRINT_GROUPS);    // stampa locale
-                                //}
-                                //else
-                                //    Printer_Legacy.PrintFile(sDirParam + sNomeFileTicketNpPrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                                // copia locale standard
+                                PrintFileToDestination(sDirParam + sNomeFileTicketNpPrt, NUM_SEP_PRINT_GROUPS, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                             }
                         }
 
@@ -1534,8 +1511,8 @@ namespace StandCommonFiles
                     else
                     {
                         // se non c'è il logo stampa sHeaders[0]
-                        if ((((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                            ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
+                        if (((GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                            (!GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
                         {
                             sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS_CPY);
                             _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
@@ -1761,7 +1738,7 @@ namespace StandCommonFiles
                             iEqRowsNumber++;
                         }
 
-                        if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B))
+                        if ((GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B))
                             && _bLogoNelleCopie
                             )
                         {
@@ -1807,17 +1784,7 @@ namespace StandCommonFiles
                      *****************************************************************************/
                     if (dataIdParam.bCopiesGroupsFlag[i] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                     {
-                        PrintFileToDestination(PRINTER_DEST_TYPE.NET_PRINTER, sDirParam + sNomeFileCopiePrt, i, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
-
-                        //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows(i))
-                        //{
-                        //    if (IsBitSet(iGlbEscPosPrinterType, i))
-                        //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
-                        //    else
-                        //        Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, i);
-                        //}
-                        //else
-                        //    Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                        PrintFileToDestination(sDirParam + sNomeFileCopiePrt, i, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                     }
 #endif
                 } // end if
@@ -1871,8 +1838,8 @@ namespace StandCommonFiles
                     else
                     {
                         // se non c'è il logo stampa sHeaders[0]
-                        if ((((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
-                            ((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_LEGACY) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
+                        if (((GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_T)) ||
+                            (!GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && (sGlbLegacyPrinterParams.iLogoBmp != 0))) && _bLogoNelleCopie)
                         {
                             sTmp = CenterJustify(_LOGO_T, MAX_RECEIPT_CHARS_CPY);
                             _fPrint.WriteLine("{0}", sTmp); _fPrint.WriteLine();
@@ -2030,7 +1997,7 @@ namespace StandCommonFiles
                             iEqRowsNumber++;
                         }
 
-                        if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
+                        if ((GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) &&
                             _bLogoNelleCopie)
                         {
                             sTmp = CenterJustify(_LOGO_B, MAX_RECEIPT_CHARS_CPY);
@@ -2060,17 +2027,7 @@ namespace StandCommonFiles
                      *****************************************************************************/
                     if (dataIdParam.bCopiesGroupsFlag[(int)DEST_TYPE.DEST_SINGLE] && !CheckService(Define.CFG_SERVICE_STRINGS._AUTO_SEQ_TEST) && (dataIdParam.iDataStruct_ID == DataID.SF_DATA) && !sGlbWinPrinterParams.bA4Paper)
                     {
-                        PrintFileToDestination(PRINTER_DEST_TYPE.NET_PRINTER, sDirParam + sNomeFileCopiePrt, (int)DEST_TYPE.DEST_SINGLE, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
-
-                        //if (PrintNetCopiesConfigDlg.GetNetPrinterTypeIsWindows((int)DEST_TYPE.DEST_SINGLE))
-                        //{
-                        //    if (IsBitSet(iGlbEscPosPrinterType, (int)DEST_TYPE.DEST_SINGLE))
-                        //        Printer_ESCPOS.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
-                        //    else
-                        //        Printer_Windows.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbWinPrinterParams, (int)DEST_TYPE.DEST_SINGLE);
-                        //}
-                        //else
-                        //    Printer_Legacy.PrintFile(sDirParam + sNomeFileCopiePrt, sGlbLegacyPrinterParams, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
+                        PrintFileToDestination(sDirParam + sNomeFileCopiePrt, (int)DEST_TYPE.DEST_SINGLE, (int)PRINT_QUEUE_ACTION.PRINT_ENQUEUE);
                     }
                 } // end if
             }
@@ -2184,7 +2141,7 @@ namespace StandCommonFiles
                 }
             }
 
-            if (((iSysPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) && _bLogoNelleCopie)
+            if ((GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS) && !string.IsNullOrEmpty(sGlbWinPrinterParams.sLogoName_B)) && _bLogoNelleCopie)
             {
                 sTmp = CenterJustify(_LOGO_B, MAX_RECEIPT_CHARS_CPY);
                 fPrintParam.WriteLine("{0}", sTmp); fPrintParam.WriteLine();

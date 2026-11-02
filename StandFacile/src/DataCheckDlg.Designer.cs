@@ -56,7 +56,7 @@
             this.DC_lblTavolo.AutoSize = true;
             this.DC_lblTavolo.Font = new System.Drawing.Font("Tahoma", 11.25F);
             this.DC_lblTavolo.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.DC_lblTavolo.Location = new System.Drawing.Point(55, 91);
+            this.DC_lblTavolo.Location = new System.Drawing.Point(58, 91);
             this.DC_lblTavolo.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.DC_lblTavolo.Name = "DC_lblTavolo";
             this.DC_lblTavolo.Size = new System.Drawing.Size(57, 18);
@@ -83,7 +83,7 @@
             this.DC_lblCoperti.AutoSize = true;
             this.DC_lblCoperti.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DC_lblCoperti.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.DC_lblCoperti.Location = new System.Drawing.Point(55, 55);
+            this.DC_lblCoperti.Location = new System.Drawing.Point(58, 55);
             this.DC_lblCoperti.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.DC_lblCoperti.Name = "DC_lblCoperti";
             this.DC_lblCoperti.Size = new System.Drawing.Size(58, 18);
@@ -216,12 +216,12 @@
             this.DC_lbl_CAP.AutoSize = true;
             this.DC_lbl_CAP.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DC_lbl_CAP.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.DC_lbl_CAP.Location = new System.Drawing.Point(55, 168);
+            this.DC_lbl_CAP.Location = new System.Drawing.Point(58, 168);
             this.DC_lbl_CAP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 4);
             this.DC_lbl_CAP.Name = "DC_lbl_CAP";
-            this.DC_lbl_CAP.Size = new System.Drawing.Size(39, 18);
+            this.DC_lbl_CAP.Size = new System.Drawing.Size(50, 18);
             this.DC_lbl_CAP.TabIndex = 13;
-            this.DC_lbl_CAP.Text = "CAP:";
+            this.DC_lbl_CAP.Text = "Pager:";
             // 
             // labelWarn
             // 

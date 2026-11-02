@@ -53,8 +53,9 @@
             this.MO_ckBoxExternalPreview = new System.Windows.Forms.CheckBox();
             this.MO_checkBox_PAGER = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.MO_radioButton_Show_CAP = new System.Windows.Forms.RadioButton();
             this.MO_radioButton_Show_PAGER = new System.Windows.Forms.RadioButton();
+            this.MO_radioButton_Show_CAP = new System.Windows.Forms.RadioButton();
+            this.MO_checkBoxCash = new System.Windows.Forms.CheckBox();
             this.panelShowHideButtons.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -85,7 +86,7 @@
             // 
             this.MO_checkBox_InitialAvailabilityDlg.AutoSize = true;
             this.MO_checkBox_InitialAvailabilityDlg.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_InitialAvailabilityDlg.Location = new System.Drawing.Point(15, 423);
+            this.MO_checkBox_InitialAvailabilityDlg.Location = new System.Drawing.Point(15, 466);
             this.MO_checkBox_InitialAvailabilityDlg.Name = "MO_checkBox_InitialAvailabilityDlg";
             this.MO_checkBox_InitialAvailabilityDlg.Size = new System.Drawing.Size(328, 18);
             this.MO_checkBox_InitialAvailabilityDlg.TabIndex = 14;
@@ -97,7 +98,7 @@
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnOK.Image = ((System.Drawing.Image)(resources.GetObject("btnOK.Image")));
             this.btnOK.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOK.Location = new System.Drawing.Point(458, 508);
+            this.btnOK.Location = new System.Drawing.Point(458, 546);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(80, 32);
             this.btnOK.TabIndex = 5;
@@ -112,7 +113,7 @@
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
             this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancel.Location = new System.Drawing.Point(308, 508);
+            this.btnCancel.Location = new System.Drawing.Point(308, 546);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 32);
             this.btnCancel.TabIndex = 4;
@@ -135,7 +136,7 @@
             // 
             this.MO_checkBoxPrivacy.AutoSize = true;
             this.MO_checkBoxPrivacy.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBoxPrivacy.Location = new System.Drawing.Point(15, 386);
+            this.MO_checkBoxPrivacy.Location = new System.Drawing.Point(15, 429);
             this.MO_checkBoxPrivacy.Name = "MO_checkBoxPrivacy";
             this.MO_checkBoxPrivacy.Size = new System.Drawing.Size(205, 18);
             this.MO_checkBoxPrivacy.TabIndex = 13;
@@ -169,7 +170,7 @@
             // 
             this.MO_checkBox_Enter.AutoSize = true;
             this.MO_checkBox_Enter.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_Enter.Location = new System.Drawing.Point(15, 349);
+            this.MO_checkBox_Enter.Location = new System.Drawing.Point(15, 392);
             this.MO_checkBox_Enter.Name = "MO_checkBox_Enter";
             this.MO_checkBox_Enter.Size = new System.Drawing.Size(234, 18);
             this.MO_checkBox_Enter.TabIndex = 12;
@@ -180,7 +181,7 @@
             // 
             this.MO_checkBoxShowPrevReceipt.AutoSize = true;
             this.MO_checkBoxShowPrevReceipt.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBoxShowPrevReceipt.Location = new System.Drawing.Point(15, 460);
+            this.MO_checkBoxShowPrevReceipt.Location = new System.Drawing.Point(15, 503);
             this.MO_checkBoxShowPrevReceipt.Name = "MO_checkBoxShowPrevReceipt";
             this.MO_checkBoxShowPrevReceipt.Size = new System.Drawing.Size(319, 18);
             this.MO_checkBoxShowPrevReceipt.TabIndex = 15;
@@ -191,7 +192,7 @@
             // 
             this.MO_checkBox_ZeroPriceItems.AutoSize = true;
             this.MO_checkBox_ZeroPriceItems.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_ZeroPriceItems.Location = new System.Drawing.Point(15, 312);
+            this.MO_checkBox_ZeroPriceItems.Location = new System.Drawing.Point(15, 355);
             this.MO_checkBox_ZeroPriceItems.Name = "MO_checkBox_ZeroPriceItems";
             this.MO_checkBox_ZeroPriceItems.Size = new System.Drawing.Size(202, 18);
             this.MO_checkBox_ZeroPriceItems.TabIndex = 11;
@@ -272,7 +273,7 @@
             this.btnReset.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReset.Image = ((System.Drawing.Image)(resources.GetObject("btnReset.Image")));
             this.btnReset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReset.Location = new System.Drawing.Point(89, 510);
+            this.btnReset.Location = new System.Drawing.Point(89, 548);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(115, 28);
             this.btnReset.TabIndex = 3;
@@ -285,7 +286,7 @@
             // 
             this.MO_checkBox_CAP.AutoSize = true;
             this.MO_checkBox_CAP.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_CAP.Location = new System.Drawing.Point(15, 225);
+            this.MO_checkBox_CAP.Location = new System.Drawing.Point(15, 268);
             this.MO_checkBox_CAP.Name = "MO_checkBox_CAP";
             this.MO_checkBox_CAP.Size = new System.Drawing.Size(238, 18);
             this.MO_checkBox_CAP.TabIndex = 10;
@@ -320,7 +321,7 @@
             // 
             this.MO_checkBox_PAGER.AutoSize = true;
             this.MO_checkBox_PAGER.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MO_checkBox_PAGER.Location = new System.Drawing.Point(15, 262);
+            this.MO_checkBox_PAGER.Location = new System.Drawing.Point(15, 305);
             this.MO_checkBox_PAGER.Name = "MO_checkBox_PAGER";
             this.MO_checkBox_PAGER.Size = new System.Drawing.Size(253, 18);
             this.MO_checkBox_PAGER.TabIndex = 17;
@@ -338,20 +339,6 @@
             this.panel1.Size = new System.Drawing.Size(284, 97);
             this.panel1.TabIndex = 18;
             // 
-            // MO_radioButton_Show_CAP
-            // 
-            this.MO_radioButton_Show_CAP.AutoCheck = false;
-            this.MO_radioButton_Show_CAP.AutoSize = true;
-            this.MO_radioButton_Show_CAP.Font = new System.Drawing.Font("Tahoma", 9F);
-            this.MO_radioButton_Show_CAP.Location = new System.Drawing.Point(13, 23);
-            this.MO_radioButton_Show_CAP.Name = "MO_radioButton_Show_CAP";
-            this.MO_radioButton_Show_CAP.Size = new System.Drawing.Size(155, 18);
-            this.MO_radioButton_Show_CAP.TabIndex = 8;
-            this.MO_radioButton_Show_CAP.TabStop = true;
-            this.MO_radioButton_Show_CAP.Text = "mostra inserimento CAP";
-            this.MO_radioButton_Show_CAP.UseVisualStyleBackColor = true;
-            this.MO_radioButton_Show_CAP.Click += new System.EventHandler(this.MO_radioButton_Show_CAP_Click);
-            // 
             // MO_radioButton_Show_PAGER
             // 
             this.MO_radioButton_Show_PAGER.AutoCheck = false;
@@ -366,11 +353,37 @@
             this.MO_radioButton_Show_PAGER.UseVisualStyleBackColor = true;
             this.MO_radioButton_Show_PAGER.Click += new System.EventHandler(this.MO_radioButton_Show_PAGER_Click);
             // 
+            // MO_radioButton_Show_CAP
+            // 
+            this.MO_radioButton_Show_CAP.AutoCheck = false;
+            this.MO_radioButton_Show_CAP.AutoSize = true;
+            this.MO_radioButton_Show_CAP.Font = new System.Drawing.Font("Tahoma", 9F);
+            this.MO_radioButton_Show_CAP.Location = new System.Drawing.Point(13, 23);
+            this.MO_radioButton_Show_CAP.Name = "MO_radioButton_Show_CAP";
+            this.MO_radioButton_Show_CAP.Size = new System.Drawing.Size(155, 18);
+            this.MO_radioButton_Show_CAP.TabIndex = 8;
+            this.MO_radioButton_Show_CAP.TabStop = true;
+            this.MO_radioButton_Show_CAP.Text = "mostra inserimento CAP";
+            this.MO_radioButton_Show_CAP.UseVisualStyleBackColor = true;
+            this.MO_radioButton_Show_CAP.Click += new System.EventHandler(this.MO_radioButton_Show_CAP_Click);
+            // 
+            // MO_checkBoxCash
+            // 
+            this.MO_checkBoxCash.AutoSize = true;
+            this.MO_checkBoxCash.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MO_checkBoxCash.Location = new System.Drawing.Point(15, 216);
+            this.MO_checkBoxCash.Name = "MO_checkBoxCash";
+            this.MO_checkBoxCash.Size = new System.Drawing.Size(336, 18);
+            this.MO_checkBoxCash.TabIndex = 19;
+            this.MO_checkBoxCash.Text = "rendi obbligatorio l\'inserimento dell\'importo per i contanti";
+            this.MO_checkBoxCash.UseVisualStyleBackColor = true;
+            // 
             // OptionsDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 554);
+            this.ClientSize = new System.Drawing.Size(696, 592);
+            this.Controls.Add(this.MO_checkBoxCash);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.MO_checkBox_PAGER);
             this.Controls.Add(this.MO_ckBoxExternalPreview);
@@ -434,5 +447,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.RadioButton MO_radioButton_Show_PAGER;
         private System.Windows.Forms.RadioButton MO_radioButton_Show_CAP;
+        private System.Windows.Forms.CheckBox MO_checkBoxCash;
     }
 }

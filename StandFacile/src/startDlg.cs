@@ -29,7 +29,6 @@ namespace StandFacile
         {
             InitializeComponent();
 
-            int iPrinterType;
             String sDataStr, sTmp, sCassa;
 
             sDataStr = GetActualDate().ToString("dddd  dd/MM/yy");
@@ -54,10 +53,7 @@ namespace StandFacile
             else
                 Lbl_DB.Text = String.Format("DB_SQLite, {0}", sCassa);
 
-            //lettura stampante windows o Legacy
-            iPrinterType = ReadRegistry(SYS_PRINTER_TYPE_KEY, (int)PRINTER_TYPE.STAMPANTE_USB_ETH);
-
-            if (iPrinterType == (int)PRINTER_TYPE.STAMPANTE_USB_ETH)
+            if (GetPrinterTypeIsWindows(NUM_SEP_PRINT_GROUPS))
                 sTmp = String.Format("Stampante windows : {0}", sGlbWinPrinterParams.sRcpPrinterModel);
             else
                 sTmp = String.Format("Stampante legacy : {0}, {1}, {2}", sConstLegacyModels[sGlbLegacyPrinterParams.iPrinterModel],

@@ -40,15 +40,10 @@ namespace StandFacile
         /// <summary>chiave che descrive se è richiesta la stampa del barcode</summary>
         public const String STAMPA_MANUALE_KEY = "iStampaManuale";
 
-        /// <summary> 
-        /// refresh di sService * 250ms circa in StandFacile, 200 in StandClient
-        /// </summary>
-        public const int REFRESH_SSERVICE = 5 * 60;
-
         /// <summary>timer del client</summary>
-        public const int DB_CLIENT_TIMER        = 16 * 4;  // 16s
+        public const int DB_CLIENT_TIMER = 16 * 4;  // 16s
         /// <summary>timer breve del client</summary>
-        public const int DB_CLIENT_TIMER_SHORT  = 4 * 4;
+        public const int DB_CLIENT_TIMER_SHORT = 4 * 4;
 
         /// <summary>timer per lampeggio LED con stampante windows</summary>
         public const int LED_TIMER = 3 * 10;

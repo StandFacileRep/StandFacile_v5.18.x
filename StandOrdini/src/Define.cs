@@ -29,9 +29,6 @@ namespace StandFacile
         /// <summary>chiave di registro</summary>
         public const string KEY_FUNC_MODE = "funcMode";
 
-        /// <summary>refresh di sService * 250ms circa in StandFacile, 200 in StandClient</summary>
-        public const int REFRESH_SSERVICE = 4 * 60;
-
         /// <summary>aspetto pannelli, max numero di righe</summary>
         public const int MAX_RIGHE = 3;
         /// <summary>aspetto pannelli, max numero di blink</summary>
@@ -80,10 +77,10 @@ namespace StandFacile
             }
         };
 
-    /// <summary>
-    /// enum per distinguere il tipo di database
-    /// </summary>
-    public enum FUNC_MODE
+        /// <summary>
+        /// enum per distinguere il tipo di database
+        /// </summary>
+        public enum FUNC_MODE
         {
             /// <summary>FUNC_MODE: SCARICO_DB - DEFAULT</summary>
             SCARICO_DB = 0,

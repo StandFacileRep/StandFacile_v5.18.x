@@ -101,7 +101,7 @@ namespace StandCommonFiles
 
         /// <summary>Voce duplicata</summary>
         public const int WRN_TVD = 500;
-        /// <summary>Ethernet Communication Error, usata da StandClient</summary>
+        /// <summary>Ethernet Communication Error</summary>
         public const int WRN_ETH = 510;
         /// <summary>COM non aperta</summary>
         public const int WRN_CNA = 520;
