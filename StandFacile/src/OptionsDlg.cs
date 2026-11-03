@@ -1,6 +1,6 @@
 ﻿/***************************************************
 	NomeFile : StandFacile\OptionsDlg.cs
-    Data	 : 31.10.2026
+    Data	 : 03.11.2026
 	Autore   : Mauro Artuso
  ***************************************************/
 
@@ -210,37 +210,50 @@ namespace StandFacile
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            MO_checkBoxPlaceSett.Checked = false;
+            comboColorTheme.SelectedIndex = 1;
+
             MO_checkBoxTable.Checked = false;
+            MO_checkBoxPlaceSett.Checked = false;
             MO_checkBox_Name.Enabled = false;
             MO_checkBoxPayment.Checked = false;
             MO_checkBoxCash.Checked = false;
-            MO_checkBox_ZeroPriceItems.Checked = false;
+
             MO_checkBox_CAP.Checked = false;
             MO_checkBox_PAGER.Checked = false;
-            MO_checkBox_Enter.Checked = false;
 
+            MO_checkBox_ZeroPriceItems.Checked = false;
+            MO_checkBox_Enter.Checked = false;
+            MO_checkBoxPrivacy.Checked = false;
+            MO_checkBox_InitialAvailabilityDlg.Checked = false;
+            MO_checkBoxShowPrevReceipt.Checked = false;
+
+            MO_ckBoxExternalPreview.Checked = false;
             MO_checkBox_ShowSendMsg.Checked = true;
             MO_checkBox_ShowTakeAway.Checked = true;
             MO_checkBox_ShowDiscount.Checked = true;
             MO_checkBox_Show_DB_Check.Checked = true;
             MO_checkBox_Show_OSKeyb.Checked = false;
 
-            MO_checkBoxPrivacy.Checked = false;
-            MO_checkBox_InitialAvailabilityDlg.Checked = false;
-            MO_checkBoxShowPrevReceipt.Checked = false;
+            MO_radioButton_Show_CAP.Checked = false;
+            MO_radioButton_Show_PAGER.Checked = false;
         }
 
         private void MO_checkBox_CAP_Click(object sender, EventArgs e)
         {
             if (MO_checkBox_CAP.Checked)
+            {
                 MO_checkBox_PAGER.Checked = false;
+                MO_radioButton_Show_CAP.Checked = true;
+            }
         }
 
         private void MO_checkBox_PAGER_Click(object sender, EventArgs e)
         {
             if (MO_checkBox_PAGER.Checked)
+            {
                 MO_checkBox_CAP.Checked = false;
+                MO_radioButton_Show_PAGER.Checked = true;
+            }
         }
 
         private void MO_radioButton_Show_CAP_Click(object sender, EventArgs e)
