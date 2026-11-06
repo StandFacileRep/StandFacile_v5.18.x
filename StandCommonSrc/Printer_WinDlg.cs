@@ -311,7 +311,7 @@ namespace StandFacile
 
                 Height -= _yDisp;
 
-                WP_btnSampleText.Top = BtnDefaults.Top + 4;
+                WP_btnSampleText.Top = BtnDefaults.Top - 4;
                 WP_labelCenterLogo.Top = WP_labelMarginRep.Top;
                 WP_labelZoomLogo.Top = WP_labelZoomRep.Top;
                 numUpDownLogoZoom.Top = numUpDownRepZoom.Top;

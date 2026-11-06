@@ -756,7 +756,11 @@ namespace StandCommonFiles
                     sLogStr = String.Format("#E{0} {1}", ErrMsg.iErrID, sErrStr);
                     Logger.Info(sLogStr);
                     Directory.SetCurrentDirectory(DataManager.GetExeDir());
+#if DEBUG
+                    System.Diagnostics.Process.Start(THE_APP_NO_DLL);
+#else
                     System.Diagnostics.Process.Start(THE_APP);
+#endif
                     _bControlledExit = true;
                     break;
 

@@ -38,17 +38,6 @@ namespace StandFacile
             S80MM
         };
 
-        /// <summary>possibi velocità di stampa</summary>
-        public enum RANGE
-        {
-            /// <summary>enum velocità bassa</summary>
-            LOW = 0,
-            /// <summary>enum velocità media</summary>
-            MEDIUM,
-            /// <summary>enum velocità alta</summary>
-            HIGH
-        };
-
         /// <summary>controllo di flusso</summary>
         public enum FLOW_CONTROL
         {
@@ -249,6 +238,15 @@ namespace StandFacile
             if (!_bInitComplete)
                 return;
 
+
+#if STAND_CUCINA
+            lblLogo.Enabled = false;
+            LogoBmpCombo.Enabled = false;
+#else
+            lblLogo.Enabled = true;
+            LogoBmpCombo.Enabled = true;
+#endif
+
             PORT_Combo.Text = _sLegacyPrinterParamsCopy.sPort;
 
             switch (PrinterTypeCombo.SelectedIndex)
@@ -258,8 +256,6 @@ namespace StandFacile
 
                     width80.Checked = true;
                     TP_PaperSizeGroupBox.Enabled = false;
-
-                    LogoBmpCombo.Enabled = true;
 
                     if (PrinterTypeCombo.SelectedIndex == (int)LEGACY_PRINTER_MODELS.STAMPANTE_TM_T88_SER)
                     {

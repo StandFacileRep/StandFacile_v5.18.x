@@ -25,6 +25,9 @@ namespace StandFacile
         /// <summary>nome dell'eseguibile</summary>
         public const string THE_APP = "StandFacile.exe";
 
+        /// <summary>nome dell'eseguibile</summary>
+        public const string THE_APP_NO_DLL = "StandFacile_no_dll.exe";
+
         /// <summary>nome del pdf del manuale</summary>
         public const string _NOME_MANUALE = "Manuale_StandFacile.pdf";
 

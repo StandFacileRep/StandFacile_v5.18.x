@@ -76,6 +76,8 @@
             this.BtnNextTicket = new System.Windows.Forms.Button();
             this.checkBoxSkipPrinted = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.MnuSetupWinPrinter = new System.Windows.Forms.ToolStripMenuItem();
+            this.MnuSetupLegacyPrinter = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.SBar_Tickets.SuspendLayout();
             this.SBar_Messages.SuspendLayout();
@@ -159,8 +161,10 @@
             this.N1,
             this.MnuNetConfig,
             this.toolStripSeparator2,
-            this.MnuImpostazioniStampaComuni,
             this.MnuConfigurazioneStampe,
+            this.MnuImpostazioniStampaComuni,
+            this.MnuSetupWinPrinter,
+            this.MnuSetupLegacyPrinter,
             this.MnuFileDiConfigurazione});
             this.MnuImpostazioni.Name = "MnuImpostazioni";
             this.MnuImpostazioni.Size = new System.Drawing.Size(62, 20);
@@ -169,45 +173,45 @@
             // MnuEsperto
             // 
             this.MnuEsperto.Name = "MnuEsperto";
-            this.MnuEsperto.Size = new System.Drawing.Size(239, 22);
+            this.MnuEsperto.Size = new System.Drawing.Size(281, 22);
             this.MnuEsperto.Text = "&Modo Esperto";
             this.MnuEsperto.Click += new System.EventHandler(this.MnuEspertoClick);
             // 
             // N1
             // 
             this.N1.Name = "N1";
-            this.N1.Size = new System.Drawing.Size(236, 6);
+            this.N1.Size = new System.Drawing.Size(278, 6);
             // 
             // MnuNetConfig
             // 
             this.MnuNetConfig.Name = "MnuNetConfig";
-            this.MnuNetConfig.Size = new System.Drawing.Size(239, 22);
+            this.MnuNetConfig.Size = new System.Drawing.Size(281, 22);
             this.MnuNetConfig.Text = "Configurazione &Rete e Copie  ...";
             this.MnuNetConfig.Click += new System.EventHandler(this.MnuNetConfig_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(236, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(278, 6);
             // 
             // MnuImpostazioniStampaComuni
             // 
             this.MnuImpostazioniStampaComuni.Name = "MnuImpostazioniStampaComuni";
-            this.MnuImpostazioniStampaComuni.Size = new System.Drawing.Size(239, 22);
-            this.MnuImpostazioniStampaComuni.Text = "Opzioni Comuni di Stampa ...";
+            this.MnuImpostazioniStampaComuni.Size = new System.Drawing.Size(281, 22);
+            this.MnuImpostazioniStampaComuni.Text = "Opzioni &Generiche di Stampa ...";
             this.MnuImpostazioniStampaComuni.Click += new System.EventHandler(this.MnuImpostazioniStampaComuni_Click);
             // 
             // MnuConfigurazioneStampe
             // 
             this.MnuConfigurazioneStampe.Name = "MnuConfigurazioneStampe";
-            this.MnuConfigurazioneStampe.Size = new System.Drawing.Size(239, 22);
+            this.MnuConfigurazioneStampe.Size = new System.Drawing.Size(281, 22);
             this.MnuConfigurazioneStampe.Text = "Configurazione &Stampante ...";
             this.MnuConfigurazioneStampe.Click += new System.EventHandler(this.MnuConfigurazioneStampe_Click);
             // 
             // MnuFileDiConfigurazione
             // 
             this.MnuFileDiConfigurazione.Name = "MnuFileDiConfigurazione";
-            this.MnuFileDiConfigurazione.Size = new System.Drawing.Size(239, 22);
+            this.MnuFileDiConfigurazione.Size = new System.Drawing.Size(281, 22);
             this.MnuFileDiConfigurazione.Text = "&File di configurazione ...";
             this.MnuFileDiConfigurazione.Click += new System.EventHandler(this.MnuFileDiConfigurazione_Click);
             // 
@@ -528,6 +532,20 @@
             this.label2.TabIndex = 28;
             this.label2.Text = "o annullati";
             // 
+            // MnuSetupWinPrinter
+            // 
+            this.MnuSetupWinPrinter.Name = "MnuSetupWinPrinter";
+            this.MnuSetupWinPrinter.Size = new System.Drawing.Size(281, 22);
+            this.MnuSetupWinPrinter.Text = "Configurazione S&tampante Scontrino ...";
+            this.MnuSetupWinPrinter.Click += new System.EventHandler(this.MnuSetupWinPrinter_Click);
+            // 
+            // MnuSetupLegacyPrinter
+            // 
+            this.MnuSetupLegacyPrinter.Name = "MnuSetupLegacyPrinter";
+            this.MnuSetupLegacyPrinter.Size = new System.Drawing.Size(281, 22);
+            this.MnuSetupLegacyPrinter.Text = "Configurazione Stam&pante &Legacy ...";
+            this.MnuSetupLegacyPrinter.Click += new System.EventHandler(this.MnuSetupLegacyPrinter_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -624,6 +642,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem MnuFileDiConfigurazione;
         private System.Windows.Forms.ToolStripMenuItem MnuImpostazioniStampaComuni;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupWinPrinter;
+        private System.Windows.Forms.ToolStripMenuItem MnuSetupLegacyPrinter;
     }
 }
 

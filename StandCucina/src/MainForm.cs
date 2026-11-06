@@ -625,6 +625,8 @@ namespace StandFacile
                 MnuFileDiConfigurazione.Enabled = true;
                 MnuConfigurazioneStampe.Enabled = true;
                 MnuImpostazioniStampaComuni.Enabled = true;
+                MnuSetupWinPrinter.Enabled = true;
+                MnuSetupLegacyPrinter.Enabled = true;
             }
             else
             {
@@ -632,6 +634,8 @@ namespace StandFacile
                 MnuFileDiConfigurazione.Enabled = false;
                 MnuConfigurazioneStampe.Enabled = false;
                 MnuImpostazioniStampaComuni.Enabled = false;
+                MnuSetupWinPrinter.Enabled = false;
+                MnuSetupLegacyPrinter.Enabled = false;
             }
         }
 
@@ -1261,6 +1265,16 @@ namespace StandFacile
         {
             // Avvio della Form di Visualizzazione file di configurazione
             ConfigIniDlg rConfigIniDlg = new ConfigIniDlg();
+        }
+
+        private void MnuSetupWinPrinter_Click(object sender, EventArgs e)
+        {
+            WinPrinterDlg._rWinPrinterDlg.Init(true);
+        }
+
+        private void MnuSetupLegacyPrinter_Click(object sender, EventArgs e)
+        {
+            LegacyPrinterDlg.rThermPrinterDlg.Init(true);
         }
 
         /// <summary>
