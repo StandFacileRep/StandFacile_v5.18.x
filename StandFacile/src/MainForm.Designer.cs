@@ -484,7 +484,7 @@
             // 
             this.MnuSetupGenPrinter.Name = "MnuSetupGenPrinter";
             this.MnuSetupGenPrinter.Size = new System.Drawing.Size(346, 22);
-            this.MnuSetupGenPrinter.Text = "Configurazioni generiche di Stampa ...";
+            this.MnuSetupGenPrinter.Text = "Configurazioni G&eneriche di Stampa ...";
             this.MnuSetupGenPrinter.Click += new System.EventHandler(this.MnuImpostaStampanteGenerica_Click);
             // 
             // MnuSetupWinPrinter

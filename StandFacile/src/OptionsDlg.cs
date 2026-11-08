@@ -1,6 +1,6 @@
 ﻿/***************************************************
 	NomeFile : StandFacile\OptionsDlg.cs
-    Data	 : 03.11.2026
+    Data	 : 05.11.2026
 	Autore   : Mauro Artuso
  ***************************************************/
 
@@ -244,6 +244,7 @@ namespace StandFacile
             {
                 MO_checkBox_PAGER.Checked = false;
                 MO_radioButton_Show_CAP.Checked = true;
+                MO_radioButton_Show_PAGER.Checked = false;
             }
         }
 
@@ -253,6 +254,7 @@ namespace StandFacile
             {
                 MO_checkBox_CAP.Checked = false;
                 MO_radioButton_Show_PAGER.Checked = true;
+                MO_radioButton_Show_CAP.Checked = false;
             }
         }
 
@@ -266,8 +268,10 @@ namespace StandFacile
 
                 MO_radioButton_Show_PAGER.Checked = false;
                 MO_checkBox_PAGER.Checked = false;
-                MO_checkBox_PAGER.Enabled = false;
+                //MO_checkBox_PAGER.Enabled = false;
             }
+            else
+                MO_checkBox_CAP.Checked = false;
         }
 
         private void MO_radioButton_Show_PAGER_Click(object sender, EventArgs e)
@@ -280,8 +284,10 @@ namespace StandFacile
 
                 MO_radioButton_Show_CAP.Checked = false;
                 MO_checkBox_CAP.Checked = false;
-                MO_checkBox_CAP.Enabled = false;
+                //MO_checkBox_CAP.Enabled = false;
             }
+            else
+                MO_checkBox_PAGER.Checked = false;
         }
 
         private void BtnOK_Click(object sender, EventArgs e)

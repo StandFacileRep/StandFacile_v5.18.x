@@ -140,6 +140,7 @@
             // 
             // WP_btnSampleText
             // 
+            this.WP_btnSampleText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.WP_btnSampleText.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.WP_btnSampleText.Location = new System.Drawing.Point(26, 498);
             this.WP_btnSampleText.Name = "WP_btnSampleText";
@@ -436,6 +437,7 @@
             // 
             // BtnDefaults
             // 
+            this.BtnDefaults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.BtnDefaults.Image = global::StandFacile.Properties.Resources.Cancel1;
             this.BtnDefaults.Location = new System.Drawing.Point(478, 510);
             this.BtnDefaults.Name = "BtnDefaults";
@@ -506,7 +508,7 @@
             this.checkBox_escpos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox_escpos.AutoSize = true;
             this.checkBox_escpos.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_escpos.Location = new System.Drawing.Point(26, 546);
+            this.checkBox_escpos.Location = new System.Drawing.Point(35, 546);
             this.checkBox_escpos.Name = "checkBox_escpos";
             this.checkBox_escpos.Padding = new System.Windows.Forms.Padding(1);
             this.checkBox_escpos.Size = new System.Drawing.Size(252, 20);
@@ -521,7 +523,7 @@
             this.checkBox_CashDrawer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox_CashDrawer.AutoSize = true;
             this.checkBox_CashDrawer.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_CashDrawer.Location = new System.Drawing.Point(26, 582);
+            this.checkBox_CashDrawer.Location = new System.Drawing.Point(35, 582);
             this.checkBox_CashDrawer.Name = "checkBox_CashDrawer";
             this.checkBox_CashDrawer.Padding = new System.Windows.Forms.Padding(1);
             this.checkBox_CashDrawer.Size = new System.Drawing.Size(254, 20);
